@@ -405,9 +405,11 @@
         .btn--primary {
             background: var(--gradient-main);
             color: white;
+            box-shadow: 0 4px 15px rgba(212, 93, 0, 0.3);
         }
         .btn--primary:hover { 
             transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(212, 93, 0, 0.4);
         }
 
         .btn--outline {
@@ -691,11 +693,13 @@
             background: linear-gradient(145deg, rgba(50, 30, 14, 0.9), rgba(40, 25, 12, 0.95));
             border-color: var(--primary-accent);
             transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(139, 58, 0, 0.2);
         }
 
         .plan-option.selected {
             background: linear-gradient(145deg, rgba(60, 35, 16, 0.95), rgba(50, 30, 14, 0.98));
             border-color: var(--primary-accent);
+            box-shadow: 0 0 20px rgba(212, 93, 0, 0.3);
         }
 
         .plan-duration {
@@ -807,6 +811,7 @@
         .form-input:focus { 
             border-color: var(--primary-accent); 
             background: rgba(25, 15, 5, 0.8);
+            box-shadow: 0 0 15px rgba(212, 93, 0, 0.2);
         }
 
         .form-input:disabled {
@@ -921,6 +926,7 @@
             background: linear-gradient(145deg, rgba(40, 25, 12, 0.95), rgba(30, 18, 9, 0.98));
             border-color: var(--primary-accent);
             transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(139, 58, 0, 0.2);
         }
 
         .level-number {
@@ -972,6 +978,7 @@
         .stat-card:hover {
             transform: translateY(-5px);
             border-color: var(--primary-accent);
+            box-shadow: 0 10px 30px rgba(139, 58, 0, 0.2);
         }
 
         .stat-icon {
@@ -1078,49 +1085,6 @@
             font-size: 1.05rem;
         }
 
-        .table-audit {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            background: rgba(15, 10, 5, 0.5);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            border: 1px solid rgba(139, 58, 0, 0.2);
-        }
-
-        .table-audit th, .table-audit td {
-            padding: 16px 15px;
-            border: 1px solid rgba(139, 58, 0, 0.2);
-            text-align: left;
-            color: var(--text-muted);
-        }
-
-        .table-audit th {
-            background: rgba(139, 58, 0, 0.15);
-            color: var(--gold-glow);
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .table-audit tr:nth-child(even) {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .audit-status {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: var(--radius-full);
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .audit-status.correct {
-            background: linear-gradient(90deg, rgba(0, 200, 83, 0.15), rgba(0, 200, 83, 0.1));
-            color: #00cc66;
-            border: 1px solid rgba(0, 200, 83, 0.3);
-        }
-
         /* ===== FAQ ===== */
         .faq-container {
             max-width: 800px;
@@ -1138,6 +1102,7 @@
         .faq-item:hover { 
             border-color: rgba(212, 93, 0, 0.3); 
             transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(139, 58, 0, 0.1);
         }
 
         .faq-question { 
@@ -1178,6 +1143,7 @@
         }
         .faq-item.active {
             border-color: var(--primary-accent);
+            box-shadow: 0 5px 20px rgba(212, 93, 0, 0.1);
         }
 
         /* ===== ALERTS & NOTIFICATIONS ===== */
@@ -1365,6 +1331,7 @@
             color: white;
             transform: translateY(-3px); 
             border-color: transparent;
+            box-shadow: 0 5px 15px rgba(212, 93, 0, 0.3);
         }
 
         .footer__bottom { 
@@ -1543,12 +1510,10 @@
                     <li class="nav__item"><a class="nav__link active" data-section="home">Home</a></li>
                     <li class="nav__item"><a class="nav__link" data-section="cycle">Cycle</a></li>
                     <li class="nav__item"><a class="nav__link" data-section="saving">Saving</a></li>
-                    <li class="nav__item"><a class="nav__link" data-section="whitepaper">Whitepaper</a></li>
-                    <li class="nav__item"><a class="nav__link" data-section="audit">Audit</a></li>
                     <li class="nav__item"><a class="nav__link" data-section="faq">FAQ</a></li>
                 </ul>
 
-                <button class="btn btn--outline btn-sm" id="connectWallet">
+                <button class="btn btn--primary btn-sm" id="connectWallet">
                     <i class="fas fa-wallet"></i>
                     Connect Wallet
                 </button>
@@ -1565,11 +1530,9 @@
                     <li><a href="#home" data-section="home" class="active"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="#cycle" data-section="cycle"><i class="fas fa-sync-alt"></i> Cycle</a></li>
                     <li><a href="#saving" data-section="saving"><i class="fas fa-piggy-bank"></i> Saving</a></li>
-                    <li><a href="#whitepaper" data-section="whitepaper"><i class="fas fa-layer-group"></i> Whitepaper</a></li>
-                    <li><a href="#audit" data-section="audit"><i class="fas fa-shield-alt"></i> Audit</a></li>
                     <li><a href="#faq" data-section="faq"><i class="fas fa-question-circle"></i> FAQ</a></li>
                     <li>
-                        <button class="btn btn--outline" id="connectWalletMobile" style="width: 100%; margin-top: 20px;">
+                        <button class="btn btn--primary" id="connectWalletMobile" style="width: 100%; margin-top: 20px;">
                             <i class="fas fa-wallet"></i>
                             Connect Wallet
                         </button>
@@ -1607,7 +1570,7 @@
                     <div class="hero__image">
                         <div class="floating-card">
                             <div class="card__header">
-                                <h3>Statistics</h3>
+                                <h3>Protocol Statistics</h3>
                                 <div class="live-indicator">
                                     <span class="dot"></span>
                                     Live
@@ -1979,517 +1942,6 @@
             </div>
         </section>
 
-        <!-- Whitepaper Section -->
-        <section class="section" id="whitepaper" style="display: none;">
-            <div class="container">
-                <div class="section__header">
-                    <h1 class="auvex-headline">Whitepaper</h1>
-                    <p class="auvex-subheadline">Complete technical documentation and protocol specifications</p>
-                </div>
-
-                <div class="content-container">
-                    <div class="content-section">
-                        <h2>1. Introduction</h2>
-                        <p>Auvex Protocol is a decentralized finance (DeFi) protocol built on smart contracts designed to provide two primary fund management mechanisms: <strong>Cycle Investment</strong> and <strong>Saving Investment</strong>, with time-based incentives, pool performance metrics, and multi-level referral networks.</p>
-                        <p>The protocol is built on principles of on-chain transparency, determinism, and non-custodial operation, where all reward distribution logic, referral systems, and reward adjustments are executed directly by smart contracts without manual intervention.</p>
-                        <p>This whitepaper provides detailed explanations of the protocol architecture, economic mechanisms, smart contract logic, and user interaction flows.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>2. General Protocol Architecture</h2>
-                        <p>Auvex Protocol operates on the ERC-20 token standard (USDT) and uses a single primary smart contract that manages:</p>
-                        <ul>
-                            <li>Recording of fund inflows and outflows</li>
-                            <li>Management of cycle-based investments (fixed-term)</li>
-                            <li>Management of saving investments (dynamic saving)</li>
-                            <li>Distribution of multi-level referral rewards</li>
-                            <li>Internal liquidity pool management</li>
-                            <li>Reward adjustments based on pool performance</li>
-                        </ul>
-                        <p>All funds managed by the protocol are reflected in two primary parameters:</p>
-                        <ul>
-                            <li><strong>contractBalance:</strong> Total effective funds recorded in the contract</li>
-                            <li><strong>poolBalance:</strong> Active funds used for paying rewards and withdrawals</li>
-                        </ul>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>3. Investment Types</h2>
-                        
-                        <h3>3.1 Cycle Investment</h3>
-                        <p>Cycle Investment is an investment with fixed duration and predetermined returns. Users select one of four plans:</p>
-                        
-                        <table class="table-audit">
-                            <thead>
-                                <tr>
-                                    <th>Plan</th>
-                                    <th>Duration</th>
-                                    <th>Total Return</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Starter</td>
-                                    <td>1 Day</td>
-                                    <td>100.5%</td>
-                                </tr>
-                                <tr>
-                                    <td>Advanced</td>
-                                    <td>7 Days</td>
-                                    <td>105%</td>
-                                </tr>
-                                <tr>
-                                    <td>Professional</td>
-                                    <td>14 Days</td>
-                                    <td>110%</td>
-                                </tr>
-                                <tr>
-                                    <td>Premium</td>
-                                    <td>30 Days</td>
-                                    <td>125%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        
-                        <p>Returns are calculated using <code>CYCLE_PERCENTS</code> constant, with calculation basis per 1000.</p>
-                        
-                        <h4>Cycle Investment Flow:</h4>
-                        <ol>
-                            <li>User makes deposit by selecting a plan</li>
-                            <li>Funds are recorded as a new CycleInvestment</li>
-                            <li>After duration ends, user can:
-                                <ul>
-                                    <li>Perform <strong>claim</strong> to withdraw principal + profit</li>
-                                    <li>Perform <strong>regrow</strong> to reinvest returns into a new plan</li>
-                                </ul>
-                            </li>
-                        </ol>
-                        <p>Each Cycle Investment is independent and has a <code>claimed</code> status to prevent double claims.</p>
-                        
-                        <h3>3.2 Saving Investment</h3>
-                        <p>Saving Investment is a flexible investment without fixed end duration. Funds remain active until user withdraws capital.</p>
-                        
-                        <h4>Key characteristics:</h4>
-                        <ul>
-                            <li>Rewards paid daily</li>
-                            <li>Reward percentage is dynamic</li>
-                            <li>Capital can be withdrawn anytime while pool has sufficient funds</li>
-                        </ul>
-                        
-                        <h4>Saving Reward Percentage:</h4>
-                        <ul>
-                            <li>Minimum: 0.3% per day</li>
-                            <li>Maximum: 0.8% per day</li>
-                        </ul>
-                        <p>This percentage can increase or decrease gradually based on weekly pool performance.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>4. Pool & Liquidity Mechanisms</h2>
-                        
-                        <h3>4.1 Pool Balance</h3>
-                        <p>The pool serves as the primary liquidity source for:</p>
-                        <ul>
-                            <li>Cycle reward payments</li>
-                            <li>Saving reward payments</li>
-                            <li>Saving capital withdrawals</li>
-                            <li>Referral reward payments</li>
-                        </ul>
-                        <p>Every net deposit adds to <code>poolBalance</code>. Every withdrawal reduces it.</p>
-                        
-                        <h3>4.2 Pool Snapshot</h3>
-                        <p>The protocol stores up to 30 recent snapshots of pool balance, each containing:</p>
-                        <ul>
-                            <li>Timestamp</li>
-                            <li>poolBalance value</li>
-                        </ul>
-                        <p>These snapshots are used to calculate pool performance changes over the last 7 days.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>5. Dynamic Saving Adjustment Mechanism</h2>
-                        <p>Each Saving Investment has a <code>currentPercent</code> that can change.</p>
-                        
-                        <h3>Adjustment Logic:</h3>
-                        <ul>
-                            <li>If pool grows ≥ 150% compared to 7 days ago → percentage increases</li>
-                            <li>If pool drops ≤ 50% compared to 7 days ago → percentage decreases</li>
-                            <li>Maximum adjustment ±0.1% per week</li>
-                        </ul>
-                        <p>This approach aims to maintain pool sustainability while providing performance-based incentives.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>6. Referral System</h2>
-                        <p>Auvex Protocol implements a multi-level referral system with two separate schemes:</p>
-                        
-                        <h3>6.1 Cycle Referral (4 Levels)</h3>
-                        <p>Cycle referral rewards are calculated from <strong>Cycle Investment profits</strong>, not from principal.</p>
-                        
-                        <table class="table-audit">
-                            <thead>
-                                <tr>
-                                    <th>Level</th>
-                                    <th>Percentage</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>15%</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>7%</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>2%</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>1%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        
-                        <h4>Qualification Requirements:</h4>
-                        <ul>
-                            <li>Referrer must be active</li>
-                            <li>Must maintain minimum active investment according to level</li>
-                            <li>For advanced levels, requires qualified downline count</li>
-                        </ul>
-                        <p>If requirements are not met, rewards are redirected to the <strong>Scorch Referral Pool</strong>.</p>
-                        
-                        <h3>6.2 Saving Referral (10 Levels)</h3>
-                        <p>Saving referral rewards are calculated from <strong>withdrawn Saving rewards</strong>.</p>
-                        
-                        <table class="table-audit">
-                            <thead>
-                                <tr>
-                                    <th>Level</th>
-                                    <th>Percentage</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>1</td><td>20%</td></tr>
-                                <tr><td>2</td><td>15%</td></tr>
-                                <tr><td>3</td><td>8%</td></tr>
-                                <tr><td>4</td><td>4%</td></tr>
-                                <tr><td>5</td><td>2%</td></tr>
-                                <tr><td>6</td><td>2%</td></tr>
-                                <tr><td>7</td><td>1%</td></tr>
-                                <tr><td>8</td><td>1%</td></tr>
-                                <tr><td>9</td><td>1%</td></tr>
-                                <tr><td>10</td><td>1%</td></tr>
-                            </tbody>
-                        </table>
-                        
-                        <h4>Qualification Requirements:</h4>
-                        <ul>
-                            <li>Must maintain minimum active investment according to level</li>
-                        </ul>
-                        <p>If requirements are not met, rewards are redirected to the <strong>Scorch Referral Pool</strong>.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>7. Scorch Referral Pool</h2>
-                        <p>The Scorch Referral Pool functions as a holding pool for referral rewards that don't meet qualification requirements.</p>
-                        
-                        <h3>Characteristics:</h3>
-                        <ul>
-                            <li>Funds are not burned</li>
-                            <li>Remains recorded on-chain</li>
-                            <li>Can be withdrawn by admin for protocol maintenance</li>
-                        </ul>
-                        <p>This mechanism prevents unhealthy reward inflation while maintaining pool balance.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>8. Regrow Mechanism</h2>
-                        <p>Regrow allows users to:</p>
-                        <ul>
-                            <li>Complete a Cycle Investment that has ended</li>
-                            <li>Reinvest total returns into a new plan</li>
-                        </ul>
-                        
-                        <h3>Advantages:</h3>
-                        <ul>
-                            <li>Doesn't require external transfers</li>
-                            <li>Accelerates compounding</li>
-                            <li>Triggers new referral distributions</li>
-                        </ul>
-                        <p>Each regrow is recorded as a new Cycle Investment with separate ID.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>9. User Management & Status</h2>
-                        <p>Each user has a data structure recording:</p>
-                        <ul>
-                            <li>Total investment</li>
-                            <li>Total withdrawals</li>
-                            <li>Referral rewards</li>
-                            <li>Total active investment</li>
-                            <li>Active/inactive status</li>
-                        </ul>
-                        <p>Active status is determined by ownership of active investments. When all capital is withdrawn, status changes to inactive.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>10. Security & Protection</h2>
-                        <p>Auvex Protocol implements multiple protection layers:</p>
-                        <ul>
-                            <li><strong>ReentrancyGuard</strong> to prevent reentrancy attacks</li>
-                            <li>Pool balance validation before payments</li>
-                            <li>Claim status to prevent double withdrawals</li>
-                            <li>All calculations deterministic and transparent</li>
-                        </ul>
-                        <p>No hidden functions allow changes to core parameters after deployment.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>11. Transparency & On-Chain Data</h2>
-                        <p>The protocol provides various view functions for full transparency, including:</p>
-                        <ul>
-                            <li>User information</li>
-                            <li>Investment details</li>
-                            <li>Contract statistics</li>
-                            <li>Pool and scorch pool status</li>
-                        </ul>
-                        <p>All data can be verified directly through blockchain explorers.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>12. Conclusion</h2>
-                        <p>Auvex Protocol is designed as a layered DeFi system combining:</p>
-                        <ul>
-                            <li>Fixed return short-term cycles</li>
-                            <li>Dynamic long-term savings</li>
-                            <li>Qualification-based referrals</li>
-                            <li>Pool performance-based reward adjustments</li>
-                        </ul>
-                        <p>With all logic executed entirely by smart contracts, Auvex Protocol presents an ecosystem that is transparent, structured, and focused on on-chain economic sustainability.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Audit Section -->
-        <section class="section" id="audit" style="display: none;">
-            <div class="container">
-                <div class="section__header">
-                    <h1 class="auvex-headline">Audit Report</h1>
-                    <p class="auvex-subheadline">Comprehensive security and correctness verification</p>
-                </div>
-
-                <div class="content-container">
-                    <div class="content-section">
-                        <h2>Audit Overview</h2>
-                        <table class="table-audit">
-                            <tbody>
-                                <tr>
-                                    <th>Protocol Name</th>
-                                    <td>Auvex Protocol</td>
-                                </tr>
-                                <tr>
-                                    <th>Smart Contract</th>
-                                    <td>AuvexProtocol.sol</td>
-                                </tr>
-                                <tr>
-                                    <th>Language</th>
-                                    <td>Solidity ^0.8.33</td>
-                                </tr>
-                                <tr>
-                                    <th>Token Standard</th>
-                                    <td>ERC-20 (USDT)</td>
-                                </tr>
-                                <tr>
-                                    <th>Network</th>
-                                    <td>Binance Smart Chain (BSC)</td>
-                                </tr>
-                                <tr>
-                                    <th>Audit Scope</th>
-                                    <td>Full logic validation, security review, economic consistency analysis</td>
-                                </tr>
-                                <tr>
-                                    <th>Audit Type</th>
-                                    <td>Manual static analysis (deterministic review)</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>1. Executive Summary</h2>
-                        <p>This audit evaluates the Auvex Protocol smart contract with a focus on correctness, security, determinism, and protocol-level consistency. The contract implements a structured DeFi system combining cycle-based investments, flexible saving investments, referral reward distribution, and internal liquidity management.</p>
-                        <p>The review confirms that the contract logic is <strong>correct, internally consistent, and deterministic</strong>. All critical execution paths are protected, all value transfers are explicitly validated, and all reward mechanisms are constrained by on-chain liquidity checks.</p>
-                        
-                        <h3>Final Audit Verdict:</h3>
-                        <p><span class="audit-status correct">✅ All reviewed components are correctly implemented</span></p>
-                        <p><span class="audit-status correct">✅ No critical, high, or medium issues identified</span></p>
-                        <p><span class="audit-status correct">✅ Contract logic behaves deterministically under all execution paths</span></p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>2. Architecture Review</h2>
-                        
-                        <h3>2.1 Contract Structure</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>The protocol is implemented as a single immutable smart contract without proxy or upgrade mechanisms. This design eliminates upgrade-related risks and ensures long-term behavioral consistency.</p>
-                        <p>Core architectural components include:</p>
-                        <ul>
-                            <li>User state management</li>
-                            <li>Cycle investment management</li>
-                            <li>Saving investment management</li>
-                            <li>Referral reward accounting</li>
-                            <li>Pool balance tracking and snapshot history</li>
-                        </ul>
-                        <p>All components are cohesively integrated and interact through clearly defined internal functions.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>3. Security Controls</h2>
-                        
-                        <h3>3.1 Reentrancy Protection</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>All externally callable functions that modify balances or perform token transfers are protected using <code>nonReentrant</code> modifier. This fully mitigates classical and nested reentrancy attack vectors.</p>
-                        
-                        <h3>3.2 Arithmetic Safety</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>The contract uses Solidity ^0.8.33, which enforces automatic overflow and underflow protection. All arithmetic operations are therefore safe by default.</p>
-                        
-                        <h3>3.3 Access Control & State Integrity</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>State-changing functions are strictly bound to:</p>
-                        <ul>
-                            <li>User-owned investment records, or</li>
-                            <li>Explicit internal protocol logic</li>
-                        </ul>
-                        <p>No external entity can manipulate balances, investment states, or reward allocations outside the defined rules.</p>
-                        
-                        <h3>3.4 Ownership & Renouncement Model</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>The ownership model supports a one-time renouncement mechanism. Once ownership is renounced, the contract operates permanently without privileged control paths.</p>
-                        <p>This design ensures:</p>
-                        <ul>
-                            <li>Immutable protocol behavior</li>
-                            <li>No governance intervention capability</li>
-                            <li>Fully autonomous on-chain execution</li>
-                        </ul>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>4. Investment Logic Validation</h2>
-                        
-                        <h3>4.1 Cycle Investment Logic</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>Cycle durations and returns are predefined and immutable. Maturity is strictly enforced by timestamp validation. Double claims are prevented through explicit state flags. All payouts are liquidity-validated.</p>
-                        <p>The cycle investment mechanism functions exactly as intended.</p>
-                        
-                        <h3>4.2 Regrow Mechanism</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>The regrow mechanism deterministically reinvests matured cycle returns into a new cycle without requiring external transfers.</p>
-                        <p>Key properties:</p>
-                        <ul>
-                            <li>No external balance mutation occurs</li>
-                            <li>All state transitions are internally consistent</li>
-                            <li>Referral logic is correctly re-applied</li>
-                        </ul>
-                        <p>The mechanism does not introduce technical or economic inconsistency at the smart contract level.</p>
-                        
-                        <h3>4.3 Saving Investment Logic</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>Daily reward claims are time-gated. Dynamic reward rates are applied deterministically. Capital withdrawal correctly deactivates investments. Pool balance validation is enforced.</p>
-                        <p>All saving-related operations are correctly implemented.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>5. Referral System Validation</h2>
-                        
-                        <h3>5.1 Cycle Referral Distribution</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>Cycle referral rewards are calculated exclusively from realized profit and distributed according to predefined percentages and qualification rules.</p>
-                        
-                        <h3>5.2 Saving Referral Distribution</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>Saving referral rewards are calculated from actual withdrawn rewards and distributed through a multi-level structure with explicit qualification checks.</p>
-                        
-                        <h3>5.3 Qualification & Downline Tracking</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>Downline qualification tracking is consistent and deterministic. The design intentionally preserves historical qualification data to optimize gas efficiency and maintain predictable behavior.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>6. Pool & Accounting Validation</h2>
-                        
-                        <h3>6.1 Pool Balance Accounting</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>Internal accounting variables accurately reflect protocol liquidity under all execution paths.</p>
-                        <ul>
-                            <li>Every token inflow and outflow is mirrored in state</li>
-                            <li>All withdrawals are strictly bounded by available pool balance</li>
-                            <li>No hidden or implicit balance mutation exists</li>
-                        </ul>
-                        
-                        <h3>6.2 Pool Snapshot Mechanism</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>The snapshot system maintains a bounded historical record used for reward adjustment calculations. Storage usage and loop bounds are controlled and safe.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>7. Reward Mechanics Validation</h2>
-                        
-                        <h3>7.1 Saving Reward Adjustment Logic</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>Dynamic saving reward adjustments are based on verifiable historical pool data and follow predefined mathematical rules.</p>
-                        
-                        <h3>7.2 Internal Reward Simulation</h3>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>All reward accrual mechanisms are:</p>
-                        <ul>
-                            <li>Deterministic</li>
-                            <li>Liquidity-constrained</li>
-                            <li>Non-inflationary</li>
-                        </ul>
-                        <p>No execution path allows reward extraction beyond available pool liquidity.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>8. Gas & Performance Review</h2>
-                        <p><span class="audit-status correct">✅ Correct</span></p>
-                        <p>All loops are explicitly bounded and safe for long-term execution. The contract design avoids unbounded iteration over global state.</p>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>9. Best Practice Compliance</h2>
-                        <table class="table-audit">
-                            <thead>
-                                <tr>
-                                    <th>Category</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>Reentrancy Protection</td><td><span class="audit-status correct">✅ Correct</span></td></tr>
-                                <tr><td>Arithmetic Safety</td><td><span class="audit-status correct">✅ Correct</span></td></tr>
-                                <tr><td>Access Control</td><td><span class="audit-status correct">✅ Correct</span></td></tr>
-                                <tr><td>Economic Consistency</td><td><span class="audit-status correct">✅ Correct</span></td></tr>
-                                <tr><td>Transparency</td><td><span class="audit-status correct">✅ Correct</span></td></tr>
-                                <tr><td>Upgrade Safety</td><td><span class="audit-status correct">✅ Correct</span></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="content-section">
-                        <h2>10. Final Audit Conclusion</h2>
-                        <p>Based on a comprehensive manual review, the Auvex Protocol smart contract is <strong>correctly implemented</strong>, secure against common vulnerability classes, and internally consistent across all economic and logical pathways.</p>
-                        <p>No issues were identified that compromise protocol integrity, fund safety, or deterministic behavior.</p>
-                        <h3>Audit Status: <span class="audit-status correct">✅ PASSED – FULLY CORRECT</span></h3>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- FAQ Section -->
         <section class="section" id="faq" style="display: none;">
             <div class="container">
@@ -2822,8 +2274,6 @@
             home: document.getElementById('home'),
             cycle: document.getElementById('cycle'),
             saving: document.getElementById('saving'),
-            whitepaper: document.getElementById('whitepaper'),
-            audit: document.getElementById('audit'),
             faq: document.getElementById('faq')
         };
 
