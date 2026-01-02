@@ -1689,7 +1689,7 @@
                     <div class="hero__image">
                         <div class="floating-card">
                             <div class="card__header">
-                                <h3>Protocol Statistics</h3>
+                                <h3>Statistics</h3>
                                 <div class="live-indicator">
                                     <span class="dot"></span>
                                     Live
@@ -1697,19 +1697,19 @@
                             </div>
                             <div class="card__content">
                                 <div class="stat-item">
-                                    <span class="label">Total Liquidity</span>
+                                    <span class="label">Liquidity</span>
                                     <span class="value" id="statLiquidity">Loading...</span>
                                 </div>
                                 <div class="stat-item">
-                                    <span class="label">Total Users</span>
+                                    <span class="label">Users</span>
                                     <span class="value" id="statTotalUsers">Loading...</span>
                                 </div>
                                 <div class="stat-item">
-                                    <span class="label">Total Investment</span>
+                                    <span class="label">Investment</span>
                                     <span class="value" id="statTotalInvest">Loading...</span>
                                 </div>
                                 <div class="stat-item">
-                                    <span class="label">Total Paid Out</span>
+                                    <span class="label">Paid Out</span>
                                     <span class="value" id="statTotalPaid">Loading...</span>
                                 </div>
                                 <div class="stat-item">
@@ -1771,7 +1771,7 @@
 
                         <div class="form-group">
                             <label for="cycleAmount">Amount (USDT)</label>
-                            <input type="number" id="cycleAmount" class="form-input" placeholder="0.00" min="5" step="0.01">
+                            <input type="number" id="cycleAmount" class="form-input" placeholder="5" min="5" step="1">
                             <div class="amount-range" id="cycleAmountRange" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">
                                 Minimum 5 USDT
                             </div>
@@ -1911,7 +1911,7 @@
                         
                         <div class="form-group">
                             <label for="savingAmount">Amount (USDT)</label>
-                            <input type="number" id="savingAmount" class="form-input" placeholder="0.00" min="5" step="0.01">
+                            <input type="number" id="savingAmount" class="form-input" placeholder="5" min="5" step="1">
                             <div class="amount-range" id="savingAmountRange" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">
                                 Minimum 5 USDT
                             </div>
@@ -1945,7 +1945,7 @@
                                     <tr>
                                         <th>Status</th>
                                         <th>Amount</th>
-                                        <th>ROI</th>
+                                        <th>ROI %</th>
                                         <th>Earned</th>
                                     </tr>
                                 </thead>
@@ -2307,7 +2307,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Withdraw Cycle</h2>
-                <p style="color: var(--text-muted);">Select cycles that have ended to withdraw</p>
+                <p style="color: var(--text-muted);">Select to withdraw</p>
             </div>
             <div class="modal-body">
                 <div class="cycle-list" id="withdrawCycleList">
@@ -2329,7 +2329,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Regrow Cycle</h2>
-                <p style="color: var(--text-muted);">Select ended cycle for regrow</p>
+                <p style="color: var(--text-muted);">Select to regrow</p>
             </div>
             <div class="modal-body">
                 <div class="cycle-list" id="regrowCycleList">
@@ -2379,7 +2379,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Withdraw Capital</h2>
-                <p style="color: var(--text-muted);">Select active saving to withdraw capital</p>
+                <p style="color: var(--text-muted);">Select to withdraw capital</p>
             </div>
             <div class="modal-body">
                 <div class="cycle-list" id="withdrawCapitalList">
@@ -2480,8 +2480,8 @@
                 // Load initial stats
                 await loadContractStats();
             } catch (error) {
-                console.error('Error initializing app:', error);
-                showNotification('Error', 'error');
+                console.error('Error:', error);
+                showNotification('Error initializing application', 'error');
             }
         }
 
@@ -2504,7 +2504,7 @@
                 document.getElementById('statScorchReferral').textContent = `${formatUSDT(stats.scorchPool_)} USDT`;
                 
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error loading contract stats:', error);
             }
         }
 
@@ -2650,8 +2650,8 @@
                     showNotification('Wallet connected!', 'success');
                 }
             } catch (error) {
-                console.error('Error connecting wallet:', error);
-                showNotification('Failed: ' + error.message, 'error');
+                console.error('Error:', error);
+                showNotification('Failed to connect wallet: ' + error.message, 'error');
             }
         }
 
@@ -2749,7 +2749,7 @@
             document.getElementById('copySavingReferral').addEventListener('click', () => {
                 const link = document.getElementById('savingReferralLink').textContent;
                 navigator.clipboard.writeText(link).then(() => {
-                    showNotification('Saving referral link copied to clipboard!', 'success');
+                    showNotification('Copied to clipboard!', 'success');
                 });
             });
 
@@ -2892,7 +2892,7 @@
         function showButtonLoading(button, isLoading) {
             if (isLoading) {
                 button.classList.add('loading');
-                button.innerHTML = `<i class="fas fa-spinner loading-spinner">Processing...</i>`;
+                button.innerHTML = `<i class="fas fa-spinner loading-spinner"></i>`;
                 button.disabled = true;
             } else {
                 button.classList.remove('loading');
@@ -2918,11 +2918,11 @@
             const minAmount = 5;
             
             if (amount < minAmount) {
-                document.getElementById('cycleAmountRange').innerHTML = `Minimum ${minAmount} USDT`;
+                document.getElementById('cycleAmountRange').innerHTML = `Minimum: ${minAmount} USDT`;
                 document.getElementById('cycleAmountRange').style.color = '#ff4444';
                 return false;
             } else {
-                document.getElementById('cycleAmountRange').innerHTML = `Minimum ${minAmount} USDT`;
+                document.getElementById('cycleAmountRange').innerHTML = `Minimum: ${minAmount} USDT`;
                 document.getElementById('cycleAmountRange').style.color = 'var(--text-muted)';
                 return true;
             }
@@ -2933,11 +2933,11 @@
             const minAmount = 5;
             
             if (amount < minAmount) {
-                document.getElementById('savingAmountRange').innerHTML = `Minimum ${minAmount} USDT`;
+                document.getElementById('savingAmountRange').innerHTML = `Minimum: ${minAmount} USDT`;
                 document.getElementById('savingAmountRange').style.color = '#ff4444';
                 return false;
             } else {
-                document.getElementById('savingAmountRange').innerHTML = `Minimum ${minAmount} USDT`;
+                document.getElementById('savingAmountRange').innerHTML = `Minimum: ${minAmount} USDT`;
                 document.getElementById('savingAmountRange').style.color = 'var(--text-muted)';
                 return true;
             }
@@ -3049,7 +3049,7 @@
             
             // Reset dropdown
             const regrowPlanSelected = document.querySelector('#regrowPlanDropdown .dropdown-selected');
-            regrowPlanSelected.innerHTML = `<span>Select Duration...</span><i class="fas fa-chevron-down"></i>`;
+            regrowPlanSelected.innerHTML = `<span>Select...</span><i class="fas fa-chevron-down"></i>`;
             
             try {
                 const investments = await contract.methods.getUserInvestments(userAccount).call();
@@ -3123,7 +3123,7 @@
                 showModal(regrowCycleModal);
                 
             } catch (error) {
-                console.error('Error loading cycles for regrow:', error);
+                console.error('Error:', error);
                 showNotification('Error loading cycles', 'error');
             }
         }
@@ -3209,7 +3209,7 @@
                 showModal(withdrawCapitalModal);
                 
             } catch (error) {
-                console.error('Error loading savings for capital withdraw:', error);
+                console.error('Error:', error);
                 showNotification('Error loading savings', 'error');
             }
         }
@@ -3290,7 +3290,7 @@
                     if (isClaimed) {
                         status = 'Claimed';
                         statusClass = 'status-exp';
-                        timeDisplay = 'Ready';
+                        timeDisplay = 'Claimed';
                     } else if (endTime <= now) {
                         status = 'Ready';
                         statusClass = 'status-ready';
@@ -3324,7 +3324,7 @@
                 }
                 
             } catch (error) {
-                console.error('Error loading user cycles:', error);
+                console.error('Error:', error);
             }
         }
 
@@ -3417,7 +3417,7 @@
                 }
                 
             } catch (error) {
-                console.error('Error loading user savings:', error);
+                console.error('Error:', error);
             }
         }
 
@@ -3459,7 +3459,7 @@
                 const tx = await contract.methods.depositCycle(amountInWei, selectedCyclePlan, referrer).send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Successful!', 'success');
+                    showNotification('Cycle investment successful!', 'success');
                     showPopup(successPopup);
                     await loadUserData();
                     await loadContractStats();
@@ -3509,7 +3509,7 @@
                 const tx = await contract.methods.depositSaving(amountInWei, referrer).send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Successful!', 'success');
+                    showNotification('Saving investment successful!', 'success');
                     showPopup(successPopup);
                     await loadUserData();
                     await loadContractStats();
@@ -3547,7 +3547,7 @@
                     try {
                         const tx = await contract.methods.claimCycle(cycleId).send({ from: userAccount });
                         if (!tx.status) {
-                            throw new Error(`Failed ${cycleId}`);
+                            throw new Error(`Failed to withdraw cycle ${cycleId}`);
                         }
                     } catch (error) {
                         console.error(`Error ${cycleId}:`, error);
@@ -3555,7 +3555,7 @@
                     }
                 }
                 
-                showNotification('Successfully!', 'success');
+                showNotification('Cycles withdrawn successfully!', 'success');
                 hideModal(withdrawCycleModal);
                 await loadUserData();
                 await loadContractStats();
@@ -3580,7 +3580,7 @@
             }
             
             if (selectedRegrowPlan === null) {
-                showNotification('Please select duration for regrow', 'error');
+                showNotification('Please select a new plan for regrow', 'error');
                 return;
             }
             
@@ -3592,7 +3592,7 @@
                 const tx = await contract.methods.regrow(selectedCycleForRegrow, selectedRegrowPlan).send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Successful!', 'success');
+                    showNotification('Regrow successful!', 'success');
                     hideModal(regrowCycleModal);
                     await loadUserData();
                     await loadContractStats();
@@ -3627,12 +3627,12 @@
                 const tx = await contract.methods.capitalSaving(selectedSavingForWithdraw).send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Successfully!', 'success');
+                    showNotification('Capital withdrawn successfully!', 'success');
                     hideModal(withdrawCapitalModal);
                     await loadUserData();
                     await loadContractStats();
                 } else {
-                    throw new Error('Withdrawal failed');
+                    throw new Error('Capital withdrawal failed');
                 }
                 
             } catch (error) {
@@ -3657,7 +3657,7 @@
                 const tx = await contract.methods.claimSaving().send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Successfully!', 'success');
+                    showNotification('Saving rewards withdrawn successfully!', 'success');
                     await loadUserData();
                     await loadContractStats();
                 } else {
