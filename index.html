@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auvex Protocol - Autonomous Wealth Automation</title>
     <meta name="description" content="Decentralized asset management via secure algorithmic cycles and liquid savings on Binance Smart Chain">
-    <link rel="icon" type="image/x-icon" href="image/logos.png">
+    <link rel="icon" type="image/x-icon" href="image/logo.png">
     
     <!-- Font & Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -165,45 +165,62 @@
             visibility: hidden; 
         }
 
-        .loader { 
-            display: flex; 
-            gap: 6px; 
-            margin-bottom: 30px; 
+        .loader {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            margin-bottom: 30px;
         }
-        .orange-bar {
-            width: 6px; 
-            height: 40px;
-            background: var(--gradient-main);
-            border-radius: 10px;
-            animation: pulse-loader 1.2s ease-in-out infinite;
-            transform-origin: center;
-        }
-        .orange-bar:nth-child(1) { animation-delay: 0s; }
-        .orange-bar:nth-child(2) { animation-delay: 0.1s; height: 60px; }
-        .orange-bar:nth-child(3) { animation-delay: 0.2s; height: 80px; }
-        .orange-bar:nth-child(4) { animation-delay: 0.3s; height: 60px; }
-        .orange-bar:nth-child(5) { animation-delay: 0.4s; }
 
-        @keyframes pulse-loader {
-            0%, 100% { 
-                transform: scaleY(0.6); 
-                opacity: 0.4; 
-            }
-            50% { 
-                transform: scaleY(1.2); 
-                opacity: 1; 
-            }
+        .loader:before, .loader:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            border-top-color: var(--primary-accent);
+            animation: spin 1.5s linear infinite;
+        }
+
+        .loader:after {
+            border-top-color: var(--gold-glow);
+            animation: spin 1s linear infinite reverse;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .preloader-text { 
             font-family: var(--font-heading); 
-            font-size: 1.8rem; 
-            letter-spacing: 3px; 
-            font-weight: 700; 
+            font-size: 2.5rem; 
+            font-weight: 800; 
             color: transparent;
             background: var(--gradient-gold);
             -webkit-background-clip: text;
             background-clip: text;
+            position: relative;
+        }
+
+        .preloader-text:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: var(--gradient-gold);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { width: 100px; opacity: 1; }
+            50% { width: 150px; opacity: 0.5; }
         }
 
         /* ===== HEADER & NAVIGATION ===== */
@@ -317,11 +334,6 @@
             transition: all 0.3s ease;
             z-index: 1001;
         }
-        .nav__toggle:hover { 
-            background: rgba(212, 93, 0, 0.1);
-            border-color: var(--primary-accent);
-            transform: rotate(90deg);
-        }
 
         .mobile-menu {
             position: fixed;
@@ -428,6 +440,27 @@
         .btn-lg { padding: 16px 40px; font-size: 1.05rem; }
         .btn-xl { padding: 20px 45px; font-size: 1.1rem; font-weight: 700; }
 
+        /* Loading Spinner for Buttons */
+        .btn-loading {
+            position: relative;
+            color: transparent !important;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: button-spin 0.8s linear infinite;
+        }
+
+        @keyframes button-spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* ===== SECTIONS ===== */
         .section { 
             padding-top: 120px; 
@@ -523,7 +556,7 @@
         .hero__description { 
             color: var(--text-muted); 
             font-size: 1.1rem; 
-            margin-bottom: 40px; 
+            margin-bottom: 60px; 
             max-width: 90%; 
             line-height: 1.7;
         }
@@ -715,10 +748,11 @@
             font-weight: 500;
         }
 
-        /* Custom Dropdown */
+        /* Custom Dropdown - Improved */
         .custom-dropdown {
             position: relative;
             width: 100%;
+            z-index: 10;
         }
 
         .dropdown-selected {
@@ -736,6 +770,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            min-height: 56px;
         }
 
         .dropdown-selected i {
@@ -761,10 +796,11 @@
             transition: max-height 0.3s ease;
             z-index: 100;
             backdrop-filter: blur(20px);
+            overflow-y: auto;
         }
 
         .dropdown-options.show {
-            max-height: 300px;
+            max-height: 400px;
         }
 
         .dropdown-option {
@@ -772,11 +808,25 @@
             cursor: pointer;
             transition: all 0.2s ease;
             color: var(--text-muted);
+            border-bottom: 1px solid rgba(139, 58, 0, 0.1);
+        }
+
+        .dropdown-option:last-child {
+            border-bottom: none;
         }
 
         .dropdown-option:hover {
             background: rgba(212, 93, 0, 0.1);
             color: var(--gold-glow);
+        }
+
+        .dropdown-option .plan-duration {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .dropdown-option .plan-return {
+            font-size: 0.9rem;
         }
 
         /* Forms */
@@ -861,14 +911,19 @@
             transform: translateY(-1px);
         }
 
-        /* Investment Tables */
+        /* Investment Tables - Scrollable */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 25px;
+            border-radius: var(--radius-md);
+        }
+
         .investment-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 25px;
             background: rgba(15, 10, 5, 0.5);
-            border-radius: var(--radius-md);
-            overflow: hidden;
+            min-width: 600px;
         }
 
         .investment-table th {
@@ -881,6 +936,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             border-bottom: 1px solid rgba(139, 58, 0, 0.3);
+            white-space: nowrap;
         }
 
         .investment-table td {
@@ -889,10 +945,45 @@
             color: var(--text-muted);
             font-size: 0.95rem;
             vertical-align: middle;
+            white-space: nowrap;
         }
 
         .investment-table tr:hover {
             background: rgba(212, 93, 0, 0.05);
+        }
+
+        .investment-table .timer {
+            font-family: monospace;
+            font-weight: 600;
+            color: var(--gold-glow);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .status-active {
+            background: linear-gradient(90deg, rgba(0, 200, 83, 0.15), rgba(0, 200, 83, 0.1));
+            color: #00cc66;
+            border: 1px solid rgba(0, 200, 83, 0.3);
+        }
+
+        .status-ready {
+            background: linear-gradient(90deg, rgba(232, 181, 77, 0.15), rgba(232, 181, 77, 0.1));
+            color: var(--gold-glow);
+            border: 1px solid rgba(232, 181, 77, 0.3);
+        }
+
+        .status-expired {
+            background: linear-gradient(90deg, rgba(255, 68, 68, 0.15), rgba(255, 68, 68, 0.1));
+            color: #ff4444;
+            border: 1px solid rgba(255, 68, 68, 0.3);
         }
 
         /* Action Buttons */
@@ -1021,70 +1112,6 @@
             overflow: hidden;
         }
 
-        .content-section {
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid rgba(139, 58, 0, 0.2);
-        }
-
-        .content-section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .content-section h2 {
-            color: var(--gold-glow);
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(139, 58, 0, 0.3);
-            font-size: 2rem;
-            position: relative;
-        }
-
-        .content-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 60px;
-            height: 2px;
-            background: var(--gradient-main);
-        }
-
-        .content-section h3 {
-            color: var(--primary-accent);
-            margin: 25px 0 15px 0;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .content-section h4 {
-            color: var(--secondary-accent);
-            margin: 20px 0 12px 0;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .content-section p {
-            color: var(--text-muted);
-            margin-bottom: 18px;
-            line-height: 1.7;
-            font-size: 1.05rem;
-        }
-
-        .content-section ul, .content-section ol {
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            padding-left: 25px;
-            line-height: 1.7;
-        }
-
-        .content-section li {
-            margin-bottom: 10px;
-            font-size: 1.05rem;
-        }
-
         /* ===== FAQ ===== */
         .faq-container {
             max-width: 800px;
@@ -1172,40 +1199,43 @@
             color: var(--primary-accent); 
         }
 
+        /* Enhanced Notifications */
         .notification {
             position: fixed; 
             top: 100px; 
             right: 20px; 
             padding: 16px 24px;
-            background: linear-gradient(145deg, rgba(30, 18, 9, 0.98), rgba(20, 12, 6, 0.99));
-            border: 1px solid rgba(139, 58, 0, 0.3);
+            background: linear-gradient(145deg, rgba(20, 12, 6, 0.95), rgba(30, 18, 9, 0.98));
+            border: 1px solid rgba(139, 58, 0, 0.4);
             color: white; 
             border-radius: var(--radius-lg); 
             z-index: 3000;
             transform: translateX(120%) scale(0.9); 
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            backdrop-filter: blur(20px); 
-            box-shadow: var(--shadow-subtle);
+            backdrop-filter: blur(25px); 
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
             display: flex; 
             align-items: center; 
             gap: 12px;
             max-width: 90%;
             word-break: break-word;
             min-width: 280px;
+            border-left: 4px solid var(--primary-accent);
         }
         .notification.show { 
             transform: translateX(0) scale(1); 
         }
         .notification.success { 
-            border-left: 4px solid #00cc66; 
+            border-left-color: #00cc66; 
             background: linear-gradient(145deg, rgba(0, 204, 102, 0.1), rgba(30, 18, 9, 0.95));
         }
         .notification.error { 
-            border-left: 4px solid #ff4444; 
+            border-left-color: #ff4444; 
             background: linear-gradient(145deg, rgba(255, 68, 68, 0.1), rgba(30, 18, 9, 0.95));
         }
         .notification.info { 
-            border-left: 4px solid var(--primary-accent); 
+            border-left-color: var(--primary-accent); 
             background: linear-gradient(145deg, rgba(212, 93, 0, 0.1), rgba(30, 18, 9, 0.95));
         }
 
@@ -1223,6 +1253,7 @@
             visibility: hidden; 
             transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
+            padding: 20px;
         }
         .popup.active { 
             opacity: 1; 
@@ -1231,7 +1262,7 @@
 
         .popup-content { 
             max-width: 500px; 
-            width: 90%; 
+            width: 100%; 
             padding: 40px; 
             text-align: center; 
             transform: scale(0.8) translateY(50px); 
@@ -1242,6 +1273,8 @@
             cursor: default;
             position: relative;
             overflow: hidden;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .popup.active .popup-content { 
             transform: scale(1) translateY(0); 
@@ -1258,6 +1291,39 @@
             font-size: 2rem; 
             color: white;
             margin: 0 auto 25px; 
+        }
+
+        /* Popup Lists */
+        .popup-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 20px 0;
+            border-radius: var(--radius-md);
+            background: rgba(15, 10, 5, 0.5);
+            border: 1px solid rgba(139, 58, 0, 0.2);
+        }
+
+        .popup-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(139, 58, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .popup-item:last-child {
+            border-bottom: none;
+        }
+
+        .popup-item:hover {
+            background: rgba(212, 93, 0, 0.1);
+        }
+
+        .popup-item.selected {
+            background: rgba(212, 93, 0, 0.15);
+            border-left: 3px solid var(--primary-accent);
         }
 
         /* ===== FOOTER ===== */
@@ -1373,14 +1439,6 @@
             .plan-options {
                 grid-template-columns: repeat(2, 1fr);
             }
-        }
-
-        @media (max-width: 768px) {
-            .section {
-                padding-top: 100px; 
-                padding-bottom: 60px;
-            }
-
             .nav__menu { 
                 display: none;
             }
@@ -1389,6 +1447,13 @@
                 display: flex; 
                 align-items: center;
                 justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding-top: 100px; 
+                padding-bottom: 60px;
             }
             
             .section__title { font-size: 2rem; }
@@ -1426,17 +1491,19 @@
                 grid-template-columns: 1fr;
             }
             
-            .investment-table {
-                display: block;
-                overflow-x: auto;
-            }
-            
             .content-container {
                 padding: 25px;
             }
             
             .popup-content {
                 padding: 30px 20px;
+            }
+            
+            .notification {
+                min-width: 250px;
+                right: 10px;
+                left: 10px;
+                width: auto;
             }
         }
 
@@ -1460,10 +1527,11 @@
             }
             
             .notification {
-                min-width: 250px;
+                min-width: 200px;
                 right: 10px;
                 left: 10px;
                 width: auto;
+                padding: 14px 18px;
             }
         }
 
@@ -1479,19 +1547,17 @@
             .level-percent {
                 font-size: 1.3rem;
             }
+            
+            .investment-table {
+                min-width: 500px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Preloader -->
     <div class="preloader">
-        <div class="loader">
-            <div class="orange-bar"></div>
-            <div class="orange-bar"></div>
-            <div class="orange-bar"></div>
-            <div class="orange-bar"></div>
-            <div class="orange-bar"></div>
-        </div>
+        <div class="loader"></div>
         <div class="preloader-text">AUVEX</div>
     </div>
 
@@ -1500,7 +1566,7 @@
         <nav class="nav container">
             <!-- Logo AUVEX -->
             <a href="#home" class="nav__logo">
-                <img src="image/logos.png" alt="AUVEX" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0'">
+                <img src="image/logo.png" alt="AUVEX" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0'">
                 <div class="logo__text">AUVEX</div>
             </a>
 
@@ -1688,7 +1754,7 @@
                                         <th>Amount</th>
                                         <th>Plan</th>
                                         <th>End Time</th>
-                                        <th>Actions</th>
+                                        <th>Earned</th>
                                     </tr>
                                 </thead>
                                 <tbody id="cyclesTableBody">
@@ -1827,8 +1893,7 @@
                                         <th>Status</th>
                                         <th>Amount</th>
                                         <th>ROI %</th>
-                                        <th>Daily Reward</th>
-                                        <th>Actions</th>
+                                        <th>Earned</th>
                                     </tr>
                                 </thead>
                                 <tbody id="savingsTableBody">
@@ -1839,7 +1904,7 @@
 
                         <div class="action-buttons">
                             <button class="btn btn--primary" id="withdrawSaving">
-                                <i class="fas fa-download"></i> Withdraw Saving
+                                <i class="fas fa-download"></i> Withdraw Rewards
                             </button>
                             <button class="btn btn--outline" id="withdrawCapitalSaving">
                                 <i class="fas fa-university"></i> Withdraw Capital
@@ -2151,7 +2216,7 @@
             <div class="footer__content">
                 <div class="footer__brand">
                     <div class="footer__logo">
-                        <img src="image/logos.png" alt="" class="logo" onerror="this.style.display='none'">
+                        <img src="image/logo.png" alt="" class="logo" onerror="this.style.display='none'">
                         <span>AUVEX</span>
                     </div>
                     <p>
@@ -2184,42 +2249,94 @@
         </div>
     </div>
 
-    <div class="popup" id="regrowPopup">
+    <div class="popup" id="withdrawCyclePopup">
+        <div class="popup-content">
+            <div class="popup-icon"><i class="fas fa-download"></i></div>
+            <h2 style="color: var(--gold-glow); margin-bottom: 15px;">Withdraw Cycle</h2>
+            <p style="color: var(--text-muted); margin: 10px 0 25px; font-size: 1.05rem;">Select cycle to withdraw</p>
+            
+            <div class="popup-list" id="withdrawCycleList">
+                <!-- Cycle list will be loaded here -->
+            </div>
+            
+            <div class="action-buttons" style="justify-content: center; gap: 12px; margin-top: 25px;">
+                <button class="btn btn--primary btn-lg" id="confirmWithdrawCycle">
+                    <i class="fas fa-check-circle"></i> Confirm Withdraw
+                </button>
+                <button class="btn btn--outline btn-lg" id="cancelWithdrawCycle">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup" id="regrowCyclePopup">
         <div class="popup-content">
             <div class="popup-icon"><i class="fas fa-recycle"></i></div>
             <h2 style="color: var(--gold-glow); margin-bottom: 15px;">Regrow Cycle</h2>
-            <p style="color: var(--text-muted); margin: 10px 0 25px; font-size: 1.05rem;">Select new duration for your regrow investment</p>
+            <p style="color: var(--text-muted); margin: 10px 0 25px; font-size: 1.05rem;">Select cycle to regrow and choose new plan</p>
             
-            <div class="custom-dropdown" id="regrowDropdown" style="margin: 20px 0;">
-                <div class="dropdown-selected">
-                    <span>Select...</span>
-                    <i class="fas fa-chevron-down"></i>
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: var(--primary-accent); margin-bottom: 10px;">Select Cycle</h4>
+                <div class="popup-list" id="regrowCycleList">
+                    <!-- Cycle list will be loaded here -->
                 </div>
-                <div class="dropdown-options">
-                    <div class="dropdown-option" data-plan="0">
-                        <div class="plan-duration">1 Day</div>
-                        <div class="plan-return">100.5% Return</div>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: var(--primary-accent); margin-bottom: 10px;">Select New Plan</h4>
+                <div class="custom-dropdown" id="regrowPlanDropdown">
+                    <div class="dropdown-selected">
+                        <span>Select...</span>
+                        <i class="fas fa-chevron-down"></i>
                     </div>
-                    <div class="dropdown-option" data-plan="1">
-                        <div class="plan-duration">7 Days</div>
-                        <div class="plan-return">105% Return</div>
-                    </div>
-                    <div class="dropdown-option" data-plan="2">
-                        <div class="plan-duration">14 Days</div>
-                        <div class="plan-return">110% Return</div>
-                    </div>
-                    <div class="dropdown-option" data-plan="3">
-                        <div class="plan-duration">30 Days</div>
-                        <div class="plan-return">125% Return</div>
+                    <div class="dropdown-options">
+                        <div class="dropdown-option" data-plan="0">
+                            <div class="plan-duration">1 Day</div>
+                            <div class="plan-return">100.5% Return</div>
+                        </div>
+                        <div class="dropdown-option" data-plan="1">
+                            <div class="plan-duration">7 Days</div>
+                            <div class="plan-return">105% Return</div>
+                        </div>
+                        <div class="dropdown-option" data-plan="2">
+                            <div class="plan-duration">14 Days</div>
+                            <div class="plan-return">110% Return</div>
+                        </div>
+                        <div class="dropdown-option" data-plan="3">
+                            <div class="plan-duration">30 Days</div>
+                            <div class="plan-return">125% Return</div>
+                        </div>
                     </div>
                 </div>
             </div>
             
             <div class="action-buttons" style="justify-content: center; gap: 12px;">
-                <button class="btn btn--primary btn-lg" id="confirmRegrow">
+                <button class="btn btn--primary btn-lg" id="confirmRegrowCycle">
                     <i class="fas fa-check-circle"></i> Confirm Regrow
                 </button>
-                <button class="btn btn--outline btn-lg" id="cancelRegrow">
+                <button class="btn btn--outline btn-lg" id="cancelRegrowCycle">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup" id="withdrawCapitalPopup">
+        <div class="popup-content">
+            <div class="popup-icon"><i class="fas fa-university"></i></div>
+            <h2 style="color: var(--gold-glow); margin-bottom: 15px;">Withdraw Capital</h2>
+            <p style="color: var(--text-muted); margin: 10px 0 25px; font-size: 1.05rem;">Select saving to withdraw capital</p>
+            
+            <div class="popup-list" id="withdrawCapitalList">
+                <!-- Saving list will be loaded here -->
+            </div>
+            
+            <div class="action-buttons" style="justify-content: center; gap: 12px; margin-top: 25px;">
+                <button class="btn btn--primary btn-lg" id="confirmWithdrawCapital">
+                    <i class="fas fa-check-circle"></i> Confirm Withdraw
+                </button>
+                <button class="btn btn--outline btn-lg" id="cancelWithdrawCapital">
                     Cancel
                 </button>
             </div>
@@ -2251,11 +2368,14 @@
         let userAccount = null;
         let referralAddress = null;
         let selectedCyclePlan = null;
-        let selectedRegrowPlan = null;
+        let selectedCycleForWithdraw = null;
         let selectedCycleForRegrow = null;
+        let selectedRegrowPlan = null;
+        let selectedSavingForCapital = null;
         let userCycles = [];
         let userSavings = [];
         let userInfo = null;
+        let timerInterval = null;
 
         // ===== DOM ELEMENTS =====
         const preloader = document.querySelector('.preloader');
@@ -2265,10 +2385,16 @@
         const connectWalletMobile = document.getElementById('connectWalletMobile');
         const notification = document.getElementById('notification');
         const successPopup = document.getElementById('successPopup');
-        const regrowPopup = document.getElementById('regrowPopup');
+        const withdrawCyclePopup = document.getElementById('withdrawCyclePopup');
+        const regrowCyclePopup = document.getElementById('regrowCyclePopup');
+        const withdrawCapitalPopup = document.getElementById('withdrawCapitalPopup');
         const goToDashboardBtn = document.getElementById('goToDashboard');
-        const confirmRegrowBtn = document.getElementById('confirmRegrow');
-        const cancelRegrowBtn = document.getElementById('cancelRegrow');
+        const confirmWithdrawCycleBtn = document.getElementById('confirmWithdrawCycle');
+        const cancelWithdrawCycleBtn = document.getElementById('cancelWithdrawCycle');
+        const confirmRegrowCycleBtn = document.getElementById('confirmRegrowCycle');
+        const cancelRegrowCycleBtn = document.getElementById('cancelRegrowCycle');
+        const confirmWithdrawCapitalBtn = document.getElementById('confirmWithdrawCapital');
+        const cancelWithdrawCapitalBtn = document.getElementById('cancelWithdrawCapital');
 
         const sections = {
             home: document.getElementById('home'),
@@ -2342,7 +2468,8 @@
             const cycleOptions = cycleDropdown.querySelector('.dropdown-options');
             const cycleOptionItems = cycleDropdown.querySelectorAll('.dropdown-option');
             
-            cycleSelected.addEventListener('click', () => {
+            cycleSelected.addEventListener('click', (e) => {
+                e.stopPropagation();
                 cycleSelected.classList.toggle('open');
                 cycleOptions.classList.toggle('show');
             });
@@ -2364,44 +2491,42 @@
                 });
             });
             
-            // Regrow dropdown
-            const regrowDropdown = document.getElementById('regrowDropdown');
-            const regrowSelected = regrowDropdown.querySelector('.dropdown-selected');
-            const regrowOptions = regrowDropdown.querySelector('.dropdown-options');
-            const regrowOptionItems = regrowDropdown.querySelectorAll('.dropdown-option');
+            // Regrow plan dropdown
+            const regrowPlanDropdown = document.getElementById('regrowPlanDropdown');
+            const regrowPlanSelected = regrowPlanDropdown.querySelector('.dropdown-selected');
+            const regrowPlanOptions = regrowPlanDropdown.querySelector('.dropdown-options');
+            const regrowPlanOptionItems = regrowPlanDropdown.querySelectorAll('.dropdown-option');
             
-            regrowSelected.addEventListener('click', () => {
-                regrowSelected.classList.toggle('open');
-                regrowOptions.classList.toggle('show');
+            regrowPlanSelected.addEventListener('click', (e) => {
+                e.stopPropagation();
+                regrowPlanSelected.classList.toggle('open');
+                regrowPlanOptions.classList.toggle('show');
             });
             
-            regrowOptionItems.forEach(option => {
+            regrowPlanOptionItems.forEach(option => {
                 option.addEventListener('click', () => {
                     const planDuration = option.querySelector('.plan-duration').textContent;
                     const planReturn = option.querySelector('.plan-return').textContent;
                     const plan = option.getAttribute('data-plan');
                     
-                    regrowSelected.innerHTML = `
+                    regrowPlanSelected.innerHTML = `
                         <span>${planDuration} - ${planReturn}</span>
                         <i class="fas fa-chevron-down"></i>
                     `;
                     selectedRegrowPlan = plan;
                     
-                    regrowSelected.classList.remove('open');
-                    regrowOptions.classList.remove('show');
+                    regrowPlanSelected.classList.remove('open');
+                    regrowPlanOptions.classList.remove('show');
                 });
             });
             
             // Close dropdowns when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!cycleDropdown.contains(e.target)) {
-                    cycleSelected.classList.remove('open');
-                    cycleOptions.classList.remove('show');
-                }
-                if (!regrowDropdown.contains(e.target)) {
-                    regrowSelected.classList.remove('open');
-                    regrowOptions.classList.remove('show');
-                }
+            document.addEventListener('click', () => {
+                cycleSelected.classList.remove('open');
+                cycleOptions.classList.remove('show');
+                
+                regrowPlanSelected.classList.remove('open');
+                regrowPlanOptions.classList.remove('show');
             });
         }
 
@@ -2454,7 +2579,7 @@
                     updateWalletUI();
                     await loadUserData();
                     updateReferralLinks();
-                    showNotification('Wallet connected!', 'success');
+                    showNotification('Wallet connected successfully!', 'success');
                 }
             } catch (error) {
                 console.error('Error connecting wallet:', error);
@@ -2513,7 +2638,8 @@
         // ===== EVENT LISTENERS =====
         function setupEventListeners() {
             // Mobile menu toggle
-            navToggle.addEventListener('click', () => {
+            navToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
                 mobileMenu.classList.toggle('active');
             });
 
@@ -2565,8 +2691,8 @@
             document.getElementById('cycleAmount').addEventListener('input', validateCycleAmount);
             
             // Cycle actions
-            document.getElementById('withdrawCycle').addEventListener('click', withdrawCycle);
-            document.getElementById('regrowCycle').addEventListener('click', openRegrowPopup);
+            document.getElementById('withdrawCycle').addEventListener('click', openWithdrawCyclePopup);
+            document.getElementById('regrowCycle').addEventListener('click', openRegrowCyclePopup);
             document.getElementById('withdrawCycleReferral').addEventListener('click', withdrawCycleReferral);
             
             // Saving investment
@@ -2575,23 +2701,36 @@
             
             // Saving actions
             document.getElementById('withdrawSaving').addEventListener('click', withdrawSavingRewards);
-            document.getElementById('withdrawCapitalSaving').addEventListener('click', withdrawCapitalSaving);
+            document.getElementById('withdrawCapitalSaving').addEventListener('click', openWithdrawCapitalPopup);
             document.getElementById('withdrawSavingReferral').addEventListener('click', withdrawSavingReferral);
             
-            // Regrow popup
-            confirmRegrowBtn.addEventListener('click', confirmRegrow);
-            cancelRegrowBtn.addEventListener('click', () => hidePopup(regrowPopup));
+            // Popup buttons
             goToDashboardBtn.addEventListener('click', () => {
                 hidePopup(successPopup);
                 showSection('cycle');
             });
+            
+            confirmWithdrawCycleBtn.addEventListener('click', confirmWithdrawCycle);
+            cancelWithdrawCycleBtn.addEventListener('click', () => hidePopup(withdrawCyclePopup));
+            
+            confirmRegrowCycleBtn.addEventListener('click', confirmRegrowCycle);
+            cancelRegrowCycleBtn.addEventListener('click', () => hidePopup(regrowCyclePopup));
+            
+            confirmWithdrawCapitalBtn.addEventListener('click', confirmWithdrawCapital);
+            cancelWithdrawCapitalBtn.addEventListener('click', () => hidePopup(withdrawCapitalPopup));
 
             // Close popups on outside click
             successPopup.addEventListener('click', (e) => {
                 if (e.target === successPopup) hidePopup(successPopup);
             });
-            regrowPopup.addEventListener('click', (e) => {
-                if (e.target === regrowPopup) hidePopup(regrowPopup);
+            withdrawCyclePopup.addEventListener('click', (e) => {
+                if (e.target === withdrawCyclePopup) hidePopup(withdrawCyclePopup);
+            });
+            regrowCyclePopup.addEventListener('click', (e) => {
+                if (e.target === regrowCyclePopup) hidePopup(regrowCyclePopup);
+            });
+            withdrawCapitalPopup.addEventListener('click', (e) => {
+                if (e.target === withdrawCapitalPopup) hidePopup(withdrawCapitalPopup);
             });
 
             // Window scroll for header effect
@@ -2658,6 +2797,14 @@
                 
                 // Scroll to top of section
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Load data for the section
+                if (sectionName === 'cycle' && userAccount) {
+                    loadUserCycles();
+                    startCycleTimer();
+                } else if (sectionName === 'saving' && userAccount) {
+                    loadUserSavings();
+                }
             }
         }
 
@@ -2681,6 +2828,26 @@
         function hidePopup(popup) {
             popup.classList.remove('active');
             document.body.style.overflow = 'auto';
+            // Reset selections
+            selectedCycleForWithdraw = null;
+            selectedCycleForRegrow = null;
+            selectedRegrowPlan = null;
+            selectedSavingForCapital = null;
+        }
+
+        function formatTime(seconds) {
+            const days = Math.floor(seconds / (24 * 3600));
+            const hours = Math.floor((seconds % (24 * 3600)) / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            
+            if (days > 0) {
+                return `${days}d ${hours}h ${minutes}m`;
+            } else if (hours > 0) {
+                return `${hours}h ${minutes}m ${secs}s`;
+            } else {
+                return `${minutes}m ${secs}s`;
+            }
         }
 
         // ===== VALIDATION FUNCTIONS =====
@@ -2711,6 +2878,17 @@
                 document.getElementById('savingAmountRange').innerHTML = `Minimum: ${minAmount} USDT`;
                 document.getElementById('savingAmountRange').style.color = 'var(--text-muted)';
                 return true;
+            }
+        }
+
+        // ===== BUTTON LOADING STATE =====
+        function setButtonLoading(button, isLoading) {
+            if (isLoading) {
+                button.classList.add('btn-loading');
+                button.disabled = true;
+            } else {
+                button.classList.remove('btn-loading');
+                button.disabled = false;
             }
         }
 
@@ -2770,55 +2948,104 @@
                 const tbody = document.getElementById('cyclesTableBody');
                 tbody.innerHTML = '';
                 
-                for (let i = 0; i < cycleCount; i++) {
-                    const cycleDetails = await contract.methods.getCycleDetails(userAccount, i).call();
-                    const isClaimed = cycleDetails.claimed;
-                    const endTime = parseInt(cycleDetails.endTime);
-                    const now = Math.floor(Date.now() / 1000);
-                    
-                    const planNames = ['1 Day', '7 Days', '14 Days', '30 Days'];
-                    const planName = planNames[parseInt(cycleDetails.plan)];
-                    
-                    const amount = parseFloat(web3.utils.fromWei(cycleDetails.amount, 'ether')).toFixed(2);
-                    
-                    let status = 'Active';
-                    let statusClass = 'text-amber';
-                    if (isClaimed) {
-                        status = 'Claimed';
-                        statusClass = 'text-gold';
-                    } else if (endTime <= now) {
-                        status = 'Ready';
-                        statusClass = 'text-gold';
-                    }
-                    
-                    const endDate = new Date(endTime * 1000).toLocaleDateString();
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td><span class="${statusClass}">${status}</span></td>
-                        <td>${amount} USDT</td>
-                        <td>${planName}</td>
-                        <td>${endDate}</td>
-                        <td>
-                            ${!isClaimed && endTime <= now ? 
-                                `<button class="btn btn-sm btn--primary claim-cycle" data-cycle-id="${i}">Claim</button>` : 
-                                ''}
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                }
+                userCycles = [];
                 
-                // Add event listeners for claim buttons
-                document.querySelectorAll('.claim-cycle').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const cycleId = e.target.getAttribute('data-cycle-id');
-                        claimCycle(cycleId);
-                    });
-                });
+                for (let i = 0; i < cycleCount; i++) {
+                    try {
+                        const cycleDetails = await contract.methods.getCycleDetails(userAccount, i).call();
+                        const profitDetails = await contract.methods.getCycleProfitDetails(i).call();
+                        
+                        const cycleData = {
+                            id: i,
+                            amount: cycleDetails.amount,
+                            plan: parseInt(cycleDetails.plan),
+                            startTime: parseInt(cycleDetails.startTime),
+                            endTime: parseInt(cycleDetails.endTime),
+                            claimed: cycleDetails.claimed,
+                            profitPer8Hours: profitDetails.profitPer8Hours,
+                            timeLeft: parseInt(profitDetails.timeLeft)
+                        };
+                        
+                        userCycles.push(cycleData);
+                        
+                        const isClaimed = cycleDetails.claimed;
+                        const endTime = parseInt(cycleDetails.endTime);
+                        const now = Math.floor(Date.now() / 1000);
+                        
+                        const planNames = ['1 Day', '7 Days', '14 Days', '30 Days'];
+                        const planName = planNames[parseInt(cycleDetails.plan)];
+                        
+                        const amount = parseFloat(web3.utils.fromWei(cycleDetails.amount, 'ether')).toFixed(2);
+                        const earned = parseFloat(web3.utils.fromWei(profitDetails.profitPer8Hours, 'ether')).toFixed(4);
+                        
+                        let status = 'Active';
+                        let statusClass = 'status-active';
+                        if (isClaimed) {
+                            status = 'Claimed';
+                            statusClass = 'status-expired';
+                        } else if (endTime <= now) {
+                            status = 'Ready';
+                            statusClass = 'status-ready';
+                        }
+                        
+                        const timeLeft = endTime - now;
+                        let timeDisplay = 'Ready';
+                        if (timeLeft > 0 && !isClaimed) {
+                            timeDisplay = `<span class="timer">${formatTime(timeLeft)}</span>`;
+                        } else if (!isClaimed) {
+                            timeDisplay = 'Ready';
+                        } else {
+                            timeDisplay = 'Claimed';
+                        }
+                        
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><span class="status-badge ${statusClass}">${status}</span></td>
+                            <td>${amount} USDT</td>
+                            <td>${planName}</td>
+                            <td>${timeDisplay}</td>
+                            <td>${earned} USDT</td>
+                        `;
+                        tbody.appendChild(row);
+                    } catch (error) {
+                        console.error(`Error loading cycle ${i}:`, error);
+                        continue;
+                    }
+                }
                 
             } catch (error) {
                 console.error('Error loading user cycles:', error);
             }
+        }
+
+        function startCycleTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            
+            timerInterval = setInterval(() => {
+                const rows = document.querySelectorAll('#cyclesTableBody tr');
+                rows.forEach((row, index) => {
+                    const cycle = userCycles[index];
+                    if (!cycle || cycle.claimed) return;
+                    
+                    const timeCell = row.cells[3];
+                    const now = Math.floor(Date.now() / 1000);
+                    const timeLeft = cycle.endTime - now;
+                    
+                    if (timeLeft > 0) {
+                        timeCell.innerHTML = `<span class="timer">${formatTime(timeLeft)}</span>`;
+                        
+                        // Update status if needed
+                        const statusCell = row.cells[0];
+                        statusCell.innerHTML = '<span class="status-badge status-active">Active</span>';
+                    } else {
+                        timeCell.textContent = 'Ready';
+                        const statusCell = row.cells[0];
+                        statusCell.innerHTML = '<span class="status-badge status-ready">Ready</span>';
+                    }
+                });
+            }, 1000);
         }
 
         async function loadUserSavings() {
@@ -2840,36 +3067,44 @@
                 const tbody = document.getElementById('savingsTableBody');
                 tbody.innerHTML = '';
                 
-                for (let i = 0; i < savingCount; i++) {
-                    const savingDetails = await contract.methods.getSavingDetails(userAccount, i).call();
-                    const isActive = savingDetails.active;
-                    
-                    if (!isActive) continue;
-                    
-                    const amount = parseFloat(web3.utils.fromWei(savingDetails.amount, 'ether')).toFixed(2);
-                    const percent = parseFloat(savingDetails.currentPercent) / 10; // Convert from per thousand
-                    const dailyReward = parseFloat(web3.utils.fromWei(savingDetails.dailyReward, 'ether')).toFixed(4);
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td><span class="text-amber">Active</span></td>
-                        <td>${amount} USDT</td>
-                        <td>${percent}%</td>
-                        <td>${dailyReward} USDT</td>
-                        <td>
-                            <button class="btn btn-sm btn--primary withdraw-saving" data-saving-id="${i}">Withdraw</button>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                }
+                userSavings = [];
                 
-                // Add event listeners for withdraw buttons
-                document.querySelectorAll('.withdraw-saving').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const savingId = e.target.getAttribute('data-saving-id');
-                        withdrawSaving(savingId);
-                    });
-                });
+                for (let i = 0; i < savingCount; i++) {
+                    try {
+                        const savingDetails = await contract.methods.getSavingDetails(userAccount, i).call();
+                        
+                        const savingData = {
+                            id: i,
+                            amount: savingDetails.amount,
+                            currentPercent: savingDetails.currentPercent,
+                            dailyReward: savingDetails.dailyReward,
+                            active: savingDetails.active
+                        };
+                        
+                        userSavings.push(savingData);
+                        
+                        const isActive = savingDetails.active;
+                        
+                        const amount = parseFloat(web3.utils.fromWei(savingDetails.amount, 'ether')).toFixed(2);
+                        const percent = parseFloat(savingDetails.currentPercent) / 10; // Convert from per thousand
+                        const earned = parseFloat(web3.utils.fromWei(savingDetails.dailyReward, 'ether')).toFixed(4);
+                        
+                        let status = isActive ? 'Active' : 'Exp';
+                        let statusClass = isActive ? 'status-active' : 'status-expired';
+                        
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><span class="status-badge ${statusClass}">${status}</span></td>
+                            <td>${amount} USDT</td>
+                            <td>${percent}%</td>
+                            <td>${earned} USDT</td>
+                        `;
+                        tbody.appendChild(row);
+                    } catch (error) {
+                        console.error(`Error loading saving ${i}:`, error);
+                        continue;
+                    }
+                }
                 
             } catch (error) {
                 console.error('Error loading user savings:', error);
@@ -2893,6 +3128,9 @@
                 return;
             }
             
+            const confirmBtn = document.getElementById('confirmCycle');
+            setButtonLoading(confirmBtn, true);
+            
             try {
                 const amountInWei = web3.utils.toWei(amount, 'ether');
                 const referrer = document.getElementById('cycleReferrer').value || '0x0000000000000000000000000000000000000000';
@@ -2900,21 +3138,27 @@
                 // Check allowance and approve if needed
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
                 if (BigInt(allowance) < BigInt(amountInWei)) {
-                    showNotification('Approving...', 'info');
+                    showNotification('Approving USDT...', 'info');
                     const approveTx = await usdtContract.methods.approve(CONTRACT_ADDRESS, amountInWei).send({ from: userAccount });
                     if (!approveTx.status) {
                         throw new Error('Approval failed');
                     }
                 }
                 
-                showNotification('Processing...', 'info');
+                showNotification('Processing cycle investment...', 'info');
                 const tx = await contract.methods.depositCycle(amountInWei, selectedCyclePlan, referrer).send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Cycle investment successful!', 'success');
+                    showNotification('Cycle investment successful! Your funds are now earning returns.', 'success');
                     showPopup(successPopup);
                     await loadUserData();
                     await loadContractStats();
+                    
+                    // Reset form
+                    document.getElementById('cycleAmount').value = '';
+                    selectedCyclePlan = null;
+                    const cycleSelected = document.querySelector('#cycleDropdown .dropdown-selected');
+                    cycleSelected.innerHTML = `<span>Select...</span><i class="fas fa-chevron-down"></i>`;
                 } else {
                     throw new Error('Transaction failed');
                 }
@@ -2922,6 +3166,8 @@
             } catch (error) {
                 console.error('Error depositing cycle:', error);
                 showNotification('Transaction failed: ' + error.message, 'error');
+            } finally {
+                setButtonLoading(confirmBtn, false);
             }
         }
 
@@ -2938,6 +3184,9 @@
                 return;
             }
             
+            const confirmBtn = document.getElementById('confirmSaving');
+            setButtonLoading(confirmBtn, true);
+            
             try {
                 const amountInWei = web3.utils.toWei(amount, 'ether');
                 const referrer = document.getElementById('savingReferrer').value || '0x0000000000000000000000000000000000000000';
@@ -2945,21 +3194,24 @@
                 // Check allowance and approve if needed
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
                 if (BigInt(allowance) < BigInt(amountInWei)) {
-                    showNotification('Approving...', 'info');
+                    showNotification('Approving USDT...', 'info');
                     const approveTx = await usdtContract.methods.approve(CONTRACT_ADDRESS, amountInWei).send({ from: userAccount });
                     if (!approveTx.status) {
                         throw new Error('Approval failed');
                     }
                 }
                 
-                showNotification('Processing...', 'info');
+                showNotification('Processing saving investment...', 'info');
                 const tx = await contract.methods.depositSaving(amountInWei, referrer).send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Saving investment successful!', 'success');
+                    showNotification('Saving investment successful! Your funds are now earning daily rewards.', 'success');
                     showPopup(successPopup);
                     await loadUserData();
                     await loadContractStats();
+                    
+                    // Reset form
+                    document.getElementById('savingAmount').value = '';
                 } else {
                     throw new Error('Transaction failed');
                 }
@@ -2967,50 +3219,80 @@
             } catch (error) {
                 console.error('Error depositing saving:', error);
                 showNotification('Transaction failed: ' + error.message, 'error');
+            } finally {
+                setButtonLoading(confirmBtn, false);
             }
         }
 
-        async function claimCycle(cycleId) {
+        async function openWithdrawCyclePopup() {
             if (!userAccount || !contract) {
                 showNotification('Please connect your wallet!', 'error');
                 return;
             }
             
-            try {
-                showNotification('Claiming...', 'info');
-                const tx = await contract.methods.claimCycle(cycleId).send({ from: userAccount });
-                
-                if (tx.status) {
-                    showNotification('Cycle claimed successfully!', 'success');
-                    await loadUserData();
-                    await loadContractStats();
-                } else {
-                    throw new Error('Claim failed');
-                }
-                
-            } catch (error) {
-                console.error('Error claiming cycle:', error);
-                showNotification('Claim failed: ' + error.message, 'error');
-            }
-        }
-
-        async function withdrawCycle() {
-            // This function would handle batch withdrawals
-            showNotification('Please use individual claim buttons for each cycle!', 'info');
-        }
-
-        async function withdrawSaving(savingId) {
-            if (!userAccount || !contract) {
-                showNotification('Please connect your wallet!', 'error');
+            // Filter cycles that are ready (ended and not claimed)
+            const now = Math.floor(Date.now() / 1000);
+            const readyCycles = userCycles.filter(cycle => 
+                !cycle.claimed && cycle.endTime <= now
+            );
+            
+            if (readyCycles.length === 0) {
+                showNotification('There is no cycle ending!', 'info');
                 return;
             }
             
+            const listElement = document.getElementById('withdrawCycleList');
+            listElement.innerHTML = '';
+            
+            readyCycles.forEach(cycle => {
+                const amount = parseFloat(web3.utils.fromWei(cycle.amount, 'ether')).toFixed(2);
+                const planNames = ['1 Day', '7 Days', '14 Days', '30 Days'];
+                const planName = planNames[cycle.plan];
+                const earned = parseFloat(web3.utils.fromWei(cycle.profitPer8Hours, 'ether')).toFixed(4);
+                
+                const item = document.createElement('div');
+                item.className = 'popup-item';
+                item.dataset.cycleId = cycle.id;
+                item.innerHTML = `
+                    <div>
+                        <div style="font-weight: 600; color: var(--gold-glow);">${planName}</div>
+                        <div style="font-size: 0.9rem; color: var(--text-muted);">Amount: ${amount} USDT</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-weight: 600; color: #00cc66;">Earned: ${earned} USDT</div>
+                    </div>
+                `;
+                
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('#withdrawCycleList .popup-item').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    item.classList.add('selected');
+                    selectedCycleForWithdraw = cycle.id;
+                });
+                
+                listElement.appendChild(item);
+            });
+            
+            showPopup(withdrawCyclePopup);
+        }
+
+        async function confirmWithdrawCycle() {
+            if (!selectedCycleForWithdraw) {
+                showNotification('Please select a cycle to withdraw', 'error');
+                return;
+            }
+            
+            const confirmBtn = document.getElementById('confirmWithdrawCycle');
+            setButtonLoading(confirmBtn, true);
+            
             try {
-                showNotification('Withdrawing...', 'info');
-                const tx = await contract.methods.claimSaving().send({ from: userAccount });
+                showNotification('Withdrawing cycle...', 'info');
+                const tx = await contract.methods.claimCycle(selectedCycleForWithdraw).send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Saving rewards withdrawn successfully!', 'success');
+                    showNotification('Cycle withdrawn successfully!', 'success');
+                    hidePopup(withdrawCyclePopup);
                     await loadUserData();
                     await loadContractStats();
                 } else {
@@ -3018,23 +3300,171 @@
                 }
                 
             } catch (error) {
-                console.error('Error withdrawing saving:', error);
+                console.error('Error withdrawing cycle:', error);
                 showNotification('Withdrawal failed: ' + error.message, 'error');
+            } finally {
+                setButtonLoading(confirmBtn, false);
             }
         }
 
-        async function withdrawSavingRewards() {
+        async function openRegrowCyclePopup() {
             if (!userAccount || !contract) {
                 showNotification('Please connect your wallet!', 'error');
                 return;
             }
             
+            // Filter cycles that are ready (ended and not claimed)
+            const now = Math.floor(Date.now() / 1000);
+            const readyCycles = userCycles.filter(cycle => 
+                !cycle.claimed && cycle.endTime <= now
+            );
+            
+            if (readyCycles.length === 0) {
+                showNotification('There is no cycle ending!', 'info');
+                return;
+            }
+            
+            const listElement = document.getElementById('regrowCycleList');
+            listElement.innerHTML = '';
+            
+            readyCycles.forEach(cycle => {
+                const amount = parseFloat(web3.utils.fromWei(cycle.amount, 'ether')).toFixed(2);
+                const planNames = ['1 Day', '7 Days', '14 Days', '30 Days'];
+                const planName = planNames[cycle.plan];
+                const earned = parseFloat(web3.utils.fromWei(cycle.profitPer8Hours, 'ether')).toFixed(4);
+                
+                const item = document.createElement('div');
+                item.className = 'popup-item';
+                item.dataset.cycleId = cycle.id;
+                item.innerHTML = `
+                    <div>
+                        <div style="font-weight: 600; color: var(--gold-glow);">${planName}</div>
+                        <div style="font-size: 0.9rem; color: var(--text-muted);">Amount: ${amount} USDT</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-weight: 600; color: #00cc66;">Earned: ${earned} USDT</div>
+                    </div>
+                `;
+                
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('#regrowCycleList .popup-item').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    item.classList.add('selected');
+                    selectedCycleForRegrow = cycle.id;
+                });
+                
+                listElement.appendChild(item);
+            });
+            
+            // Reset plan selection
+            selectedRegrowPlan = null;
+            const regrowPlanSelected = document.querySelector('#regrowPlanDropdown .dropdown-selected');
+            regrowPlanSelected.innerHTML = `<span>Select...</span><i class="fas fa-chevron-down"></i>`;
+            
+            showPopup(regrowCyclePopup);
+        }
+
+        async function confirmRegrowCycle() {
+            if (!selectedCycleForRegrow) {
+                showNotification('Please select a cycle to regrow', 'error');
+                return;
+            }
+            
+            if (!selectedRegrowPlan) {
+                showNotification('Please select a new plan', 'error');
+                return;
+            }
+            
+            const confirmBtn = document.getElementById('confirmRegrowCycle');
+            setButtonLoading(confirmBtn, true);
+            
             try {
-                showNotification('Withdrawing...', 'info');
-                const tx = await contract.methods.claimSaving().send({ from: userAccount });
+                showNotification('Regrowing cycle...', 'info');
+                const tx = await contract.methods.regrow(selectedCycleForRegrow, selectedRegrowPlan).send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Saving rewards withdrawn successfully!', 'success');
+                    showNotification('Cycle regrown successfully!', 'success');
+                    hidePopup(regrowCyclePopup);
+                    await loadUserData();
+                    await loadContractStats();
+                } else {
+                    throw new Error('Regrow failed');
+                }
+                
+            } catch (error) {
+                console.error('Error regrowing cycle:', error);
+                showNotification('Regrow failed: ' + error.message, 'error');
+            } finally {
+                setButtonLoading(confirmBtn, false);
+            }
+        }
+
+        async function openWithdrawCapitalPopup() {
+            if (!userAccount || !contract) {
+                showNotification('Please connect your wallet!', 'error');
+                return;
+            }
+            
+            // Filter active savings
+            const activeSavings = userSavings.filter(saving => saving.active);
+            
+            if (activeSavings.length === 0) {
+                showNotification('No active savings found!', 'info');
+                return;
+            }
+            
+            const listElement = document.getElementById('withdrawCapitalList');
+            listElement.innerHTML = '';
+            
+            activeSavings.forEach(saving => {
+                const amount = parseFloat(web3.utils.fromWei(saving.amount, 'ether')).toFixed(2);
+                const percent = parseFloat(saving.currentPercent) / 10;
+                const earned = parseFloat(web3.utils.fromWei(saving.dailyReward, 'ether')).toFixed(4);
+                
+                const item = document.createElement('div');
+                item.className = 'popup-item';
+                item.dataset.savingId = saving.id;
+                item.innerHTML = `
+                    <div>
+                        <div style="font-weight: 600; color: var(--gold-glow);">Saving #${saving.id + 1}</div>
+                        <div style="font-size: 0.9rem; color: var(--text-muted);">Amount: ${amount} USDT • ROI: ${percent}%</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-weight: 600; color: #00cc66;">Earned: ${earned} USDT</div>
+                    </div>
+                `;
+                
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('#withdrawCapitalList .popup-item').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    item.classList.add('selected');
+                    selectedSavingForCapital = saving.id;
+                });
+                
+                listElement.appendChild(item);
+            });
+            
+            showPopup(withdrawCapitalPopup);
+        }
+
+        async function confirmWithdrawCapital() {
+            if (selectedSavingForCapital === null) {
+                showNotification('Please select a saving to withdraw capital', 'error');
+                return;
+            }
+            
+            const confirmBtn = document.getElementById('confirmWithdrawCapital');
+            setButtonLoading(confirmBtn, true);
+            
+            try {
+                showNotification('Withdrawing capital...', 'info');
+                const tx = await contract.methods.capitalSaving(selectedSavingForCapital).send({ from: userAccount });
+                
+                if (tx.status) {
+                    showNotification('Capital withdrawn successfully!', 'success');
+                    hidePopup(withdrawCapitalPopup);
                     await loadUserData();
                     await loadContractStats();
                 } else {
@@ -3042,13 +3472,11 @@
                 }
                 
             } catch (error) {
-                console.error('Error withdrawing saving rewards:', error);
+                console.error('Error withdrawing capital:', error);
                 showNotification('Withdrawal failed: ' + error.message, 'error');
+            } finally {
+                setButtonLoading(confirmBtn, false);
             }
-        }
-
-        async function withdrawCapitalSaving() {
-            showNotification('Please use the withdraw button next to each saving to withdraw capital!', 'info');
         }
 
         async function withdrawCycleReferral() {
@@ -3057,8 +3485,11 @@
                 return;
             }
             
+            const confirmBtn = document.getElementById('withdrawCycleReferral');
+            setButtonLoading(confirmBtn, true);
+            
             try {
-                showNotification('Withdrawing...', 'info');
+                showNotification('Withdrawing cycle referral rewards...', 'info');
                 const tx = await contract.methods.rewardCycle().send({ from: userAccount });
                 
                 if (tx.status) {
@@ -3072,6 +3503,37 @@
             } catch (error) {
                 console.error('Error withdrawing cycle referral:', error);
                 showNotification('Withdrawal failed: ' + error.message, 'error');
+            } finally {
+                setButtonLoading(confirmBtn, false);
+            }
+        }
+
+        async function withdrawSavingRewards() {
+            if (!userAccount || !contract) {
+                showNotification('Please connect your wallet!', 'error');
+                return;
+            }
+            
+            const confirmBtn = document.getElementById('withdrawSaving');
+            setButtonLoading(confirmBtn, true);
+            
+            try {
+                showNotification('Withdrawing saving rewards...', 'info');
+                const tx = await contract.methods.claimSaving().send({ from: userAccount });
+                
+                if (tx.status) {
+                    showNotification('Saving rewards withdrawn successfully!', 'success');
+                    await loadUserData();
+                    await loadContractStats();
+                } else {
+                    throw new Error('Withdrawal failed');
+                }
+                
+            } catch (error) {
+                console.error('Error withdrawing saving rewards:', error);
+                showNotification('Withdrawal failed: ' + error.message, 'error');
+            } finally {
+                setButtonLoading(confirmBtn, false);
             }
         }
 
@@ -3081,8 +3543,11 @@
                 return;
             }
             
+            const confirmBtn = document.getElementById('withdrawSavingReferral');
+            setButtonLoading(confirmBtn, true);
+            
             try {
-                showNotification('Withdrawing...', 'info');
+                showNotification('Withdrawing saving referral rewards...', 'info');
                 const tx = await contract.methods.rewardSaving().send({ from: userAccount });
                 
                 if (tx.status) {
@@ -3096,41 +3561,8 @@
             } catch (error) {
                 console.error('Error withdrawing saving referral:', error);
                 showNotification('Withdrawal failed: ' + error.message, 'error');
-            }
-        }
-
-        function openRegrowPopup() {
-            // First need to find which cycles are ready for regrow
-            showNotification('Please select a completed cycle to regrow!', 'info');
-        }
-
-        async function confirmRegrow() {
-            if (!selectedCycleForRegrow || !selectedRegrowPlan) {
-                showNotification('Please select a cycle and plan for regrow!', 'error');
-                return;
-            }
-            
-            if (!userAccount || !contract) {
-                showNotification('Please connect your wallet!', 'error');
-                return;
-            }
-            
-            try {
-                showNotification('Processing...', 'info');
-                const tx = await contract.methods.regrow(selectedCycleForRegrow, selectedRegrowPlan).send({ from: userAccount });
-                
-                if (tx.status) {
-                    showNotification('Regrow successful!', 'success');
-                    hidePopup(regrowPopup);
-                    await loadUserData();
-                    await loadContractStats();
-                } else {
-                    throw new Error('Regrow failed');
-                }
-                
-            } catch (error) {
-                console.error('Error regrowing cycle:', error);
-                showNotification('Regrow failed: ' + error.message, 'error');
+            } finally {
+                setButtonLoading(confirmBtn, false);
             }
         }
 
