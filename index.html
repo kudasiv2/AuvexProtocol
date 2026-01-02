@@ -2481,7 +2481,7 @@
                 await loadContractStats();
             } catch (error) {
                 console.error('Error initializing app:', error);
-                showNotification('Error initializing application', 'error');
+                showNotification('Error', 'error');
             }
         }
 
@@ -2504,7 +2504,7 @@
                 document.getElementById('statScorchReferral').textContent = `${formatUSDT(stats.scorchPool_)} USDT`;
                 
             } catch (error) {
-                console.error('Error loading contract stats:', error);
+                console.error('Error:', error);
             }
         }
 
@@ -2651,7 +2651,7 @@
                 }
             } catch (error) {
                 console.error('Error connecting wallet:', error);
-                showNotification('Failed to connect wallet: ' + error.message, 'error');
+                showNotification('Failed: ' + error.message, 'error');
             }
         }
 
@@ -2742,7 +2742,7 @@
             document.getElementById('copyCycleReferral').addEventListener('click', () => {
                 const link = document.getElementById('cycleReferralLink').textContent;
                 navigator.clipboard.writeText(link).then(() => {
-                    showNotification('Cycle referral link copied to clipboard!', 'success');
+                    showNotification('Copied to clipboard!', 'success');
                 });
             });
 
@@ -2892,22 +2892,22 @@
         function showButtonLoading(button, isLoading) {
             if (isLoading) {
                 button.classList.add('loading');
-                button.innerHTML = `<i class="fas fa-spinner loading-spinner"></i>`;
+                button.innerHTML = `<i class="fas fa-spinner loading-spinner">Processing...</i>`;
                 button.disabled = true;
             } else {
                 button.classList.remove('loading');
                 button.disabled = false;
                 // Restore original content
                 if (button.id === 'confirmCycle') {
-                    button.innerHTML = `<i class="fas fa-check-circle"></i> Confirm Cycle`;
+                    button.innerHTML = `<i class="fas fa-sync-alt"></i> Confirm`;
                 } else if (button.id === 'confirmSaving') {
-                    button.innerHTML = `<i class="fas fa-check-circle"></i> Confirm Saving`;
+                    button.innerHTML = `<i class="fas fa-piggy-bank"></i> Confirm`;
                 } else if (button.id === 'confirmWithdrawCycles') {
-                    button.innerHTML = `Confirm Withdraw`;
+                    button.innerHTML = `Confirm`;
                 } else if (button.id === 'confirmRegrowModal') {
-                    button.innerHTML = `Confirm Regrow`;
+                    button.innerHTML = `Confirm`;
                 } else if (button.id === 'confirmWithdrawCapital') {
-                    button.innerHTML = `Confirm Withdraw`;
+                    button.innerHTML = `Confirm`;
                 }
             }
         }
@@ -2918,11 +2918,11 @@
             const minAmount = 5;
             
             if (amount < minAmount) {
-                document.getElementById('cycleAmountRange').innerHTML = `Minimum: ${minAmount} USDT`;
+                document.getElementById('cycleAmountRange').innerHTML = `Minimum ${minAmount} USDT`;
                 document.getElementById('cycleAmountRange').style.color = '#ff4444';
                 return false;
             } else {
-                document.getElementById('cycleAmountRange').innerHTML = `Minimum: ${minAmount} USDT`;
+                document.getElementById('cycleAmountRange').innerHTML = `Minimum ${minAmount} USDT`;
                 document.getElementById('cycleAmountRange').style.color = 'var(--text-muted)';
                 return true;
             }
@@ -2933,11 +2933,11 @@
             const minAmount = 5;
             
             if (amount < minAmount) {
-                document.getElementById('savingAmountRange').innerHTML = `Minimum: ${minAmount} USDT`;
+                document.getElementById('savingAmountRange').innerHTML = `Minimum ${minAmount} USDT`;
                 document.getElementById('savingAmountRange').style.color = '#ff4444';
                 return false;
             } else {
-                document.getElementById('savingAmountRange').innerHTML = `Minimum: ${minAmount} USDT`;
+                document.getElementById('savingAmountRange').innerHTML = `Minimum ${minAmount} USDT`;
                 document.getElementById('savingAmountRange').style.color = 'var(--text-muted)';
                 return true;
             }
@@ -3033,7 +3033,7 @@
                 showModal(withdrawCycleModal);
                 
             } catch (error) {
-                console.error('Error loading cycles for withdraw:', error);
+                console.error('Error:', error);
                 showNotification('Error loading cycles', 'error');
             }
         }
@@ -3049,7 +3049,7 @@
             
             // Reset dropdown
             const regrowPlanSelected = document.querySelector('#regrowPlanDropdown .dropdown-selected');
-            regrowPlanSelected.innerHTML = `<span>Select new plan...</span><i class="fas fa-chevron-down"></i>`;
+            regrowPlanSelected.innerHTML = `<span>Select Duration...</span><i class="fas fa-chevron-down"></i>`;
             
             try {
                 const investments = await contract.methods.getUserInvestments(userAccount).call();
@@ -3247,7 +3247,7 @@
                 await loadUserSavings();
                 
             } catch (error) {
-                console.error('Error loading user data:', error);
+                console.error('Error:', error);
             }
         }
 
@@ -3459,7 +3459,7 @@
                 const tx = await contract.methods.depositCycle(amountInWei, selectedCyclePlan, referrer).send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Cycle investment successful!', 'success');
+                    showNotification('Successful!', 'success');
                     showPopup(successPopup);
                     await loadUserData();
                     await loadContractStats();
@@ -3468,7 +3468,7 @@
                 }
                 
             } catch (error) {
-                console.error('Error depositing cycle:', error);
+                console.error('Error:', error);
                 showNotification('Transaction failed: ' + error.message, 'error');
             } finally {
                 showButtonLoading(confirmCycleBtn, false);
@@ -3509,7 +3509,7 @@
                 const tx = await contract.methods.depositSaving(amountInWei, referrer).send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Saving investment successful!', 'success');
+                    showNotification('Successful!', 'success');
                     showPopup(successPopup);
                     await loadUserData();
                     await loadContractStats();
@@ -3518,7 +3518,7 @@
                 }
                 
             } catch (error) {
-                console.error('Error depositing saving:', error);
+                console.error('Error:', error);
                 showNotification('Transaction failed: ' + error.message, 'error');
             } finally {
                 showButtonLoading(confirmSavingBtn, false);
@@ -3540,28 +3540,28 @@
             showButtonLoading(confirmBtn, true);
             
             try {
-                showNotification('Withdrawing cycles...', 'info');
+                showNotification('Withdrawing...', 'info');
                 
                 // Withdraw each selected cycle
                 for (const cycleId of selectedCycleForWithdraw) {
                     try {
                         const tx = await contract.methods.claimCycle(cycleId).send({ from: userAccount });
                         if (!tx.status) {
-                            throw new Error(`Failed to withdraw cycle ${cycleId}`);
+                            throw new Error(`Failed ${cycleId}`);
                         }
                     } catch (error) {
-                        console.error(`Error withdrawing cycle ${cycleId}:`, error);
-                        showNotification(`Error withdrawing cycle ${cycleId}: ${error.message}`, 'error');
+                        console.error(`Error ${cycleId}:`, error);
+                        showNotification(`Error ${cycleId}: ${error.message}`, 'error');
                     }
                 }
                 
-                showNotification('Cycles withdrawn successfully!', 'success');
+                showNotification('Successfully!', 'success');
                 hideModal(withdrawCycleModal);
                 await loadUserData();
                 await loadContractStats();
                 
             } catch (error) {
-                console.error('Error withdrawing cycles:', error);
+                console.error('Error:', error);
                 showNotification('Withdraw failed: ' + error.message, 'error');
             } finally {
                 showButtonLoading(confirmBtn, false);
@@ -3580,7 +3580,7 @@
             }
             
             if (selectedRegrowPlan === null) {
-                showNotification('Please select a new plan for regrow', 'error');
+                showNotification('Please select duration for regrow', 'error');
                 return;
             }
             
@@ -3588,11 +3588,11 @@
             showButtonLoading(confirmBtn, true);
             
             try {
-                showNotification('Processing regrow...', 'info');
+                showNotification('Processing...', 'info');
                 const tx = await contract.methods.regrow(selectedCycleForRegrow, selectedRegrowPlan).send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Regrow successful!', 'success');
+                    showNotification('Successful!', 'success');
                     hideModal(regrowCycleModal);
                     await loadUserData();
                     await loadContractStats();
@@ -3601,7 +3601,7 @@
                 }
                 
             } catch (error) {
-                console.error('Error regrowing cycle:', error);
+                console.error('Error:', error);
                 showNotification('Regrow failed: ' + error.message, 'error');
             } finally {
                 showButtonLoading(confirmBtn, false);
@@ -3623,20 +3623,20 @@
             showButtonLoading(confirmBtn, true);
             
             try {
-                showNotification('Withdrawing capital...', 'info');
+                showNotification('Withdrawing...', 'info');
                 const tx = await contract.methods.capitalSaving(selectedSavingForWithdraw).send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Capital withdrawn successfully!', 'success');
+                    showNotification('Successfully!', 'success');
                     hideModal(withdrawCapitalModal);
                     await loadUserData();
                     await loadContractStats();
                 } else {
-                    throw new Error('Capital withdrawal failed');
+                    throw new Error('Withdrawal failed');
                 }
                 
             } catch (error) {
-                console.error('Error withdrawing capital:', error);
+                console.error('Error:', error);
                 showNotification('Withdrawal failed: ' + error.message, 'error');
             } finally {
                 showButtonLoading(confirmBtn, false);
@@ -3657,7 +3657,7 @@
                 const tx = await contract.methods.claimSaving().send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Saving rewards withdrawn successfully!', 'success');
+                    showNotification('Successfully!', 'success');
                     await loadUserData();
                     await loadContractStats();
                 } else {
@@ -3665,7 +3665,7 @@
                 }
                 
             } catch (error) {
-                console.error('Error withdrawing saving rewards:', error);
+                console.error('Error:', error);
                 showNotification('Withdrawal failed: ' + error.message, 'error');
             } finally {
                 showButtonLoading(withdrawBtn, false);
@@ -3686,7 +3686,7 @@
                 const tx = await contract.methods.rewardCycle().send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Cycle referral rewards withdrawn successfully!', 'success');
+                    showNotification('Successfully!', 'success');
                     await loadUserData();
                     await loadContractStats();
                 } else {
@@ -3694,7 +3694,7 @@
                 }
                 
             } catch (error) {
-                console.error('Error withdrawing cycle referral:', error);
+                console.error('Error:', error);
                 showNotification('Withdrawal failed: ' + error.message, 'error');
             } finally {
                 showButtonLoading(withdrawBtn, false);
@@ -3715,7 +3715,7 @@
                 const tx = await contract.methods.rewardSaving().send({ from: userAccount });
                 
                 if (tx.status) {
-                    showNotification('Saving referral rewards withdrawn successfully!', 'success');
+                    showNotification('Successfully!', 'success');
                     await loadUserData();
                     await loadContractStats();
                 } else {
@@ -3723,7 +3723,7 @@
                 }
                 
             } catch (error) {
-                console.error('Error withdrawing saving referral:', error);
+                console.error('Error:', error);
                 showNotification('Withdrawal failed: ' + error.message, 'error');
             } finally {
                 showButtonLoading(withdrawBtn, false);
