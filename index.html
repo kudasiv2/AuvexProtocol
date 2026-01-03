@@ -3150,7 +3150,7 @@
                             <div class="cycle-info">
                                 <div>
                                     <div class="cycle-amount">${amount} USDT</div>
-                                    <div class="cycle-plan">${planName} | Profit: ${profit} USDT</div>
+                                    <div class="cycle-plan">${planName}</div>
                                 </div>
                                 <div>
                                     <input type="checkbox" class="cycle-checkbox" data-cycle-id="${i}">
@@ -3206,7 +3206,7 @@
             
             // Reset dropdown
             const regrowPlanSelected = document.querySelector('#regrowPlanDropdown .dropdown-selected');
-            regrowPlanSelected.innerHTML = `<span>Select...</span><i class="fas fa-chevron-down"></i>`;
+            regrowPlanSelected.innerHTML = `<span>Nothing selected</span><i class="fas fa-chevron-down"></i>`;
             
             try {
                 const investments = await contract.methods.getUserInvestments(userAccount).call();
@@ -3249,7 +3249,7 @@
                             <div class="cycle-info">
                                 <div>
                                     <div class="cycle-amount">${amount} USDT</div>
-                                    <div class="cycle-plan">${planName} | Profit: ${profit} USDT</div>
+                                    <div class="cycle-plan">${planName}</div>
                                 </div>
                             </div>
                         `;
@@ -3584,7 +3584,7 @@
             
             const amount = document.getElementById('cycleAmount').value;
             if (!selectedCyclePlan) {
-                showNotification('Please select a plan', 'error');
+                showNotification('Please select a plan!', 'error');
                 return;
             }
             
