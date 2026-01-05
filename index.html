@@ -14,39 +14,43 @@
     <!-- External Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bignumber.js@9.1.2/bignumber.min.js"></script>
+    <!-- WalletConnect V2 -->
+    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.9.1/dist/umd/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/modal@2.6.2/dist/index.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@walletconnect/modal@2.6.2/dist/index.css">
 
     <style>
         /* ===== VARIABLES ===== */
         :root {
             /* Dark Burnt Orange to Amber to Soft Gold Palette - More Dark & Elegant */
-            --bg-deep: #0A0603;
-            --bg-card: rgba(20, 12, 6, 0.92);
-            --bg-card-hover: rgba(30, 18, 9, 0.97);
+            --bg-deep: #0A0603; /* Very dark brown/black */
+            --bg-card: rgba(20, 12, 6, 0.95); /* Darker, slightly opaque card background */
+            --bg-card-hover: rgba(30, 18, 9, 0.98); /* Slightly lighter on hover */
             
-            --primary-accent: #D45D00;
-            --secondary-accent: #FF8C42;
-            --gold-glow: #E8B54D;
-            --amber: #CC7A00;
-            --dark-orange: #B34D00;
-            --burnt-orange: #8B3A00;
+            --primary-accent: #D45D00; /* Burnt Orange */
+            --secondary-accent: #FF8C42; /* Lighter Orange for highlight/sub-accent */
+            --gold-glow: #E8B54D; /* Soft Gold Highlight */
+            --amber: #CC7A00; /* Rich Amber */
+            --dark-orange: #B34D00; /* Darker Orange */
+            --burnt-orange: #8B3A00; /* Deep Burnt Orange */
             
             --text-main: #ffffff;
-            --text-muted: #d4ccc0;
+            --text-muted: #d4ccc0; /* Off-white for muted text */
             --text-dark: #0f0a06;
 
-            --gradient-main: linear-gradient(135deg, #8B3A00 0%, #D45D00 50%, #FF6B35 100%);
-            --gradient-gold: linear-gradient(135deg, #D45D00 0%, #E8B54D 50%, #FFD166 100%);
-            --gradient-dark: linear-gradient(180deg, #140C06 0%, #0A0603 100%);
-            --gradient-burnt: linear-gradient(135deg, #5A2500 0%, #8B3A00 50%, #D45D00 100%);
+            --gradient-main: linear-gradient(135deg, var(--burnt-orange) 0%, var(--primary-accent) 50%, var(--secondary-accent) 100%);
+            --gradient-gold: linear-gradient(135deg, var(--primary-accent) 0%, var(--gold-glow) 50%, #FFD166 100%); /* Gold dominant gradient */
+            --gradient-dark: linear-gradient(180deg, #140C06 0%, #0A0603 100%); /* Deep dark gradient */
+            --gradient-burnt: linear-gradient(135deg, #5A2500 0%, var(--burnt-orange) 50%, var(--primary-accent) 100%); /* Deep burnt gradient */
             
-            --glass-border: 1px solid rgba(139, 58, 0, 0.35);
-            --glass-shine: 1px solid rgba(232, 181, 77, 0.2);
+            --glass-border: 1px solid rgba(139, 58, 0, 0.35); /* Subtle burnt orange border */
+            --glass-shine: 1px solid rgba(232, 181, 77, 0.2); /* Subtle gold shine */
             
-            --shadow-subtle: 0 8px 32px 0 rgba(0, 0, 0, 0.85);
+            --shadow-subtle: 0 8px 32px 0 rgba(0, 0, 0, 0.85); /* Darker, more pronounced shadow */
             --shadow-card: 0 12px 45px 0 rgba(0, 0, 0, 0.75);
             --shadow-elevated: 0 25px 70px rgba(0, 0, 0, 0.95);
-            --shadow-deep: 0 0 50px rgba(90, 37, 0, 0.5);
-            --shadow-glow: 0 0 30px rgba(212, 93, 0, 0.25);
+            --shadow-deep: 0 0 50px rgba(90, 37, 0, 0.5); /* Burnt orange deep shadow */
+            --shadow-glow: 0 0 30px rgba(212, 93, 0, 0.25); /* Subtle orange glow, not neon */
 
             /* Typography */
             --font-body: 'Outfit', sans-serif;
@@ -131,7 +135,7 @@
             font-family: var(--font-heading);
             font-size: 3.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #E8B54D 0%, #CC7A00 50%, #D45D00 100%);
+            background: linear-gradient(135deg, var(--gold-glow) 0%, var(--amber) 50%, var(--primary-accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1.1;
@@ -530,7 +534,7 @@
             font-size: 3.2rem; 
             margin-bottom: 25px; 
             font-weight: 800;
-            background: linear-gradient(to right, #D45D00, #E8B54D);
+            background: linear-gradient(to right, var(--primary-accent), var(--gold-glow));
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent;
             text-shadow: 0 10px 30px rgba(139, 58, 0, 0.3);
@@ -576,7 +580,7 @@
         .badge {
             background: rgba(139, 58, 0, 0.25); 
             border: 1px solid rgba(212, 93, 0, 0.4);
-            color: #E8B54D; 
+            color: var(--gold-glow); 
             padding: 10px 22px; 
             border-radius: var(--radius-full);
             font-size: 0.85rem; 
@@ -720,17 +724,7 @@
             margin-bottom: 70px;
         }
 
-        .investment-form-container {
-            background: linear-gradient(145deg, rgba(30, 18, 9, 0.97), rgba(20, 12, 6, 0.99));
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(139, 58, 0, 0.4);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            box-shadow: var(--shadow-card), var(--shadow-glow);
-            position: relative;
-            overflow: hidden;
-        }
-
+        .investment-form-container,
         .investment-dashboard {
             background: linear-gradient(145deg, rgba(30, 18, 9, 0.97), rgba(20, 12, 6, 0.99));
             backdrop-filter: blur(25px);
@@ -1719,6 +1713,49 @@
                 font-size: 1.4rem;
             }
         }
+
+        /* WalletConnect Modal Customization */
+        .wcm-modal {
+            z-index: 9999 !important;
+        }
+        
+        .wcm-modal .wcm-modal-header {
+            background: var(--bg-deep) !important;
+            border-bottom: 1px solid rgba(139, 58, 0, 0.4) !important;
+        }
+        
+        .wcm-modal .wcm-modal-title {
+            color: var(--gold-glow) !important;
+            font-family: var(--font-heading) !important;
+        }
+        
+        .wcm-modal .wcm-modal-close-button {
+            color: var(--text-muted) !important;
+        }
+        
+        .wcm-modal .wcm-modal-content {
+            background: linear-gradient(145deg, rgba(30, 18, 9, 0.95), rgba(20, 12, 6, 0.98)) !important;
+            border: 1px solid rgba(139, 58, 0, 0.4) !important;
+        }
+        
+        .wcm-modal .wcm-wallet-button {
+            background: linear-gradient(145deg, rgba(40, 25, 12, 0.85), rgba(30, 18, 9, 0.95)) !important;
+            border: 1px solid rgba(139, 58, 0, 0.3) !important;
+            color: var(--text-muted) !important;
+        }
+        
+        .wcm-modal .wcm-wallet-button:hover {
+            background: linear-gradient(145deg, rgba(50, 30, 14, 0.95), rgba(40, 25, 12, 0.98)) !important;
+            border-color: var(--primary-accent) !important;
+        }
+        
+        .wcm-modal .wcm-wallet-button:active {
+            background: linear-gradient(145deg, rgba(60, 35, 16, 0.98), rgba(50, 30, 14, 0.99)) !important;
+        }
+        
+        .wcm-modal .wcm-wallet-image {
+            border-radius: 12px !important;
+        }
     </style>
 </head>
 <body>
@@ -2539,8 +2576,9 @@
         const CONTRACT_ADDRESS = '0x7F33CbE48a617192c9A8AA490708BF547f1488AD';
         const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
         const BSC_RPC = 'https://bsc-dataseed1.binance.org/';
+        const PROJECT_ID = 'd8c7f4e04de715a3344f0b7b85c12326'; // Your WalletConnect Project ID
 
-        const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_usdtAddress","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"CapitalWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"profit","type":"uint256"}],"name":"CycleClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"address","name":"referrer","type":"address"}],"name":"NewDeposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newBalance","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"changePercent","type":"uint256"}],"name":"PoolAdjusted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"level","type":"uint256"}],"name":"ReferralRewardPaid","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"oldCycleId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"newCycleId","type":"uint256"}],"name":"RegrowExecuted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"SavingClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"ScorchReferralWithdrawn","type":"event"},{"inputs":[],"name":"ADMIN_FEE_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_FICTITIOUS_DEPOSIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_REWARD_INTERVAL","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_WALLET","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_DURATIONS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_REF_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_REF_REQUIREMENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_DEPOSIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_ADJUSTMENT_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_MAX_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_MIN_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"SAVING_REF_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"SAVING_REF_REQUIREMENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"TIME_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"adminAccumulatedRewards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"adminLastRewardTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"savingId","type":"uint256"}],"name":"capitalSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"cycleId","type":"uint256"}],"name":"claimCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"claimSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"contractBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"cycleInvestments","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"plan","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"bool","name":"claimed","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint8","name":"plan","type":"uint8"},{"internalType":"address","name":"referrer","type":"address"}],"name":"depositCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"address","name":"referrer","type":"address"}],"name":"depositSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"downlines","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractStats","outputs":[{"internalType":"uint256","name":"totalInvested_","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn_","type":"uint256"},{"internalType":"uint256","name":"totalUsers_","type":"uint256"},{"internalType":"uint256","name":"contractBalance_","type":"uint256"},{"internalType":"uint256","name":"poolBalance_","type":"uint256"},{"internalType":"uint256","name":"scorchPool_","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"cycleId","type":"uint256"}],"name":"getCycleDetails","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"plan","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"totalReturn","type":"uint256"},{"internalType":"uint256","name":"profit","type":"uint256"},{"internalType":"bool","name":"claimed","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"cycleId","type":"uint256"}],"name":"getCycleProfitDetails","outputs":[{"internalType":"uint256","name":"profitPer8Hours","type":"uint256"},{"internalType":"uint256","name":"timeLeft","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"savingId","type":"uint256"}],"name":"getSavingDetails","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"currentPercent","type":"uint256"},{"internalType":"uint256","name":"dailyReward","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"uint256","name":"totalInvested_","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn_","type":"uint256"},{"internalType":"uint256","name":"cycleRewards_","type":"uint256"},{"internalType":"uint256","name":"savingRewards_","type":"uint256"},{"internalType":"uint256","name":"activeInvestment_","type":"uint256"},{"internalType":"address","name":"referrer_","type":"address"},{"internalType":"uint256","name":"referrals_","type":"uint256"},{"internalType":"bool","name":"isActive_","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserInvestments","outputs":[{"internalType":"uint256","name":"activeCycles","type":"uint256"},{"internalType":"uint256","name":"activeSavings","type":"uint256"},{"internalType":"uint256","name":"totalCycles","type":"uint256"},{"internalType":"uint256","name":"totalSavings","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isRenounced","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"poolBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"poolSnapshots","outputs":[{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"uint256","name":"poolBalance","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"qualifiedDownlineCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"cycleId","type":"uint256"},{"internalType":"uint8","name":"newPlan","type":"uint8"}],"name":"regrow","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"rewardCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"rewardSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"savingInvestments","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"currentPercent","type":"uint256"},{"internalType":"uint256","name":"lastPayout","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"scorchReferralPool","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalInvested","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalWithdrawn","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdt","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"uint256","name":"referrals","type":"uint256"},{"internalType":"uint256","name":"totalInvested","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"cycleRewards","type":"uint256"},{"internalType":"uint256","name":"savingRewards","type":"uint256"},{"internalType":"uint256","name":"lastSavingClaim","type":"uint256"},{"internalType":"uint256","name":"activeInvestment","type":"uint256"},{"internalType":"bool","name":"isActive","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdrawScorchReferral","outputs":[],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
+        const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_usdtAddress","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"CapitalWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"profit","type":"uint256"}],"name":"CycleClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"address","name":"referrer","type":"address"}],"name":"NewDeposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newBalance","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"changePercent","type":"uint256"}],"name":"PoolAdjusted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"level","type":"uint256"}],"name":"ReferralRewardPaid","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"oldCycleId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"newCycleId","type":"uint256"}],"name":"RegrowExecuted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"SavingClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"ScorchReferralWithdrawn","type":"event"},{"inputs":[{"internalType":"address","name":"_usdtAddress","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"CapitalWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"profit","type":"uint256"}],"name":"CycleClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"address","name":"referrer","type":"address"}],"name":"NewDeposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newBalance","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"changePercent","type":"uint256"}],"name":"PoolAdjusted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"level","type":"uint256"}],"name":"ReferralRewardPaid","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"oldCycleId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"newCycleId","type":"uint256"}],"name":"RegrowExecuted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"SavingClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"ScorchReferralWithdrawn","type":"event"},{"inputs":[],"name":"ADMIN_FEE_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_FICTITIOUS_DEPOSIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_REWARD_INTERVAL","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_WALLET","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_DURATIONS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_REF_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_REF_REQUIREMENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_DEPOSIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_ADJUSTMENT_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_MAX_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_MIN_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"SAVING_REF_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"SAVING_REF_REQUIREMENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"TIME_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"adminAccumulatedRewards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"adminLastRewardTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"savingId","type":"uint256"}],"name":"capitalSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"cycleId","type":"uint256"}],"name":"claimCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"claimSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"contractBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"cycleInvestments","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"plan","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"bool","name":"claimed","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint8","name":"plan","type":"uint8"},{"internalType":"address","name":"referrer","type":"address"}],"name":"depositCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"address","name":"referrer","type":"address"}],"name":"depositSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"downlines","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractStats","outputs":[{"internalType":"uint256","name":"totalInvested_","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn_","type":"uint256"},{"internalType":"uint256","name":"totalUsers_","type":"uint256"},{"internalType":"uint256","name":"contractBalance_","type":"uint256"},{"internalType":"uint256","name":"poolBalance_","type":"uint256"},{"internalType":"uint256","name":"scorchPool_","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"cycleId","type":"uint256"}],"name":"getCycleDetails","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"plan","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"totalReturn","type":"uint256"},{"internalType":"uint256","name":"profit","type":"uint256"},{"internalType":"bool","name":"claimed","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"cycleId","type":"uint256"}],"name":"getCycleProfitDetails","outputs":[{"internalType":"uint256","name":"profitPer8Hours","type":"uint256"},{"internalType":"uint256","name":"timeLeft","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"savingId","type":"uint256"}],"name":"getSavingDetails","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"currentPercent","type":"uint256"},{"internalType":"uint256","name":"dailyReward","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"uint256","name":"totalInvested_","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn_","type":"uint256"},{"internalType":"uint256","name":"cycleRewards_","type":"uint256"},{"internalType":"uint256","name":"savingRewards_","type":"uint256"},{"internalType":"uint256","name":"activeInvestment_","type":"uint256"},{"internalType":"address","name":"referrer_","type":"address"},{"internalType":"uint256","name":"referrals_","type":"uint256"},{"internalType":"bool","name":"isActive_","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserInvestments","outputs":[{"internalType":"uint256","name":"activeCycles","type":"uint256"},{"internalType":"uint256","name":"activeSavings","type":"uint256"},{"internalType":"uint256","name":"totalCycles","type":"uint256"},{"internalType":"uint256","name":"totalSavings","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isRenounced","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"poolBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"poolSnapshots","outputs":[{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"uint256","name":"poolBalance","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"qualifiedDownlineCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"cycleId","type":"uint256"},{"internalType":"uint8","name":"newPlan","type":"uint8"}],"name":"regrow","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"rewardCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"rewardSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"savingInvestments","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"currentPercent","type":"uint256"},{"internalType":"uint256","name":"lastPayout","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"scorchReferralPool","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalInvested","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalWithdrawn","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdt","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"uint256","name":"referrals","type":"uint256"},{"internalType":"uint256","name":"totalInvested","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"cycleRewards","type":"uint256"},{"internalType":"uint256","name":"savingRewards","type":"uint256"},{"internalType":"uint256","name":"lastSavingClaim","type":"uint256"},{"internalType":"uint256","name":"activeInvestment","type":"uint256"},{"internalType":"bool","name":"isActive","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdrawScorchReferral","outputs":[],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
 
         const USDT_ABI = [
             {"constant": false, "inputs": [{"name": "_spender", "type": "address"}, {"name": "_value", "type": "uint256"}], "name": "approve", "outputs": [{"name": "", "type": "bool"}], "type": "function"}, 
@@ -2563,6 +2601,8 @@
         let userCycles = [];
         let userSavings = [];
         let userInfo = null;
+        let walletConnectProvider = null;
+        let walletConnectModal = null;
 
         // ===== DOM ELEMENTS =====
         const preloader = document.querySelector('.preloader');
@@ -2594,15 +2634,8 @@
             setupDropdowns();
             setupModalDropdowns();
             
-            // Check if wallet is already connected
-            if (typeof window.ethereum !== 'undefined') {
-                window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
-                    if (accounts.length > 0) {
-                        userAccount = accounts[0];
-                        connectWallet();
-                    }
-                });
-            }
+            // Initialize WalletConnect Modal
+            initializeWalletConnect();
         });
 
         async function initializeApp() {
@@ -2616,6 +2649,27 @@
             } catch (error) {
                 console.error('Error:', error);
                 showNotification('Error initializing application', 'error');
+            }
+        }
+
+        function initializeWalletConnect() {
+            try {
+                // Initialize WalletConnect Modal
+                walletConnectModal = new WalletConnectModal.default({
+                    projectId: PROJECT_ID,
+                    themeMode: 'dark',
+                    themeVariables: {
+                        '--wcm-z-index': '9999',
+                        '--wcm-background-color': '#0A0603',
+                        '--wcm-accent-color': '#D45D00',
+                        '--wcm-text-color': '#ffffff',
+                        '--wcm-border-radius': '14px',
+                        '--wcm-font-family': "'Outfit', sans-serif"
+                    }
+                });
+            } catch (error) {
+                console.error('Error initializing WalletConnect:', error);
+                showNotification('Error initializing wallet connection', 'error');
             }
         }
 
@@ -2675,6 +2729,8 @@
             // Close dropdowns when clicking outside
             document.addEventListener('click', (e) => {
                 if (!cycleDropdown.contains(e.target)) {
+                    const cycleSelected = cycleDropdown.querySelector('.dropdown-selected');
+                    const cycleOptions = cycleDropdown.querySelector('.dropdown-options');
                     cycleSelected.classList.remove('open');
                     cycleOptions.classList.remove('show');
                 }
@@ -2684,41 +2740,33 @@
         function setupModalDropdowns() {
             // Regrow plan dropdown in modal
             const regrowPlanDropdown = document.getElementById('regrowPlanDropdown');
-            if (!regrowPlanDropdown) return;
-            
-            const regrowPlanSelected = regrowPlanDropdown.querySelector('.dropdown-selected');
-            const regrowPlanOptions = regrowPlanDropdown.querySelector('.dropdown-options');
-            const regrowPlanOptionItems = regrowPlanDropdown.querySelectorAll('.dropdown-option');
-            
-            regrowPlanSelected.addEventListener('click', () => {
-                regrowPlanSelected.classList.toggle('open');
-                regrowPlanOptions.classList.toggle('show');
-            });
-            
-            regrowPlanOptionItems.forEach(option => {
-                option.addEventListener('click', () => {
-                    const planDuration = option.querySelector('.plan-duration').textContent;
-                    const planReturn = option.querySelector('.plan-return').textContent;
-                    const plan = option.getAttribute('data-plan');
-                    
-                    regrowPlanSelected.innerHTML = `
-                        <span>${planDuration} - ${planReturn}</span>
-                        <i class="fas fa-chevron-down"></i>
-                    `;
-                    selectedRegrowPlan = plan;
-                    
-                    regrowPlanSelected.classList.remove('open');
-                    regrowPlanOptions.classList.remove('show');
+            if (regrowPlanDropdown) {
+                const regrowPlanSelected = regrowPlanDropdown.querySelector('.dropdown-selected');
+                const regrowPlanOptions = regrowPlanDropdown.querySelector('.dropdown-options');
+                const regrowPlanOptionItems = regrowPlanDropdown.querySelectorAll('.dropdown-option');
+                
+                regrowPlanSelected.addEventListener('click', () => {
+                    regrowPlanSelected.classList.toggle('open');
+                    regrowPlanOptions.classList.toggle('show');
                 });
-            });
-            
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!regrowPlanDropdown.contains(e.target)) {
-                    regrowPlanSelected.classList.remove('open');
-                    regrowPlanOptions.classList.remove('show');
-                }
-            });
+                
+                regrowPlanOptionItems.forEach(option => {
+                    option.addEventListener('click', () => {
+                        const planDuration = option.querySelector('.plan-duration').textContent;
+                        const planReturn = option.querySelector('.plan-return').textContent;
+                        const plan = option.getAttribute('data-plan');
+                        
+                        regrowPlanSelected.innerHTML = `
+                            <span>${planDuration} - ${planReturn}</span>
+                            <i class="fas fa-chevron-down"></i>
+                        `;
+                        selectedRegrowPlan = plan;
+                        
+                        regrowPlanSelected.classList.remove('open');
+                        regrowPlanOptions.classList.remove('show');
+                    });
+                });
+            }
         }
 
         // ===== MODAL FUNCTIONS =====
@@ -2734,17 +2782,139 @@
 
         // ===== WALLET CONNECTION =====
         async function connectWallet() {
-            if (typeof window.ethereum === 'undefined') {
-                return showNotification('No wallet detected!', 'error');
-            }
-            
             try {
-                // Switch to Web3 provider with user's wallet
-                web3 = new Web3(window.ethereum);
+                // Show WalletConnect modal
+                if (walletConnectModal) {
+                    walletConnectModal.openModal();
+                    
+                    // Listen for modal close to check connection
+                    const checkConnection = setInterval(async () => {
+                        if (!walletConnectModal.open) {
+                            clearInterval(checkConnection);
+                            
+                            // Try to get provider from localStorage
+                            const walletConnect = localStorage.getItem('walletconnect');
+                            if (walletConnect) {
+                                await connectWithWalletConnect(JSON.parse(walletConnect));
+                            } else {
+                                // Try MetaMask if available
+                                if (typeof window.ethereum !== 'undefined') {
+                                    await connectWithMetaMask();
+                                } else {
+                                    showNotification('Please select a wallet in the modal', 'info');
+                                }
+                            }
+                        }
+                    }, 500);
+                } else {
+                    // Fallback to MetaMask if WalletConnect not available
+                    if (typeof window.ethereum !== 'undefined') {
+                        await connectWithMetaMask();
+                    } else {
+                        showNotification('No wallet detected! Please install MetaMask or use WalletConnect.', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('Error connecting wallet:', error);
+                showNotification('Failed to connect wallet: ' + error.message, 'error');
+            }
+        }
+
+        async function connectWithMetaMask() {
+            try {
+                // Request accounts
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                
+                if (accounts.length > 0) {
+                    userAccount = accounts[0];
+                    
+                    // Check and switch to BSC network
+                    await switchToBSCNetwork();
+                    
+                    // Update UI and load data
+                    updateWalletUI();
+                    await initializeWeb3WithProvider(window.ethereum);
+                    await loadUserData();
+                    updateReferralLinks();
+                    showNotification('MetaMask connected successfully!', 'success');
+                }
+            } catch (error) {
+                console.error('Error connecting with MetaMask:', error);
+                showNotification('Failed to connect MetaMask: ' + error.message, 'error');
+            }
+        }
+
+        async function connectWithWalletConnect(walletConnectData) {
+            try {
+                // Create WalletConnect provider
+                walletConnectProvider = new WalletConnectProvider.default({
+                    rpc: {
+                        56: BSC_RPC,
+                    },
+                    chainId: 56,
+                    projectId: PROJECT_ID,
+                    showQrModal: false
+                });
+                
+                // Enable provider
+                await walletConnectProvider.enable();
+                
+                // Get accounts
+                const accounts = await walletConnectProvider.request({ method: 'eth_accounts' });
+                
+                if (accounts && accounts.length > 0) {
+                    userAccount = accounts[0];
+                    
+                    // Update UI and load data
+                    updateWalletUI();
+                    await initializeWeb3WithProvider(walletConnectProvider);
+                    await loadUserData();
+                    updateReferralLinks();
+                    showNotification('WalletConnect connected successfully!', 'success');
+                    
+                    // Subscribe to events
+                    walletConnectProvider.on('accountsChanged', (accounts) => {
+                        if (accounts.length > 0) {
+                            userAccount = accounts[0];
+                            updateWalletUI();
+                            loadUserData();
+                            updateReferralLinks();
+                            showNotification('Account changed', 'info');
+                        } else {
+                            disconnectWallet();
+                        }
+                    });
+                    
+                    walletConnectProvider.on('chainChanged', () => {
+                        window.location.reload();
+                    });
+                    
+                    walletConnectProvider.on('disconnect', () => {
+                        disconnectWallet();
+                    });
+                }
+            } catch (error) {
+                console.error('Error connecting with WalletConnect:', error);
+                showNotification('Failed to connect with WalletConnect: ' + error.message, 'error');
+            }
+        }
+
+        async function initializeWeb3WithProvider(provider) {
+            try {
+                // Initialize Web3 with provider
+                web3 = new Web3(provider);
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+            } catch (error) {
+                console.error('Error initializing Web3:', error);
+                throw error;
+            }
+        }
 
-                // Check and switch to BSC network
+        async function switchToBSCNetwork() {
+            if (!window.ethereum) return;
+            
+            try {
                 const chainId = await window.ethereum.request({ method: 'eth_chainId' });
                 if (chainId !== '0x38') { // BSC Mainnet chainId
                     try {
@@ -2773,20 +2943,27 @@
                         }
                     }
                 }
-                
-                // Request accounts
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                if (accounts.length > 0) {
-                    userAccount = accounts[0];
-                    updateWalletUI();
-                    await loadUserData();
-                    updateReferralLinks();
-                    showNotification('Wallet connected!', 'success');
-                }
             } catch (error) {
-                console.error('Error:', error);
-                showNotification('Failed to connect wallet: ' + error.message, 'error');
+                console.error('Error switching network:', error);
+                showNotification('Failed to switch to BSC network', 'error');
+                throw error;
             }
+        }
+
+        function disconnectWallet() {
+            userAccount = null;
+            updateWalletUI();
+            showWalletAlerts();
+            showNotification('Wallet disconnected', 'info');
+            
+            // Disconnect WalletConnect if connected
+            if (walletConnectProvider) {
+                walletConnectProvider.disconnect();
+                walletConnectProvider = null;
+            }
+            
+            // Clear localStorage
+            localStorage.removeItem('walletconnect');
         }
 
         function updateWalletUI() {
@@ -2818,21 +2995,17 @@
         }
 
         function showWalletAlerts() {
-            // Show alerts
             document.getElementById('cycleWalletAlert').style.display = 'flex';
             document.getElementById('savingWalletAlert').style.display = 'flex';
             
-            // Hide containers
             document.getElementById('cycleContainer').style.display = 'none';
             document.getElementById('savingContainer').style.display = 'none';
         }
 
         function hideWalletAlerts() {
-            // Hide alerts
             document.getElementById('cycleWalletAlert').style.display = 'none';
             document.getElementById('savingWalletAlert').style.display = 'none';
             
-            // Show containers
             document.getElementById('cycleContainer').style.display = 'grid';
             document.getElementById('savingContainer').style.display = 'grid';
         }
@@ -2876,14 +3049,14 @@
             document.getElementById('copyCycleReferral').addEventListener('click', () => {
                 const link = document.getElementById('cycleReferralLink').textContent;
                 navigator.clipboard.writeText(link).then(() => {
-                    showNotification('Copied to clipboard!', 'success');
+                    showNotification('Cycle referral link copied to clipboard!', 'success');
                 });
             });
 
             document.getElementById('copySavingReferral').addEventListener('click', () => {
                 const link = document.getElementById('savingReferralLink').textContent;
                 navigator.clipboard.writeText(link).then(() => {
-                    showNotification('Copied to clipboard!', 'success');
+                    showNotification('Saving referral link copied to clipboard!', 'success');
                 });
             });
 
@@ -2936,6 +3109,34 @@
 
             // Window scroll for header effect
             window.addEventListener('scroll', handleScroll);
+            
+            // Check for existing WalletConnect connection on page load
+            checkExistingConnection();
+        }
+
+        async function checkExistingConnection() {
+            // Check for WalletConnect in localStorage
+            const walletConnect = localStorage.getItem('walletconnect');
+            if (walletConnect) {
+                try {
+                    await connectWithWalletConnect(JSON.parse(walletConnect));
+                } catch (error) {
+                    console.error('Error reconnecting with WalletConnect:', error);
+                    localStorage.removeItem('walletconnect');
+                }
+            }
+            // Check for MetaMask connection
+            else if (typeof window.ethereum !== 'undefined') {
+                window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
+                    if (accounts.length > 0) {
+                        userAccount = accounts[0];
+                        updateWalletUI();
+                        initializeWeb3WithProvider(window.ethereum);
+                        loadUserData();
+                        updateReferralLinks();
+                    }
+                });
+            }
         }
 
         // ===== UTILITY FUNCTIONS =====
@@ -2971,14 +3172,20 @@
             document.querySelectorAll('.faq-question').forEach(question => {
                 question.addEventListener('click', () => {
                     const faqItem = question.parentElement;
-                    faqItem.classList.toggle('active');
+                    const isActive = faqItem.classList.contains('active');
                     
-                    // Update icon
-                    const icon = question.querySelector('.faq-icon');
-                    if (faqItem.classList.contains('active')) {
-                        icon.style.transform = 'rotate(180deg)';
-                    } else {
-                        icon.style.transform = 'rotate(0deg)';
+                    // Close all FAQ items
+                    document.querySelectorAll('.faq-item').forEach(item => {
+                        item.classList.remove('active');
+                        const icon = item.querySelector('.faq-icon');
+                        if (icon) icon.style.transform = 'rotate(0deg)';
+                    });
+                    
+                    // Open clicked item if it wasn't active
+                    if (!isActive) {
+                        faqItem.classList.add('active');
+                        const icon = question.querySelector('.faq-icon');
+                        if (icon) icon.style.transform = 'rotate(180deg)';
                     }
                 });
             });
@@ -3002,7 +3209,11 @@
                     link.classList.remove('active');
                 });
                 
-                document.querySelector(`[data-section="${sectionName}"]`).classList.add('active');
+                const desktopLink = document.querySelector(`[data-section="${sectionName}"]`);
+                const mobileLink = document.querySelector(`.mobile-menu a[data-section="${sectionName}"]`);
+                
+                if (desktopLink) desktopLink.classList.add('active');
+                if (mobileLink) mobileLink.classList.add('active');
                 
                 // Scroll to top of section
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -3037,35 +3248,27 @@
             
             if (isLoading) {
                 button.classList.add('loading');
-                button.innerHTML = `<i class="fas fa-spinner loading-spinner"></i> Processing`;
+                button.innerHTML = `<i class="fas fa-spinner fa-spin loading-spinner"></i> Processing`;
                 button.disabled = true;
             } else {
                 button.classList.remove('loading');
                 button.disabled = false;
                 // Restore original content based on button ID
-                if (button.id === 'confirmCycle') {
-                    button.innerHTML = `<i class="fas fa-sync-alt"></i> <span class="btn-text">Confirm</span>`;
-                } else if (button.id === 'confirmSaving') {
-                    button.innerHTML = `<i class="fas fa-piggy-bank"></i> <span class="btn-text">Confirm</span>`;
-                } else if (button.id === 'withdrawCycle') {
-                    button.innerHTML = `<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Withdraw Cycle</span>`;
-                } else if (button.id === 'regrowCycle') {
-                    button.innerHTML = `<i class="fas fa-sync-alt"></i> <span class="btn-text">Regrow Cycle</span>`;
-                } else if (button.id === 'withdrawCycleReferral') {
-                    button.innerHTML = `<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Withdraw Referral</span>`;
-                } else if (button.id === 'withdrawSaving') {
-                    button.innerHTML = `<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Withdraw Saving</span>`;
-                } else if (button.id === 'withdrawCapitalSaving') {
-                    button.innerHTML = `<i class="fas fa-university"></i> <span class="btn-text">Withdraw Capital</span>`;
-                } else if (button.id === 'withdrawSavingReferral') {
-                    button.innerHTML = `<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Withdraw Referral</span>`;
-                } else if (button.id === 'confirmWithdrawCycles') {
-                    button.innerHTML = `<span class="btn-text">Confirm</span>`;
-                } else if (button.id === 'confirmRegrowModal') {
-                    button.innerHTML = `<span class="btn-text">Confirm</span>`;
-                } else if (button.id === 'confirmWithdrawCapital') {
-                    button.innerHTML = `<span class="btn-text">Confirm</span>`;
-                }
+                const buttonTexts = {
+                    'confirmCycle': '<i class="fas fa-sync-alt"></i> <span class="btn-text">Confirm</span>',
+                    'confirmSaving': '<i class="fas fa-piggy-bank"></i> <span class="btn-text">Confirm</span>',
+                    'withdrawCycle': '<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Withdraw Cycle</span>',
+                    'regrowCycle': '<i class="fas fa-sync-alt"></i> <span class="btn-text">Regrow Cycle</span>',
+                    'withdrawCycleReferral': '<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Withdraw Referral</span>',
+                    'withdrawSaving': '<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Withdraw Saving</span>',
+                    'withdrawCapitalSaving': '<i class="fas fa-university"></i> <span class="btn-text">Withdraw Capital</span>',
+                    'withdrawSavingReferral': '<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Withdraw Referral</span>',
+                    'confirmWithdrawCycles': '<span class="btn-text">Confirm</span>',
+                    'confirmRegrowModal': '<span class="btn-text">Confirm</span>',
+                    'confirmWithdrawCapital': '<span class="btn-text">Confirm</span>'
+                };
+                
+                button.innerHTML = buttonTexts[button.id] || button.innerHTML;
             }
         }
 
@@ -3074,7 +3277,7 @@
             const amount = parseFloat(document.getElementById('cycleAmount').value);
             const minAmount = 5;
             
-            if (amount < minAmount) {
+            if (isNaN(amount) || amount < minAmount) {
                 document.getElementById('cycleAmountRange').innerHTML = `Minimum: ${minAmount} USDT`;
                 document.getElementById('cycleAmountRange').style.color = '#ff4444';
                 return false;
@@ -3089,7 +3292,7 @@
             const amount = parseFloat(document.getElementById('savingAmount').value);
             const minAmount = 5;
             
-            if (amount < minAmount) {
+            if (isNaN(amount) || amount < minAmount) {
                 document.getElementById('savingAmountRange').innerHTML = `Minimum: ${minAmount} USDT`;
                 document.getElementById('savingAmountRange').style.color = '#ff4444';
                 return false;
@@ -3140,8 +3343,6 @@
                         const planNames = ['1 Day', '7 Days', '14 Days', '30 Days'];
                         const planName = planNames[parseInt(cycleDetails.plan)];
                         const amount = parseFloat(web3.utils.fromWei(cycleDetails.amount, 'ether')).toFixed(2);
-                        const totalReturn = parseFloat(web3.utils.fromWei(cycleDetails.totalReturn, 'ether')).toFixed(2);
-                        const profit = parseFloat(web3.utils.fromWei(cycleDetails.profit, 'ether')).toFixed(2);
                         
                         const cycleItem = document.createElement('div');
                         cycleItem.className = 'cycle-item';
@@ -3190,8 +3391,8 @@
                 showModal(withdrawCycleModal);
                 
             } catch (error) {
-                console.error('Error:', error);
-                showNotification('Error loading cycles', 'error');
+                console.error('Error loading cycles:', error);
+                showNotification('Error loading cycles. Please try again.', 'error');
             }
         }
 
@@ -3205,8 +3406,11 @@
             selectedRegrowPlan = null;
             
             // Reset dropdown
-            const regrowPlanSelected = document.querySelector('#regrowPlanDropdown .dropdown-selected');
-            regrowPlanSelected.innerHTML = `<span>Nothing selected</span><i class="fas fa-chevron-down"></i>`;
+            const regrowPlanDropdown = document.getElementById('regrowPlanDropdown');
+            if (regrowPlanDropdown) {
+                const regrowPlanSelected = regrowPlanDropdown.querySelector('.dropdown-selected');
+                regrowPlanSelected.innerHTML = `<span>Nothing selected</span><i class="fas fa-chevron-down"></i>`;
+            }
             
             try {
                 const investments = await contract.methods.getUserInvestments(userAccount).call();
@@ -3239,8 +3443,6 @@
                         const planNames = ['1 Day', '7 Days', '14 Days', '30 Days'];
                         const planName = planNames[parseInt(cycleDetails.plan)];
                         const amount = parseFloat(web3.utils.fromWei(cycleDetails.amount, 'ether')).toFixed(2);
-                        const totalReturn = parseFloat(web3.utils.fromWei(cycleDetails.totalReturn, 'ether')).toFixed(2);
-                        const profit = parseFloat(web3.utils.fromWei(cycleDetails.profit, 'ether')).toFixed(2);
                         
                         const cycleItem = document.createElement('div');
                         cycleItem.className = 'cycle-item';
@@ -3280,8 +3482,8 @@
                 showModal(regrowCycleModal);
                 
             } catch (error) {
-                console.error('Error:', error);
-                showNotification('Error loading cycles', 'error');
+                console.error('Error loading cycles:', error);
+                showNotification('Error loading cycles. Please try again.', 'error');
             }
         }
 
@@ -3319,8 +3521,6 @@
                         hasActiveSavings = true;
                         
                         const amount = parseFloat(web3.utils.fromWei(savingDetails.amount, 'ether')).toFixed(2);
-                        const percent = parseFloat(savingDetails.currentPercent) / 10;
-                        const dailyReward = parseFloat(web3.utils.fromWei(savingDetails.dailyReward, 'ether')).toFixed(4);
                         
                         const savingItem = document.createElement('div');
                         savingItem.className = 'cycle-item';
@@ -3365,8 +3565,8 @@
                 showModal(withdrawCapitalModal);
                 
             } catch (error) {
-                console.error('Error:', error);
-                showNotification('Error loading savings', 'error');
+                console.error('Error loading savings:', error);
+                showNotification('Error loading savings. Please try again.', 'error');
             }
         }
 
@@ -3403,7 +3603,8 @@
                 await loadUserSavings();
                 
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error loading user data:', error);
+                showNotification('Error loading user data. Please refresh the page.', 'error');
             }
         }
 
@@ -3482,7 +3683,8 @@
                 }
                 
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error loading cycles:', error);
+                showNotification('Error loading cycles. Please refresh the page.', 'error');
             }
         }
 
@@ -3558,7 +3760,7 @@
                         earned = parseFloat(dailyReward) * daysPassed;
                     }
                     
-                    const status = isActive ? 'Active' : 'Exp';
+                    const status = isActive ? 'Active' : 'Inactive';
                     const statusClass = isActive ? 'status-active' : 'status-exp';
                     
                     const row = document.createElement('tr');
@@ -3572,7 +3774,8 @@
                 }
                 
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error loading savings:', error);
+                showNotification('Error loading savings. Please refresh the page.', 'error');
             }
         }
 
@@ -3582,14 +3785,14 @@
                 return;
             }
             
-            const amount = document.getElementById('cycleAmount').value;
-            if (!selectedCyclePlan) {
-                showNotification('Please select a plan!', 'error');
+            const amount = parseFloat(document.getElementById('cycleAmount').value);
+            if (isNaN(amount) || amount < 5) {
+                showNotification('Minimum investment is 5 USDT!', 'error');
                 return;
             }
             
-            if (!validateCycleAmount()) {
-                showNotification('Minimum 5 USDT!', 'error');
+            if (!selectedCyclePlan) {
+                showNotification('Please select a plan!', 'error');
                 return;
             }
             
@@ -3597,7 +3800,7 @@
             showButtonLoading(confirmCycleBtn, true);
             
             try {
-                const amountInWei = web3.utils.toWei(amount, 'ether');
+                const amountInWei = web3.utils.toWei(amount.toString(), 'ether');
                 const referrer = document.getElementById('cycleReferrer').value || '0x0000000000000000000000000000000000000000';
                 
                 // Check allowance and approve if needed
@@ -3618,6 +3821,10 @@
                     showPopup(successPopup);
                     await loadUserData();
                     await loadContractStats();
+                    // Reset form
+                    document.getElementById('cycleAmount').value = '';
+                    selectedCyclePlan = null;
+                    document.getElementById('cycleDropdown').querySelector('.dropdown-selected').innerHTML = '<span>Nothing selected</span><i class="fas fa-chevron-down"></i>';
                 } else {
                     throw new Error('Transaction failed');
                 }
@@ -3636,10 +3843,9 @@
                 return;
             }
             
-            const amount = document.getElementById('savingAmount').value;
-            
-            if (!validateSavingAmount()) {
-                showNotification('Minimum 5 USDT!', 'error');
+            const amount = parseFloat(document.getElementById('savingAmount').value);
+            if (isNaN(amount) || amount < 5) {
+                showNotification('Minimum investment is 5 USDT!', 'error');
                 return;
             }
             
@@ -3647,7 +3853,7 @@
             showButtonLoading(confirmSavingBtn, true);
             
             try {
-                const amountInWei = web3.utils.toWei(amount, 'ether');
+                const amountInWei = web3.utils.toWei(amount.toString(), 'ether');
                 const referrer = document.getElementById('savingReferrer').value || '0x0000000000000000000000000000000000000000';
                 
                 // Check allowance and approve if needed
@@ -3668,6 +3874,8 @@
                     showPopup(successPopup);
                     await loadUserData();
                     await loadContractStats();
+                    // Reset form
+                    document.getElementById('savingAmount').value = '';
                 } else {
                     throw new Error('Transaction failed');
                 }
@@ -3698,19 +3906,24 @@
                 showNotification('Withdrawing cycles...', 'info');
                 
                 // Withdraw each selected cycle
+                let successCount = 0;
                 for (const cycleId of selectedCycleForWithdraw) {
                     try {
                         const tx = await contract.methods.claimCycle(cycleId).send({ from: userAccount });
-                        if (!tx.status) {
-                            throw new Error(`Failed to withdraw cycle ${cycleId}`);
+                        if (tx.status) {
+                            successCount++;
                         }
                     } catch (error) {
-                        console.error(`Error ${cycleId}:`, error);
-                        showNotification(`Error ${cycleId}: ${error.message}`, 'error');
+                        console.error(`Error withdrawing cycle ${cycleId}:`, error);
                     }
                 }
                 
-                showNotification('Cycles withdrawn successfully!', 'success');
+                if (successCount > 0) {
+                    showNotification(`Successfully withdrew ${successCount} cycle(s)!`, 'success');
+                } else {
+                    showNotification('Failed to withdraw cycles', 'error');
+                }
+                
                 hideModal(withdrawCycleModal);
                 await loadUserData();
                 await loadContractStats();
