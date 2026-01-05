@@ -14,10 +14,10 @@
     <!-- External Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bignumber.js@9.1.2/bignumber.min.js"></script>
-    <!-- WalletConnect V2 -->
-    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.9.1/dist/umd/index.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/modal@2.6.2/dist/index.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@walletconnect/modal@2.6.2/dist/index.css">
+    
+    <!-- WalletConnect v2 -->
+    <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
+    <script src="https://unpkg.com/@walletconnect/qrcode-modal@1.8.0/dist/umd/index.min.js"></script>
 
     <style>
         /* ===== VARIABLES ===== */
@@ -441,6 +441,127 @@
         /* Wallet Button */
         #connectWallet {
             margin-left: 15px;
+        }
+
+        /* Wallet Modal */
+        .wallet-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .wallet-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .wallet-modal-content {
+            background: linear-gradient(145deg, rgba(30, 18, 9, 0.99), rgba(20, 12, 6, 0.995));
+            border: 1px solid rgba(139, 58, 0, 0.4);
+            border-radius: var(--radius-xl);
+            padding: 45px;
+            width: 90%;
+            max-width: 520px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.8) translateY(50px);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .wallet-modal.active .wallet-modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .wallet-modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .wallet-modal-title {
+            color: var(--gold-glow);
+            font-size: 1.9rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .wallet-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .wallet-option {
+            padding: 20px;
+            background: rgba(15, 10, 5, 0.6);
+            border: 1px solid rgba(139, 58, 0, 0.3);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .wallet-option:hover {
+            background: rgba(212, 93, 0, 0.15);
+            border-color: var(--primary-accent);
+            transform: translateY(-3px);
+        }
+
+        .wallet-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--gradient-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .wallet-info {
+            flex: 1;
+        }
+
+        .wallet-name {
+            color: var(--gold-glow);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .wallet-description {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .wallet-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .wallet-close:hover {
+            color: var(--primary-accent);
         }
 
         /* ===== BUTTONS ===== */
@@ -1671,6 +1792,10 @@
             .popup-content {
                 padding: 35px 25px;
             }
+            
+            .wallet-modal-content {
+                padding: 30px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1698,6 +1823,10 @@
             .popup-content {
                 padding: 30px 20px;
             }
+            
+            .wallet-modal-content {
+                padding: 25px 20px;
+            }
         }
 
         @media (max-width: 360px) {
@@ -1713,49 +1842,6 @@
                 font-size: 1.4rem;
             }
         }
-
-        /* WalletConnect Modal Customization */
-        .wcm-modal {
-            z-index: 9999 !important;
-        }
-        
-        .wcm-modal .wcm-modal-header {
-            background: var(--bg-deep) !important;
-            border-bottom: 1px solid rgba(139, 58, 0, 0.4) !important;
-        }
-        
-        .wcm-modal .wcm-modal-title {
-            color: var(--gold-glow) !important;
-            font-family: var(--font-heading) !important;
-        }
-        
-        .wcm-modal .wcm-modal-close-button {
-            color: var(--text-muted) !important;
-        }
-        
-        .wcm-modal .wcm-modal-content {
-            background: linear-gradient(145deg, rgba(30, 18, 9, 0.95), rgba(20, 12, 6, 0.98)) !important;
-            border: 1px solid rgba(139, 58, 0, 0.4) !important;
-        }
-        
-        .wcm-modal .wcm-wallet-button {
-            background: linear-gradient(145deg, rgba(40, 25, 12, 0.85), rgba(30, 18, 9, 0.95)) !important;
-            border: 1px solid rgba(139, 58, 0, 0.3) !important;
-            color: var(--text-muted) !important;
-        }
-        
-        .wcm-modal .wcm-wallet-button:hover {
-            background: linear-gradient(145deg, rgba(50, 30, 14, 0.95), rgba(40, 25, 12, 0.98)) !important;
-            border-color: var(--primary-accent) !important;
-        }
-        
-        .wcm-modal .wcm-wallet-button:active {
-            background: linear-gradient(145deg, rgba(60, 35, 16, 0.98), rgba(50, 30, 14, 0.99)) !important;
-        }
-        
-        .wcm-modal .wcm-wallet-image {
-            border-radius: 12px !important;
-        }
     </style>
 </head>
 <body>
@@ -1769,6 +1855,57 @@
             </div>
         </div>
         <div class="preloader-text">AUVEX</div>
+    </div>
+
+    <!-- Wallet Connect Modal -->
+    <div class="wallet-modal" id="walletModal">
+        <div class="wallet-modal-content">
+            <button class="wallet-close" id="closeWalletModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="wallet-modal-header">
+                <h2 class="wallet-modal-title">Connect Wallet</h2>
+                <p style="color: var(--text-muted);">Choose your preferred wallet to connect</p>
+            </div>
+            <div class="wallet-options">
+                <div class="wallet-option" id="walletConnectOption">
+                    <div class="wallet-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="wallet-info">
+                        <div class="wallet-name">WalletConnect</div>
+                        <div class="wallet-description">Connect via QR code or mobile wallet</div>
+                    </div>
+                </div>
+                <div class="wallet-option" id="metaMaskOption">
+                    <div class="wallet-icon">
+                        <i class="fab fa-ethereum"></i>
+                    </div>
+                    <div class="wallet-info">
+                        <div class="wallet-name">MetaMask</div>
+                        <div class="wallet-description">Browser extension wallet</div>
+                    </div>
+                </div>
+                <div class="wallet-option" id="trustWalletOption">
+                    <div class="wallet-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="wallet-info">
+                        <div class="wallet-name">Trust Wallet</div>
+                        <div class="wallet-description">Mobile wallet app</div>
+                    </div>
+                </div>
+                <div class="wallet-option" id="binanceOption">
+                    <div class="wallet-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="wallet-info">
+                        <div class="wallet-name">Binance Chain Wallet</div>
+                        <div class="wallet-description">Binance Smart Chain wallet</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Header -->
@@ -2576,7 +2713,7 @@
         const CONTRACT_ADDRESS = '0x7F33CbE48a617192c9A8AA490708BF547f1488AD';
         const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
         const BSC_RPC = 'https://bsc-dataseed1.binance.org/';
-        const PROJECT_ID = 'd8c7f4e04de715a3344f0b7b85c12326'; // Your WalletConnect Project ID
+        const PROJECT_ID = 'd8c7f4e04de715a3344f0b7b85c12326';
 
         const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_usdtAddress","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"CapitalWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"profit","type":"uint256"}],"name":"CycleClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"address","name":"referrer","type":"address"}],"name":"NewDeposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newBalance","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"changePercent","type":"uint256"}],"name":"PoolAdjusted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"level","type":"uint256"}],"name":"ReferralRewardPaid","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"oldCycleId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"newCycleId","type":"uint256"}],"name":"RegrowExecuted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"SavingClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"ScorchReferralWithdrawn","type":"event"},{"inputs":[{"internalType":"address","name":"_usdtAddress","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"CapitalWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"profit","type":"uint256"}],"name":"CycleClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"address","name":"referrer","type":"address"}],"name":"NewDeposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newBalance","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"changePercent","type":"uint256"}],"name":"PoolAdjusted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"level","type":"uint256"}],"name":"ReferralRewardPaid","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"oldCycleId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"newCycleId","type":"uint256"}],"name":"RegrowExecuted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"SavingClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"ScorchReferralWithdrawn","type":"event"},{"inputs":[],"name":"ADMIN_FEE_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_FICTITIOUS_DEPOSIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_REWARD_INTERVAL","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_WALLET","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_DURATIONS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_REF_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_REF_REQUIREMENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_DEPOSIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_ADJUSTMENT_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_MAX_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_MIN_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"SAVING_REF_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"SAVING_REF_REQUIREMENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"TIME_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"adminAccumulatedRewards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"adminLastRewardTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"savingId","type":"uint256"}],"name":"capitalSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"cycleId","type":"uint256"}],"name":"claimCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"claimSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"contractBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"cycleInvestments","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"plan","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"bool","name":"claimed","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint8","name":"plan","type":"uint8"},{"internalType":"address","name":"referrer","type":"address"}],"name":"depositCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"address","name":"referrer","type":"address"}],"name":"depositSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"downlines","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractStats","outputs":[{"internalType":"uint256","name":"totalInvested_","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn_","type":"uint256"},{"internalType":"uint256","name":"totalUsers_","type":"uint256"},{"internalType":"uint256","name":"contractBalance_","type":"uint256"},{"internalType":"uint256","name":"poolBalance_","type":"uint256"},{"internalType":"uint256","name":"scorchPool_","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"cycleId","type":"uint256"}],"name":"getCycleDetails","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"plan","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"totalReturn","type":"uint256"},{"internalType":"uint256","name":"profit","type":"uint256"},{"internalType":"bool","name":"claimed","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"cycleId","type":"uint256"}],"name":"getCycleProfitDetails","outputs":[{"internalType":"uint256","name":"profitPer8Hours","type":"uint256"},{"internalType":"uint256","name":"timeLeft","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"uint256","name":"savingId","type":"uint256"}],"name":"getSavingDetails","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"currentPercent","type":"uint256"},{"internalType":"uint256","name":"dailyReward","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"uint256","name":"totalInvested_","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn_","type":"uint256"},{"internalType":"uint256","name":"cycleRewards_","type":"uint256"},{"internalType":"uint256","name":"savingRewards_","type":"uint256"},{"internalType":"uint256","name":"activeInvestment_","type":"uint256"},{"internalType":"address","name":"referrer_","type":"address"},{"internalType":"uint256","name":"referrals_","type":"uint256"},{"internalType":"bool","name":"isActive_","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"user","type":"address"}],"name":"getUserInvestments","outputs":[{"internalType":"uint256","name":"activeCycles","type":"uint256"},{"internalType":"uint256","name":"activeSavings","type":"uint256"},{"internalType":"uint256","name":"totalCycles","type":"uint256"},{"internalType":"uint256","name":"totalSavings","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isRenounced","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"poolBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"poolSnapshots","outputs":[{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"uint256","name":"poolBalance","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"qualifiedDownlineCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"cycleId","type":"uint256"},{"internalType":"uint8","name":"newPlan","type":"uint8"}],"name":"regrow","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"rewardCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"rewardSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"savingInvestments","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"currentPercent","type":"uint256"},{"internalType":"uint256","name":"lastPayout","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"scorchReferralPool","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalInvested","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalWithdrawn","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdt","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"uint256","name":"referrals","type":"uint256"},{"internalType":"uint256","name":"totalInvested","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"cycleRewards","type":"uint256"},{"internalType":"uint256","name":"savingRewards","type":"uint256"},{"internalType":"uint256","name":"lastSavingClaim","type":"uint256"},{"internalType":"uint256","name":"activeInvestment","type":"uint256"},{"internalType":"bool","name":"isActive","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdrawScorchReferral","outputs":[],"stateMutability":"nonpayable","type":"function"},{"stateMutability":"payable","type":"receive"}];
 
@@ -2601,8 +2738,10 @@
         let userCycles = [];
         let userSavings = [];
         let userInfo = null;
+        
+        // WalletConnect variables
         let walletConnectProvider = null;
-        let walletConnectModal = null;
+        let walletConnectConnector = null;
 
         // ===== DOM ELEMENTS =====
         const preloader = document.querySelector('.preloader');
@@ -2616,6 +2755,8 @@
         const regrowCycleModal = document.getElementById('regrowCycleModal');
         const withdrawCapitalModal = document.getElementById('withdrawCapitalModal');
         const goToDashboardBtn = document.getElementById('goToDashboard');
+        const walletModal = document.getElementById('walletModal');
+        const closeWalletModal = document.getElementById('closeWalletModal');
 
         const sections = {
             home: document.getElementById('home'),
@@ -2634,8 +2775,15 @@
             setupDropdowns();
             setupModalDropdowns();
             
-            // Initialize WalletConnect Modal
-            initializeWalletConnect();
+            // Check if wallet is already connected
+            if (typeof window.ethereum !== 'undefined') {
+                window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
+                    if (accounts.length > 0) {
+                        userAccount = accounts[0];
+                        connectWallet();
+                    }
+                });
+            }
         });
 
         async function initializeApp() {
@@ -2649,27 +2797,6 @@
             } catch (error) {
                 console.error('Error:', error);
                 showNotification('Error initializing application', 'error');
-            }
-        }
-
-        function initializeWalletConnect() {
-            try {
-                // Initialize WalletConnect Modal
-                walletConnectModal = new WalletConnectModal.default({
-                    projectId: PROJECT_ID,
-                    themeMode: 'dark',
-                    themeVariables: {
-                        '--wcm-z-index': '9999',
-                        '--wcm-background-color': '#0A0603',
-                        '--wcm-accent-color': '#D45D00',
-                        '--wcm-text-color': '#ffffff',
-                        '--wcm-border-radius': '14px',
-                        '--wcm-font-family': "'Outfit', sans-serif"
-                    }
-                });
-            } catch (error) {
-                console.error('Error initializing WalletConnect:', error);
-                showNotification('Error initializing wallet connection', 'error');
             }
         }
 
@@ -2713,16 +2840,20 @@
                 option.addEventListener('click', () => {
                     const planDuration = option.querySelector('.plan-duration').textContent;
                     const planReturn = option.querySelector('.plan-return').textContent;
-                    const plan = option.getAttribute('data-plan');
-                    
-                    cycleSelected.innerHTML = `
-                        <span>${planDuration} - ${planReturn}</span>
-                        <i class="fas fa-chevron-down"></i>
-                    `;
-                    selectedCyclePlan = plan;
-                    
-                    cycleSelected.classList.remove('open');
-                    cycleOptions.classList.remove('show');
+                    const plan = option.addEventListener('click', () => {
+                        const planDuration = option.querySelector('.plan-duration').textContent;
+                        const planReturn = option.querySelector('.plan-return').textContent;
+                        const plan = option.getAttribute('data-plan');
+                        
+                        cycleSelected.innerHTML = `
+                            <span>${planDuration} - ${planReturn}</span>
+                            <i class="fas fa-chevron-down"></i>
+                        `;
+                        selectedCyclePlan = plan;
+                        
+                        cycleSelected.classList.remove('open');
+                        cycleOptions.classList.remove('show');
+                    });
                 });
             });
             
@@ -2781,140 +2912,24 @@
         }
 
         // ===== WALLET CONNECTION =====
-        async function connectWallet() {
-            try {
-                // Show WalletConnect modal
-                if (walletConnectModal) {
-                    walletConnectModal.openModal();
-                    
-                    // Listen for modal close to check connection
-                    const checkConnection = setInterval(async () => {
-                        if (!walletConnectModal.open) {
-                            clearInterval(checkConnection);
-                            
-                            // Try to get provider from localStorage
-                            const walletConnect = localStorage.getItem('walletconnect');
-                            if (walletConnect) {
-                                await connectWithWalletConnect(JSON.parse(walletConnect));
-                            } else {
-                                // Try MetaMask if available
-                                if (typeof window.ethereum !== 'undefined') {
-                                    await connectWithMetaMask();
-                                } else {
-                                    showNotification('Please select a wallet in the modal', 'info');
-                                }
-                            }
-                        }
-                    }, 500);
-                } else {
-                    // Fallback to MetaMask if WalletConnect not available
-                    if (typeof window.ethereum !== 'undefined') {
-                        await connectWithMetaMask();
-                    } else {
-                        showNotification('No wallet detected! Please install MetaMask or use WalletConnect.', 'error');
-                    }
-                }
-            } catch (error) {
-                console.error('Error connecting wallet:', error);
-                showNotification('Failed to connect wallet: ' + error.message, 'error');
-            }
+        async function showWalletModal() {
+            showModal(walletModal);
         }
 
-        async function connectWithMetaMask() {
-            try {
-                // Request accounts
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                
-                if (accounts.length > 0) {
-                    userAccount = accounts[0];
-                    
-                    // Check and switch to BSC network
-                    await switchToBSCNetwork();
-                    
-                    // Update UI and load data
-                    updateWalletUI();
-                    await initializeWeb3WithProvider(window.ethereum);
-                    await loadUserData();
-                    updateReferralLinks();
-                    showNotification('MetaMask connected successfully!', 'success');
-                }
-            } catch (error) {
-                console.error('Error connecting with MetaMask:', error);
-                showNotification('Failed to connect MetaMask: ' + error.message, 'error');
+        async function connectWalletViaMetaMask() {
+            hideModal(walletModal);
+            
+            if (typeof window.ethereum === 'undefined') {
+                return showNotification('No wallet detected! Please install MetaMask or Trust Wallet.', 'error');
             }
-        }
-
-        async function connectWithWalletConnect(walletConnectData) {
-            try {
-                // Create WalletConnect provider
-                walletConnectProvider = new WalletConnectProvider.default({
-                    rpc: {
-                        56: BSC_RPC,
-                    },
-                    chainId: 56,
-                    projectId: PROJECT_ID,
-                    showQrModal: false
-                });
-                
-                // Enable provider
-                await walletConnectProvider.enable();
-                
-                // Get accounts
-                const accounts = await walletConnectProvider.request({ method: 'eth_accounts' });
-                
-                if (accounts && accounts.length > 0) {
-                    userAccount = accounts[0];
-                    
-                    // Update UI and load data
-                    updateWalletUI();
-                    await initializeWeb3WithProvider(walletConnectProvider);
-                    await loadUserData();
-                    updateReferralLinks();
-                    showNotification('WalletConnect connected successfully!', 'success');
-                    
-                    // Subscribe to events
-                    walletConnectProvider.on('accountsChanged', (accounts) => {
-                        if (accounts.length > 0) {
-                            userAccount = accounts[0];
-                            updateWalletUI();
-                            loadUserData();
-                            updateReferralLinks();
-                            showNotification('Account changed', 'info');
-                        } else {
-                            disconnectWallet();
-                        }
-                    });
-                    
-                    walletConnectProvider.on('chainChanged', () => {
-                        window.location.reload();
-                    });
-                    
-                    walletConnectProvider.on('disconnect', () => {
-                        disconnectWallet();
-                    });
-                }
-            } catch (error) {
-                console.error('Error connecting with WalletConnect:', error);
-                showNotification('Failed to connect with WalletConnect: ' + error.message, 'error');
-            }
-        }
-
-        async function initializeWeb3WithProvider(provider) {
-            try {
-                // Initialize Web3 with provider
-                web3 = new Web3(provider);
-                contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
-                usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-            } catch (error) {
-                console.error('Error initializing Web3:', error);
-                throw error;
-            }
-        }
-
-        async function switchToBSCNetwork() {
-            if (!window.ethereum) return;
             
             try {
+                // Switch to Web3 provider with user's wallet
+                web3 = new Web3(window.ethereum);
+                contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+
+                // Check and switch to BSC network
                 const chainId = await window.ethereum.request({ method: 'eth_chainId' });
                 if (chainId !== '0x38') { // BSC Mainnet chainId
                     try {
@@ -2943,27 +2958,204 @@
                         }
                     }
                 }
+                
+                // Request accounts
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                if (accounts.length > 0) {
+                    userAccount = accounts[0];
+                    updateWalletUI();
+                    await loadUserData();
+                    updateReferralLinks();
+                    showNotification('Wallet connected successfully!', 'success');
+                }
             } catch (error) {
-                console.error('Error switching network:', error);
-                showNotification('Failed to switch to BSC network', 'error');
-                throw error;
+                console.error('Error connecting wallet:', error);
+                showNotification('Failed to connect wallet: ' + error.message, 'error');
             }
         }
 
-        function disconnectWallet() {
-            userAccount = null;
-            updateWalletUI();
-            showWalletAlerts();
-            showNotification('Wallet disconnected', 'info');
+        async function connectWalletViaWalletConnect() {
+            hideModal(walletModal);
             
-            // Disconnect WalletConnect if connected
-            if (walletConnectProvider) {
-                walletConnectProvider.disconnect();
-                walletConnectProvider = null;
+            try {
+                // Initialize WalletConnect v2
+                const WalletConnectProvider = window.WalletConnectProvider.default;
+                const QRCodeModal = window.WalletConnectQRCodeModal.default;
+                
+                // Create WalletConnect Provider
+                walletConnectProvider = new WalletConnectProvider({
+                    projectId: PROJECT_ID,
+                    chains: [56], // BSC Mainnet chain ID
+                    showQrModal: true,
+                    qrModalOptions: {
+                        themeMode: "dark"
+                    },
+                    metadata: {
+                        name: "Auvex Protocol",
+                        description: "Autonomous Wealth Automation",
+                        url: window.location.origin,
+                        icons: ["https://your-website.com/logo.png"]
+                    }
+                });
+                
+                // Enable session (triggers QR Code modal)
+                await walletConnectProvider.enable();
+                
+                // Get accounts
+                const accounts = await walletConnectProvider.request({ method: 'eth_accounts' });
+                
+                if (accounts && accounts.length > 0) {
+                    // Initialize Web3 with WalletConnect provider
+                    web3 = new Web3(walletConnectProvider);
+                    contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                    usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+                    
+                    userAccount = accounts[0];
+                    updateWalletUI();
+                    await loadUserData();
+                    updateReferralLinks();
+                    showNotification('WalletConnect connected successfully!', 'success');
+                    
+                    // Listen for disconnect
+                    walletConnectProvider.on("disconnect", () => {
+                        userAccount = null;
+                        updateWalletUI();
+                        showNotification('Wallet disconnected', 'info');
+                    });
+                    
+                    // Listen for accounts change
+                    walletConnectProvider.on("accountsChanged", (accounts) => {
+                        if (accounts.length > 0) {
+                            userAccount = accounts[0];
+                            updateWalletUI();
+                            loadUserData();
+                            updateReferralLinks();
+                        }
+                    });
+                    
+                    // Listen for chain change
+                    walletConnectProvider.on("chainChanged", (chainId) => {
+                        if (chainId !== '0x38') {
+                            showNotification('Please switch to Binance Smart Chain', 'warning');
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('WalletConnect Error:', error);
+                showNotification('Failed to connect via WalletConnect: ' + error.message, 'error');
+            }
+        }
+
+        async function connectWalletViaTrustWallet() {
+            hideModal(walletModal);
+            
+            if (typeof window.ethereum === 'undefined') {
+                // Try to detect Trust Wallet
+                if (typeof window.trustwallet !== 'undefined') {
+                    window.ethereum = window.trustwallet;
+                } else {
+                    return showNotification('Trust Wallet not detected! Please install Trust Wallet.', 'error');
+                }
             }
             
-            // Clear localStorage
-            localStorage.removeItem('walletconnect');
+            try {
+                // Switch to Web3 provider with user's wallet
+                web3 = new Web3(window.ethereum);
+                contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+
+                // Check and switch to BSC network
+                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                if (chainId !== '0x38') {
+                    try {
+                        await window.ethereum.request({ 
+                            method: 'wallet_switchEthereumChain', 
+                            params: [{ chainId: '0x38' }] 
+                        });
+                    } catch (switchError) {
+                        if (switchError.code === 4902) {
+                            await window.ethereum.request({ 
+                                method: 'wallet_addEthereumChain', 
+                                params: [{ 
+                                    chainId: '0x38', 
+                                    chainName: 'Binance Smart Chain', 
+                                    nativeCurrency: { 
+                                        name: 'BNB', 
+                                        symbol: 'BNB', 
+                                        decimals: 18 
+                                    }, 
+                                    rpcUrls: ['https://bsc-dataseed.binance.org/'], 
+                                    blockExplorerUrls: ['https://bscscan.com/'] 
+                                }] 
+                            });
+                        } else {
+                            throw switchError;
+                        }
+                    }
+                }
+                
+                // Request accounts
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                if (accounts.length > 0) {
+                    userAccount = accounts[0];
+                    updateWalletUI();
+                    await loadUserData();
+                    updateReferralLinks();
+                    showNotification('Trust Wallet connected successfully!', 'success');
+                }
+            } catch (error) {
+                console.error('Error connecting Trust Wallet:', error);
+                showNotification('Failed to connect Trust Wallet: ' + error.message, 'error');
+            }
+        }
+
+        async function connectWalletViaBinance() {
+            hideModal(walletModal);
+            
+            if (typeof window.BinanceChain === 'undefined') {
+                return showNotification('Binance Chain Wallet not detected! Please install Binance Chain Wallet.', 'error');
+            }
+            
+            try {
+                // Use Binance Chain Wallet
+                const bsc = window.BinanceChain;
+                
+                // Request accounts
+                const accounts = await bsc.request({ method: 'eth_requestAccounts' });
+                
+                if (accounts && accounts.length > 0) {
+                    // Initialize Web3 with Binance Chain
+                    web3 = new Web3(bsc);
+                    contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                    usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+                    
+                    userAccount = accounts[0];
+                    updateWalletUI();
+                    await loadUserData();
+                    updateReferralLinks();
+                    showNotification('Binance Chain Wallet connected successfully!', 'success');
+                    
+                    // Listen for accounts change
+                    bsc.on('accountsChanged', (accounts) => {
+                        if (accounts.length > 0) {
+                            userAccount = accounts[0];
+                            updateWalletUI();
+                            loadUserData();
+                            updateReferralLinks();
+                        }
+                    });
+                    
+                    // Listen for chain change
+                    bsc.on('chainChanged', (chainId) => {
+                        if (chainId !== '0x38') {
+                            showNotification('Please switch to Binance Smart Chain', 'warning');
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error connecting Binance Chain Wallet:', error);
+                showNotification('Failed to connect Binance Chain Wallet: ' + error.message, 'error');
+            }
         }
 
         function updateWalletUI() {
@@ -3040,10 +3232,22 @@
             });
 
             // Wallet connections
-            connectWalletBtn.addEventListener('click', connectWallet);
+            connectWalletBtn.addEventListener('click', showWalletModal);
             if (connectWalletMobile) {
-                connectWalletMobile.addEventListener('click', connectWallet);
+                connectWalletMobile.addEventListener('click', showWalletModal);
             }
+
+            // Wallet modal options
+            document.getElementById('walletConnectOption').addEventListener('click', connectWalletViaWalletConnect);
+            document.getElementById('metaMaskOption').addEventListener('click', connectWalletViaMetaMask);
+            document.getElementById('trustWalletOption').addEventListener('click', connectWalletViaTrustWallet);
+            document.getElementById('binanceOption').addEventListener('click', connectWalletViaBinance);
+            
+            // Close wallet modal
+            closeWalletModal.addEventListener('click', () => hideModal(walletModal));
+            walletModal.addEventListener('click', (e) => {
+                if (e.target === walletModal) hideModal(walletModal);
+            });
 
             // Copy referral links
             document.getElementById('copyCycleReferral').addEventListener('click', () => {
@@ -3110,31 +3314,24 @@
             // Window scroll for header effect
             window.addEventListener('scroll', handleScroll);
             
-            // Check for existing WalletConnect connection on page load
-            checkExistingConnection();
-        }
-
-        async function checkExistingConnection() {
-            // Check for WalletConnect in localStorage
-            const walletConnect = localStorage.getItem('walletconnect');
-            if (walletConnect) {
-                try {
-                    await connectWithWalletConnect(JSON.parse(walletConnect));
-                } catch (error) {
-                    console.error('Error reconnecting with WalletConnect:', error);
-                    localStorage.removeItem('walletconnect');
-                }
-            }
-            // Check for MetaMask connection
-            else if (typeof window.ethereum !== 'undefined') {
-                window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
+            // Listen for account changes for MetaMask/Trust Wallet
+            if (window.ethereum) {
+                window.ethereum.on('accountsChanged', (accounts) => {
                     if (accounts.length > 0) {
                         userAccount = accounts[0];
                         updateWalletUI();
-                        initializeWeb3WithProvider(window.ethereum);
                         loadUserData();
                         updateReferralLinks();
+                        showNotification('Account changed', 'info');
+                    } else {
+                        userAccount = null;
+                        updateWalletUI();
+                        showWalletAlerts();
                     }
+                });
+
+                window.ethereum.on('chainChanged', () => {
+                    window.location.reload();
                 });
             }
         }
