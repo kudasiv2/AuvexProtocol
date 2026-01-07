@@ -18,52 +18,46 @@
     <style>
         /* ===== VARIABLES ===== */
         :root {
-            /* Midnight Navy → Ink Blue → Slate Ash Gradient */
-            --color-midnight-navy: #0A0B1A;     /* Dark Base (70%) - Deep navy background */
-            --color-ink-blue: #1A1D3A;         /* Mid Tone (20%) - Card backgrounds */
-            --color-slate-ash: #2D3250;        /* Luxury Highlight (10%) - Accents, borders */
-            --color-soft-graphite: #4A4F73;    /* Secondary accent */
-            --color-light-slate: #8A8FA3;      /* Text muted */
+            /* Premium Purple & Dark Theme */
+            --bg-deep: #0A0A0F; /* Dark Base (70%) */
+            --bg-card: #1A1A24; /* Mid Tone (20%) */
+            --bg-card-hover: #232330;
             
-            /* Text Colors */
-            --text-main: #FFFFFF;
-            --text-accent: #D8DAE9;            /* Light accent text */
-            --text-muted: var(--color-light-slate);
-            --text-dark: var(--color-midnight-navy);
+            --primary-accent: #8A2BE2; /* Premium Purple */
+            --secondary-accent: #9370DB; /* Secondary Purple */
+            --highlight-accent: #D8BFD8; /* Luxury Highlight (10%) */
+            --text-accent: #E6E6FA; /* Light Lavender */
             
-            /* Gradients */
-            --gradient-main: linear-gradient(135deg, var(--color-midnight-navy) 0%, var(--color-ink-blue) 50%, var(--color-slate-ash) 100%);
-            --gradient-dark: linear-gradient(135deg, var(--color-midnight-navy) 0%, var(--color-ink-blue) 100%);
-            --gradient-card: linear-gradient(145deg, var(--color-ink-blue) 0%, #23283F 100%);
-            --gradient-accent: linear-gradient(135deg, var(--color-slate-ash) 0%, var(--color-soft-graphite) 100%);
+            --text-main: #ffffff;
+            --text-muted: #B0B0C0;
+            --text-dark: #0A0A0F;
+
+            --gradient-main: linear-gradient(135deg, #8A2BE2 0%, #9370DB 50%, #D8BFD8 100%);
+            --gradient-dark: linear-gradient(135deg, #0A0A0F 0%, #1A1A24 100%);
+            --gradient-card: linear-gradient(145deg, #1A1A24 0%, #232330 100%);
             
-            /* Borders & Shadows */
-            --glass-border: 1px solid rgba(45, 50, 80, 0.4);
-            --glass-shine: 1px solid rgba(138, 143, 163, 0.1);
-            --shadow-subtle: 0 6px 20px rgba(10, 11, 26, 0.4);
-            --shadow-card: 0 8px 30px rgba(10, 11, 26, 0.5);
-            --shadow-elevated: 0 12px 40px rgba(10, 11, 26, 0.6);
-            --shadow-deep: 0 0 30px rgba(45, 50, 80, 0.3);
-            --shadow-glow: 0 0 15px rgba(74, 79, 115, 0.2);
+            --glass-border: 1px solid rgba(138, 43, 226, 0.3);
+            --glass-shine: 1px solid rgba(216, 191, 216, 0.2);
+            
+            --shadow-subtle: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            --shadow-card: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+            --shadow-elevated: 0 20px 60px rgba(0, 0, 0, 0.6);
+            --shadow-deep: 0 0 40px rgba(138, 43, 226, 0.2);
+            --shadow-glow: 0 0 20px rgba(138, 43, 226, 0.1);
 
             /* Typography */
             --font-body: 'Outfit', sans-serif;
             --font-heading: 'Space Grotesk', sans-serif;
 
             /* Spacing & Radius */
-            --radius-sm: 6px;
-            --radius-md: 10px;
-            --radius-lg: 14px;
-            --radius-xl: 18px;
-            --radius-full: 999px;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-full: 50px;
             
             --container-width: 1200px;
-            --header-height: 70px;
-            
-            /* Animations */
-            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --header-height: 75px;
         }
 
         /* ===== RESET & BASE ===== */
@@ -77,58 +71,52 @@
 
         html { 
             scroll-behavior: smooth; 
-            font-size: 14px; /* Slightly reduced for more professional look */
+            font-size: 14px; /* Reduced from 15px */
         }
 
         body {
             font-family: var(--font-body);
-            background-color: var(--color-midnight-navy);
+            background-color: var(--bg-deep);
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(45, 50, 80, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(74, 79, 115, 0.05) 0%, transparent 40%);
+                radial-gradient(circle at 10% 20%, rgba(138, 43, 226, 0.08) 0%, transparent 35%),
+                radial-gradient(circle at 90% 80%, rgba(216, 191, 216, 0.05) 0%, transparent 35%),
+                linear-gradient(135deg, rgba(10, 10, 15, 0.95) 0%, rgba(26, 26, 36, 0.98) 100%);
             background-attachment: fixed;
             color: var(--text-main);
-            line-height: 1.5;
+            line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         /* Scrollbar */
-        ::-webkit-scrollbar { 
-            width: 6px; 
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track { 
-            background: var(--color-midnight-navy); 
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
         ::-webkit-scrollbar-thumb { 
-            background: var(--color-slate-ash); 
-            border-radius: 3px;
+            background: var(--gradient-main); 
+            border-radius: 4px;
+            border: 1px solid var(--bg-deep);
         }
         ::-webkit-scrollbar-thumb:hover { 
-            background: var(--color-soft-graphite); 
+            background: var(--secondary-accent); 
         }
 
         /* Container */
         .container {
             max-width: var(--container-width);
             margin: 0 auto;
-            padding: 0 16px;
+            padding: 0 20px;
         }
 
         /* Typography */
-        h1, h2, h3, h4, h5, h6 { 
+        h1, h2, h3, h4 { 
             font-family: var(--font-heading); 
             color: var(--text-main); 
             line-height: 1.3; 
-            letter-spacing: -0.02em;
-            font-weight: 600;
+            letter-spacing: -0.3px;
         }
 
         .gradient-text {
-            background: var(--gradient-accent);
+            background: var(--gradient-main);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -138,36 +126,38 @@
 
         .auvex-headline {
             font-family: var(--font-heading);
-            font-size: 2.4rem;
+            font-size: 2.4rem; /* Reduced from 2.8rem */
             font-weight: 700;
-            color: var(--text-accent);
+            background: linear-gradient(135deg, var(--highlight-accent) 0%, var(--secondary-accent) 50%, var(--primary-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             line-height: 1.2;
-            margin-bottom: 1rem;
-            letter-spacing: -0.03em;
+            margin-bottom: 1.2rem; /* Reduced */
         }
 
         .auvex-subheadline {
             font-family: var(--font-body);
-            font-size: 1rem;
+            font-size: 1rem; /* Reduced from 1.1rem */
             color: var(--text-muted);
-            font-weight: 400;
-            letter-spacing: 0.01em;
+            font-weight: 300;
+            letter-spacing: 0.3px;
             max-width: 700px;
             margin: 0 auto;
             line-height: 1.6;
+            margin-bottom: 30px !important; /* Added for spacing */
         }
 
         /* ===== PRELOADER ===== */
         .preloader {
             position: fixed; 
             inset: 0;
-            background: var(--gradient-dark);
+            background: linear-gradient(135deg, #0A0A0F 0%, #1A1A24 100%);
             display: flex; 
             flex-direction: column;
             justify-content: center; 
             align-items: center;
             z-index: 9999;
-            transition: opacity var(--transition-normal), visibility var(--transition-normal);
+            transition: opacity 0.6s ease, visibility 0.6s ease;
         }
         .preloader.fade-out { 
             opacity: 0; 
@@ -176,9 +166,9 @@
 
         .loader-container {
             position: relative;
-            width: 120px;
-            height: 120px;
-            margin-bottom: 20px;
+            width: 140px;
+            height: 140px;
+            margin-bottom: 20px; /* Reduced */
         }
 
         .loader {
@@ -186,43 +176,48 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 2px solid transparent;
-            border-top: 2px solid var(--color-slate-ash);
-            border-right: 2px solid var(--color-soft-graphite);
+            border: 3px solid transparent;
+            border-top: 3px solid var(--primary-accent);
+            border-right: 3px solid var(--secondary-accent);
+            border-bottom: 3px solid var(--highlight-accent);
             animation: spin 1.5s linear infinite;
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.2);
         }
 
         .loader-inner {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
             border-radius: 50%;
-            border: 1.5px solid transparent;
-            border-top: 1.5px solid var(--color-soft-graphite);
+            border: 2px solid transparent;
+            border-top: 2px solid var(--secondary-accent);
+            border-right: 2px solid var(--highlight-accent);
             animation: spin-reverse 1s linear infinite;
         }
 
         .loader-core {
             position: absolute;
-            top: 30px;
-            left: 30px;
-            right: 30px;
-            bottom: 30px;
+            top: 35px;
+            left: 35px;
+            right: 35px;
+            bottom: 35px;
             border-radius: 50%;
-            background: var(--gradient-accent);
+            background: var(--gradient-main);
             animation: pulse-core 2s ease-in-out infinite;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
         }
 
         .loader-logo {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             object-fit: contain;
             filter: brightness(1.2);
+            animation: pulse-logo 3s ease-in-out infinite;
         }
 
         @keyframes spin {
@@ -236,20 +231,26 @@
         }
 
         @keyframes pulse-core {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
+            0%, 100% { transform: scale(1); opacity: 0.8; }
             50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        @keyframes pulse-logo {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.1); opacity: 1; }
         }
 
         .preloader-text { 
             font-family: var(--font-heading); 
-            font-size: 1.8rem; 
-            letter-spacing: 2px; 
+            font-size: 1.8rem; /* Reduced from 2rem */
+            letter-spacing: 3px; 
             font-weight: 700; 
             color: transparent;
-            background: var(--gradient-accent);
+            background: var(--gradient-main);
             -webkit-background-clip: text;
             background-clip: text;
-            margin-top: 20px;
+            text-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
+            margin-top: 15px; /* Reduced */
         }
 
         /* ===== HEADER & NAVIGATION ===== */
@@ -259,17 +260,20 @@
             left: 0; 
             right: 0;
             height: var(--header-height);
-            background: rgba(10, 11, 26, 0.95);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(45, 50, 80, 0.2);
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(138, 43, 226, 0.2);
             z-index: 1000;
-            transition: all var(--transition-normal);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .header.scrolled {
-            background: rgba(10, 11, 26, 0.98);
-            border-bottom-color: rgba(45, 50, 80, 0.3);
+            height: 65px; /* Reduced from 70px */
+            background: rgba(10, 10, 15, 0.98);
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
         }
 
         .nav { 
@@ -282,27 +286,28 @@
         .nav__logo { 
             display: flex; 
             align-items: center; 
-            gap: 8px; 
+            gap: 10px; 
             text-decoration: none; 
-            transition: transform var(--transition-fast);
+            transition: transform 0.3s ease;
         }
         .nav__logo:hover { 
             transform: translateY(-1px); 
         }
         .logo { 
-            width: 32px; 
-            height: 32px; 
-            transition: all var(--transition-normal); 
+            width: 36px; /* Reduced from 38px */
+            height: 36px; /* Reduced from 38px */
+            transition: all 0.4s ease; 
+            filter: brightness(1.1);
         }
         .nav__logo:hover .logo { 
-            transform: rotate(10deg) scale(1.05); 
+            transform: rotate(15deg) scale(1.05); 
         }
         .logo__text { 
-            font-size: 1.2rem; 
+            font-size: 1.2rem; /* Reduced from 1.3rem */
             font-weight: 700; 
-            letter-spacing: 1px; 
+            letter-spacing: 1.2px; 
             color: transparent;
-            background: var(--gradient-accent);
+            background: var(--gradient-main);
             -webkit-background-clip: text;
             background-clip: text;
             font-family: var(--font-heading); 
@@ -311,24 +316,24 @@
         .nav__menu { 
             display: flex; 
             align-items: center; 
-            gap: 24px; 
+            gap: 25px; /* Reduced from 30px */
         }
         .nav__list { 
             display: flex; 
             list-style: none; 
-            gap: 24px; 
+            gap: 25px; /* Reduced from 30px */
         }
 
         .nav__link {
             color: var(--text-muted);
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.85rem;
-            transition: all var(--transition-fast);
+            font-size: 0.85rem; /* Reduced from 0.9rem */
+            transition: all 0.3s ease;
             position: relative;
             cursor: pointer;
-            padding: 4px 0;
-            letter-spacing: 0.01em;
+            padding: 5px 0; /* Reduced from 6px */
+            letter-spacing: 0.3px;
         }
         .nav__link:hover, 
         .nav__link.active { 
@@ -340,9 +345,10 @@
             bottom: 0; 
             left: 0;
             width: 0; 
-            height: 1px; 
-            background: var(--gradient-accent);
-            transition: var(--transition-normal); 
+            height: 2px; 
+            background: var(--gradient-main);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            border-radius: 1px;
         }
         .nav__link:hover::after, 
         .nav__link.active::after { 
@@ -352,34 +358,36 @@
         /* Hamburger Menu */
         .nav__toggle { 
             display: none; 
-            font-size: 1.2rem; 
+            font-size: 1.3rem; /* Reduced from 1.4rem */
             color: var(--text-accent); 
             cursor: pointer; 
-            padding: 8px;
-            background: rgba(45, 50, 80, 0.1);
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(45, 50, 80, 0.2);
-            transition: all var(--transition-fast);
+            padding: 7px; /* Reduced from 8px */
+            background: rgba(138, 43, 226, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            transition: all 0.3s ease;
             z-index: 1001;
         }
         .nav__toggle:hover { 
-            background: rgba(45, 50, 80, 0.2);
-            border-color: var(--color-slate-ash);
+            background: rgba(138, 43, 226, 0.2);
+            border-color: var(--primary-accent);
+            transform: rotate(90deg);
         }
 
         .mobile-menu {
             position: fixed;
             top: var(--header-height);
             right: -100%;
-            width: 280px;
+            width: 280px; /* Reduced from 300px */
             height: calc(100vh - var(--header-height));
-            background: rgba(26, 29, 58, 0.98);
-            backdrop-filter: blur(20px);
-            border-left: 1px solid rgba(45, 50, 80, 0.3);
-            padding: 20px;
-            transition: var(--transition-normal);
+            background: rgba(26, 26, 36, 0.98);
+            backdrop-filter: blur(25px);
+            border-left: 1px solid rgba(138, 43, 226, 0.3);
+            padding: 20px; /* Reduced from 25px */
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1000;
             overflow-y: auto;
+            box-shadow: -8px 0 30px rgba(0, 0, 0, 0.6);
         }
 
         .mobile-menu.active {
@@ -390,40 +398,42 @@
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 12px; /* Reduced from 15px */
         }
 
         .mobile-menu a {
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.95rem;
-            padding: 12px 16px;
+            font-size: 0.95rem; /* Reduced from 1rem */
+            padding: 10px 15px; /* Reduced from 12px 18px */
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px; /* Reduced from 12px */
             border-radius: var(--radius-lg);
-            transition: all var(--transition-fast);
+            transition: all 0.3s ease;
             border: 1px solid transparent;
-            background: rgba(45, 50, 80, 0.05);
+            background: rgba(138, 43, 226, 0.05);
         }
 
         .mobile-menu a i {
-            width: 18px;
+            width: 18px; /* Reduced from 20px */
             text-align: center;
-            color: var(--color-soft-graphite);
-            font-size: 1rem;
+            color: var(--secondary-accent);
+            font-size: 1rem; /* Reduced from 1.1rem */
         }
 
         .mobile-menu a:hover,
         .mobile-menu a.active {
-            background: rgba(45, 50, 80, 0.15);
+            background: rgba(138, 43, 226, 0.15);
             color: var(--text-accent);
-            border: 1px solid rgba(45, 50, 80, 0.3);
+            transform: translateX(8px);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            box-shadow: 0 4px 12px rgba(138, 43, 226, 0.2);
         }
 
         /* Wallet Button */
         #connectWallet {
-            margin-left: 12px;
+            margin-left: 10px; /* Reduced from 12px */
         }
 
         /* ===== BUTTONS ===== */
@@ -431,53 +441,54 @@
             display: inline-flex; 
             align-items: center; 
             justify-content: center; 
-            gap: 8px;
-            padding: 10px 24px;
+            gap: 8px; /* Reduced from 10px */
+            padding: 10px 24px; /* Reduced from 12px 28px */
             border-radius: var(--radius-full);
             font-weight: 600; 
-            font-size: 0.85rem; 
+            font-size: 0.85rem; /* Reduced from 0.9rem */
             font-family: var(--font-body);
             cursor: pointer; 
-            transition: all var(--transition-normal);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none; 
             position: relative; 
             overflow: hidden; 
             border: none;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.3px;
             white-space: nowrap;
-            height: 40px;
         }
 
         .btn--primary {
-            background: var(--gradient-accent);
-            color: var(--text-main);
-            box-shadow: 0 2px 10px rgba(45, 50, 80, 0.3);
+            background: var(--gradient-main);
+            color: white;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
         }
         .btn--primary:hover { 
-            transform: translateY(-1px); 
-            box-shadow: 0 4px 15px rgba(45, 50, 80, 0.4);
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
         }
 
         .btn--outline {
-            background: transparent;
-            border: 1px solid var(--color-slate-ash);
-            color: var(--text-accent);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            color: var(--text-main);
+            backdrop-filter: blur(10px);
         }
         .btn--outline:hover {
-            background: rgba(45, 50, 80, 0.1);
-            border-color: var(--color-soft-graphite);
-            transform: translateY(-1px);
+            background: rgba(138, 43, 226, 0.2);
+            border-color: var(--primary-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.2);
         }
 
-        .btn-sm { padding: 8px 16px; font-size: 0.8rem; height: 36px; }
-        .btn-lg { padding: 12px 32px; font-size: 0.9rem; height: 44px; }
-        .btn-xl { padding: 14px 36px; font-size: 0.95rem; height: 48px; font-weight: 700; }
+        .btn-sm { padding: 8px 18px; font-size: 0.8rem; } /* Reduced */
+        .btn-lg { padding: 12px 32px; font-size: 0.9rem; } /* Reduced */
+        .btn-xl { padding: 16px 38px; font-size: 0.95rem; font-weight: 700; } /* Reduced */
 
         /* Button Loading Spinner */
         .btn .loading-spinner {
             display: none;
             animation: spin 1s linear infinite;
-            margin-right: 6px;
+            margin-right: 6px; /* Reduced from 8px */
         }
 
         .btn.loading {
@@ -490,13 +501,13 @@
         }
 
         .btn.loading .btn-text {
-            margin-left: 6px;
+            margin-left: 6px; /* Reduced from 8px */
         }
 
         /* ===== SECTIONS ===== */
         .section { 
-            padding-top: 100px; 
-            padding-bottom: 60px; 
+            padding-top: 100px; /* Reduced from 110px */
+            padding-bottom: 70px; /* Reduced from 80px */
             min-height: 100vh;
             display: flex; 
             flex-direction: column;
@@ -505,7 +516,7 @@
 
         .section__header { 
             text-align: center; 
-            margin-bottom: 50px; 
+            margin-bottom: 50px; /* Reduced from 60px */
             max-width: 800px; 
             margin-left: auto; 
             margin-right: auto; 
@@ -513,92 +524,105 @@
         }
 
         .section__title {
-            font-size: 2rem; 
-            margin-bottom: 16px; 
+            font-size: 2.2rem; /* Reduced from 2.5rem */
+            margin-bottom: 15px; /* Reduced from 20px */
             font-weight: 700;
-            color: var(--text-accent);
+            background: linear-gradient(to right, var(--primary-accent), var(--text-accent));
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 8px 25px rgba(138, 43, 226, 0.2);
         }
 
         .section__subtitle { 
             color: var(--text-muted); 
-            font-size: 1rem; 
-            margin-bottom: 12px;
-            line-height: 1.5;
-            font-weight: 400;
+            font-size: 1rem; /* Reduced from 1.05rem */
+            margin-bottom: 10px; /* Reduced from 12px */
+            line-height: 1.6;
+            font-weight: 300;
         }
 
         /* ===== HOME SECTION ===== */
         #home { 
-            padding-top: 140px; 
+            padding-top: 140px; /* Reduced from 160px */
             justify-content: center;
             min-height: 100vh;
             position: relative;
             overflow: hidden;
         }
 
+        #home::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(216, 191, 216, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
         .hero__container { 
             display: grid; 
             grid-template-columns: 1.2fr 0.8fr; 
-            gap: 50px; 
+            gap: 50px; /* Reduced from 60px */
             align-items: center; 
         }
 
         .badge {
-            background: rgba(45, 50, 80, 0.2); 
-            border: 1px solid rgba(45, 50, 80, 0.3);
+            background: rgba(138, 43, 226, 0.2); 
+            border: 1px solid rgba(138, 43, 226, 0.3);
             color: var(--text-accent); 
-            padding: 6px 16px; 
+            padding: 7px 18px; /* Reduced from 8px 20px */
             border-radius: var(--radius-full);
-            font-size: 0.75rem; 
+            font-size: 0.75rem; /* Reduced from 0.8rem */
             font-weight: 600; 
-            letter-spacing: 0.02em; 
-            margin-bottom: 20px; 
+            letter-spacing: 0.3px; 
+            margin-bottom: 20px; /* Reduced from 25px */
             display: inline-block;
             backdrop-filter: blur(10px);
+            box-shadow: 0 3px 12px rgba(138, 43, 226, 0.15);
         }
 
         .hero__title { 
-            font-size: 2.4rem; 
+            font-size: 2.4rem; /* Reduced from 2.8rem */
             line-height: 1.1; 
-            margin-bottom: 16px; 
+            margin-bottom: 15px; /* Reduced from 20px */
             font-weight: 700; 
         }
 
         .hero__headline {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem; /* Reduced from 2rem */
+            margin-bottom: 10px; /* Reduced from 12px */
             color: var(--text-accent);
         }
 
         .hero__description { 
             color: var(--text-muted); 
-            font-size: 1rem; 
-            margin-bottom: 30px; 
+            font-size: 1rem; /* Reduced from 1.05rem */
+            margin-bottom: 35px; /* Reduced from 40px */
             max-width: 90%; 
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .hero__buttons { 
             display: flex; 
-            gap: 16px; 
-            margin-bottom: 30px; 
-        }
-
-        .auvex-subheadline {
-            margin-bottom: 30px !important;
+            gap: 15px; /* Reduced from 18px */
+            margin-bottom: 30px; /* Reduced from 35px */
         }
 
         /* Stats Card */
         .floating-card {
-            padding: 30px; 
+            padding: 30px; /* Reduced from 35px */
             border-radius: var(--radius-xl);
             background: var(--gradient-card);
-            border: var(--glass-border);
+            border: 1px solid rgba(138, 43, 226, 0.3);
             animation: float-hero 8s ease-in-out infinite;
             position: relative;
             width: 100%;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-card);
+            backdrop-filter: blur(15px);
+            box-shadow: var(--shadow-subtle), 0 0 30px rgba(138, 43, 226, 0.15);
         }
 
         @keyframes float-hero {
@@ -606,10 +630,10 @@
                 transform: translateY(0) rotate(0deg); 
             }
             33% { 
-                transform: translateY(-8px) rotate(0.3deg); 
+                transform: translateY(-10px) rotate(0.5deg); 
             }
             66% { 
-                transform: translateY(-16px) rotate(-0.3deg); 
+                transform: translateY(-20px) rotate(-0.5deg); 
             }
         }
 
@@ -617,35 +641,36 @@
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            margin-bottom: 20px; 
-            padding-bottom: 12px; 
-            border-bottom: 1px solid rgba(45, 50, 80, 0.3);
+            margin-bottom: 20px; /* Reduced from 25px */
+            padding-bottom: 12px; /* Reduced from 15px */
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
         }
         .card__header h3 { 
-            font-size: 1.1rem; 
+            font-size: 1.2rem; /* Reduced from 1.3rem */
             font-weight: 600; 
             margin: 0;
             text-align: left;
             flex: 1;
             color: var(--text-accent);
-            letter-spacing: 0.02em;
+            letter-spacing: 0.3px;
         }
 
         .live-indicator { 
             display: flex; 
             align-items: center; 
-            gap: 4px; 
+            gap: 5px; /* Reduced from 6px */
             color: #00cc66; 
             font-weight: 600; 
-            font-size: 0.75rem; 
+            font-size: 0.75rem; /* Reduced from 0.8rem */
             white-space: nowrap;
         }
         .dot { 
-            width: 6px; 
-            height: 6px; 
+            width: 7px; /* Reduced from 8px */
+            height: 7px; /* Reduced from 8px */
             background: #00cc66; 
             border-radius: 50%; 
             animation: blink 2s infinite; 
+            box-shadow: 0 0 7px #00cc66; /* Reduced from 8px */
         }
 
         @keyframes blink {
@@ -662,7 +687,7 @@
         .stat-item { 
             display: flex; 
             justify-content: space-between; 
-            padding: 12px 0; 
+            padding: 12px 0; /* Reduced from 15px */
             border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
         }
         .stat-item:last-child { 
@@ -670,31 +695,31 @@
         }
         .stat-item .label { 
             color: var(--text-muted); 
-            font-size: 0.85rem; 
+            font-size: 0.85rem; /* Reduced from 0.9rem */
         }
         .stat-item .value { 
             color: var(--text-accent); 
             font-weight: 600; 
             font-family: var(--font-heading); 
-            font-size: 1rem; 
+            font-size: 1.05rem; /* Reduced from 1.15rem */
         }
 
         /* ===== CYCLE & SAVING SECTIONS ===== */
         .investment-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 50px;
+            gap: 35px; /* Reduced from 40px */
+            margin-bottom: 50px; /* Reduced from 60px */
         }
 
         .investment-form-container,
         .investment-dashboard {
             background: var(--gradient-card);
-            backdrop-filter: blur(15px);
-            border: var(--glass-border);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(138, 43, 226, 0.3);
             border-radius: var(--radius-xl);
-            padding: 30px;
-            box-shadow: var(--shadow-card);
+            padding: 30px; /* Reduced from 35px */
+            box-shadow: var(--shadow-card), var(--shadow-glow);
             position: relative;
             overflow: hidden;
         }
@@ -703,43 +728,59 @@
         .plan-options {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 25px;
+            gap: 12px; /* Reduced from 15px */
+            margin-bottom: 25px; /* Reduced from 30px */
         }
 
         .plan-option {
-            padding: 18px;
-            background: rgba(40, 45, 70, 0.8);
-            border: 1px solid rgba(45, 50, 80, 0.2);
+            padding: 20px; /* Reduced from 22px */
+            background: rgba(40, 40, 55, 0.8);
+            border: 1px solid rgba(138, 43, 226, 0.2);
             border-radius: var(--radius-lg);
             text-align: center;
             cursor: pointer;
-            transition: all var(--transition-normal);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
 
+        .plan-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: 0.6s;
+        }
+
+        .plan-option:hover::before {
+            left: 100%;
+        }
+
         .plan-option:hover {
-            background: rgba(50, 55, 85, 0.9);
-            border-color: var(--color-slate-ash);
-            transform: translateY(-2px);
+            background: rgba(50, 50, 65, 0.9);
+            border-color: var(--primary-accent);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.2);
         }
 
         .plan-option.selected {
-            background: rgba(60, 65, 95, 0.95);
-            border-color: var(--color-slate-ash);
-            box-shadow: 0 0 15px rgba(45, 50, 80, 0.3);
+            background: rgba(60, 60, 75, 0.95);
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
         }
 
         .plan-duration {
-            font-size: 1rem;
+            font-size: 1.1rem; /* Reduced from 1.2rem */
             font-weight: 700;
             color: var(--text-accent);
-            margin-bottom: 4px;
+            margin-bottom: 6px; /* Reduced from 8px */
         }
 
         .plan-return {
-            font-size: 0.85rem;
+            font-size: 0.9rem; /* Reduced from 0.95rem */
             color: var(--text-muted);
             font-weight: 500;
         }
@@ -752,25 +793,25 @@
 
         .dropdown-selected {
             width: 100%; 
-            padding: 14px 16px; 
+            padding: 14px 18px; /* Reduced from 16px 20px */
             border-radius: var(--radius-lg);
-            background: rgba(20, 23, 45, 0.7); 
-            border: 1px solid rgba(45, 50, 80, 0.3);
+            background: rgba(15, 15, 25, 0.7); 
+            border: 1px solid rgba(138, 43, 226, 0.3);
             color: var(--text-main); 
             font-family: var(--font-body); 
-            font-size: 0.9rem;
-            transition: all var(--transition-fast);
+            font-size: 0.95rem; /* Reduced from 1rem */
+            transition: all 0.3s ease;
             backdrop-filter: blur(10px);
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            min-height: 48px;
+            min-height: 48px; /* Reduced from 52px */
         }
 
         .dropdown-selected i {
-            transition: transform var(--transition-fast);
-            color: var(--color-soft-graphite);
+            transition: transform 0.3s ease;
+            color: var(--secondary-accent);
         }
 
         .dropdown-selected.open i {
@@ -782,39 +823,39 @@
             top: 100%;
             left: 0;
             right: 0;
-            background: rgba(26, 29, 58, 0.98);
-            border: 1px solid rgba(45, 50, 80, 0.3);
+            background: rgba(26, 26, 36, 0.98);
+            border: 1px solid rgba(138, 43, 226, 0.3);
             border-radius: var(--radius-lg);
-            margin-top: 4px;
+            margin-top: 5px; /* Reduced from 6px */
             max-height: 0;
             overflow: hidden;
-            transition: max-height var(--transition-fast);
+            transition: max-height 0.3s ease;
             z-index: 100;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             overflow-y: auto;
-            box-shadow: var(--shadow-card);
+            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.5);
         }
 
         .dropdown-options.show {
-            max-height: 300px;
+            max-height: 320px; /* Reduced from 350px */
         }
 
         .dropdown-option {
-            padding: 12px 16px;
+            padding: 12px 18px; /* Reduced from 14px 20px */
             cursor: pointer;
-            transition: all var(--transition-fast);
+            transition: all 0.2s ease;
             color: var(--text-muted);
-            border-bottom: 1px solid rgba(45, 50, 80, 0.1);
+            border-bottom: 1px solid rgba(138, 43, 226, 0.1);
         }
 
         .dropdown-option:hover {
-            background: rgba(45, 50, 80, 0.15);
+            background: rgba(138, 43, 226, 0.15);
             color: var(--text-accent);
         }
 
         /* Forms */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 20px; /* Reduced from 25px */
             text-align: left;
             width: 100%;
             position: relative;
@@ -822,68 +863,118 @@
 
         .form-group label { 
             display: block; 
-            margin-bottom: 8px; 
+            margin-bottom: 8px; /* Reduced from 10px */
             color: var(--text-accent); 
-            font-size: 0.9rem; 
+            font-size: 0.9rem; /* Reduced from 0.95rem */
             font-weight: 600;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.3px;
         }
 
         .form-input {
             width: 100%; 
-            padding: 14px 16px; 
+            padding: 14px 16px; /* Reduced from 16px 18px */
             border-radius: var(--radius-lg);
-            background: rgba(20, 23, 45, 0.7); 
-            border: 1px solid rgba(45, 50, 80, 0.3);
+            background: rgba(15, 15, 25, 0.7); 
+            border: 1px solid rgba(138, 43, 226, 0.3);
             color: var(--text-main); 
             font-family: var(--font-body); 
-            font-size: 0.9rem;
-            transition: all var(--transition-fast);
+            font-size: 0.95rem; /* Reduced from 1rem */
+            transition: all 0.3s ease;
             backdrop-filter: blur(10px);
         }
         .form-input:focus { 
-            border-color: var(--color-slate-ash); 
-            background: rgba(25, 28, 55, 0.8);
-            box-shadow: 0 0 10px rgba(45, 50, 80, 0.2);
+            border-color: var(--primary-accent); 
+            background: rgba(25, 25, 35, 0.8);
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.2);
         }
 
         .form-input:disabled {
-            background: rgba(25, 28, 55, 0.5);
-            border-color: rgba(45, 50, 80, 0.2);
+            background: rgba(25, 25, 35, 0.5);
+            border-color: rgba(138, 43, 226, 0.2);
             color: var(--text-muted);
             cursor: not-allowed;
         }
 
-        /* Scrollable Tables */
+        /* Scrollable Tables for Mobile */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             border-radius: var(--radius-lg);
-            margin: 16px 0;
-            border: 1px solid rgba(45, 50, 80, 0.2);
+            margin: 15px 0; /* Reduced from 20px */
+            border: 1px solid rgba(138, 43, 226, 0.2);
+        }
+
+        /* Active Cycles Dashboard */
+        #cyclesTable {
+            min-width: 550px; /* Reduced from 600px */
+        }
+
+        #cyclesTable th:nth-child(1),
+        #cyclesTable td:nth-child(1) {
+            min-width: 90px; /* Reduced from 100px */
+        }
+        #cyclesTable th:nth-child(2),
+        #cyclesTable td:nth-child(2) {
+            min-width: 90px; /* Reduced from 100px */
+        }
+        #cyclesTable th:nth-child(3),
+        #cyclesTable td:nth-child(3) {
+            min-width: 90px; /* Reduced from 100px */
+        }
+        #cyclesTable th:nth-child(4),
+        #cyclesTable td:nth-child(4) {
+            min-width: 130px; /* Reduced from 150px */
+        }
+        #cyclesTable th:nth-child(5),
+        #cyclesTable td:nth-child(5) {
+            min-width: 90px; /* Reduced from 100px */
+        }
+
+        /* Active Savings Dashboard */
+        #savingsTable {
+            min-width: 550px; /* Reduced from 600px */
+        }
+
+        #savingsTable th:nth-child(1),
+        #savingsTable td:nth-child(1) {
+            min-width: 90px; /* Reduced from 100px */
+        }
+        #savingsTable th:nth-child(2),
+        #savingsTable td:nth-child(2) {
+            min-width: 90px; /* Reduced from 100px */
+        }
+        #savingsTable th:nth-child(3),
+        #savingsTable td:nth-child(3) {
+            min-width: 70px; /* Reduced from 80px */
+        }
+        #savingsTable th:nth-child(4),
+        #savingsTable td:nth-child(4) {
+            min-width: 110px; /* Reduced from 120px */
         }
 
         /* Status Badges */
         .status-badge {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
+            padding: 5px 10px; /* Reduced from 6px 12px */
+            border-radius: 12px; /* Reduced from 15px */
+            font-size: 0.75rem; /* Reduced from 0.8rem */
             font-weight: 600;
             display: inline-block;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.3px;
         }
 
         .status-active {
             background: rgba(0, 204, 102, 0.12);
             color: #00cc66;
             border: 1px solid rgba(0, 204, 102, 0.25);
+            box-shadow: 0 0 10px rgba(0, 204, 102, 0.15); /* Reduced from 12px */
         }
 
         .status-ready {
-            background: rgba(216, 218, 233, 0.12);
+            background: rgba(230, 230, 250, 0.12);
             color: var(--text-accent);
-            border: 1px solid rgba(216, 218, 233, 0.25);
+            border: 1px solid rgba(230, 230, 250, 0.25);
+            box-shadow: 0 0 10px rgba(230, 230, 250, 0.15); /* Reduced from 12px */
         }
 
         .status-exp {
@@ -897,245 +988,248 @@
             font-family: 'Courier New', monospace;
             font-weight: 600;
             color: var(--text-accent);
-            font-size: 0.85rem;
+            font-size: 0.85rem; /* Reduced from 0.9rem */
         }
 
         /* Referral Link Box */
         .referral-link-box {
-            background: rgba(20, 23, 45, 0.5);
-            border: 1px solid rgba(45, 50, 80, 0.3);
+            background: rgba(15, 15, 25, 0.5);
+            border: 1px solid rgba(138, 43, 226, 0.3);
             border-radius: var(--radius-lg);
-            padding: 14px;
+            padding: 14px; /* Reduced from 16px */
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-top: 16px;
+            gap: 8px; /* Reduced from 10px */
+            margin-top: 15px; /* Reduced from 20px */
         }
 
         .referral-link {
             flex: 1;
-            padding: 8px 14px;
-            background: rgba(26, 29, 58, 0.5);
+            padding: 8px 14px; /* Reduced from 10px 16px */
+            background: rgba(26, 26, 36, 0.5);
             border-radius: var(--radius-md);
             color: var(--text-muted);
             font-family: monospace;
-            font-size: 0.85rem;
+            font-size: 0.85rem; /* Reduced from 0.9rem */
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            border: 1px solid rgba(45, 50, 80, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.2);
         }
 
         .copy-btn {
-            padding: 8px 16px;
-            background: var(--gradient-accent);
+            padding: 8px 16px; /* Reduced from 10px 20px */
+            background: var(--gradient-main);
             border: none;
             border-radius: var(--radius-md);
             color: white;
             cursor: pointer;
-            font-size: 0.85rem;
-            transition: all var(--transition-fast);
+            font-size: 0.85rem; /* Reduced from 0.9rem */
+            transition: all 0.3s ease;
             font-weight: 600;
-            height: 36px;
         }
 
         .copy-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(45, 50, 80, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(138, 43, 226, 0.2);
         }
 
         /* Investment Tables */
         .investment-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            background: rgba(20, 23, 45, 0.5);
+            margin-top: 20px; /* Reduced from 25px */
+            background: rgba(15, 15, 25, 0.5);
             border-radius: var(--radius-lg);
             overflow: hidden;
-            border: 1px solid rgba(45, 50, 80, 0.2);
-            font-size: 0.9rem;
+            border: 1px solid rgba(138, 43, 226, 0.2);
         }
 
         .investment-table th {
-            background: linear-gradient(90deg, rgba(45, 50, 80, 0.2), rgba(74, 79, 115, 0.15));
+            background: linear-gradient(90deg, rgba(138, 43, 226, 0.2), rgba(147, 112, 219, 0.15));
             color: var(--text-accent);
-            padding: 14px 12px;
+            padding: 16px 14px; /* Reduced from 18px 16px */
             text-align: left;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.8rem; /* Reduced from 0.85rem */
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 2px solid rgba(45, 50, 80, 0.3);
-            white-space: nowrap;
+            letter-spacing: 0.8px; /* Reduced from 1px */
+            border-bottom: 2px solid rgba(138, 43, 226, 0.3);
         }
 
         .investment-table td {
-            padding: 14px 12px;
-            border-bottom: 1px solid rgba(45, 50, 80, 0.15);
+            padding: 16px 14px; /* Reduced from 18px 16px */
+            border-bottom: 1px solid rgba(138, 43, 226, 0.15);
             color: var(--text-muted);
+            font-size: 0.9rem; /* Reduced from 0.95rem */
             vertical-align: middle;
-            white-space: nowrap;
         }
 
         .investment-table tr:hover {
-            background: rgba(45, 50, 80, 0.08);
+            background: rgba(138, 43, 226, 0.08);
         }
 
         /* Action Buttons */
         .action-buttons {
             display: flex;
-            gap: 12px;
-            margin-top: 25px;
+            gap: 12px; /* Reduced from 15px */
+            margin-top: 25px; /* Reduced from 30px */
             flex-wrap: wrap;
         }
 
         /* Referral Levels */
         .referral-levels {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-top: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Reduced from 160px */
+            gap: 12px; /* Reduced from 15px */
+            margin-top: 25px; /* Reduced from 30px */
         }
 
         .referral-level {
             background: var(--gradient-card);
-            border: 1px solid rgba(45, 50, 80, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.2);
             border-radius: var(--radius-lg);
-            padding: 18px;
+            padding: 20px; /* Reduced from 22px */
             text-align: center;
-            transition: all var(--transition-fast);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
         .referral-level:hover {
-            background: linear-gradient(145deg, #23283F, #1A1D3A);
-            border-color: var(--color-slate-ash);
-            transform: translateY(-2px);
+            background: linear-gradient(145deg, #232330, #1A1A24);
+            border-color: var(--primary-accent);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.2);
         }
 
         .level-number {
-            width: 36px;
-            height: 36px;
-            background: var(--gradient-accent);
+            width: 36px; /* Reduced from 40px */
+            height: 36px; /* Reduced from 40px */
+            background: var(--gradient-main);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 10px;
+            margin: 0 auto 10px; /* Reduced from 12px */
             font-weight: 700;
             color: white;
-            font-size: 1rem;
+            font-size: 1rem; /* Reduced from 1.1rem */
+            box-shadow: 0 4px 12px rgba(138, 43, 226, 0.2);
         }
 
         .level-percent {
-            font-size: 1.4rem;
+            font-size: 1.4rem; /* Reduced from 1.6rem */
             font-weight: 700;
             color: var(--text-accent);
-            margin-bottom: 6px;
+            margin-bottom: 6px; /* Reduced from 8px */
+            text-shadow: 0 0 12px rgba(230, 230, 250, 0.2); /* Reduced from 15px */
         }
 
         .level-requirement {
-            font-size: 0.8rem;
+            font-size: 0.8rem; /* Reduced from 0.85rem */
             color: var(--text-muted);
-            line-height: 1.3;
+            line-height: 1.4;
         }
 
         /* Stats Cards */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Reduced from 200px */
+            gap: 15px; /* Reduced from 20px */
+            margin-bottom: 35px; /* Reduced from 40px */
         }
 
         .stat-card {
             background: var(--gradient-card);
-            border: 1px solid rgba(45, 50, 80, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.2);
             border-radius: var(--radius-lg);
-            padding: 20px;
+            padding: 22px; /* Reduced from 25px */
             text-align: center;
-            transition: all var(--transition-normal);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
 
         .stat-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--color-slate-ash);
+            transform: translateY(-4px);
+            border-color: var(--primary-accent);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.2);
         }
 
         .stat-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(45, 50, 80, 0.15);
+            width: 45px; /* Reduced from 50px */
+            height: 45px; /* Reduced from 50px */
+            background: rgba(138, 43, 226, 0.15);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 12px;
-            color: var(--color-slate-ash);
-            font-size: 1.4rem;
-            border: 1px solid rgba(45, 50, 80, 0.3);
+            margin: 0 auto 12px; /* Reduced from 15px */
+            color: var(--primary-accent);
+            font-size: 1.4rem; /* Reduced from 1.6rem */
+            border: 1px solid rgba(138, 43, 226, 0.3);
         }
 
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.6rem; /* Reduced from 1.8rem */
             font-weight: 700;
             color: var(--text-accent);
-            margin-bottom: 6px;
+            margin-bottom: 6px; /* Reduced from 8px */
+            text-shadow: 0 0 12px rgba(230, 230, 250, 0.2); /* Reduced from 15px */
         }
 
         .stat-label {
-            font-size: 0.9rem;
+            font-size: 0.9rem; /* Reduced from 0.95rem */
             color: var(--text-muted);
             font-weight: 500;
         }
 
         /* ===== FAQ SECTION ===== */
         .faq-container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
         }
 
         .faq-item {
             background: var(--gradient-card);
-            border: 1px solid rgba(45, 50, 80, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.2);
             border-radius: var(--radius-lg);
-            margin-bottom: 10px;
+            margin-bottom: 10px; /* Reduced from 12px */
             overflow: hidden;
-            transition: all var(--transition-fast);
+            transition: all 0.3s ease;
         }
 
         .faq-item:hover {
-            border-color: var(--color-slate-ash);
+            border-color: var(--primary-accent);
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.15);
         }
 
         .faq-question {
-            padding: 18px 20px;
+            padding: 20px 22px; /* Reduced from 22px 25px */
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(45, 50, 80, 0.05);
-            transition: all var(--transition-fast);
+            background: rgba(138, 43, 226, 0.05);
+            transition: all 0.3s ease;
         }
 
         .faq-question:hover {
-            background: rgba(45, 50, 80, 0.1);
+            background: rgba(138, 43, 226, 0.1);
         }
 
         .faq-question h3 {
-            font-size: 1rem;
+            font-size: 1rem; /* Reduced from 1.1rem */
             color: var(--text-accent);
             margin: 0;
             flex: 1;
         }
 
         .faq-icon {
-            color: var(--color-soft-graphite);
-            transition: transform var(--transition-fast);
-            font-size: 1rem;
+            color: var(--secondary-accent);
+            transition: transform 0.3s ease;
+            font-size: 1rem; /* Reduced from 1.1rem */
         }
 
         .faq-item.active .faq-icon {
@@ -1143,39 +1237,38 @@
         }
 
         .faq-answer {
-            padding: 0 20px;
+            padding: 0 22px; /* Reduced from 25px */
             max-height: 0;
             overflow: hidden;
-            transition: max-height var(--transition-fast), padding var(--transition-fast);
-            background: rgba(20, 23, 45, 0.4);
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: rgba(15, 15, 25, 0.4);
         }
 
         .faq-item.active .faq-answer {
-            padding: 18px 20px;
+            padding: 20px 22px; /* Reduced from 22px 25px */
             max-height: 500px;
         }
 
         .faq-answer p {
             color: var(--text-muted);
-            line-height: 1.5;
+            line-height: 1.6;
             margin: 0;
-            font-size: 0.95rem;
         }
 
         /* ===== POPUP MODALS ===== */
         .popup-modal {
             position: fixed;
             inset: 0;
-            background: rgba(10, 11, 26, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             z-index: 2000;
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
             visibility: hidden;
-            transition: var(--transition-normal);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .popup-modal.active {
@@ -1185,16 +1278,16 @@
 
         .modal-content {
             background: var(--gradient-card);
-            border: var(--glass-border);
+            border: 1px solid rgba(138, 43, 226, 0.3);
             border-radius: var(--radius-xl);
-            padding: 30px;
+            padding: 35px; /* Reduced from 40px */
             width: 90%;
-            max-width: 480px;
+            max-width: 480px; /* Reduced from 500px */
             max-height: 80vh;
             overflow-y: auto;
             position: relative;
-            transform: scale(0.9) translateY(30px);
-            transition: var(--transition-normal);
+            transform: scale(0.8) translateY(40px);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: var(--shadow-elevated);
         }
 
@@ -1204,49 +1297,49 @@
 
         .modal-header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 20px; /* Reduced from 25px */
         }
 
         .modal-title {
             color: var(--text-accent);
-            font-size: 1.5rem;
-            margin-bottom: 8px;
+            font-size: 1.5rem; /* Reduced from 1.7rem */
+            margin-bottom: 8px; /* Reduced from 10px */
             font-weight: 600;
         }
 
         .modal-body {
-            margin-bottom: 25px;
+            margin-bottom: 25px; /* Reduced from 30px */
         }
 
         .modal-footer {
             display: flex;
-            gap: 12px;
+            gap: 12px; /* Reduced from 15px */
             justify-content: center;
         }
 
         .cycle-list {
-            max-height: 250px;
+            max-height: 280px; /* Reduced from 300px */
             overflow-y: auto;
-            margin: 16px 0;
+            margin: 15px 0; /* Reduced from 20px */
             border-radius: var(--radius-lg);
-            border: 1px solid rgba(45, 50, 80, 0.2);
-            background: rgba(20, 23, 45, 0.5);
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            background: rgba(15, 15, 25, 0.5);
         }
 
         .cycle-item {
-            padding: 14px;
-            border-bottom: 1px solid rgba(45, 50, 80, 0.15);
+            padding: 14px; /* Reduced from 16px */
+            border-bottom: 1px solid rgba(138, 43, 226, 0.15);
             cursor: pointer;
-            transition: all var(--transition-fast);
+            transition: all 0.3s ease;
         }
 
         .cycle-item:hover {
-            background: rgba(45, 50, 80, 0.1);
+            background: rgba(138, 43, 226, 0.1);
         }
 
         .cycle-item.selected {
-            background: rgba(45, 50, 80, 0.15);
-            border-left: 3px solid var(--color-slate-ash);
+            background: rgba(138, 43, 226, 0.15);
+            border-left: 3px solid var(--primary-accent);
         }
 
         .cycle-info {
@@ -1258,96 +1351,96 @@
         .cycle-amount {
             font-weight: 600;
             color: var(--text-accent);
-            font-size: 1rem;
+            font-size: 1rem; /* Reduced from 1.05rem */
         }
 
         .cycle-plan {
-            font-size: 0.85rem;
+            font-size: 0.85rem; /* Reduced from 0.9rem */
             color: var(--text-muted);
         }
 
         .no-cycles {
             text-align: center;
-            padding: 30px;
+            padding: 30px; /* Reduced from 35px */
             color: var(--text-muted);
         }
 
         /* ===== ALERTS & NOTIFICATIONS ===== */
         .alert {
-            padding: 16px; 
+            padding: 18px; /* Reduced from 20px */
             border-radius: var(--radius-lg); 
             display: flex; 
             align-items: center; 
-            gap: 12px;
-            margin: 0 auto 25px; 
-            font-size: 0.95rem;
+            gap: 12px; /* Reduced from 15px */
+            margin: 0 auto 25px; /* Reduced from 30px */
+            font-size: 0.95rem; /* Reduced from 1rem */
             background: var(--gradient-card);
-            border: var(--glass-border);
+            border: 1px solid rgba(138, 43, 226, 0.3);
             backdrop-filter: blur(15px);
             width: 100%;
             max-width: 800px;
-            box-shadow: var(--shadow-subtle);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         .alert-warning { 
-            background: linear-gradient(145deg, rgba(245, 158, 11, 0.15), rgba(45, 50, 80, 0.1));
+            background: linear-gradient(145deg, rgba(245, 158, 11, 0.15), rgba(138, 43, 226, 0.1));
             border-color: rgba(245, 158, 11, 0.3); 
             color: #fbbf24; 
         }
         .alert-info { 
-            background: linear-gradient(145deg, rgba(45, 50, 80, 0.15), rgba(74, 79, 115, 0.1));
-            border-color: rgba(45, 50, 80, 0.3); 
+            background: linear-gradient(145deg, rgba(138, 43, 226, 0.15), rgba(216, 191, 216, 0.1));
+            border-color: rgba(138, 43, 226, 0.3); 
             color: var(--text-accent); 
         }
 
         /* Premium Notifications */
         .notification {
             position: fixed; 
-            top: 90px; 
-            right: 16px; 
-            padding: 14px 20px;
-            background: linear-gradient(135deg, rgba(45, 50, 80, 0.15), rgba(74, 79, 115, 0.1));
-            border: 1px solid rgba(45, 50, 80, 0.4);
+            top: 90px; /* Adjusted position */
+            right: 20px; 
+            padding: 16px 22px; /* Reduced from 18px 25px */
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(216, 191, 216, 0.1), rgba(147, 112, 219, 0.07));
+            border: 1px solid rgba(138, 43, 226, 0.4);
             color: white; 
             border-radius: var(--radius-lg); 
             z-index: 3000;
             transform: translateX(120%) scale(0.9); 
-            transition: var(--transition-normal);
-            backdrop-filter: blur(15px); 
-            box-shadow: var(--shadow-card);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(20px); 
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             display: flex; 
             align-items: center; 
-            gap: 12px;
-            max-width: 320px;
+            gap: 12px; /* Reduced from 15px */
+            max-width: 320px; /* Reduced from 350px */
             word-break: break-word;
-            min-width: 260px;
-            border-left: 3px solid var(--color-slate-ash);
+            min-width: 260px; /* Reduced from 280px */
+            border-left: 4px solid var(--primary-accent);
         }
         .notification.show { 
             transform: translateX(0) scale(1); 
         }
         .notification.success { 
-            border-left: 3px solid #00cc66;
+            border-left: 4px solid #00cc66;
         }
         .notification.error { 
-            border-left: 3px solid #ff4444;
+            border-left: 4px solid #ff4444;
         }
         .notification.info { 
-            border-left: 3px solid var(--color-slate-ash);
+            border-left: 4px solid var(--primary-accent);
         }
 
         /* ===== POPUPS ===== */
         .popup {
             position: fixed; 
             inset: 0; 
-            background: rgba(10,11,26,0.95);
-            backdrop-filter: blur(10px); 
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(15px); 
             z-index: 2000;
             display: flex; 
             justify-content: center; 
             align-items: center;
             opacity: 0; 
             visibility: hidden; 
-            transition: var(--transition-normal);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
         .popup.active { 
@@ -1356,14 +1449,14 @@
         }
 
         .popup-content { 
-            max-width: 480px; 
+            max-width: 480px; /* Reduced from 500px */
             width: 90%; 
-            padding: 30px; 
+            padding: 35px; /* Reduced from 40px */
             text-align: center; 
-            transform: scale(0.9) translateY(30px); 
-            transition: var(--transition-normal); 
+            transform: scale(0.8) translateY(40px); 
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
             background: var(--gradient-card);
-            border: var(--glass-border);
+            border: 1px solid var(--primary-accent);
             border-radius: var(--radius-xl);
             cursor: default;
             position: relative;
@@ -1375,23 +1468,24 @@
         }
 
         .popup-icon {
-            width: 70px; 
-            height: 70px; 
-            background: var(--gradient-accent); 
+            width: 70px; /* Reduced from 80px */
+            height: 70px; /* Reduced from 80px */
+            background: var(--gradient-main); 
             border-radius: 50%;
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            font-size: 1.8rem; 
+            font-size: 1.8rem; /* Reduced from 2rem */
             color: white;
-            margin: 0 auto 20px; 
+            margin: 0 auto 20px; /* Reduced from 25px */
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.3);
         }
 
         /* ===== FOOTER ===== */
         .footer { 
-            border-top: 1px solid rgba(45, 50, 80, 0.2); 
-            padding: 60px 0 25px; 
-            background: linear-gradient(180deg, var(--color-midnight-navy) 0%, var(--color-ink-blue) 100%);
+            border-top: 1px solid rgba(138, 43, 226, 0.2); 
+            padding: 70px 0 25px; /* Reduced from 80px 0 30px */
+            background: linear-gradient(180deg, #0A0A0F 0%, #1A1A24 100%);
             margin-top: auto; 
             position: relative;
             overflow: hidden;
@@ -1406,20 +1500,20 @@
         .footer__logo { 
             display: flex; 
             align-items: center; 
-            gap: 10px; 
-            margin-bottom: 20px; 
+            gap: 10px; /* Reduced from 12px */
+            margin-bottom: 20px; /* Reduced from 25px */
             justify-content: center; 
         }
         .footer__logo img { 
-            width: 30px; 
-            height: 30px; 
+            width: 32px; /* Reduced from 35px */
+            height: 32px; /* Reduced from 35px */
         }
         .footer__logo span { 
-            font-size: 1.4rem; 
+            font-size: 1.4rem; /* Reduced from 1.6rem */
             font-weight: 700; 
             font-family: var(--font-heading); 
             color: transparent;
-            background: var(--gradient-accent);
+            background: var(--gradient-main);
             -webkit-background-clip: text;
             background-clip: text;
         }
@@ -1427,131 +1521,75 @@
         .footer__content p {
             color: var(--text-muted); 
             max-width: 600px; 
-            margin: 0 auto 25px; 
-            line-height: 1.5;
-            font-size: 0.95rem;
+            margin: 0 auto 25px; /* Reduced from 30px */
+            line-height: 1.6;
+            font-size: 0.95rem; /* Reduced from 1rem */
         }
 
         .footer__social { 
             display: flex; 
-            gap: 12px; 
-            margin-top: 25px; 
+            gap: 12px; /* Reduced from 15px */
+            margin-top: 25px; /* Reduced from 30px */
             justify-content: center; 
         }
 
         .social__link {
-            width: 40px; 
-            height: 40px; 
-            border-radius: var(--radius-md); 
+            width: 42px; /* Reduced from 45px */
+            height: 42px; /* Reduced from 45px */
+            border-radius: 10px; 
             background: var(--gradient-card);
             display: flex; 
             align-items: center; 
             justify-content: center; 
             color: var(--text-muted);
-            transition: all var(--transition-normal); 
-            border: 1px solid rgba(45, 50, 80, 0.2); 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            border: 1px solid rgba(138, 43, 226, 0.2); 
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 1rem; /* Reduced from 1.1rem */
         }
         .social__link:hover { 
-            background: var(--gradient-accent); 
+            background: var(--gradient-main); 
             color: white;
-            transform: translateY(-2px); 
+            transform: translateY(-3px); 
             border-color: transparent;
+            box-shadow: 0 6px 15px rgba(138, 43, 226, 0.3);
         }
 
         .footer__bottom { 
-            margin-top: 40px; 
-            padding-top: 25px; 
-            border-top: 1px solid rgba(45, 50, 80, 0.15); 
+            margin-top: 50px; /* Reduced from 60px */
+            padding-top: 25px; /* Reduced from 30px */
+            border-top: 1px solid rgba(138, 43, 226, 0.15); 
             text-align: center; 
             color: rgba(255, 255, 255, 0.3); 
-            font-size: 0.8rem; 
-        }
-
-        /* ===== CUSTOM CHECKBOXES FOR MODALS ===== */
-        .cycle-checkbox, .saving-radio {
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(45, 50, 80, 0.4);
-            border-radius: var(--radius-sm);
-            background: rgba(20, 23, 45, 0.7);
-            cursor: pointer;
-            position: relative;
-            transition: all var(--transition-fast);
-            appearance: none;
-            -webkit-appearance: none;
-            flex-shrink: 0;
-        }
-
-        .cycle-checkbox:checked, .saving-radio:checked {
-            background: var(--color-slate-ash);
-            border-color: var(--color-slate-ash);
-        }
-
-        .cycle-checkbox:checked::after {
-            content: '✓';
-            position: absolute;
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .saving-radio {
-            border-radius: 50%;
-        }
-
-        .saving-radio:checked::after {
-            content: '';
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: white;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        /* ===== REAL-TIME SAVING UPDATES ===== */
-        .realtime-update {
-            animation: pulse-update 1s ease;
-        }
-
-        @keyframes pulse-update {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            font-size: 0.8rem; /* Reduced from 0.85rem */
         }
 
         /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 1200px) {
-            .hero__title, .auvex-headline { font-size: 2.2rem; }
-            .section__title { font-size: 1.8rem; }
-            .hero__headline { font-size: 1.6rem; }
+            .hero__title, .auvex-headline { font-size: 2.1rem; } /* Reduced from 2.5rem */
+            .section__title { font-size: 2rem; } /* Reduced from 2.3rem */
+            .hero__headline { font-size: 1.6rem; } /* Reduced from 1.9rem */
         }
 
         @media (max-width: 968px) {
             .hero__container { 
                 grid-template-columns: 1fr; 
                 text-align: center; 
-                gap: 40px; 
+                gap: 40px; /* Reduced from 50px */
             }
             .hero__content { 
                 display: flex; 
                 flex-direction: column; 
                 align-items: center; 
             }
-            .hero__title, .auvex-headline { font-size: 2rem; }
+            .hero__title, .auvex-headline { font-size: 2rem; } /* Reduced from 2.3rem */
             .hero__buttons { 
                 justify-content: center; 
                 flex-wrap: wrap; 
             }
             .investment-container {
                 grid-template-columns: 1fr;
-                gap: 25px;
+                gap: 25px; /* Reduced from 30px */
             }
             .plan-options {
                 grid-template-columns: repeat(2, 1fr);
@@ -1560,8 +1598,8 @@
 
         @media (max-width: 768px) {
             .section {
-                padding-top: 90px; 
-                padding-bottom: 50px;
+                padding-top: 90px; /* Reduced from 100px */
+                padding-bottom: 50px; /* Reduced from 60px */
             }
 
             .nav__menu { 
@@ -1574,15 +1612,15 @@
                 justify-content: center;
             }
             
-            .section__title { font-size: 1.6rem; }
-            .hero__title, .auvex-headline { font-size: 1.8rem; }
-            .hero__headline { font-size: 1.4rem; }
-            .hero__description { font-size: 0.95rem; }
+            .section__title { font-size: 1.7rem; } /* Reduced from 1.9rem */
+            .hero__title, .auvex-headline { font-size: 1.7rem; } /* Reduced from 1.9rem */
+            .hero__headline { font-size: 1.4rem; } /* Reduced from 1.6rem */
+            .hero__description { font-size: 0.95rem; } /* Reduced from 1rem */
             
             .hero__buttons {
                 flex-direction: column;
                 width: 100%;
-                max-width: 280px;
+                max-width: 280px; /* Reduced from 300px */
             }
             
             .hero__buttons .btn {
@@ -1609,54 +1647,121 @@
                 grid-template-columns: 1fr;
             }
             
+            .investment-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
             .modal-content {
-                padding: 25px 20px;
+                padding: 20px; /* Reduced from 25px */
             }
             
             .popup-content {
-                padding: 25px 20px;
+                padding: 25px 15px; /* Reduced from 30px 20px */
+            }
+
+            /* Center mobile buttons */
+            .action-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* Center referral withdraw buttons */
+            #withdrawCycleReferral,
+            #withdrawSavingReferral {
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+                width: 100%;
+                max-width: 300px;
             }
         }
 
         @media (max-width: 480px) {
-            .hero__title, .auvex-headline { font-size: 1.6rem; }
+            .hero__title, .auvex-headline { font-size: 1.5rem; } /* Reduced from 1.8rem */
             .section__title { 
-                font-size: 1.4rem; 
+                font-size: 1.5rem; /* Reduced from 1.7rem */
             }
-            .hero__headline { font-size: 1.3rem; }
+            .hero__headline { font-size: 1.2rem; } /* Reduced from 1.4rem */
             
             .referral-levels {
                 grid-template-columns: 1fr;
             }
             
             .notification {
-                min-width: 240px;
+                min-width: 240px; /* Reduced from 260px */
                 right: 10px;
                 left: 10px;
                 width: auto;
             }
             
             .modal-content {
-                padding: 20px 16px;
+                padding: 15px 12px; /* Reduced from 20px 15px */
             }
             
             .popup-content {
-                padding: 20px 16px;
+                padding: 20px 12px; /* Reduced from 25px 15px */
             }
         }
 
         @media (max-width: 360px) {
             .hero__headline {
-                font-size: 1.2rem;
+                font-size: 1.1rem; /* Reduced from 1.3rem */
             }
             
             .stat-value {
-                font-size: 1.3rem;
+                font-size: 1.2rem; /* Reduced from 1.4rem */
             }
             
             .level-percent {
-                font-size: 1.2rem;
+                font-size: 1.1rem; /* Reduced from 1.3rem */
             }
+        }
+
+        /* Checkbox and Radio Button Styling for Modals */
+        .cycle-checkbox, .saving-radio {
+            width: 18px; /* Reduced from 20px */
+            height: 18px; /* Reduced from 20px */
+            border: 2px solid rgba(138, 43, 226, 0.4);
+            border-radius: 4px;
+            background: rgba(15, 15, 25, 0.7);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .cycle-checkbox:checked, .saving-radio:checked {
+            background: var(--primary-accent);
+            border-color: var(--primary-accent);
+        }
+
+        .cycle-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 12px; /* Reduced from 14px */
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .saving-radio {
+            border-radius: 50%;
+        }
+
+        .saving-radio:checked::after {
+            content: '';
+            position: absolute;
+            width: 8px; /* Reduced from 10px */
+            height: 8px; /* Reduced from 10px */
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
@@ -1710,7 +1815,7 @@
                     <li><a href="#saving" data-section="saving"><i class="fas fa-piggy-bank"></i> Saving</a></li>
                     <li><a href="#faq" data-section="faq"><i class="fas fa-question-circle"></i> FAQ</a></li>
                     <li>
-                        <button class="btn btn--primary" id="connectWalletMobile" style="width: 100%; margin-top: 16px;">
+                        <button class="btn btn--primary" id="connectWalletMobile" style="width: 100%; margin-top: 15px;">
                             <i class="fas fa-wallet"></i>
                             Connect Wallet
                         </button>
@@ -1831,7 +1936,7 @@
                         <div class="form-group">
                             <label for="cycleAmount">Amount (USDT)</label>
                             <input type="number" id="cycleAmount" class="form-input" placeholder="0.00" min="5" step="1">
-                            <div class="amount-range" id="cycleAmountRange" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
+                            <div class="amount-range" id="cycleAmountRange" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">
                                 Minimum 5 USDT
                             </div>
                         </div>
@@ -1839,7 +1944,7 @@
                         <div class="form-group">
                             <label for="cycleReferrer">Upline</label>
                             <input type="text" id="cycleReferrer" class="form-input" placeholder="0x..." disabled>
-                            <small class="form-hint" style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 4px;">
+                            <small class="form-hint" style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 5px;">
                                 Filled automatically if available
                             </small>
                         </div>
@@ -1888,7 +1993,7 @@
                         </div>
 
                         <!-- Cycle Referral Program -->
-                        <div style="margin-top: 30px; padding-top: 25px; border-top: 1px solid rgba(45, 50, 80, 0.3);">
+                        <div style="margin-top: 35px; padding-top: 25px; border-top: 1px solid rgba(138, 43, 226, 0.3);">
                             <h4 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.2rem;">Cycle Referral Program</h4>
                             
                             <!-- Referral Link Box -->
@@ -1917,7 +2022,7 @@
                                 </div>
                             </div>
 
-                            <button class="btn btn--outline btn-lg" id="withdrawCycleReferral" style="margin-top: 20px;">
+                            <button class="btn btn--outline btn-lg" id="withdrawCycleReferral" style="margin-top: 20px; width: 100%;">
                                 <i class="fas fa-hand-holding-usd"></i> 
                                 <span class="btn-text">Withdraw Referral</span>
                             </button>
@@ -1926,7 +2031,7 @@
                 </div>
 
                 <!-- Cycle Referral Levels -->
-                <div class="content-container" style="margin-top: 30px;">
+                <div class="content-container" style="margin-top: 35px;">
                     <h3 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.3rem;">Cycle Referral Levels</h3>
                     <div class="referral-levels">
                         <div class="referral-level">
@@ -1975,7 +2080,7 @@
                         <div class="form-group">
                             <label for="savingAmount">Amount (USDT)</label>
                             <input type="number" id="savingAmount" class="form-input" placeholder="0.00" min="5" step="1">
-                            <div class="amount-range" id="savingAmountRange" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
+                            <div class="amount-range" id="savingAmountRange" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">
                                 Minimum 5 USDT
                             </div>
                         </div>
@@ -1983,7 +2088,7 @@
                         <div class="form-group">
                             <label for="savingReferrer">Upline</label>
                             <input type="text" id="savingReferrer" class="form-input" placeholder="0x..." disabled>
-                            <small class="form-hint" style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 4px;">
+                            <small class="form-hint" style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 5px;">
                                 Filled automatically if available
                             </small>
                         </div>
@@ -2031,7 +2136,7 @@
                         </div>
 
                         <!-- Saving Referral Program -->
-                        <div style="margin-top: 30px; padding-top: 25px; border-top: 1px solid rgba(45, 50, 80, 0.3);">
+                        <div style="margin-top: 35px; padding-top: 25px; border-top: 1px solid rgba(138, 43, 226, 0.3);">
                             <h4 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.2rem;">Saving Referral Program</h4>
                             
                             <!-- Referral Link Box -->
@@ -2060,7 +2165,7 @@
                                 </div>
                             </div>
 
-                            <button class="btn btn--outline btn-lg" id="withdrawSavingReferral" style="margin-top: 20px;">
+                            <button class="btn btn--outline btn-lg" id="withdrawSavingReferral" style="margin-top: 20px; width: 100%;">
                                 <i class="fas fa-hand-holding-usd"></i> 
                                 <span class="btn-text">Withdraw Referral</span>
                             </button>
@@ -2069,7 +2174,7 @@
                 </div>
 
                 <!-- Saving Referral Levels -->
-                <div class="content-container" style="margin-top: 30px;">
+                <div class="content-container" style="margin-top: 35px;">
                     <h3 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.3rem;">Saving Referral Levels</h3>
                     <div class="referral-levels">
                         <div class="referral-level">
@@ -2136,7 +2241,6 @@
                 </div>
 
                 <div class="faq-container">
-                    <!-- FAQ items remain the same as before -->
                     <div class="faq-item">
                         <div class="faq-question">
                             <h3>What is Auvex Protocol?</h3>
@@ -2157,9 +2261,175 @@
                         </div>
                     </div>
 
-                    <!-- ... rest of FAQ items ... -->
-                    <!-- (Note: FAQ items are omitted for brevity but should be included from original code) -->
-                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Has the Auvex smart contract been audited?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes. The Auvex smart contract has undergone comprehensive manual audit and is declared PASSED – Fully Correct, with no critical, high, or medium issues identified.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Does Auvex Protocol have an admin or owner?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes. Auvex Protocol has an admin with limited role that can only withdraw bonuses from the Scorch Referral Pool to support community sustainability. The admin does not have access to change the contract, manage user funds, or modify investment mechanisms.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Can the smart contract be upgraded or changed?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>No. Auvex Protocol is immutable. There are no proxy, upgrade, or parameter change functions after contract deployment.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What token is used in Auvex Protocol?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Auvex Protocol is designed to operate using standard ERC-20 tokens, such as USDT, which follows conventional ERC-20 transfer mechanisms.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>How does the Cycle Investment system work?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Users deposit into a cycle with a specific duration. After the cycle ends, users can claim principal + profit according to terms set in the smart contract.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What is Saving Investment?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Saving Investment allows users to earn daily rewards that can be claimed periodically, with flexibility to withdraw capital anytime according to contract rules.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Are rewards guaranteed to be available?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>All rewards and withdrawals are limited by pool liquidity. The smart contract only allows payments if funds are available, ensuring the system remains safe and consistent.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>How does the referral mechanism work in Auvex Protocol?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Referral rewards are distributed through a multi-level system with specific qualification requirements. Only referrals meeting the criteria can receive rewards.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Do referral rewards create token inflation?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>No. Referral rewards do not mint new tokens. All rewards come from existing pools and are subject to contract balance checks.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Is Auvex Protocol safe from reentrancy attacks?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes. All sensitive functions are protected with ReentrancyGuard, making it safe from reentrancy and nested-call attacks.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Can users withdraw other people's funds?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>No. Each withdrawal can only be performed by the owner of the related investment, and is verified directly by the smart contract.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Is there risk of data or reward manipulation?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>No. All reward calculations, referrals, and pool operations are performed deterministically and transparently within the smart contract, without external inputs that can be manipulated.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Where can I verify data and transactions?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>All Auvex Protocol activity can be verified directly through blockchain explorers, including transactions, contract balances, and smart contract function executions.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What is the minimum investment amount?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>The minimum investment amount is 5 USDT for both Cycle and Saving investments.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>How are referral rewards distributed?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Cycle referral rewards are calculated from profits (15%, 7%, 2%, 1% across 4 levels). Saving referral rewards are calculated from withdrawn rewards (20%, 15%, 8%, 4%, 2%, 2%, 1%, 1%, 1%, 1% across 10 levels).</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>What happens if referral qualification requirements are not met?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>If qualification requirements are not met, referral rewards are redirected to the Scorch Referral Pool to maintain protocol sustainability.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Can I withdraw my capital from Saving Investment anytime?</h3>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, you can withdraw your capital from Saving Investment anytime, provided the pool has sufficient liquidity. The investment becomes inactive after capital withdrawal.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -2209,7 +2479,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Withdraw Cycle</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Select to withdraw</p>
+                <p style="color: var(--text-muted);">Select to withdraw</p>
             </div>
             <div class="modal-body">
                 <div class="cycle-list" id="withdrawCycleList">
@@ -2233,7 +2503,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Regrow Cycle</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Select to regrow</p>
+                <p style="color: var(--text-muted);">Select to regrow</p>
             </div>
             <div class="modal-body">
                 <div class="cycle-list" id="regrowCycleList">
@@ -2245,7 +2515,7 @@
                 </div>
                 
                 <div style="margin-top: 20px;">
-                    <label style="color: var(--text-accent); font-weight: 600; margin-bottom: 8px; display: block; font-size: 0.9rem;">Select Duration</label>
+                    <label style="color: var(--text-accent); font-weight: 600; margin-bottom: 8px; display: block;">Select Duration</label>
                     <div class="custom-dropdown" id="regrowPlanDropdown">
                         <div class="dropdown-selected">
                             <span>Nothing selected</span>
@@ -2285,7 +2555,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Withdraw Capital</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Select to withdraw capital</p>
+                <p style="color: var(--text-muted);">Select to withdraw capital</p>
             </div>
             <div class="modal-body">
                 <div class="cycle-list" id="withdrawCapitalList">
@@ -2338,7 +2608,6 @@
         let userSavings = [];
         let userInfo = null;
         let savingDataInterval = null;
-        let lastSavingUpdateTime = {};
 
         // ===== DOM ELEMENTS =====
         const preloader = document.querySelector('.preloader');
@@ -2370,6 +2639,7 @@
             setupDropdowns();
             setupModalDropdowns();
             
+            // Check if wallet is already connected
             if (typeof window.ethereum !== 'undefined') {
                 window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
                     if (accounts.length > 0) {
@@ -2382,9 +2652,11 @@
 
         async function initializeApp() {
             try {
+                // Initialize Web3 with BSC RPC
                 web3 = new Web3(new Web3.providers.HttpProvider(BSC_RPC));
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
                 
+                // Load initial stats
                 await loadContractStats();
             } catch (error) {
                 console.error('Error:', error);
@@ -2403,6 +2675,7 @@
                     return value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
                 };
                 
+                // Update home stats
                 document.getElementById('statLiquidity').textContent = `${formatUSDT(stats.poolBalance_)} USDT`;
                 document.getElementById('statTotalUsers').textContent = `${parseInt(stats.totalUsers_).toLocaleString('en-US')} Active`;
                 document.getElementById('statTotalInvest').textContent = `${formatUSDT(stats.totalInvested_)} USDT`;
@@ -2416,6 +2689,7 @@
 
         // ===== DROPDOWN FUNCTIONS =====
         function setupDropdowns() {
+            // Cycle dropdown
             const cycleDropdown = document.getElementById('cycleDropdown');
             const cycleSelected = cycleDropdown.querySelector('.dropdown-selected');
             const cycleOptions = cycleDropdown.querySelector('.dropdown-options');
@@ -2443,6 +2717,7 @@
                 });
             });
             
+            // Close dropdowns when clicking outside
             document.addEventListener('click', (e) => {
                 if (!cycleDropdown.contains(e.target)) {
                     const cycleSelected = cycleDropdown.querySelector('.dropdown-selected');
@@ -2454,6 +2729,7 @@
         }
 
         function setupModalDropdowns() {
+            // Regrow plan dropdown in modal
             const regrowPlanDropdown = document.getElementById('regrowPlanDropdown');
             if (regrowPlanDropdown) {
                 const regrowPlanSelected = regrowPlanDropdown.querySelector('.dropdown-selected');
@@ -2502,12 +2778,14 @@
             }
             
             try {
+                // Switch to Web3 provider with user's wallet
                 web3 = new Web3(window.ethereum);
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
 
+                // Check and switch to BSC network
                 const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-                if (chainId !== '0x38') {
+                if (chainId !== '0x38') { // BSC Mainnet chainId
                     try {
                         await window.ethereum.request({ 
                             method: 'wallet_switchEthereumChain', 
@@ -2535,6 +2813,7 @@
                     }
                 }
                 
+                // Request accounts
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 if (accounts.length > 0) {
                     userAccount = accounts[0];
@@ -2595,10 +2874,12 @@
 
         // ===== EVENT LISTENERS =====
         function setupEventListeners() {
+            // Mobile menu toggle
             navToggle.addEventListener('click', () => {
                 mobileMenu.classList.toggle('active');
             });
 
+            // Close mobile menu when clicking outside
             document.addEventListener('click', (e) => {
                 if (mobileMenu.classList.contains('active') && 
                     !mobileMenu.contains(e.target) && 
@@ -2607,6 +2888,7 @@
                 }
             });
 
+            // Navigation
             document.querySelectorAll('.nav__link, .mobile-menu a, button[data-section]').forEach(el => {
                 el.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -2619,11 +2901,13 @@
                 });
             });
 
+            // Wallet connections
             connectWalletBtn.addEventListener('click', connectWallet);
             if (connectWalletMobile) {
                 connectWalletMobile.addEventListener('click', connectWallet);
             }
 
+            // Copy referral links
             document.getElementById('copyCycleReferral').addEventListener('click', () => {
                 const link = document.getElementById('cycleReferralLink').textContent;
                 navigator.clipboard.writeText(link).then(() => {
@@ -2638,20 +2922,25 @@
                 });
             });
 
+            // Cycle investment
             document.getElementById('confirmCycle').addEventListener('click', confirmCycleInvestment);
             document.getElementById('cycleAmount').addEventListener('input', validateCycleAmount);
             
+            // Cycle actions
             document.getElementById('withdrawCycle').addEventListener('click', openWithdrawCycleModal);
             document.getElementById('regrowCycle').addEventListener('click', openRegrowCycleModal);
             document.getElementById('withdrawCycleReferral').addEventListener('click', withdrawCycleReferral);
             
+            // Saving investment
             document.getElementById('confirmSaving').addEventListener('click', confirmSavingInvestment);
             document.getElementById('savingAmount').addEventListener('input', validateSavingAmount);
             
+            // Saving actions
             document.getElementById('withdrawSaving').addEventListener('click', withdrawSavingRewards);
             document.getElementById('withdrawCapitalSaving').addEventListener('click', openWithdrawCapitalModal);
             document.getElementById('withdrawSavingReferral').addEventListener('click', withdrawSavingReferral);
             
+            // Modal buttons
             document.getElementById('closeWithdrawCycleModal').addEventListener('click', () => hideModal(withdrawCycleModal));
             document.getElementById('closeRegrowCycleModal').addEventListener('click', () => hideModal(regrowCycleModal));
             document.getElementById('closeWithdrawCapitalModal').addEventListener('click', () => hideModal(withdrawCapitalModal));
@@ -2660,11 +2949,13 @@
             document.getElementById('confirmRegrowModal').addEventListener('click', confirmRegrowModal);
             document.getElementById('confirmWithdrawCapital').addEventListener('click', confirmWithdrawCapital);
             
+            // Success popup
             goToDashboardBtn.addEventListener('click', () => {
                 hidePopup(successPopup);
                 showSection('cycle');
             });
 
+            // Close popups on outside click
             successPopup.addEventListener('click', (e) => {
                 if (e.target === successPopup) hidePopup(successPopup);
             });
@@ -2678,8 +2969,10 @@
                 if (e.target === withdrawCapitalModal) hideModal(withdrawCapitalModal);
             });
 
+            // Window scroll for header effect
             window.addEventListener('scroll', handleScroll);
             
+            // Listen for account changes
             if (window.ethereum) {
                 window.ethereum.on('accountsChanged', (accounts) => {
                     if (accounts.length > 0) {
@@ -2736,12 +3029,14 @@
                     const faqItem = question.parentElement;
                     const isActive = faqItem.classList.contains('active');
                     
+                    // Close all FAQ items
                     document.querySelectorAll('.faq-item').forEach(item => {
                         item.classList.remove('active');
                         const icon = item.querySelector('.faq-icon');
                         if (icon) icon.style.transform = 'rotate(0deg)';
                     });
                     
+                    // Open clicked item if it wasn't active
                     if (!isActive) {
                         faqItem.classList.add('active');
                         const icon = question.querySelector('.faq-icon');
@@ -2752,19 +3047,23 @@
         }
 
         function showSection(sectionName) {
+            // Hide all sections
             Object.values(sections).forEach(section => {
                 section.style.display = 'none';
             });
 
+            // Show selected section
             if (sections[sectionName]) {
                 sections[sectionName].style.display = 'flex';
                 
+                // Start/stop real-time updates based on section
                 if (sectionName === 'saving') {
                     startSavingRealTimeUpdates();
                 } else {
                     stopSavingRealTimeUpdates();
                 }
                 
+                // Update active nav link
                 document.querySelectorAll('.nav__link').forEach(link => {
                     link.classList.remove('active');
                 });
@@ -2778,6 +3077,7 @@
                 if (desktopLink) desktopLink.classList.add('active');
                 if (mobileLink) mobileLink.classList.add('active');
                 
+                // Scroll to top of section
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
@@ -2786,7 +3086,7 @@
             if (savingDataInterval) {
                 clearInterval(savingDataInterval);
             }
-            savingDataInterval = setInterval(updateSavingRealTimeData, 1000);
+            savingDataInterval = setInterval(updateSavingRealTimeData, 1000); // Update every second
         }
 
         function stopSavingRealTimeUpdates() {
@@ -2811,51 +3111,34 @@
                 if (!tbody) return;
                 
                 const rows = tbody.querySelectorAll('tr');
-                const now = Date.now();
                 
                 for (let i = 0; i < savingCount && i < rows.length; i++) {
-                    try {
-                        const savingDetails = await contract.methods.getSavingDetails(userAccount, i).call();
-                        const isActive = savingDetails.active;
+                    const savingDetails = await contract.methods.getSavingDetails(userAccount, i).call();
+                    const isActive = savingDetails.active;
+                    
+                    if (isActive) {
+                        const currentPercent = parseFloat(savingDetails.currentPercent) / 10; // ROI from smart contract
+                        const lastPayout = parseInt(savingDetails.lastPayout);
+                        const now = Math.floor(Date.now() / 1000);
                         
-                        if (isActive) {
-                            const currentPercent = parseFloat(savingDetails.currentPercent) / 10;
-                            const lastPayout = parseInt(savingDetails.lastPayout) * 1000;
-                            const nowTime = Math.floor(Date.now() / 1000);
-                            
-                            // Update ROI from currentPercent in smart contract
-                            const roiCell = rows[i].querySelectorAll('td')[2];
-                            if (roiCell) {
-                                roiCell.textContent = `${currentPercent.toFixed(2)}%`;
-                            }
-                            
-                            // Calculate earned amount in real-time
-                            let earned = 0;
-                            if (lastPayout > 0) {
-                                const timePassed = nowTime - (lastPayout / 1000);
-                                const secondsInDay = 24 * 60 * 60;
-                                const dailyReward = parseFloat(web3.utils.fromWei(savingDetails.dailyReward, 'ether'));
-                                earned = dailyReward * (timePassed / secondsInDay);
-                                
-                                // Update earned cell with animation for changes
-                                const earnedCell = rows[i].querySelectorAll('td')[3];
-                                if (earnedCell) {
-                                    const previousEarned = parseFloat(earnedCell.textContent) || 0;
-                                    if (Math.abs(earned - previousEarned) > 0.0001) {
-                                        earnedCell.textContent = `${earned.toFixed(4)} USDT`;
-                                        earnedCell.classList.add('realtime-update');
-                                        setTimeout(() => {
-                                            earnedCell.classList.remove('realtime-update');
-                                        }, 1000);
-                                    } else if (!earnedCell.textContent.includes('USDT')) {
-                                        earnedCell.textContent = `${earned.toFixed(4)} USDT`;
-                                    }
-                                }
-                            }
+                        // Calculate earned amount based on time passed since last payout
+                        let earned = 0;
+                        if (lastPayout > 0) {
+                            const timePassed = now - lastPayout;
+                            const secondsInDay = 24 * 60 * 60;
+                            const dailyReward = parseFloat(web3.utils.fromWei(savingDetails.dailyReward, 'ether'));
+                            earned = dailyReward * (timePassed / secondsInDay);
                         }
-                    } catch (error) {
-                        console.error(`Error updating saving ${i}:`, error);
-                        continue;
+                        
+                        // Update the table row
+                        const cells = rows[i].querySelectorAll('td');
+                        if (cells.length >= 4) {
+                            // Update ROI (index 2) - real-time from currentPercent
+                            cells[2].textContent = `${currentPercent.toFixed(2)}%`;
+                            
+                            // Update Earned (index 3) - real-time calculation
+                            cells[3].textContent = `${earned.toFixed(4)} USDT`;
+                        }
                     }
                 }
             } catch (error) {
@@ -2896,6 +3179,7 @@
             } else {
                 button.classList.remove('loading');
                 button.disabled = false;
+                // Restore original content based on button ID
                 const buttonTexts = {
                     'confirmCycle': '<i class="fas fa-sync-alt"></i> <span class="btn-text">Confirm</span>',
                     'confirmSaving': '<i class="fas fa-piggy-bank"></i> <span class="btn-text">Confirm</span>',
@@ -2978,6 +3262,7 @@
                     const endTime = parseInt(cycleDetails.endTime);
                     const now = Math.floor(Date.now() / 1000);
                     
+                    // Only show cycles that have ended and not claimed
                     if (endTime <= now && !isClaimed) {
                         hasEndedCycles = true;
                         
@@ -3012,6 +3297,7 @@
                     noCyclesMessage.style.display = 'none';
                 }
                 
+                // Add event listeners to checkboxes
                 document.querySelectorAll('.cycle-checkbox').forEach(checkbox => {
                     checkbox.addEventListener('change', (e) => {
                         const cycleId = e.target.getAttribute('data-cycle-id');
@@ -3045,6 +3331,7 @@
             selectedCycleForRegrow = null;
             selectedRegrowPlan = null;
             
+            // Reset dropdown
             const regrowPlanDropdown = document.getElementById('regrowPlanDropdown');
             if (regrowPlanDropdown) {
                 const regrowPlanSelected = regrowPlanDropdown.querySelector('.dropdown-selected');
@@ -3075,6 +3362,7 @@
                     const endTime = parseInt(cycleDetails.endTime);
                     const now = Math.floor(Date.now() / 1000);
                     
+                    // Only show cycles that have ended and not claimed
                     if (endTime <= now && !isClaimed) {
                         hasEndedCycles = true;
                         
@@ -3109,10 +3397,12 @@
                     noCyclesMessage.style.display = 'none';
                 }
                 
+                // Add event listeners to radio buttons
                 document.querySelectorAll('.saving-radio[name="regrowSelect"]').forEach(radio => {
                     radio.addEventListener('change', (e) => {
                         if (e.target.checked) {
                             selectedCycleForRegrow = e.target.getAttribute('data-cycle-id');
+                            // Add selected class to parent item
                             document.querySelectorAll('#regrowCycleList .cycle-item').forEach(item => {
                                 item.classList.remove('selected');
                             });
@@ -3190,10 +3480,12 @@
                     noSavingsMessage.style.display = 'none';
                 }
                 
+                // Add event listeners to radio buttons
                 document.querySelectorAll('.saving-radio[name="savingSelect"]').forEach(radio => {
                     radio.addEventListener('change', (e) => {
                         if (e.target.checked) {
                             selectedSavingForWithdraw = e.target.getAttribute('data-saving-id');
+                            // Add selected class to parent item
                             document.querySelectorAll('#withdrawCapitalList .cycle-item').forEach(item => {
                                 item.classList.remove('selected');
                             });
@@ -3215,8 +3507,10 @@
             if (!userAccount || !contract) return;
             
             try {
+                // Load user info
                 userInfo = await contract.methods.getUserInfo(userAccount).call();
                 
+                // Update referral fields
                 if (referralAddress) {
                     document.getElementById('cycleReferrer').value = referralAddress;
                     document.getElementById('savingReferrer').value = referralAddress;
@@ -3225,6 +3519,7 @@
                     document.getElementById('savingReferrer').value = userInfo.referrer_;
                 }
                 
+                // Update stats
                 const formatUSDT = (weiValue) => {
                     const value = parseFloat(web3.utils.fromWei(weiValue, 'ether'));
                     return value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
@@ -3235,6 +3530,7 @@
                 document.getElementById('savingTotalEarned').textContent = `${formatUSDT(userInfo.savingRewards_)} USDT`;
                 document.getElementById('savingTotalTeam').textContent = userInfo.referrals_;
                 
+                // Load cycles and savings
                 await loadUserCycles();
                 await loadUserSavings();
                 
@@ -3269,6 +3565,7 @@
                     const endTime = parseInt(cycleDetails.endTime);
                     const now = Math.floor(Date.now() / 1000);
                     
+                    // Use totalReturn instead of profit
                     const totalReturn = parseFloat(web3.utils.fromWei(cycleDetails.totalReturn, 'ether')).toFixed(2);
                     
                     const planNames = ['1 Day', '7 Days', '14 Days', '30 Days'];
@@ -3276,6 +3573,7 @@
                     
                     const amount = parseFloat(web3.utils.fromWei(cycleDetails.amount, 'ether')).toFixed(2);
                     
+                    // Calculate time left or show Ready
                     let timeDisplay = '';
                     let status = 'Active';
                     let statusClass = 'status-active';
@@ -3289,6 +3587,7 @@
                         statusClass = 'status-ready';
                         timeDisplay = 'Ready';
                     } else {
+                        // Calculate countdown timer
                         const timeLeft = endTime - now;
                         const days = Math.floor(timeLeft / (24 * 60 * 60));
                         const hours = Math.floor((timeLeft % (24 * 60 * 60)) / (60 * 60));
@@ -3297,6 +3596,7 @@
                         
                         timeDisplay = `${days}d ${hours}h ${minutes}m ${seconds}s`;
                         
+                        // Update timer every second
                         setTimeout(() => {
                             updateCycleTimer(i, endTime);
                         }, 1000);
@@ -3329,6 +3629,7 @@
             
             if (timeLeft <= 0) {
                 timerElement.textContent = 'Ready';
+                // Update status to Ready
                 const row = document.getElementById(`cycle-row-${cycleId}`);
                 if (row) {
                     const statusBadge = row.querySelector('.status-badge');
@@ -3347,6 +3648,7 @@
             
             timerElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
             
+            // Update every second
             setTimeout(() => {
                 updateCycleTimer(cycleId, endTime);
             }, 1000);
@@ -3379,6 +3681,7 @@
                     const percent = parseFloat(savingDetails.currentPercent) / 10;
                     const dailyReward = parseFloat(web3.utils.fromWei(savingDetails.dailyReward, 'ether')).toFixed(4);
                     
+                    // Calculate real-time earned amount
                     const lastPayout = parseInt(savingDetails.lastPayout);
                     const now = Math.floor(Date.now() / 1000);
                     let earned = 0;
@@ -3393,12 +3696,11 @@
                     const statusClass = isActive ? 'status-active' : 'status-exp';
                     
                     const row = document.createElement('tr');
-                    row.dataset.savingId = i;
                     row.innerHTML = `
                         <td><span class="status-badge ${statusClass}">${status}</span></td>
                         <td>${amount} USDT</td>
-                        <td class="saving-roi">${percent.toFixed(2)}%</td>
-                        <td class="saving-earned">${earned.toFixed(4)} USDT</td>
+                        <td>${percent.toFixed(2)}%</td>
+                        <td>${earned.toFixed(4)} USDT</td>
                     `;
                     tbody.appendChild(row);
                 }
@@ -3433,6 +3735,7 @@
                 const amountInWei = web3.utils.toWei(amount.toString(), 'ether');
                 const referrer = document.getElementById('cycleReferrer').value || '0x0000000000000000000000000000000000000000';
                 
+                // Check allowance and approve if needed
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
                 if (BigInt(allowance) < BigInt(amountInWei)) {
                     showNotification('Approving USDT...', 'info');
@@ -3450,6 +3753,7 @@
                     showPopup(successPopup);
                     await loadUserData();
                     await loadContractStats();
+                    // Reset form
                     document.getElementById('cycleAmount').value = '';
                     selectedCyclePlan = null;
                     document.getElementById('cycleDropdown').querySelector('.dropdown-selected').innerHTML = '<span>Nothing selected</span><i class="fas fa-chevron-down"></i>';
@@ -3484,6 +3788,7 @@
                 const amountInWei = web3.utils.toWei(amount.toString(), 'ether');
                 const referrer = document.getElementById('savingReferrer').value || '0x0000000000000000000000000000000000000000';
                 
+                // Check allowance and approve if needed
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
                 if (BigInt(allowance) < BigInt(amountInWei)) {
                     showNotification('Approving USDT...', 'info');
@@ -3501,6 +3806,7 @@
                     showPopup(successPopup);
                     await loadUserData();
                     await loadContractStats();
+                    // Reset form
                     document.getElementById('savingAmount').value = '';
                 } else {
                     throw new Error('Transaction failed');
@@ -3531,6 +3837,7 @@
             try {
                 showNotification('Withdrawing cycles...', 'info');
                 
+                // Withdraw each selected cycle
                 let successCount = 0;
                 for (const cycleId of selectedCycleForWithdraw) {
                     try {
