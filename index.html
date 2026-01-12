@@ -3833,7 +3833,7 @@
                 showNotification('Processing Cycle Investment...', 'info');
                 const tx = await contract.methods.depositCycle(amountInWei, selectedCyclePlan, referrer).send({ 
                     from: userAccount,
-                    gas: 300000 
+                    gas: 500000 
                 });
                 
                 if (tx.status) {
@@ -3893,7 +3893,7 @@
                 showNotification('Processing Saving Investment...', 'info');
                 const tx = await contract.methods.depositSaving(amountInWei, referrer).send({ 
                     from: userAccount,
-                    gas: 300000 
+                    gas: 500000 
                 });
                 
                 if (tx.status) {
