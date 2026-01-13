@@ -2726,7 +2726,7 @@
                 
             } catch (error) {
                 console.error('Initialization error:', error);
-                showNotification('Initializing application...', 'info');
+                showNotification('Initializing application', 'info');
             }
         }
 
@@ -3122,7 +3122,7 @@
                         updateWalletUI();
                         loadUserData();
                         updateReferralLinks();
-                        showNotification('Account changed', 'info');
+                        showNotification('Account changed!', 'info');
                     } else {
                         userAccount = null;
                         localStorage.removeItem('walletConnected');
