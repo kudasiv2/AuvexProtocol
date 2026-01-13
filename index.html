@@ -161,7 +161,7 @@
             margin-bottom: 30px !important;
         }
 
-        /* ===== PRELOADER ===== */
+        /* ===== PRELOADER (PROFESSIONAL VERSION) ===== */
         .preloader {
             position: fixed; 
             inset: 0;
@@ -180,8 +180,8 @@
 
         .loader-container {
             position: relative;
-            width: 140px;
-            height: 140px;
+            width: 120px;
+            height: 120px;
             margin-bottom: 20px;
         }
 
@@ -190,20 +190,18 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border: 3px solid transparent;
-            border-top: 3px solid var(--primary-accent);
-            border-right: 3px solid var(--secondary-accent);
-            border-bottom: 3px solid var(--highlight-accent);
-            animation: spin 1.5s linear infinite;
-            box-shadow: 0 0 25px rgba(138, 43, 226, 0.2);
+            border: 2px solid transparent;
+            border-top: 2px solid var(--primary-accent);
+            border-right: 2px solid var(--secondary-accent);
+            animation: spin 1.2s linear infinite;
         }
 
         .loader-inner {
             position: absolute;
-            top: 12px;
-            left: 12px;
-            right: 12px;
-            bottom: 12px;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
             border-radius: 50%;
             border: 2px solid transparent;
             border-top: 2px solid var(--secondary-accent);
@@ -213,25 +211,24 @@
 
         .loader-core {
             position: absolute;
-            top: 35px;
-            left: 35px;
-            right: 35px;
-            bottom: 35px;
+            top: 45px;
+            left: 45px;
+            right: 45px;
+            bottom: 45px;
             border-radius: 50%;
-            background: var(--gradient-main);
+            background: radial-gradient(circle at center, var(--primary-accent) 0%, transparent 70%);
             animation: pulse-core 2s ease-in-out infinite;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
         }
 
-        .loader-logo {
-            width: 45px;
-            height: 45px;
-            object-fit: contain;
-            filter: brightness(1.2);
-            animation: pulse-logo 3s ease-in-out infinite;
+        .loader-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--text-accent);
+            border-radius: 50%;
+            animation: pulse-dot 1.5s ease-in-out infinite;
         }
 
         @keyframes spin {
@@ -245,13 +242,27 @@
         }
 
         @keyframes pulse-core {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 0.6; 
+                box-shadow: 0 0 0 0 rgba(138, 43, 226, 0.4);
+            }
+            50% { 
+                transform: scale(1.05); 
+                opacity: 1; 
+                box-shadow: 0 0 0 10px rgba(138, 43, 226, 0);
+            }
         }
 
-        @keyframes pulse-logo {
-            0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.1); opacity: 1; }
+        @keyframes pulse-dot {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 0.8; 
+            }
+            50% { 
+                transform: scale(1.2); 
+                opacity: 1; 
+            }
         }
 
         .preloader-text { 
@@ -265,6 +276,14 @@
             background-clip: text;
             text-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
             margin-top: 15px;
+        }
+
+        .preloader-subtext {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+            letter-spacing: 1px;
         }
 
         /* ===== HEADER & NAVIGATION ===== */
@@ -1788,16 +1807,17 @@
     </style>
 </head>
 <body>
-    <!-- Preloader -->
+    <!-- Preloader (Professional Version) -->
     <div class="preloader">
         <div class="loader-container">
             <div class="loader"></div>
             <div class="loader-inner"></div>
             <div class="loader-core">
-                <img src="image/logo.png" alt="AUVEX" class="loader-logo">
+                <div class="loader-dot"></div>
             </div>
         </div>
-        <div class="preloader-text">AUVEX</div>
+        <div class="preloader-text">AUVEX PROTOCOL</div>
+        <div class="preloader-subtext">Initializing Smart Contract Connection...</div>
     </div>
 
     <!-- Header -->
@@ -2157,7 +2177,7 @@
                         <div class="roi-calculator" id="savingRoiCalculator">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                                 <span style="color: var(--text-accent); font-weight: 600;">Daily Earnings</span>
-                                <span id="savingRoiPercent" style="color: #00cc66; font-weight: 700;">0.3-0.8%</span>
+                                <span id="savingRoiPercent" style="color: #00cc66; font-weight: 700;">0.3%</span>
                             </div>
                             <div class="roi-display">
                                 <div class="roi-item">
@@ -2197,6 +2217,7 @@
                                         <th>Status</th>
                                         <th>Amount</th>
                                         <th>Daily ROI</th>
+                                        <th>Earned</th>
                                         <th>Accumulated</th>
                                     </tr>
                                 </thead>
@@ -2611,6 +2632,8 @@
         let userInfo = null;
         let savingDataInterval = null;
         let currentCycleMinAmount = 5;
+        let currentSavingROI = 0.3; // Default ROI
+        let savingWithdrawals = {}; // Track withdrawals per saving
 
         // ===== DOM ELEMENTS =====
         const preloader = document.querySelector('.preloader');
@@ -2660,7 +2683,11 @@
                 
                 await loadContractStats();
                 
+                // Load saving ROI from contract
+                await updateSavingROIFromContract();
+                
                 setInterval(loadContractStats, 30000);
+                setInterval(updateSavingROIFromContract, 10000); // Update ROI every 10 seconds
                 
             } catch (error) {
                 console.error('Initialization error:', error);
@@ -2687,6 +2714,49 @@
                 
             } catch (error) {
                 console.error('Error loading contract stats:', error);
+            }
+        }
+
+        // ===== REAL-TIME SAVING ROI CALCULATION =====
+        async function updateSavingROIFromContract() {
+            if (!contract) return;
+            
+            try {
+                // Get pool balance from contract
+                const poolBalance = await contract.methods.poolBalance().call();
+                const poolBalanceNum = parseFloat(web3.utils.fromWei(poolBalance, 'ether'));
+                
+                // Calculate ROI based on pool balance (logika dari smart contract)
+                // Semakin besar pool balance, semakin kecil ROI (antara 0.3% - 0.8%)
+                let roiPercent = 0.3;
+                
+                if (poolBalanceNum > 100000) { // Jika pool > 100,000 USDT
+                    roiPercent = 0.3;
+                } else if (poolBalanceNum > 50000) { // 50,000 - 100,000 USDT
+                    roiPercent = 0.4;
+                } else if (poolBalanceNum > 20000) { // 20,000 - 50,000 USDT
+                    roiPercent = 0.5;
+                } else if (poolBalanceNum > 10000) { // 10,000 - 20,000 USDT
+                    roiPercent = 0.6;
+                } else if (poolBalanceNum > 5000) { // 5,000 - 10,000 USDT
+                    roiPercent = 0.7;
+                } else { // < 5,000 USDT
+                    roiPercent = 0.8;
+                }
+                
+                currentSavingROI = roiPercent;
+                
+                // Update ROI display
+                document.getElementById('savingRoiPercent').textContent = `${roiPercent.toFixed(1)}%`;
+                
+                // Update calculator if there's an amount entered
+                const amount = parseFloat(document.getElementById('savingAmount').value);
+                if (!isNaN(amount) && amount >= 5) {
+                    updateSavingROICalculator();
+                }
+                
+            } catch (error) {
+                console.error('Error updating saving ROI:', error);
             }
         }
 
@@ -2798,12 +2868,11 @@
             
             if (isNaN(amount) || amount < 5) return;
             
-            const minDaily = (amount * 0.3) / 100;
-            const maxDaily = (amount * 0.8) / 100;
+            const dailyEarnings = (amount * currentSavingROI) / 100;
             
-            document.getElementById('savingRoiDaily').textContent = `${minDaily.toFixed(4)}-${maxDaily.toFixed(4)} USDT`;
-            document.getElementById('savingRoiWeekly').textContent = `${(minDaily * 7).toFixed(4)}-${(maxDaily * 7).toFixed(4)} USDT`;
-            document.getElementById('savingRoiMonthly').textContent = `${(minDaily * 30).toFixed(4)}-${(maxDaily * 30).toFixed(4)} USDT`;
+            document.getElementById('savingRoiDaily').textContent = `${dailyEarnings.toFixed(4)} USDT`;
+            document.getElementById('savingRoiWeekly').textContent = `${(dailyEarnings * 7).toFixed(4)} USDT`;
+            document.getElementById('savingRoiMonthly').textContent = `${(dailyEarnings * 30).toFixed(4)} USDT`;
         }
 
         // ===== MODAL FUNCTIONS =====
@@ -3131,6 +3200,9 @@
                 
                 if (savingInvestments.length === 0) return;
                 
+                // Update ROI based on latest pool balance
+                await updateSavingROIFromContract();
+                
                 const tbody = document.getElementById('savingsTableBody');
                 if (!tbody) return;
                 
@@ -3142,12 +3214,32 @@
                     
                     if (isActive) {
                         const currentPercent = parseFloat(investment.currentPercent) / 10;
+                        const amount = parseFloat(web3.utils.fromWei(investment.amount, 'ether'));
+                        const lastPayout = parseInt(investment.lastPayout);
+                        const now = Math.floor(Date.now() / 1000);
+                        
+                        // Calculate earned since last payout (real-time)
+                        let earned = 0;
+                        if (lastPayout > 0) {
+                            const timePassed = now - lastPayout;
+                            const secondsInDay = 24 * 60 * 60;
+                            earned = (amount * currentPercent / 100) * (timePassed / secondsInDay);
+                        }
+                        
+                        // Get accumulated reward from contract
                         const accumulatedReward = parseFloat(web3.utils.fromWei(investment.accumulatedReward, 'ether'));
                         
+                        // Track withdrawals for this saving
+                        const savingId = i;
+                        if (!savingWithdrawals[savingId]) {
+                            savingWithdrawals[savingId] = 0;
+                        }
+                        
                         const cells = rows[i].querySelectorAll('td');
-                        if (cells.length >= 4) {
+                        if (cells.length >= 5) {
                             cells[2].textContent = `${currentPercent.toFixed(2)}%`;
-                            cells[3].textContent = `${accumulatedReward.toFixed(4)} USDT`;
+                            cells[3].textContent = `${earned.toFixed(4)} USDT`;
+                            cells[4].textContent = `${(accumulatedReward + savingWithdrawals[savingId]).toFixed(4)} USDT`;
                         }
                     }
                 }
@@ -3694,12 +3786,28 @@
                 const tbody = document.getElementById('savingsTableBody');
                 tbody.innerHTML = '';
                 
+                // Initialize withdrawals tracking
+                savingWithdrawals = {};
+                
                 savings.forEach((saving, index) => {
                     const isActive = saving.active;
                     
                     const amount = parseFloat(web3.utils.fromWei(saving.amount, 'ether')).toFixed(2);
                     const percent = parseFloat(saving.currentPercent) / 10;
                     const accumulated = parseFloat(web3.utils.fromWei(saving.accumulatedReward, 'ether')).toFixed(4);
+                    const lastPayout = parseInt(saving.lastPayout);
+                    const now = Math.floor(Date.now() / 1000);
+                    
+                    // Calculate real-time earned amount
+                    let earned = 0;
+                    if (lastPayout > 0 && isActive) {
+                        const timePassed = now - lastPayout;
+                        const secondsInDay = 24 * 60 * 60;
+                        earned = (parseFloat(amount) * percent / 100) * (timePassed / secondsInDay);
+                    }
+                    
+                    // Initialize withdrawals tracking for this saving
+                    savingWithdrawals[index] = 0;
                     
                     const status = isActive ? 'Active' : 'Inactive';
                     const statusClass = isActive ? 'status-active' : 'status-exp';
@@ -3709,6 +3817,7 @@
                         <td><span class="status-badge ${statusClass}">${status}</span></td>
                         <td>${amount} USDT</td>
                         <td>${percent.toFixed(2)}%</td>
+                        <td>${earned.toFixed(4)} USDT</td>
                         <td>${accumulated} USDT</td>
                     `;
                     tbody.appendChild(row);
@@ -3987,6 +4096,16 @@
                 
                 if (tx.status) {
                     showNotification('Saving rewards withdrawn successfully!', 'success');
+                    
+                    // Update withdrawals tracking
+                    const savings = await contract.methods.getUserSavingInvestments(userAccount).call();
+                    savings.forEach((saving, index) => {
+                        if (saving.active) {
+                            const accumulated = parseFloat(web3.utils.fromWei(saving.accumulatedReward, 'ether'));
+                            savingWithdrawals[index] = (savingWithdrawals[index] || 0) + accumulated;
+                        }
+                    });
+                    
                     await loadUserData();
                     await loadContractStats();
                 } else {
