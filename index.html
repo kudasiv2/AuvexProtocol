@@ -1804,6 +1804,40 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
+
+        /* New Styles for Compliance Fixes */
+        .roi-range {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            display: block;
+        }
+
+        .pool-warning {
+            background: linear-gradient(145deg, rgba(245, 158, 11, 0.15), rgba(138, 43, 226, 0.1));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 12px 16px;
+            margin: 15px 0;
+            font-size: 0.85rem;
+            color: #fbbf24;
+        }
+
+        .admin-disclaimer {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 10px;
+            border-top: 1px solid rgba(138, 43, 226, 0.2);
+            padding-top: 10px;
+        }
+
+        .withdrawal-note {
+            font-size: 0.8rem;
+            color: #00cc66;
+            margin-top: 5px;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -1881,6 +1915,13 @@
                         <p class="auvex-subheadline">
                             Immutable smart contracts executing investments and rewards with precision, transparency and on-chain integrity
                         </p>
+                        
+                        <!-- Pool Dependency Warning -->
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>All rewards depend on pool liquidity. Certain protocol operations are managed by admin smart-contract logic.</span>
+                        </div>
+                        
                         <div class="hero__buttons">
                             <button class="btn btn--primary btn-lg" data-section="cycle">
                                 <i class="fas fa-sync-alt"></i>
@@ -1903,8 +1944,8 @@
                             </div>
                             <div class="card__content">
                                 <div class="stat-item">
-                                    <span class="label">Liquidity</span>
-                                    <span class="value" id="statLiquidity">Loading...</span>
+                                    <span class="label">Pool Balance</span>
+                                    <span class="value" id="statPoolBalance">Loading...</span>
                                 </div>
                                 <div class="stat-item">
                                     <span class="label">Total Users</span>
@@ -1919,9 +1960,13 @@
                                     <span class="value" id="statTotalPaid">Loading...</span>
                                 </div>
                                 <div class="stat-item">
-                                    <span class="label">Scorch Referral Pool</span>
-                                    <span class="value" id="statScorchReferral">Loading...</span>
+                                    <span class="label">Available Liquidity</span>
+                                    <span class="value" id="statAvailableLiquidity">Loading...</span>
                                 </div>
+                            </div>
+                            <div class="pool-warning" style="margin-top: 15px; font-size: 0.7rem;">
+                                <i class="fas fa-info-circle"></i>
+                                Rewards depend on pool balance. Claims may fail if insufficient.
                             </div>
                         </div>
                     </div>
@@ -1934,7 +1979,7 @@
             <div class="container">
                 <div class="section__header">
                     <h1 class="auvex-headline">Cycle Investment</h1>
-                    <p class="auvex-subheadline">Execute short-term yield cycles with fixed duration and guaranteed returns</p>
+                    <p class="auvex-subheadline">Fixed-term cycles with guaranteed returns. Profits can only be claimed after cycle ends.</p>
                 </div>
 
                 <div class="alert alert-warning" id="cycleWalletAlert">
@@ -1955,25 +2000,25 @@
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
                                 <div class="dropdown-options">
-                                    <div class="dropdown-option" data-plan="0" data-min="5">
+                                    <div class="dropdown-option" data-plan="0">
                                         <div class="plan-duration">1 Day Cycle</div>
-                                        <div class="plan-return">100.3% Return</div>
+                                        <div class="plan-return">100.3% Total Return</div>
                                         <small style="font-size: 0.75rem; color: var(--secondary-accent);">Min: 5 USDT</small>
                                     </div>
-                                    <div class="dropdown-option" data-plan="1" data-min="10">
+                                    <div class="dropdown-option" data-plan="1">
                                         <div class="plan-duration">7 Day Cycle</div>
-                                        <div class="plan-return">103.0% Return</div>
-                                        <small style="font-size: 0.75rem; color: var(--secondary-accent);">Min: 10 USDT</small>
+                                        <div class="plan-return">103.0% Total Return</div>
+                                        <small style="font-size: 0.75rem; color: var(--secondary-accent);">Min: 5 USDT</small>
                                     </div>
-                                    <div class="dropdown-option" data-plan="2" data-min="15">
+                                    <div class="dropdown-option" data-plan="2">
                                         <div class="plan-duration">14 Day Cycle</div>
-                                        <div class="plan-return">106.0% Return</div>
-                                        <small style="font-size: 0.75rem; color: var(--secondary-accent);">Min: 15 USDT</small>
+                                        <div class="plan-return">106.0% Total Return</div>
+                                        <small style="font-size: 0.75rem; color: var(--secondary-accent);">Min: 5 USDT</small>
                                     </div>
-                                    <div class="dropdown-option" data-plan="3" data-min="20">
+                                    <div class="dropdown-option" data-plan="3">
                                         <div class="plan-duration">30 Day Cycle</div>
-                                        <div class="plan-return">112.0% Return</div>
-                                        <small style="font-size: 0.75rem; color: var(--secondary-accent);">Min: 20 USDT</small>
+                                        <div class="plan-return">112.0% Total Return</div>
+                                        <small style="font-size: 0.75rem; color: var(--secondary-accent);">Min: 5 USDT</small>
                                     </div>
                                 </div>
                             </div>
@@ -1983,7 +2028,7 @@
                             <label for="cycleAmount">Amount (USDT)</label>
                             <input type="number" id="cycleAmount" class="form-input" placeholder="0.00" min="5" step="1">
                             <div class="amount-range" id="cycleAmountRange" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">
-                                Minimum 5 USDT
+                                Minimum 5 USDT (applies to all plans)
                             </div>
                         </div>
 
@@ -1998,7 +2043,7 @@
                         <!-- ROI Calculator -->
                         <div class="roi-calculator" id="cycleRoiCalculator" style="display: none;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <span style="color: var(--text-accent); font-weight: 600;">Estimated Returns</span>
+                                <span style="color: var(--text-accent); font-weight: 600;">Total Return at Cycle End</span>
                                 <span id="cycleRoiPercent" style="color: #00cc66; font-weight: 700;">0%</span>
                             </div>
                             <div class="roi-display">
@@ -2014,6 +2059,9 @@
                                     <div class="roi-label">Total Return</div>
                                     <div class="roi-value" id="cycleRoiTotal">0 USDT</div>
                                 </div>
+                            </div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 10px; text-align: center;">
+                                <i class="fas fa-clock"></i> Claimable only after cycle ends
                             </div>
                         </div>
 
@@ -2064,6 +2112,12 @@
                         <div style="margin-top: 35px; padding-top: 25px; border-top: 1px solid rgba(138, 43, 226, 0.3);">
                             <h4 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.2rem;">Cycle Referral Program</h4>
                             
+                            <!-- Pool Dependency Warning -->
+                            <div class="pool-warning">
+                                <i class="fas fa-info-circle"></i>
+                                Referral rewards depend on pool liquidity and your active investment status.
+                            </div>
+                            
                             <!-- Referral Link Box -->
                             <div class="referral-link-box">
                                 <div class="referral-link" id="cycleReferralLink">Connect wallet to generate link</div>
@@ -2075,8 +2129,8 @@
                             <div class="stats-grid">
                                 <div class="stat-card">
                                     <div class="stat-icon"><i class="fas fa-coins"></i></div>
-                                    <div class="stat-value" id="cycleTotalEarned">0 USDT</div>
-                                    <div class="stat-label">Referral Earnings</div>
+                                    <div class="stat-value" id="cyclePendingRewards">0 USDT</div>
+                                    <div class="stat-label">Pending Rewards</div>
                                 </div>
                                 <div class="stat-card">
                                     <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
@@ -2092,8 +2146,11 @@
 
                             <button class="btn btn--outline btn-lg" id="withdrawCycleReferral" style="margin-top: 20px; width: 100%;">
                                 <i class="fas fa-hand-holding-usd"></i> 
-                                <span class="btn-text">Withdraw Referral Rewards</span>
+                                <span class="btn-text">Claim Referral Rewards</span>
                             </button>
+                            <div class="admin-disclaimer">
+                                Certain protocol operations are managed by admin smart-contract logic.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2101,11 +2158,14 @@
                 <!-- Cycle Referral Levels -->
                 <div class="content-container" style="margin-top: 35px;">
                     <h3 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.3rem;">Cycle Referral Levels</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem;">
+                        Qualification requires maintaining minimum active investment. Levels become inactive if your active investment drops to zero.
+                    </p>
                     <div class="referral-levels">
                         <div class="referral-level" id="cycleLevel1">
                             <div class="level-number">1</div>
                             <div class="level-percent">15%</div>
-                            <div class="level-requirement">Requires 20 USDT active stake</div>
+                            <div class="level-requirement">20 USDT active stake</div>
                             <div class="qualification-badge qualification-pending" style="margin-top: 8px;">
                                 <i class="fas fa-clock"></i> Not Qualified
                             </div>
@@ -2144,7 +2204,7 @@
             <div class="container">
                 <div class="section__header">
                     <h1 class="auvex-headline">Saving Investment</h1>
-                    <p class="auvex-subheadline">Dynamic daily yields with flexible capital withdrawal options</p>
+                    <p class="auvex-subheadline">Dynamic daily yields with flexible capital withdrawal. Principal can be withdrawn anytime.</p>
                 </div>
 
                 <div class="alert alert-warning" id="savingWalletAlert">
@@ -2176,9 +2236,13 @@
                         <!-- ROI Calculator -->
                         <div class="roi-calculator" id="savingRoiCalculator">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <span style="color: var(--text-accent); font-weight: 600;">Daily Earnings</span>
+                                <span style="color: var(--text-accent); font-weight: 600;">Current Daily ROI</span>
                                 <span id="savingRoiPercent" style="color: #00cc66; font-weight: 700;">0.3%</span>
                             </div>
+                            <span class="roi-range">Dynamic ROI Range: 0.3% – 0.8%</span>
+                            <span class="roi-range" style="color: var(--text-muted); font-size: 0.7rem;">
+                                <i class="fas fa-info-circle"></i> Based on current pool conditions
+                            </span>
                             <div class="roi-display">
                                 <div class="roi-item">
                                     <div class="roi-label">Daily</div>
@@ -2193,6 +2257,14 @@
                                     <div class="roi-value" id="savingRoiMonthly">0 USDT</div>
                                 </div>
                             </div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 10px; text-align: center;">
+                                <i class="fas fa-exclamation-circle"></i> ROI adjusts weekly based on pool performance
+                            </div>
+                        </div>
+
+                        <div class="pool-warning">
+                            <i class="fas fa-info-circle"></i>
+                            Starting ROI is 0.3%. Increases only if pool grows 50%+ in 7 days.
                         </div>
 
                         <button class="btn btn--primary btn-lg" id="confirmSaving" style="width: 100%; margin-top: 10px;">
@@ -2216,8 +2288,8 @@
                                     <tr>
                                         <th>Status</th>
                                         <th>Amount</th>
-                                        <th>Daily ROI</th>
-                                        <th>Earned</th>
+                                        <th>Current ROI</th>
+                                        <th>Earned (24h)</th>
                                         <th>Accumulated</th>
                                     </tr>
                                 </thead>
@@ -2237,10 +2309,19 @@
                                 <span class="btn-text">Withdraw Capital</span>
                             </button>
                         </div>
+                        <span class="withdrawal-note">
+                            <i class="fas fa-check-circle"></i> Principal can be withdrawn anytime, no penalty
+                        </span>
 
                         <!-- Saving Referral Program -->
                         <div style="margin-top: 35px; padding-top: 25px; border-top: 1px solid rgba(138, 43, 226, 0.3);">
                             <h4 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.2rem;">Saving Referral Program</h4>
+                            
+                            <!-- Pool Dependency Warning -->
+                            <div class="pool-warning">
+                                <i class="fas fa-info-circle"></i>
+                                Referral rewards depend on pool liquidity and your active investment status.
+                            </div>
                             
                             <!-- Referral Link Box -->
                             <div class="referral-link-box">
@@ -2253,8 +2334,8 @@
                             <div class="stats-grid">
                                 <div class="stat-card">
                                     <div class="stat-icon"><i class="fas fa-coins"></i></div>
-                                    <div class="stat-value" id="savingTotalEarned">0 USDT</div>
-                                    <div class="stat-label">Referral Earnings</div>
+                                    <div class="stat-value" id="savingPendingRewards">0 USDT</div>
+                                    <div class="stat-label">Pending Rewards</div>
                                 </div>
                                 <div class="stat-card">
                                     <div class="stat-icon"><i class="fas fa-layer-group"></i></div>
@@ -2270,8 +2351,11 @@
 
                             <button class="btn btn--outline btn-lg" id="withdrawSavingReferral" style="margin-top: 20px; width: 100%;">
                                 <i class="fas fa-hand-holding-usd"></i> 
-                                <span class="btn-text">Withdraw Referral Rewards</span>
+                                <span class="btn-text">Claim Referral Rewards</span>
                             </button>
+                            <div class="admin-disclaimer">
+                                Certain protocol operations are managed by admin smart-contract logic.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2279,6 +2363,9 @@
                 <!-- Saving Referral Levels -->
                 <div class="content-container" style="margin-top: 35px;">
                     <h3 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.3rem;">Saving Referral Levels</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem;">
+                        Qualification requires maintaining minimum active investment. Levels become inactive if your active investment drops to zero.
+                    </p>
                     <div class="referral-levels">
                         <div class="referral-level" id="savingLevel1">
                             <div class="level-number">1</div>
@@ -2389,7 +2476,7 @@
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </div>
                         <div class="faq-answer">
-                            <p>Cycle Investments have fixed durations (1, 7, 14, or 30 days) with guaranteed returns ranging from 100.3% to 112%. Your investment is locked for the duration, and at the end, you can withdraw your principal plus profit. You can also "regrow" completed cycles into new ones.</p>
+                            <p>Cycle Investments have fixed durations (1, 7, 14, or 30 days) with guaranteed returns ranging from 100.3% to 112%. Your investment is locked for the duration, and profits can ONLY be claimed after the cycle ends. There is no early withdrawal. Minimum investment for ALL cycle plans is 5 USDT.</p>
                         </div>
                     </div>
                     <div class="faq-item">
@@ -2398,7 +2485,7 @@
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </div>
                         <div class="faq-answer">
-                            <p>Saving Investments provide flexible daily yields ranging from 0.3% to 0.8% based on pool performance. You can withdraw your earnings daily (after 24-hour cooldown) and withdraw your capital anytime. Interest rates adjust automatically based on pool growth.</p>
+                            <p>Saving Investments start with 0.3% daily ROI (not 0.8%). ROI can increase up to 0.8% only if pool balance grows by 50%+ over 7 days. You can withdraw earnings daily (after 24-hour cooldown) and withdraw your principal ANYTIME with no penalty. Minimum investment is 5 USDT.</p>
                         </div>
                     </div>
                     <div class="faq-item">
@@ -2407,43 +2494,43 @@
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </div>
                         <div class="faq-answer">
-                            <p>Auvex has a multi-level referral program. For Cycle Investments, you earn 15%, 7%, 2%, and 1% on 4 levels. For Saving Investments, you earn 20%, 15%, 8%, 4%, 2%, 2%, 1%, 1%, 1%, and 1% on 10 levels. Qualification requires maintaining minimum active stakes.</p>
+                            <p>Referral rewards are NOT auto-transferred. They accumulate in your contract balance and must be manually claimed using "Claim Referral Rewards" buttons. Qualification requires maintaining minimum active investment. If your active investment drops to zero, you lose referral qualification.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">
-                            <h3>What is the Scorch Referral Pool?</h3>
+                            <h3>What is the minimum investment?</h3>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </div>
                         <div class="faq-answer">
-                            <p>When referrers don't meet qualification requirements, their referral rewards go to the Scorch Pool. This pool accumulates and can be withdrawn by the protocol admin, creating additional ecosystem sustainability.</p>
+                            <p>Minimum investment for BOTH Cycle and Saving is 5 USDT. This applies to ALL cycle plans (1-day, 7-day, 14-day, 30-day). The smart contract enforces this minimum globally.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">
-                            <h3>Is my investment safe?</h3>
+                            <h3>Are rewards guaranteed?</h3>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </div>
                         <div class="faq-answer">
-                            <p>All investments are secured by audited smart contracts on Binance Smart Chain. The contract code is immutable and transparent. However, as with any DeFi protocol, there are inherent risks including smart contract vulnerabilities and market conditions.</p>
+                            <p>All rewards depend on pool liquidity. Cycle returns are fixed percentages but require sufficient pool balance at withdrawal time. Saving ROI is dynamic (0.3%-0.8%) and adjusts based on pool performance. Claims may fail if pool balance is insufficient.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">
-                            <h3>What are the minimum investments?</h3>
+                            <h3>Can I withdraw my capital anytime?</h3>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </div>
                         <div class="faq-answer">
-                            <p>Minimum investment for both Cycle and Saving is 5 USDT. Different Cycle plans have additional minimums: 10 USDT for 7-day, 15 USDT for 14-day, and 20 USDT for 30-day cycles.</p>
+                            <p>For Saving investments: YES, principal can be withdrawn anytime with no lock period or penalty. For Cycle investments: NO, capital is locked until the cycle ends. Early withdrawal is not possible.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <div class="faq-question">
-                            <h3>How do I qualify for referral rewards?</h3>
+                            <h3>What happens if pool balance is low?</h3>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </div>
                         <div class="faq-answer">
-                            <p>For Cycle referrals: Level 1 requires 20 USDT stake, Level 2 requires +1 qualified downline, Level 3 requires +3 downlines, Level 4 requires +5 downlines. For Saving referrals: Each level requires increasing active stakes from 10 to 100 USDT.</p>
+                            <p>If pool balance is insufficient, claim transactions will fail. The contract includes admin mechanics for protocol sustainability. Always check pool status before making large investments.</p>
                         </div>
                     </div>
                 </div>
@@ -2496,7 +2583,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Withdraw Cycle</h2>
-                <p style="color: var(--text-muted);">Select cycles to withdraw</p>
+                <p style="color: var(--text-muted);">Select cycles to withdraw (claimable only after cycle ends)</p>
             </div>
             <div class="modal-body">
                 <div class="cycle-list" id="withdrawCycleList">
@@ -2574,7 +2661,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">Withdraw Capital</h2>
-                <p style="color: var(--text-muted);">Select saving to withdraw capital</p>
+                <p style="color: var(--text-muted);">Select saving to withdraw capital (available anytime, no penalty)</p>
             </div>
             <div class="modal-body">
                 <div class="cycle-list" id="withdrawCapitalList">
@@ -2631,8 +2718,8 @@
         let userSavings = [];
         let userInfo = null;
         let savingDataInterval = null;
-        let currentCycleMinAmount = 5;
-        let currentSavingROI = 0.3; // Default ROI
+        let currentCycleMinAmount = 5; // Fixed: 5 USDT for ALL plans
+        let currentSavingROI = 0.3; // Default ROI: 0.3% as per contract (SAVING_MIN_PERCENT)
         let savingWithdrawals = {}; // Track withdrawals per saving
 
         // ===== DOM ELEMENTS =====
@@ -2683,7 +2770,7 @@
                 
                 await loadContractStats();
                 
-                // Load saving ROI from contract
+                // Load saving ROI from contract - START with 0.3% as per SAVING_MIN_PERCENT
                 await updateSavingROIFromContract();
                 
                 setInterval(loadContractStats, 30000);
@@ -2706,11 +2793,12 @@
                     return value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
                 };
                 
-                document.getElementById('statLiquidity').textContent = `${formatUSDT(dashboard.availableLiquidity)} USDT`;
+                // Update stats with proper labels
+                document.getElementById('statPoolBalance').textContent = `${formatUSDT(dashboard.globalPoolBalance)} USDT`;
                 document.getElementById('statTotalUsers').textContent = `${parseInt(dashboard.globalTotalUsers).toLocaleString('en-US')} Users`;
                 document.getElementById('statTotalInvest').textContent = `${formatUSDT(dashboard.globalTotalInvested)} USDT`;
                 document.getElementById('statTotalPaid').textContent = `${formatUSDT(dashboard.globalTotalWithdrawn)} USDT`;
-                document.getElementById('statScorchReferral').textContent = `${formatUSDT(dashboard.globalScorchPool)} USDT`;
+                document.getElementById('statAvailableLiquidity').textContent = `${formatUSDT(dashboard.availableLiquidity)} USDT`;
                 
             } catch (error) {
                 console.error('Error loading contract stats:', error);
@@ -2722,26 +2810,29 @@
             if (!contract) return;
             
             try {
-                // Get pool balance from contract
+                // Get current saving ROI from contract state
+                // According to contract: START with SAVING_MIN_PERCENT = 0.3%
+                // Only increases if pool grows 50%+ over 7 days
+                // For UI purposes, we'll display current ROI based on recent pool snapshots
+                
+                // First, get pool balance from contract
                 const poolBalance = await contract.methods.poolBalance().call();
                 const poolBalanceNum = parseFloat(web3.utils.fromWei(poolBalance, 'ether'));
                 
-                // Calculate ROI based on pool balance (logika dari smart contract)
-                // Semakin besar pool balance, semakin kecil ROI (antara 0.3% - 0.8%)
-                let roiPercent = 0.3;
+                // Default to minimum ROI as per contract
+                let roiPercent = 0.3; // SAVING_MIN_PERCENT = 3 (which is 0.3%)
                 
-                if (poolBalanceNum > 100000) { // Jika pool > 100,000 USDT
-                    roiPercent = 0.3;
-                } else if (poolBalanceNum > 50000) { // 50,000 - 100,000 USDT
-                    roiPercent = 0.4;
-                } else if (poolBalanceNum > 20000) { // 20,000 - 50,000 USDT
-                    roiPercent = 0.5;
-                } else if (poolBalanceNum > 10000) { // 10,000 - 20,000 USDT
-                    roiPercent = 0.6;
-                } else if (poolBalanceNum > 5000) { // 5,000 - 10,000 USDT
-                    roiPercent = 0.7;
-                } else { // < 5,000 USDT
-                    roiPercent = 0.8;
+                // Try to get user's saving investments to see actual currentPercent
+                if (userAccount) {
+                    try {
+                        const savings = await contract.methods.getUserSavingInvestments(userAccount).call();
+                        if (savings.length > 0 && savings[0].currentPercent) {
+                            // currentPercent is stored as integer (3 for 0.3%, 8 for 0.8%)
+                            roiPercent = parseFloat(savings[0].currentPercent) / 10;
+                        }
+                    } catch (error) {
+                        console.log('Using default ROI');
+                    }
                 }
                 
                 currentSavingROI = roiPercent;
@@ -2777,7 +2868,8 @@
                     const planDuration = option.querySelector('.plan-duration').textContent;
                     const planReturn = option.querySelector('.plan-return').textContent;
                     const plan = option.getAttribute('data-plan');
-                    currentCycleMinAmount = parseInt(option.getAttribute('data-min')) || 5;
+                    // FIXED: ALL plans have minimum 5 USDT
+                    currentCycleMinAmount = 5; // Fixed minimum as per contract
                     
                     cycleSelected.innerHTML = `
                         <span>${planDuration} - ${planReturn}</span>
@@ -2786,7 +2878,7 @@
                     selectedCyclePlan = plan;
                     
                     document.getElementById('cycleAmountRange').innerHTML = 
-                        `Minimum: ${currentCycleMinAmount} USDT`;
+                        `Minimum: ${currentCycleMinAmount} USDT (applies to all plans)`;
                     
                     updateCycleROICalculator();
                     
@@ -2844,7 +2936,8 @@
             const amountInput = document.getElementById('cycleAmount');
             const amount = parseFloat(amountInput.value);
             
-            if (isNaN(amount) || amount < currentCycleMinAmount || !selectedCyclePlan) {
+            // FIXED: Minimum is always 5 USDT for ALL plans
+            if (isNaN(amount) || amount < 5 || !selectedCyclePlan) {
                 document.getElementById('cycleRoiCalculator').style.display = 'none';
                 return;
             }
@@ -2868,6 +2961,7 @@
             
             if (isNaN(amount) || amount < 5) return;
             
+            // Use currentSavingROI (starts at 0.3%, can increase up to 0.8%)
             const dailyEarnings = (amount * currentSavingROI) / 100;
             
             document.getElementById('savingRoiDaily').textContent = `${dailyEarnings.toFixed(4)} USDT`;
@@ -3200,7 +3294,7 @@
                 
                 if (savingInvestments.length === 0) return;
                 
-                // Update ROI based on latest pool balance
+                // Update ROI based on actual contract data
                 await updateSavingROIFromContract();
                 
                 const tbody = document.getElementById('savingsTableBody');
@@ -3213,6 +3307,7 @@
                     const isActive = investment.active;
                     
                     if (isActive) {
+                        // currentPercent is stored as integer (3 for 0.3%, 8 for 0.8%)
                         const currentPercent = parseFloat(investment.currentPercent) / 10;
                         const amount = parseFloat(web3.utils.fromWei(investment.amount, 'ether'));
                         const lastPayout = parseInt(investment.lastPayout);
@@ -3286,10 +3381,10 @@
                     'confirmSaving': '<i class="fas fa-piggy-bank"></i> <span class="btn-text">Confirm Saving Investment</span>',
                     'withdrawCycle': '<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Withdraw Cycle</span>',
                     'regrowCycle': '<i class="fas fa-sync-alt"></i> <span class="btn-text">Regrow Cycle</span>',
-                    'withdrawCycleReferral': '<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Withdraw Referral Rewards</span>',
+                    'withdrawCycleReferral': '<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Claim Referral Rewards</span>',
                     'withdrawSaving': '<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Withdraw Earnings</span>',
                     'withdrawCapitalSaving': '<i class="fas fa-university"></i> <span class="btn-text">Withdraw Capital</span>',
-                    'withdrawSavingReferral': '<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Withdraw Referral Rewards</span>',
+                    'withdrawSavingReferral': '<i class="fas fa-hand-holding-usd"></i> <span class="btn-text">Claim Referral Rewards</span>',
                     'confirmWithdrawCycles': '<span class="btn-text">Confirm Withdrawal</span>',
                     'confirmRegrowModal': '<span class="btn-text">Confirm Regrow</span>',
                     'confirmWithdrawCapital': '<span class="btn-text">Confirm Capital Withdrawal</span>'
@@ -3302,14 +3397,15 @@
         // ===== VALIDATION FUNCTIONS =====
         function validateCycleAmount() {
             const amount = parseFloat(document.getElementById('cycleAmount').value);
-            const minAmount = currentCycleMinAmount || 5;
+            // FIXED: Minimum is ALWAYS 5 USDT for ALL plans
+            const minAmount = 5;
             
             if (isNaN(amount) || amount < minAmount) {
-                document.getElementById('cycleAmountRange').innerHTML = `Minimum: ${minAmount} USDT`;
+                document.getElementById('cycleAmountRange').innerHTML = `Minimum: ${minAmount} USDT (applies to all plans)`;
                 document.getElementById('cycleAmountRange').style.color = '#ff4444';
                 return false;
             } else {
-                document.getElementById('cycleAmountRange').innerHTML = `Minimum: ${minAmount} USDT`;
+                document.getElementById('cycleAmountRange').innerHTML = `Minimum: ${minAmount} USDT (applies to all plans)`;
                 document.getElementById('cycleAmountRange').style.color = 'var(--text-muted)';
                 return true;
             }
@@ -3603,11 +3699,12 @@
                     return value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
                 };
                 
-                document.getElementById('cycleTotalEarned').textContent = `${formatUSDT(dashboard.cycleRewards)} USDT`;
+                // Update labels to show "Pending Rewards" not "Earnings"
+                document.getElementById('cyclePendingRewards').textContent = `${formatUSDT(dashboard.cycleRewards)} USDT`;
                 document.getElementById('cycleTotalTeam').textContent = dashboard.userReferrals;
                 document.getElementById('cycleLevelAchieved').textContent = dashboard.cycleQualificationLevel;
                 
-                document.getElementById('savingTotalEarned').textContent = `${formatUSDT(dashboard.savingRewards)} USDT`;
+                document.getElementById('savingPendingRewards').textContent = `${formatUSDT(dashboard.savingRewards)} USDT`;
                 document.getElementById('savingTotalTeam').textContent = dashboard.userReferrals;
                 document.getElementById('savingLevelAchieved').textContent = dashboard.savingQualificationLevel;
                 
@@ -3623,12 +3720,14 @@
         }
 
         function updateQualificationBadges(dashboard) {
+            // Update cycle qualification badges based on activeInvestment
             for (let i = 1; i <= 4; i++) {
                 const levelElement = document.getElementById(`cycleLevel${i}`);
                 if (levelElement) {
                     const badge = levelElement.querySelector('.qualification-badge');
                     if (badge) {
-                        if (dashboard.cycleQualificationLevel >= i) {
+                        // User is only qualified if activeInvestment > 0
+                        if (dashboard.isUserActive && dashboard.cycleQualificationLevel >= i) {
                             badge.className = 'qualification-badge qualification-achieved';
                             badge.innerHTML = '<i class="fas fa-check-circle"></i> Qualified';
                         } else {
@@ -3639,12 +3738,14 @@
                 }
             }
             
+            // Update saving qualification badges based on activeInvestment
             for (let i = 1; i <= 10; i++) {
                 const levelElement = document.getElementById(`savingLevel${i}`);
                 if (levelElement) {
                     const badge = levelElement.querySelector('.qualification-badge');
                     if (badge) {
-                        if (dashboard.savingQualificationLevel >= i) {
+                        // User is only qualified if activeInvestment > 0
+                        if (dashboard.isUserActive && dashboard.savingQualificationLevel >= i) {
                             badge.className = 'qualification-badge qualification-achieved';
                             badge.innerHTML = '<i class="fas fa-check-circle"></i> Qualified';
                         } else {
@@ -3697,13 +3798,13 @@
                     } else if (claimable) {
                         status = 'Ready';
                         statusClass = 'status-ready';
-                        timeDisplay = 'Ready';
+                        timeDisplay = 'Ready to Claim';
                     } else {
                         const timeLeft = endTime - now;
                         if (timeLeft <= 0) {
                             status = 'Ready';
                             statusClass = 'status-ready';
-                            timeDisplay = 'Ready';
+                            timeDisplay = 'Ready to Claim';
                         } else {
                             const days = Math.floor(timeLeft / (24 * 60 * 60));
                             const hours = Math.floor((timeLeft % (24 * 60 * 60)) / (60 * 60));
@@ -3744,7 +3845,7 @@
             const timeLeft = endTime - now;
             
             if (timeLeft <= 0) {
-                timerElement.textContent = 'Ready';
+                timerElement.textContent = 'Ready to Claim';
                 const row = document.getElementById(`cycle-row-${cycleId}`);
                 if (row) {
                     const statusBadge = row.querySelector('.status-badge');
@@ -3793,17 +3894,18 @@
                     const isActive = saving.active;
                     
                     const amount = parseFloat(web3.utils.fromWei(saving.amount, 'ether')).toFixed(2);
+                    // currentPercent is stored as integer (3 for 0.3%, 8 for 0.8%)
                     const percent = parseFloat(saving.currentPercent) / 10;
                     const accumulated = parseFloat(web3.utils.fromWei(saving.accumulatedReward, 'ether')).toFixed(4);
                     const lastPayout = parseInt(saving.lastPayout);
                     const now = Math.floor(Date.now() / 1000);
                     
-                    // Calculate real-time earned amount
-                    let earned = 0;
+                    // Calculate real-time earned amount (last 24h only)
+                    let earned24h = 0;
                     if (lastPayout > 0 && isActive) {
-                        const timePassed = now - lastPayout;
+                        const timePassed = Math.min(now - lastPayout, 24 * 60 * 60); // Max 24h
                         const secondsInDay = 24 * 60 * 60;
-                        earned = (parseFloat(amount) * percent / 100) * (timePassed / secondsInDay);
+                        earned24h = (parseFloat(amount) * percent / 100) * (timePassed / secondsInDay);
                     }
                     
                     // Initialize withdrawals tracking for this saving
@@ -3817,7 +3919,7 @@
                         <td><span class="status-badge ${statusClass}">${status}</span></td>
                         <td>${amount} USDT</td>
                         <td>${percent.toFixed(2)}%</td>
-                        <td>${earned.toFixed(4)} USDT</td>
+                        <td>${earned24h.toFixed(4)} USDT</td>
                         <td>${accumulated} USDT</td>
                     `;
                     tbody.appendChild(row);
@@ -3836,8 +3938,9 @@
             }
             
             const amount = parseFloat(document.getElementById('cycleAmount').value);
-            if (isNaN(amount) || amount < currentCycleMinAmount) {
-                showNotification(`Minimum investment is ${currentCycleMinAmount} USDT!`, 'error');
+            // FIXED: Minimum is ALWAYS 5 USDT
+            if (isNaN(amount) || amount < 5) {
+                showNotification(`Minimum investment is 5 USDT!`, 'error');
                 return;
             }
             
@@ -4130,23 +4233,23 @@
             showButtonLoading(withdrawBtn, true);
             
             try {
-                showNotification('Withdrawing cycle referral rewards...', 'info');
+                showNotification('Claiming cycle referral rewards...', 'info');
                 const tx = await contract.methods.rewardCycle().send({ 
                     from: userAccount,
                     gas: 200000 
                 });
                 
                 if (tx.status) {
-                    showNotification('Cycle referral rewards withdrawn successfully!', 'success');
+                    showNotification('Cycle referral rewards claimed successfully!', 'success');
                     await loadUserData();
                     await loadContractStats();
                 } else {
-                    throw new Error('Withdrawal failed');
+                    throw new Error('Claim failed');
                 }
                 
             } catch (error) {
                 console.error('Error:', error);
-                showNotification('Withdrawal failed: ' + error.message, 'error');
+                showNotification('Claim failed: ' + error.message, 'error');
             } finally {
                 showButtonLoading(withdrawBtn, false);
             }
@@ -4162,23 +4265,23 @@
             showButtonLoading(withdrawBtn, true);
             
             try {
-                showNotification('Withdrawing saving referral rewards...', 'info');
+                showNotification('Claiming saving referral rewards...', 'info');
                 const tx = await contract.methods.rewardSaving().send({ 
                     from: userAccount,
                     gas: 200000 
                 });
                 
                 if (tx.status) {
-                    showNotification('Saving referral rewards withdrawn successfully!', 'success');
+                    showNotification('Saving referral rewards claimed successfully!', 'success');
                     await loadUserData();
                     await loadContractStats();
                 } else {
-                    throw new Error('Withdrawal failed');
+                    throw new Error('Claim failed');
                 }
                 
             } catch (error) {
                 console.error('Error:', error);
-                showNotification('Withdrawal failed: ' + error.message, 'error');
+                showNotification('Claim failed: ' + error.message, 'error');
             } finally {
                 showButtonLoading(withdrawBtn, false);
             }
