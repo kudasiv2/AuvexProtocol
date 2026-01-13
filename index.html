@@ -1850,8 +1850,8 @@
                 <div class="loader-dot"></div>
             </div>
         </div>
-        <div class="preloader-text">AUVEX PROTOCOL</div>
-        <div class="preloader-subtext">Initializing Smart Contract Connection...</div>
+        <div class="preloader-text">AUVEX FINANCE</div>
+        <div class="preloader-subtext">Autonomous Wealth Automation</div>
     </div>
 
     <!-- Header -->
@@ -1916,12 +1916,6 @@
                             Immutable smart contracts executing investments and rewards with precision, transparency and on-chain integrity
                         </p>
                         
-                        <!-- Pool Dependency Warning -->
-                        <div class="alert alert-warning">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <span>All rewards depend on pool liquidity. Certain protocol operations are managed by admin smart-contract logic.</span>
-                        </div>
-                        
                         <div class="hero__buttons">
                             <button class="btn btn--primary btn-lg" data-section="cycle">
                                 <i class="fas fa-sync-alt"></i>
@@ -1965,8 +1959,7 @@
                                 </div>
                             </div>
                             <div class="pool-warning" style="margin-top: 15px; font-size: 0.7rem;">
-                                <i class="fas fa-info-circle"></i>
-                                Rewards depend on pool balance. Claims may fail if insufficient.
+                                <i class="fas fa-info-circle"></i> All Data is Taken Directly from Smart Contract
                             </div>
                         </div>
                     </div>
@@ -1979,7 +1972,7 @@
             <div class="container">
                 <div class="section__header">
                     <h1 class="auvex-headline">Cycle Investment</h1>
-                    <p class="auvex-subheadline">Fixed-term cycles with guaranteed returns. Profits can only be claimed after cycle ends.</p>
+                    <p class="auvex-subheadline">Fixed-term cycles with guaranteed returns</p>
                 </div>
 
                 <div class="alert alert-warning" id="cycleWalletAlert">
@@ -2028,7 +2021,7 @@
                             <label for="cycleAmount">Amount (USDT)</label>
                             <input type="number" id="cycleAmount" class="form-input" placeholder="0.00" min="5" step="1">
                             <div class="amount-range" id="cycleAmountRange" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">
-                                Minimum 5 USDT (applies to all plans)
+                                Minimum 5 USDT
                             </div>
                         </div>
 
@@ -2036,7 +2029,7 @@
                             <label for="cycleReferrer">Upline (Auto-filled)</label>
                             <input type="text" id="cycleReferrer" class="form-input" placeholder="0x..." disabled>
                             <small class="form-hint" style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 5px;">
-                                Automatically filled from URL or previous referral
+                                Automatically populated from referral URL
                             </small>
                         </div>
 
@@ -2111,11 +2104,6 @@
                         <!-- Cycle Referral Program -->
                         <div style="margin-top: 35px; padding-top: 25px; border-top: 1px solid rgba(138, 43, 226, 0.3);">
                             <h4 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.2rem;">Cycle Referral Program</h4>
-                            
-                            <!-- Pool Dependency Warning -->
-                            <div class="pool-warning">
-                                <i class="fas fa-info-circle"></i>
-                                Referral rewards depend on pool liquidity and your active investment status.
                             </div>
                             
                             <!-- Referral Link Box -->
@@ -2147,9 +2135,6 @@
                             <button class="btn btn--outline btn-lg" id="withdrawCycleReferral" style="margin-top: 20px; width: 100%;">
                                 <i class="fas fa-hand-holding-usd"></i> 
                                 <span class="btn-text">Claim Referral Rewards</span>
-                            </button>
-                            <div class="admin-disclaimer">
-                                Certain protocol operations are managed by admin smart-contract logic.
                             </div>
                         </div>
                     </div>
@@ -2159,7 +2144,7 @@
                 <div class="content-container" style="margin-top: 35px;">
                     <h3 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.3rem;">Cycle Referral Levels</h3>
                     <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem;">
-                        Qualification requires maintaining minimum active investment. Levels become inactive if your active investment drops to zero.
+                        To qualify, you need to maintain a minimum active investment of 20 USDT + a level 1 Downline that has a minimum active investment of 20 USDT
                     </p>
                     <div class="referral-levels">
                         <div class="referral-level" id="cycleLevel1">
@@ -2204,7 +2189,7 @@
             <div class="container">
                 <div class="section__header">
                     <h1 class="auvex-headline">Saving Investment</h1>
-                    <p class="auvex-subheadline">Dynamic daily yields with flexible capital withdrawal. Principal can be withdrawn anytime.</p>
+                    <p class="auvex-subheadline">Dynamic daily yields with flexible capital withdrawal</p>
                 </div>
 
                 <div class="alert alert-warning" id="savingWalletAlert">
@@ -2229,7 +2214,7 @@
                             <label for="savingReferrer">Upline (Auto-filled)</label>
                             <input type="text" id="savingReferrer" class="form-input" placeholder="0x..." disabled>
                             <small class="form-hint" style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-top: 5px;">
-                                Automatically filled from URL or previous referral
+                                Automatically populated from referral URL
                             </small>
                         </div>
 
@@ -2239,7 +2224,7 @@
                                 <span style="color: var(--text-accent); font-weight: 600;">Current Daily ROI</span>
                                 <span id="savingRoiPercent" style="color: #00cc66; font-weight: 700;">0.3%</span>
                             </div>
-                            <span class="roi-range">Dynamic ROI Range: 0.3% – 0.8%</span>
+                            <span class="roi-range">Dynamic ROI Range 0.3% – 0.8%</span>
                             <span class="roi-range" style="color: var(--text-muted); font-size: 0.7rem;">
                                 <i class="fas fa-info-circle"></i> Based on current pool conditions
                             </span>
@@ -2257,14 +2242,6 @@
                                     <div class="roi-value" id="savingRoiMonthly">0 USDT</div>
                                 </div>
                             </div>
-                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 10px; text-align: center;">
-                                <i class="fas fa-exclamation-circle"></i> ROI adjusts weekly based on pool performance
-                            </div>
-                        </div>
-
-                        <div class="pool-warning">
-                            <i class="fas fa-info-circle"></i>
-                            Starting ROI is 0.3%. Increases only if pool grows 50%+ in 7 days.
                         </div>
 
                         <button class="btn btn--primary btn-lg" id="confirmSaving" style="width: 100%; margin-top: 10px;">
@@ -2309,18 +2286,10 @@
                                 <span class="btn-text">Withdraw Capital</span>
                             </button>
                         </div>
-                        <span class="withdrawal-note">
-                            <i class="fas fa-check-circle"></i> Principal can be withdrawn anytime, no penalty
-                        </span>
 
                         <!-- Saving Referral Program -->
                         <div style="margin-top: 35px; padding-top: 25px; border-top: 1px solid rgba(138, 43, 226, 0.3);">
                             <h4 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.2rem;">Saving Referral Program</h4>
-                            
-                            <!-- Pool Dependency Warning -->
-                            <div class="pool-warning">
-                                <i class="fas fa-info-circle"></i>
-                                Referral rewards depend on pool liquidity and your active investment status.
                             </div>
                             
                             <!-- Referral Link Box -->
@@ -2353,9 +2322,6 @@
                                 <i class="fas fa-hand-holding-usd"></i> 
                                 <span class="btn-text">Claim Referral Rewards</span>
                             </button>
-                            <div class="admin-disclaimer">
-                                Certain protocol operations are managed by admin smart-contract logic.
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -2364,7 +2330,7 @@
                 <div class="content-container" style="margin-top: 35px;">
                     <h3 style="margin-bottom: 20px; color: var(--text-accent); font-size: 1.3rem;">Saving Referral Levels</h3>
                     <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem;">
-                        Qualification requires maintaining minimum active investment. Levels become inactive if your active investment drops to zero.
+                        To qualify, you need to maintain a minimum active investment at each level
                     </p>
                     <div class="referral-levels">
                         <div class="referral-level" id="savingLevel1">
@@ -2485,7 +2451,7 @@
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </div>
                         <div class="faq-answer">
-                            <p>Saving Investments start with 0.3% daily ROI (not 0.8%). ROI can increase up to 0.8% only if pool balance grows by 50%+ over 7 days. You can withdraw earnings daily (after 24-hour cooldown) and withdraw your principal ANYTIME with no penalty. Minimum investment is 5 USDT.</p>
+                            <p>Savings investments start with a daily ROI of 0.3%. The ROI can increase by 0.1% if the pool balance increases by 50%+ in the previous 7 days (limited to 0.8%). You can withdraw earnings daily (after a 24-hour waiting period) and withdraw your principal at any time without penalty. The minimum investment is 5 USDT.</p>
                         </div>
                     </div>
                     <div class="faq-item">
@@ -2494,7 +2460,7 @@
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </div>
                         <div class="faq-answer">
-                            <p>Referral rewards are NOT auto-transferred. They accumulate in your contract balance and must be manually claimed using "Claim Referral Rewards" buttons. Qualification requires maintaining minimum active investment. If your active investment drops to zero, you lose referral qualification.</p>
+                            <p>Referral rewards are NOT auto-transferred. They accumulate in your contract balance and must be manually claimed using "Claim Referral Rewards" buttons. Qualification requires maintaining minimum active investment + Qualified Downlines. If the conditions are not met, you lose your referral qualification.</p>
                         </div>
                     </div>
                     <div class="faq-item">
@@ -2503,16 +2469,7 @@
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </div>
                         <div class="faq-answer">
-                            <p>Minimum investment for BOTH Cycle and Saving is 5 USDT. This applies to ALL cycle plans (1-day, 7-day, 14-day, 30-day). The smart contract enforces this minimum globally.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <h3>Are rewards guaranteed?</h3>
-                            <i class="fas fa-chevron-down faq-icon"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>All rewards depend on pool liquidity. Cycle returns are fixed percentages but require sufficient pool balance at withdrawal time. Saving ROI is dynamic (0.3%-0.8%) and adjusts based on pool performance. Claims may fail if pool balance is insufficient.</p>
+                            <p>Minimum investment for BOTH Cycle and Saving is 5 USDT. The smart contract enforces this minimum globally.</p>
                         </div>
                     </div>
                     <div class="faq-item">
@@ -2522,15 +2479,6 @@
                         </div>
                         <div class="faq-answer">
                             <p>For Saving investments: YES, principal can be withdrawn anytime with no lock period or penalty. For Cycle investments: NO, capital is locked until the cycle ends. Early withdrawal is not possible.</p>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question">
-                            <h3>What happens if pool balance is low?</h3>
-                            <i class="fas fa-chevron-down faq-icon"></i>
-                        </div>
-                        <div class="faq-answer">
-                            <p>If pool balance is insufficient, claim transactions will fail. The contract includes admin mechanics for protocol sustainability. Always check pool status before making large investments.</p>
                         </div>
                     </div>
                 </div>
@@ -2558,7 +2506,7 @@
                 </div>
             </div>
             <div class="footer__bottom">
-                <p>&copy; 2025 Auvex Protocol. All Rights Reserved</p>
+                <p>&copy; 2026 Auvex Finance</p>
             </div>
         </div>
     </footer>
@@ -2596,7 +2544,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn--primary" id="confirmWithdrawCycles">
-                    <span class="btn-text">Confirm Withdrawal</span>
+                    <span class="btn-text">Confirm</span>
                 </button>
                 <button class="btn btn--outline" id="closeWithdrawCycleModal">Cancel</button>
             </div>
@@ -2649,7 +2597,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn--primary" id="confirmRegrowModal">
-                    <span class="btn-text">Confirm Regrow</span>
+                    <span class="btn-text">Confirm</span>
                 </button>
                 <button class="btn btn--outline" id="closeRegrowCycleModal">Cancel</button>
             </div>
@@ -2674,7 +2622,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn--primary" id="confirmWithdrawCapital">
-                    <span class="btn-text">Confirm Capital Withdrawal</span>
+                    <span class="btn-text">Confirm</span>
                 </button>
                 <button class="btn btn--outline" id="closeWithdrawCapitalModal">Cancel</button>
             </div>
