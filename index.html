@@ -1037,6 +1037,55 @@
             font-size: 0.85rem;
         }
 
+        /* Countdown Timer */
+        .countdown-timer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #ffcc00;
+            background: rgba(255, 204, 0, 0.1);
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 204, 0, 0.3);
+        }
+
+        .countdown-timer i {
+            font-size: 0.9rem;
+        }
+
+        .countdown-time {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        /* Withdraw Button Container */
+        .withdraw-btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .withdraw-disabled {
+            opacity: 0.6;
+            cursor: not-allowed !important;
+            pointer-events: none;
+        }
+
+        .withdraw-disabled:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .withdraw-note {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 5px;
+        }
+
         /* Referral Link Box */
         .referral-link-box {
             background: rgba(15, 15, 25, 0.5);
@@ -1739,6 +1788,10 @@
                 width: 100%;
                 max-width: 300px;
             }
+            
+            .withdraw-btn-container {
+                width: 100%;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1766,6 +1819,11 @@
             .popup-content {
                 padding: 20px 12px;
             }
+            
+            .countdown-timer {
+                font-size: 0.75rem;
+                padding: 4px 8px;
+            }
         }
 
         @media (max-width: 360px) {
@@ -1779,6 +1837,10 @@
             
             .level-percent {
                 font-size: 1.1rem;
+            }
+            
+            .countdown-timer {
+                font-size: 0.7rem;
             }
         }
 
@@ -2298,10 +2360,19 @@
                         </div>
 
                         <div class="action-buttons">
-                            <button class="btn btn--primary" id="withdrawSaving">
-                                <i class="fas fa-hand-holding-usd"></i> 
-                                <span class="btn-text">Withdraw Earnings</span>
-                            </button>
+                            <div class="withdraw-btn-container">
+                                <button class="btn btn--primary" id="withdrawSaving">
+                                    <i class="fas fa-hand-holding-usd"></i> 
+                                    <span class="btn-text">Withdraw Earnings</span>
+                                </button>
+                                <div id="withdrawCountdown" style="display: none;">
+                                    <div class="countdown-timer">
+                                        <i class="fas fa-clock"></i>
+                                        <span class="countdown-time" id="countdownTime">24:00:00</span>
+                                    </div>
+                                    <div class="withdraw-note">Next withdrawal available in:</div>
+                                </div>
+                            </div>
                             <button class="btn btn--outline" id="withdrawCapitalSaving">
                                 <i class="fas fa-university"></i> 
                                 <span class="btn-text">Withdraw Capital</span>
@@ -2694,6 +2765,11 @@
         let contractStatsInterval = null;
         let userDataInterval = null;
         let lastInvestmentType = null; // 'cycle' or 'saving'
+        
+        // ===== WITHDRAWAL COUNTDOWN VARIABLES =====
+        let lastWithdrawalTime = null;
+        let countdownInterval = null;
+        const WITHDRAW_COOLDOWN = 24 * 60 * 60 * 1000; // 24 jam dalam milidetik
 
         // ===== DOM ELEMENTS =====
         const preloader = document.querySelector('.preloader');
@@ -2707,6 +2783,9 @@
         const regrowCycleModal = document.getElementById('regrowCycleModal');
         const withdrawCapitalModal = document.getElementById('withdrawCapitalModal');
         const goToDashboardBtn = document.getElementById('goToDashboard');
+        const withdrawSavingBtn = document.getElementById('withdrawSaving');
+        const withdrawCountdown = document.getElementById('withdrawCountdown');
+        const countdownTime = document.getElementById('countdownTime');
 
         const sections = {
             home: document.getElementById('home'),
@@ -2725,6 +2804,9 @@
             setupDropdowns();
             setupModalDropdowns();
             setupROICalculators();
+            
+            // Load saved withdrawal time from localStorage
+            loadLastWithdrawalTime();
             
             if (localStorage.getItem('walletConnected') === 'true' && typeof window.ethereum !== 'undefined') {
                 window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
@@ -2754,6 +2836,134 @@
             } catch (error) {
                 console.error('Initialization error:', error);
                 showNotification('Initializing application', 'info');
+            }
+        }
+
+        // ===== WITHDRAWAL COUNTDOWN FUNCTIONS =====
+        function loadLastWithdrawalTime() {
+            const savedTime = localStorage.getItem('lastWithdrawalTime');
+            if (savedTime) {
+                lastWithdrawalTime = parseInt(savedTime);
+                updateWithdrawButtonState();
+            }
+        }
+
+        function saveLastWithdrawalTime() {
+            lastWithdrawalTime = Date.now();
+            localStorage.setItem('lastWithdrawalTime', lastWithdrawalTime.toString());
+            updateWithdrawButtonState();
+        }
+
+        function updateWithdrawButtonState() {
+            if (!lastWithdrawalTime) {
+                // No withdrawal yet, button is enabled
+                withdrawSavingBtn.classList.remove('withdraw-disabled');
+                withdrawSavingBtn.disabled = false;
+                withdrawCountdown.style.display = 'none';
+                return;
+            }
+            
+            const now = Date.now();
+            const timeSinceWithdrawal = now - lastWithdrawalTime;
+            
+            if (timeSinceWithdrawal >= WITHDRAW_COOLDOWN) {
+                // Cooldown finished, button is enabled
+                withdrawSavingBtn.classList.remove('withdraw-disabled');
+                withdrawSavingBtn.disabled = false;
+                withdrawCountdown.style.display = 'none';
+                
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                    countdownInterval = null;
+                }
+            } else {
+                // Still in cooldown, button is disabled
+                withdrawSavingBtn.classList.add('withdraw-disabled');
+                withdrawSavingBtn.disabled = true;
+                withdrawCountdown.style.display = 'block';
+                
+                startCountdownTimer(WITHDRAW_COOLDOWN - timeSinceWithdrawal);
+            }
+        }
+
+        function startCountdownTimer(timeRemaining) {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            
+            updateCountdownDisplay(timeRemaining);
+            
+            countdownInterval = setInterval(() => {
+                timeRemaining -= 1000;
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(countdownInterval);
+                    countdownInterval = null;
+                    updateWithdrawButtonState();
+                    return;
+                }
+                
+                updateCountdownDisplay(timeRemaining);
+            }, 1000);
+        }
+
+        function updateCountdownDisplay(timeRemaining) {
+            const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+            
+            countdownTime.textContent = 
+                `${hours.toString().padStart(2, '0')}:` +
+                `${minutes.toString().padStart(2, '0')}:` +
+                `${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // ===== MODIFIED WITHDRAW SAVING FUNCTION =====
+        async function withdrawSavingRewards() {
+            if (!userAccount || !contract) {
+                showNotification('Please connect your wallet!', 'error');
+                return;
+            }
+            
+            // Check cooldown
+            if (lastWithdrawalTime && (Date.now() - lastWithdrawalTime < WITHDRAW_COOLDOWN)) {
+                const timeLeft = WITHDRAW_COOLDOWN - (Date.now() - lastWithdrawalTime);
+                const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                
+                showNotification(`Please wait ${hours}h ${minutes}m before next withdrawal`, 'info');
+                return;
+            }
+            
+            const withdrawBtn = document.getElementById('withdrawSaving');
+            const originalText = withdrawBtn.innerHTML;
+            showButtonLoading(withdrawBtn, true, originalText);
+            
+            try {
+                showNotification('Withdrawing saving rewards', 'info');
+                
+                const tx = await contract.methods.claimSaving().send({ 
+                    from: userAccount,
+                    gas: 200000 
+                });
+                
+                if (tx.status) {
+                    showNotification('Saving rewards withdrawn successfully!', 'success');
+                    
+                    // Save withdrawal time and start countdown
+                    saveLastWithdrawalTime();
+                    
+                    await loadUserData();
+                    await loadContractStats();
+                } else {
+                    throw new Error('Withdrawal failed');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Withdrawal failed: ' + error.message, 'error');
+            } finally {
+                resetButtonToOriginal(withdrawBtn);
             }
         }
 
@@ -3087,6 +3297,7 @@
             document.getElementById('confirmSaving').addEventListener('click', confirmSavingInvestment);
             document.getElementById('savingAmount').addEventListener('input', validateSavingAmount);
             
+            // Withdraw Saving button now uses the modified function
             document.getElementById('withdrawSaving').addEventListener('click', withdrawSavingRewards);
             document.getElementById('withdrawCapitalSaving').addEventListener('click', openWithdrawCapitalModal);
             document.getElementById('withdrawSavingReferral').addEventListener('click', withdrawSavingReferral);
@@ -3210,6 +3421,8 @@
                 
                 if (sectionName === 'saving') {
                     startSavingRealTimeUpdates();
+                    // Update withdrawal button state when switching to saving section
+                    updateWithdrawButtonState();
                 } else {
                     stopSavingRealTimeUpdates();
                 }
@@ -4142,41 +4355,6 @@
                 showNotification('Withdrawal failed: ' + error.message, 'error');
             } finally {
                 resetButtonToOriginal(confirmBtn);
-            }
-        }
-
-        // ===== WITHDRAW SAVING REWARDS =====
-        async function withdrawSavingRewards() {
-            if (!userAccount || !contract) {
-                showNotification('Please connect your wallet!', 'error');
-                return;
-            }
-            
-            const withdrawBtn = document.getElementById('withdrawSaving');
-            const originalText = withdrawBtn.innerHTML;
-            showButtonLoading(withdrawBtn, true, originalText);
-            
-            try {
-                showNotification('Withdrawing saving rewards', 'info');
-                
-                const tx = await contract.methods.claimSaving().send({ 
-                    from: userAccount,
-                    gas: 200000 
-                });
-                
-                if (tx.status) {
-                    showNotification('Saving rewards withdrawn successfully!', 'success');
-                    await loadUserData();
-                    await loadContractStats();
-                } else {
-                    throw new Error('Withdrawal failed');
-                }
-                
-            } catch (error) {
-                console.error('Error:', error);
-                showNotification('Withdrawal failed: ' + error.message, 'error');
-            } finally {
-                resetButtonToOriginal(withdrawBtn);
             }
         }
 
