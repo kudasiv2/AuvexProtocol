@@ -2590,7 +2590,7 @@
                     <div class="footer__social">
                         <a href="https://t.me/AuvexProtocol" class="social__link" target="_blank"><i class="fab fa-telegram-plane"></i></a>
                         <a href="https://x.com/AuvexProtocol" class="social__link" target="_blank"><i class="fab fa-twitter"></i></a>
-                        <a href="https://bscscan.com/address/0x8175154cce4ab27C4f5Ad45f38a980688921742A" target="_blank" class="social__link"><i class="fas fa-file-contract"></i></a>
+                        <a href="https://bscscan.com/address/0x3b4A6B7c2B474660359559df89341d501A8090AC" target="_blank" class="social__link"><i class="fas fa-file-contract"></i></a>
                     </div>
                 </div>
             </div>
@@ -2723,14 +2723,14 @@
 
     <script>
         // ===== CONFIGURATION =====
-        const CONTRACT_ADDRESS = '0x93E3D78e444E6c20Ba4a6B98fb62BF33EA4Cb29D'; // Updated contract address
+        const CONTRACT_ADDRESS = '0x3b4A6B7c2B474660359559df89341d501A8090AC'; // Your contract address
         const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
         const BSC_RPC = 'https://bsc-dataseed.binance.org/';
         const BSC_CHAIN_ID = '0x38';
         const ADMIN_WALLET = '0x9D37d4345BC5C340E9E3cd345eADEDa2739A7F5C';
 
-        // Updated Contract ABI from your provided smart contract
-        const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_usdtAddress","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"CapitalWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"cooldownEndTime","type":"uint256"}],"name":"CooldownStarted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"profit","type":"uint256"}],"name":"CycleClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"address","name":"referrer","type":"address"}],"name":"NewDeposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newBalance","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"changePercent","type":"uint256"}],"name":"PoolAdjusted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"level","type":"uint256"}],"name":"ReferralRewardPaid","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"oldCycleId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"newCycleId","type":"uint256"}],"name":"RegrowExecuted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"SavingClaimed","type":"event"},{"inputs":[],"name":"ADMIN_FEE_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_FICTITIOUS_DEPOSIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_REWARD_INTERVAL","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_WALLET","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_DURATIONS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_REF_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_REF_REQUIREMENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_DEPOSIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_ADJUSTMENT_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_MAX_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_MIN_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"SAVING_REF_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"SAVING_REF_REQUIREMENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"TIME_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"adminAccumulatedRewards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"adminLastRewardTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"savingId","type":"uint256"}],"name":"capitalSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"cycleId","type":"uint256"}],"name":"claimCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"claimSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"contractBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"cycleInvestments","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"plan","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"bool","name":"claimed","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint8","name":"plan","type":"uint8"},{"internalType":"address","name":"referrer","type":"address"}],"name":"depositCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"address","name":"referrer","type":"address"}],"name":"depositSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"downlines","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractDashboard","outputs":[{"components":[{"internalType":"uint256","name":"globalTotalInvested","type":"uint256"},{"internalType":"uint256","name":"globalTotalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"globalTotalUsers","type":"uint256"},{"internalType":"uint256","name":"globalContractBalance","type":"uint256"},{"internalType":"uint256","name":"globalPoolBalance","type":"uint256"},{"internalType":"uint256","name":"availableLiquidity","type":"uint256"},{"internalType":"uint256","name":"utilizationRate","type":"uint256"},{"internalType":"uint256","name":"dailyVolume","type":"uint256"},{"internalType":"uint256","name":"averageInvestment","type":"uint256"},{"internalType":"uint256","name":"poolGrowth7d","type":"uint256"},{"internalType":"uint256","name":"poolGrowth30d","type":"uint256"}],"internalType":"struct AuvexFinance.ContractDashboard","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCyclePlanInfo","outputs":[{"components":[{"internalType":"uint256","name":"duration","type":"uint256"},{"internalType":"uint256","name":"percentage","type":"uint256"},{"internalType":"string","name":"name","type":"string"},{"internalType":"uint256","name":"minInvestment","type":"uint256"}],"internalType":"struct AuvexFinance.CyclePlanInfo[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddress","type":"address"}],"name":"getInvestmentSummary","outputs":[{"components":[{"internalType":"uint256","name":"totalCycleInvestment","type":"uint256"},{"internalType":"uint256","name":"totalSavingInvestment","type":"uint256"},{"internalType":"uint256","name":"totalActiveInvestment","type":"uint256"},{"internalType":"uint256","name":"totalPendingRewards","type":"uint256"},{"internalType":"uint256","name":"totalAccruedProfits","type":"uint256"},{"internalType":"uint256","name":"averageDailyEarnings","type":"uint256"},{"internalType":"uint256","name":"roiPercentage","type":"uint256"}],"internalType":"struct AuvexFinance.InvestmentSummary","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getSavingPlanInfo","outputs":[{"components":[{"internalType":"uint256","name":"minPercent","type":"uint256"},{"internalType":"uint256","name":"maxPercent","type":"uint256"},{"internalType":"uint256","name":"adjustmentPercent","type":"uint256"},{"internalType":"uint256","name":"minInvestment","type":"uint256"},{"internalType":"string","name":"description","type":"string"}],"internalType":"struct AuvexFinance.SavingPlanInfo","name":"","type":"tuple"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"address","name":"userAddress","type":"address"}],"name":"getUserCycleInvestments","outputs":[{"components":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"plan","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"totalReturn","type":"uint256"},{"internalType":"uint256","name":"profit","type":"uint256"},{"internalType":"bool","name":"claimed","type":"bool"},{"internalType":"bool","name":"claimable","type":"bool"}],"internalType":"struct AuvexFinance.CycleInvestmentInfo[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddress","type":"address"}],"name":"getUserDashboard","outputs":[{"components":[{"internalType":"address","name":"userReferrer","type":"address"},{"internalType":"uint256","name":"userReferrals","type":"uint256"},{"internalType":"uint256","name":"userTotalInvested","type":"uint256"},{"internalType":"uint256","name":"userTotalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"netProfit","type":"uint256"},{"internalType":"uint256","name":"activeInvestment","type":"uint256"},{"internalType":"bool","name":"isUserActive","type":"bool"},{"internalType":"uint256","name":"cycleRewards","type":"uint256"},{"internalType":"uint256","name":"savingRewards","type":"uint256"},{"internalType":"uint256","name":"totalAvailableRewards","type":"uint256"},{"internalType":"uint256","name":"activeCycles","type":"uint256"},{"internalType":"uint256","name":"activeSavings","type":"uint256"},{"internalType":"uint256","name":"totalCycles","type":"uint256"},{"internalType":"uint256","name":"totalSavings","type":"uint256"},{"internalType":"uint256","name":"nextSavingClaimTime","type":"uint256"},{"internalType":"uint256","name":"savingClaimCooldown","type":"uint256"},{"internalType":"bool","name":"canClaimSaving","type":"bool"},{"internalType":"uint256","name":"cycleQualificationLevel","type":"uint256"},{"internalType":"uint256","name":"savingQualificationLevel","type":"uint256"}],"internalType":"struct AuvexFinance.UserDashboardInfo","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddress","type":"address"}],"name":"getUserReferralInfo","outputs":[{"components":[{"internalType":"address[]","name":"directDownlines","type":"address[]"},{"internalType":"uint256[]","name":"downlineLevels","type":"uint256[]"},{"internalType":"uint256[]","name":"downlineInvestments","type":"uint256[]"},{"internalType":"uint256","name":"totalReferralEarnings","type":"uint256"},{"internalType":"uint256","name":"qualifiedCycleLevels","type":"uint256"},{"internalType":"uint256","name":"qualifiedSavingLevels","type":"uint256"},{"internalType":"uint256[]","name":"cycleLevelQualifications","type":"uint256[]"},{"internalType":"uint256[]","name":"savingLevelQualifications","type":"uint256[]"}],"internalType":"struct AuvexFinance.ReferralInfo","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddress","type":"address"}],"name":"getUserSavingInvestments","outputs":[{"components":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"currentPercent","type":"uint256"},{"internalType":"uint256","name":"dailyReward","type":"uint256"},{"internalType":"uint256","name":"lastPayout","type":"uint256"},{"internalType":"uint256","name":"nextPayout","type":"uint256"},{"internalType":"uint256","name":"accumulatedReward","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"},{"internalType":"uint256","name":"cooldownEndTime","type":"uint256"}],"internalType":"struct AuvexFinance.SavingInvestmentInfo[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isRenounced","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"poolBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"poolSnapshots","outputs":[{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"uint256","name":"poolBalance","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"qualifiedDownlineCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"cycleId","type":"uint256"},{"internalType":"uint8","name":"newPlan","type":"uint8"}],"name":"regrow","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"rewardCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"rewardSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"savingInvestments","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"currentPercent","type":"uint256"},{"internalType":"uint256","name":"lastPayout","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"},{"internalType":"uint256","name":"cooldownEndTime","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalInvestedGlobal","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalWithdrawnGlobal","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdt","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"uint256","name":"referrals","type":"uint256"},{"internalType":"uint256","name":"totalInvested","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"cycleRewards","type":"uint256"},{"internalType":"uint256","name":"savingRewards","type":"uint256"},{"internalType":"uint256","name":"lastSavingClaim","type":"uint256"},{"internalType":"uint256","name":"activeInvestment","type":"uint256"},{"internalType":"bool","name":"isActive","type":"bool"}],"stateMutability":"view","type":"function"},{"stateMutability":"payable","type":"receive"}];
+        // Contract ABI from your provided smart contract
+        const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_usdtAddress","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"CapitalWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"cooldownEndTime","type":"uint256"}],"name":"CooldownStarted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"profit","type":"uint256"}],"name":"CycleClaimed","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"address","name":"referrer","type":"address"}],"name":"NewDeposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"newBalance","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"changePercent","type":"uint256"}],"name":"PoolAdjusted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"planType","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"level","type":"uint256"}],"name":"ReferralRewardPaid","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"oldCycleId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"newCycleId","type":"uint256"}],"name":"RegrowExecuted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"SavingClaimed","type":"event"},{"inputs":[],"name":"ADMIN_FEE_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_FICTITIOUS_DEPOSIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_REWARD_INTERVAL","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ADMIN_WALLET","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_DURATIONS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_REF_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"CYCLE_REF_REQUIREMENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_DEPOSIT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_ADJUSTMENT_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_MAX_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SAVING_MIN_PERCENT","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"SAVING_REF_PERCENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"SAVING_REF_REQUIREMENTS","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"TIME_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"adminAccumulatedRewards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"adminLastRewardTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"savingId","type":"uint256"}],"name":"capitalSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"cycleId","type":"uint256"}],"name":"claimCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"claimSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"contractBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"cycleInvestments","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"plan","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"bool","name":"claimed","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint8","name":"plan","type":"uint8"},{"internalType":"address","name":"referrer","type":"address"}],"name":"depositCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"address","name":"referrer","type":"address"}],"name":"depositSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"downlines","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractDashboard","outputs":[{"components":[{"internalType":"uint256","name":"globalTotalInvested","type":"uint256"},{"internalType":"uint256","name":"globalTotalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"globalTotalUsers","type":"uint256"},{"internalType":"uint256","name":"globalContractBalance","type":"uint256"},{"internalType":"uint256","name":"globalPoolBalance","type":"uint256"},{"internalType":"uint256","name":"availableLiquidity","type":"uint256"},{"internalType":"uint256","name":"utilizationRate","type":"uint256"},{"internalType":"uint256","name":"dailyVolume","type":"uint256"},{"internalType":"uint256","name":"averageInvestment","type":"uint256"},{"internalType":"uint256","name":"poolGrowth7d","type":"uint256"},{"internalType":"uint256","name":"poolGrowth30d","type":"uint256"}],"internalType":"struct AuvexFinance.ContractDashboard","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCyclePlanInfo","outputs":[{"components":[{"internalType":"uint256","name":"duration","type":"uint256"},{"internalType":"uint256","name":"percentage","type":"uint256"},{"internalType":"string","name":"name","type":"string"},{"internalType":"uint256","name":"minInvestment","type":"uint256"}],"internalType":"struct AuvexFinance.CyclePlanInfo[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddress","type":"address"}],"name":"getInvestmentSummary","outputs":[{"components":[{"internalType":"uint256","name":"totalCycleInvestment","type":"uint256"},{"internalType":"uint256","name":"totalSavingInvestment","type":"uint256"},{"internalType":"uint256","name":"totalActiveInvestment","type":"uint256"},{"internalType":"uint256","name":"totalPendingRewards","type":"uint256"},{"internalType":"uint256","name":"totalAccruedProfits","type":"uint256"},{"internalType":"uint256","name":"averageDailyEarnings","type":"uint256"},{"internalType":"uint256","name":"roiPercentage","type":"uint256"}],"internalType":"struct AuvexFinance.InvestmentSummary","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getSavingPlanInfo","outputs":[{"components":[{"internalType":"uint256","name":"minPercent","type":"uint256"},{"internalType":"uint256","name":"maxPercent","type":"uint256"},{"internalType":"uint256","name":"adjustmentPercent","type":"uint256"},{"internalType":"uint256","name":"minInvestment","type":"uint256"},{"internalType":"string","name":"description","type":"string"}],"internalType":"struct AuvexFinance.SavingPlanInfo","name":"","type":"tuple"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"address","name":"userAddress","type":"address"}],"name":"getUserCycleInvestments","outputs":[{"components":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"plan","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"totalReturn","type":"uint256"},{"internalType":"uint256","name":"profit","type":"uint256"},{"internalType":"bool","name":"claimed","type":"bool"},{"internalType":"bool","name":"claimable","type":"bool"}],"internalType":"struct AuvexFinance.CycleInvestmentInfo[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddress","type":"address"}],"name":"getUserDashboard","outputs":[{"components":[{"internalType":"address","name":"userReferrer","type":"address"},{"internalType":"uint256","name":"userReferrals","type":"uint256"},{"internalType":"uint256","name":"userTotalInvested","type":"uint256"},{"internalType":"uint256","name":"userTotalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"netProfit","type":"uint256"},{"internalType":"uint256","name":"activeInvestment","type":"uint256"},{"internalType":"uint256","name":"activeCycleInvestment","type":"uint256"},{"internalType":"uint256","name":"activeSavingInvestment","type":"uint256"},{"internalType":"bool","name":"isUserActive","type":"bool"},{"internalType":"uint256","name":"cycleRewards","type":"uint256"},{"internalType":"uint256","name":"savingRewards","type":"uint256"},{"internalType":"uint256","name":"totalAvailableRewards","type":"uint256"},{"internalType":"uint256","name":"activeCycles","type":"uint256"},{"internalType":"uint256","name":"activeSavings","type":"uint256"},{"internalType":"uint256","name":"totalCycles","type":"uint256"},{"internalType":"uint256","name":"totalSavings","type":"uint256"},{"internalType":"uint256","name":"nextSavingClaimTime","type":"uint256"},{"internalType":"uint256","name":"savingClaimCooldown","type":"uint256"},{"internalType":"bool","name":"canClaimSaving","type":"bool"},{"internalType":"uint256","name":"cycleQualificationLevel","type":"uint256"},{"internalType":"uint256","name":"savingQualificationLevel","type":"uint256"}],"internalType":"struct AuvexFinance.UserDashboardInfo","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddress","type":"address"}],"name":"getUserReferralInfo","outputs":[{"components":[{"internalType":"address[]","name":"directDownlines","type":"address[]"},{"internalType":"uint256[]","name":"downlineLevels","type":"uint256[]"},{"internalType":"uint256[]","name":"downlineInvestments","type":"uint256[]"},{"internalType":"uint256","name":"totalReferralEarnings","type":"uint256"},{"internalType":"uint256","name":"qualifiedCycleLevels","type":"uint256"},{"internalType":"uint256","name":"qualifiedSavingLevels","type":"uint256"},{"internalType":"uint256[]","name":"cycleLevelQualifications","type":"uint256[]"},{"internalType":"uint256[]","name":"savingLevelQualifications","type":"uint256[]"}],"internalType":"struct AuvexFinance.ReferralInfo","name":"","type":"tuple"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddress","type":"address"}],"name":"getUserSavingInvestments","outputs":[{"components":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"currentPercent","type":"uint256"},{"internalType":"uint256","name":"dailyReward","type":"uint256"},{"internalType":"uint256","name":"lastPayout","type":"uint256"},{"internalType":"uint256","name":"nextPayout","type":"uint256"},{"internalType":"uint256","name":"accumulated24h","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"}],"internalType":"struct AuvexFinance.SavingInvestmentInfo[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"isRenounced","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"poolBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"poolSnapshots","outputs":[{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"uint256","name":"poolBalance","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"qualifiedDownlineCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"cycleId","type":"uint256"},{"internalType":"uint8","name":"newPlan","type":"uint8"}],"name":"regrow","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"rewardCycle","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"rewardSaving","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"savingInvestments","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"currentPercent","type":"uint256"},{"internalType":"uint256","name":"lastPayout","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"},{"internalType":"uint256","name":"cooldownEndTime","type":"uint256"},{"internalType":"uint256","name":"accumulated24h","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalInvestedGlobal","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalWithdrawnGlobal","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"updateSavingAccumulated","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"usdt","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"uint256","name":"referrals","type":"uint256"},{"internalType":"uint256","name":"totalInvested","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"cycleRewards","type":"uint256"},{"internalType":"uint256","name":"savingRewards","type":"uint256"},{"internalType":"uint256","name":"lastSavingClaim","type":"uint256"},{"internalType":"uint256","name":"activeInvestment","type":"uint256"},{"internalType":"uint256","name":"activeCycleInvestment","type":"uint256"},{"internalType":"uint256","name":"activeSavingInvestment","type":"uint256"},{"internalType":"bool","name":"isActive","type":"bool"}],"stateMutability":"view","type":"function"},{"stateMutability":"payable","type":"receive"}];
 
         const USDT_ABI = [
             {"constant": false, "inputs": [{"name": "_spender", "type": "address"}, {"name": "_value", "type": "uint256"}], "name": "approve", "outputs": [{"name": "", "type": "bool"}], "type": "function"}, 
@@ -2756,7 +2756,7 @@
         let userInfo = null;
         let savingDataInterval = null;
         let currentCycleMinAmount = 5;
-        let currentSavingROI = 3; // 0.3% but stored as integer 3 for contract compatibility
+        let currentSavingROI = 0.3;
         let contractStatsInterval = null;
         let userDataInterval = null;
         let lastInvestmentType = null; // 'cycle' or 'saving'
@@ -2809,13 +2809,6 @@
             }
         });
 
-        // ===== COOLDOWN MANAGEMENT =====
-        function startCooldown() {
-            const now = Math.floor(Date.now() / 1000);
-            nextSavingClaimTime = now + savingCooldown;
-            startCooldownTimer();
-        }
-
         function startCooldownTimer() {
             if (withdrawCooldownInterval) {
                 clearInterval(withdrawCooldownInterval);
@@ -2854,12 +2847,54 @@
             withdrawSavingBtn.setAttribute('data-cooldown', `Available in ${timeString}`);
         }
 
+        function updateButtonCooldownStatus() {
+            if (!userAccount || !contract) return;
+            
+            // Check contract for actual cooldown status
+            updateSavingCooldownFromContract();
+        }
+
+        async function updateSavingCooldownFromContract() {
+            if (!userAccount || !contract) return;
+            
+            try {
+                const dashboard = await contract.methods.getUserDashboard(userAccount).call();
+                const lastClaimTime = parseInt(dashboard.nextSavingClaimTime);
+                const canClaim = dashboard.canClaimSaving;
+                
+                if (!canClaim && lastClaimTime > 0) {
+                    const now = Math.floor(Date.now() / 1000);
+                    
+                    if (lastClaimTime > now) {
+                        nextSavingClaimTime = lastClaimTime;
+                        startCooldownTimer();
+                    } else {
+                        withdrawCooldownDisplay.style.display = 'none';
+                        withdrawSavingBtn.disabled = false;
+                        withdrawSavingBtn.classList.remove('btn-cooldown');
+                        cooldownDisplayActive = false;
+                    }
+                } else {
+                    withdrawCooldownDisplay.style.display = 'none';
+                    withdrawSavingBtn.disabled = false;
+                    withdrawSavingBtn.classList.remove('btn-cooldown');
+                    cooldownDisplayActive = false;
+                }
+            } catch (error) {
+                console.error('Error updating cooldown from contract:', error);
+            }
+        }
+
         async function initializeApp() {
             try {
                 web3 = new Web3(new Web3.providers.HttpProvider(BSC_RPC));
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
                 
                 await loadContractStats();
+                
+                // Load saving ROI from contract - FIXED: smart contract uses 0.3-0.8% range
+                currentSavingROI = 0.3; // Default starting ROI
+                document.getElementById('savingRoiPercent').textContent = `${currentSavingROI.toFixed(1)}%`;
                 
                 // Start interval for contract stats
                 contractStatsInterval = setInterval(loadContractStats, 30000);
@@ -2889,6 +2924,36 @@
                 
             } catch (error) {
                 console.error('Error loading contract stats:', error);
+            }
+        }
+
+        // ===== REAL-TIME SAVING ROI CALCULATION =====
+        async function updateSavingROIFromContract() {
+            if (!contract || !userAccount) return;
+            
+            try {
+                // Get user's saving investments to check current ROI
+                const savings = await contract.methods.getUserSavingInvestments(userAccount).call();
+                
+                if (savings.length > 0) {
+                    // Get the first active saving's ROI
+                    for (let i = 0; i < savings.length; i++) {
+                        if (savings[i].active) {
+                            currentSavingROI = parseFloat(savings[i].currentPercent) / 10;
+                            document.getElementById('savingRoiPercent').textContent = `${currentSavingROI.toFixed(1)}%`;
+                            
+                            // Update calculator if there's an amount entered
+                            const amount = parseFloat(document.getElementById('savingAmount').value);
+                            if (!isNaN(amount) && amount >= 5) {
+                                updateSavingROICalculator();
+                            }
+                            break;
+                        }
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Error updating saving ROI:', error);
             }
         }
 
@@ -3000,10 +3065,8 @@
             
             if (isNaN(amount) || amount < 5) return;
             
-            const roiPercent = currentSavingROI / 10; // Convert from integer (3) to decimal (0.3)
-            const dailyEarnings = (amount * roiPercent) / 100;
+            const dailyEarnings = (amount * currentSavingROI) / 100;
             
-            document.getElementById('savingRoiPercent').textContent = `${roiPercent.toFixed(1)}%`;
             document.getElementById('savingRoiDaily').textContent = `${dailyEarnings.toFixed(4)} USDT`;
             document.getElementById('savingRoiWeekly').textContent = `${(dailyEarnings * 7).toFixed(4)} USDT`;
             document.getElementById('savingRoiMonthly').textContent = `${(dailyEarnings * 30).toFixed(4)} USDT`;
@@ -3068,6 +3131,9 @@
                     await loadUserData();
                     updateReferralLinks();
                     showNotification('Connected!', 'success');
+                    
+                    // Update button cooldown status
+                    updateButtonCooldownStatus();
                     
                     // Start user data interval
                     if (userDataInterval) {
@@ -3225,6 +3291,7 @@
                         loadUserData();
                         updateReferralLinks();
                         showNotification('Account changed!', 'info');
+                        updateButtonCooldownStatus();
                     } else {
                         userAccount = null;
                         localStorage.removeItem('walletConnected');
@@ -3349,40 +3416,9 @@
             }
 
             try {
-                const savingInvestments = await contract.methods.getUserSavingInvestments(userAccount).call();
+                await loadUserSavings();
+                await updateSavingROIFromContract();
                 
-                if (savingInvestments.length === 0) return;
-                
-                const tbody = document.getElementById('savingsTableBody');
-                if (!tbody) return;
-                
-                const rows = tbody.querySelectorAll('tr');
-                const now = Math.floor(Date.now() / 1000);
-                
-                for (let i = 0; i < savingInvestments.length && i < rows.length; i++) {
-                    const investment = savingInvestments[i];
-                    const isActive = investment.active;
-                    
-                    if (isActive) {
-                        const currentPercent = parseFloat(investment.currentPercent) / 10; // Convert to decimal percentage
-                        const amount = parseFloat(web3.utils.fromWei(investment.amount, 'ether'));
-                        const lastPayout = parseInt(investment.lastPayout);
-                        const accumulatedReward = parseFloat(web3.utils.fromWei(investment.accumulatedReward || '0', 'ether'));
-                        
-                        let earned24h = 0;
-                        if (lastPayout > 0) {
-                            const timePassed = Math.min(now - lastPayout, 24 * 60 * 60);
-                            earned24h = (amount * currentPercent / 100) * (timePassed / (24 * 60 * 60));
-                        }
-                        
-                        const cells = rows[i].querySelectorAll('td');
-                        if (cells.length >= 5) {
-                            cells[2].textContent = `${currentPercent.toFixed(1)}%`;
-                            cells[3].textContent = `${earned24h.toFixed(4)} USDT`;
-                            cells[4].textContent = `${accumulatedReward.toFixed(4)} USDT`;
-                        }
-                    }
-                }
             } catch (error) {
                 console.error('Error updating real-time saving data:', error);
             }
@@ -3686,7 +3722,7 @@
                         hasActiveSavings = true;
                         
                         const amount = parseFloat(web3.utils.fromWei(saving.amount, 'ether')).toFixed(2);
-                        const accumulated = parseFloat(web3.utils.fromWei(saving.accumulatedReward, 'ether')).toFixed(4);
+                        const accumulated = parseFloat(web3.utils.fromWei(saving.accumulated24h, 'ether')).toFixed(4);
                         
                         const savingItem = document.createElement('div');
                         savingItem.className = 'cycle-item';
@@ -3766,25 +3802,13 @@
                 document.getElementById('savingLevelAchieved').textContent = dashboard.savingQualificationLevel;
                 
                 // Update cooldown status
-                const nextClaimTime = parseInt(dashboard.nextSavingClaimTime);
-                const now = Math.floor(Date.now() / 1000);
-                
-                if (nextClaimTime > now) {
-                    nextSavingClaimTime = nextClaimTime;
-                    if (!cooldownDisplayActive) {
-                        startCooldownTimer();
-                    }
-                } else {
-                    withdrawCooldownDisplay.style.display = 'none';
-                    withdrawSavingBtn.disabled = false;
-                    withdrawSavingBtn.classList.remove('btn-cooldown');
-                    cooldownDisplayActive = false;
-                }
+                updateButtonCooldownStatus();
                 
                 updateQualificationBadges(dashboard);
                 
                 await loadUserCycles();
                 await loadUserSavings();
+                await updateSavingROIFromContract();
                 
             } catch (error) {
                 console.error('Error loading user data:', error);
@@ -3966,9 +3990,10 @@
                     const isActive = saving.active;
                     
                     const amount = parseFloat(web3.utils.fromWei(saving.amount, 'ether')).toFixed(2);
-                    const percent = parseFloat(saving.currentPercent) / 10; // Convert to decimal percentage
+                    const percent = parseFloat(saving.currentPercent) / 10;
                     const lastPayout = parseInt(saving.lastPayout);
-                    const accumulatedReward = parseFloat(web3.utils.fromWei(saving.accumulatedReward || '0', 'ether')).toFixed(4);
+                    const totalWithdrawn = parseFloat(web3.utils.fromWei(saving.totalWithdrawn || '0', 'ether')).toFixed(4);
+                    const accumulated = parseFloat(web3.utils.fromWei(saving.accumulated24h, 'ether')).toFixed(4);
                     
                     // Calculate earned in last 24h
                     let earned24h = 0;
@@ -3984,9 +4009,9 @@
                     row.innerHTML = `
                         <td><span class="status-badge ${statusClass}">${status}</span></td>
                         <td>${amount} USDT</td>
-                        <td>${percent.toFixed(1)}%</td>
+                        <td>${percent.toFixed(2)}%</td>
                         <td>${earned24h.toFixed(4)} USDT</td>
-                        <td>${accumulatedReward} USDT</td>
+                        <td>${accumulated} USDT</td>
                     `;
                     tbody.appendChild(row);
                 });
@@ -4260,17 +4285,6 @@
                 return;
             }
             
-            // Check cooldown
-            const now = Math.floor(Date.now() / 1000);
-            if (nextSavingClaimTime > now) {
-                const timeLeft = nextSavingClaimTime - now;
-                const hours = Math.floor(timeLeft / 3600);
-                const minutes = Math.floor((timeLeft % 3600) / 60);
-                const seconds = timeLeft % 60;
-                showNotification(`Please wait ${hours}h ${minutes}m ${seconds}s before next withdrawal`, 'error');
-                return;
-            }
-            
             const withdrawBtn = document.getElementById('withdrawSaving');
             const originalText = withdrawBtn.innerHTML;
             showButtonLoading(withdrawBtn, true, originalText);
@@ -4278,6 +4292,13 @@
             try {
                 showNotification('Withdrawing saving rewards', 'info');
                 
+                // First update accumulated amounts
+                await contract.methods.updateSavingAccumulated().send({ 
+                    from: userAccount,
+                    gas: 100000 
+                });
+                
+                // Then claim savings
                 const tx = await contract.methods.claimSaving().send({ 
                     from: userAccount,
                     gas: 200000 
@@ -4285,7 +4306,6 @@
                 
                 if (tx.status) {
                     showNotification('Saving rewards withdrawn successfully!', 'success');
-                    startCooldown(); // Start 24-hour cooldown
                     await loadUserData();
                     await loadContractStats();
                 } else {
