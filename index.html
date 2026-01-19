@@ -4070,485 +4070,446 @@
         }
 
         async function confirmCycleInvestment() {
-    if (!userAccount || !contract || !usdtContract) {
-        showNotification('Please connect your wallet!', 'error');
-        return;
-    }
-    
-    const amount = parseFloat(document.getElementById('cycleAmount').value);
-    if (isNaN(amount) || amount < 5) {
-        showNotification(`Minimum investment is 5 USDT!`, 'error');
-        return;
-    }
-    
-    if (!selectedCyclePlan) {
-        showNotification('Please select a plan!', 'error');
-        return;
-    }
-    
-    const confirmCycleBtn = document.getElementById('confirmCycle');
-    const originalText = confirmCycleBtn.innerHTML;
-    showButtonLoading(confirmCycleBtn, true, originalText);
-    
-    try {
-        const amountInWei = web3.utils.toWei(amount.toString(), 'ether');
-        const referrer = document.getElementById('cycleReferrer').value || '0x0000000000000000000000000000000000000000';
-        
-        const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
-        if (BigInt(allowance) < BigInt(amountInWei)) {
-            showNotification('Approving USDT', 'info');
-            const approveTx = await usdtContract.methods.approve(CONTRACT_ADDRESS, web3.utils.toWei((amount * 1000).toString(), 'ether')).send({ 
-                from: userAccount,
-                gas: 100000 
-            });
-            if (!approveTx.status) {
-                throw new Error('USDT approval failed');
+            if (!userAccount || !contract || !usdtContract) {
+                showNotification('Please connect your wallet!', 'error');
+                return;
             }
-        }
-        
-        showNotification('Processing Cycle Investment', 'info');
-        const tx = await contract.methods.depositCycle(amountInWei, selectedCyclePlan, referrer).send({ 
-            from: userAccount,
-            gas: 350000  // DIKURANGI dari 450000
-        });
-        
-        if (tx.status) {
-            showNotification('Cycle investment successful!', 'success');
-            lastInvestmentType = 'cycle';
-            showPopup(successPopup);
-            await loadUserData();
-            await loadContractStats();
-            document.getElementById('cycleAmount').value = '';
-            selectedCyclePlan = null;
-            document.getElementById('cycleDropdown').querySelector('.dropdown-selected').innerHTML = '<span>Select Plan</span><i class="fas fa-chevron-down"></i>';
-            document.getElementById('cycleRoiCalculator').style.display = 'none';
-        } else {
-            throw new Error('Transaction failed');
-        }
-        
-    } catch (error) {
-        console.error('Cycle investment error:', error);
-        showNotification('Transaction failed: ' + (error.message || 'Unknown error'), 'error');
-    } finally {
-        resetButtonToOriginal(confirmCycleBtn);
-    }
-}
-
-async function confirmSavingInvestment() {
-    if (!userAccount || !contract || !usdtContract) {
-        showNotification('Please connect your wallet!', 'error');
-        return;
-    }
-    
-    const amount = parseFloat(document.getElementById('savingAmount').value);
-    if (isNaN(amount) || amount < 5) {
-        showNotification('Minimum investment is 5 USDT!', 'error');
-        return;
-    }
-    
-    const confirmSavingBtn = document.getElementById('confirmSaving');
-    const originalText = confirmSavingBtn.innerHTML;
-    showButtonLoading(confirmSavingBtn, true, originalText);
-    
-    try {
-        const amountInWei = web3.utils.toWei(amount.toString(), 'ether');
-        const referrer = document.getElementById('savingReferrer').value || '0x0000000000000000000000000000000000000000';
-        
-        const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
-        if (BigInt(allowance) < BigInt(amountInWei)) {
-            showNotification('Approving USDT', 'info');
-            const approveTx = await usdtContract.methods.approve(CONTRACT_ADDRESS, web3.utils.toWei((amount * 1000).toString(), 'ether')).send({ 
-                from: userAccount,
-                gas: 100000 
-            });
-            if (!approveTx.status) {
-                throw new Error('USDT approval failed');
+            
+            const amount = parseFloat(document.getElementById('cycleAmount').value);
+            if (isNaN(amount) || amount < 5) {
+                showNotification(`Minimum investment is 5 USDT!`, 'error');
+                return;
             }
-        }
-        
-        showNotification('Processing Saving Investment', 'info');
-        const tx = await contract.methods.depositSaving(amountInWei, referrer).send({ 
-            from: userAccount,
-            gas: 350000  // DIKURANGI dari 450000
-        });
-        
-        if (tx.status) {
-            showNotification('Saving investment successful!', 'success');
-            lastInvestmentType = 'saving';
-            showPopup(successPopup);
-            await loadUserData();
-            await loadContractStats();
-            document.getElementById('savingAmount').value = '';
-        } else {
-            throw new Error('Transaction failed');
-        }
-        
-    } catch (error) {
-        console.error('Saving investment error:', error);
-        showNotification('Transaction failed: ' + (error.message || 'Unknown error'), 'error');
-    } finally {
-        resetButtonToOriginal(confirmSavingBtn);
-    }
-}
-
-async function confirmWithdrawCycles() {
-    if (!userAccount || !contract) {
-        showNotification('Please connect your wallet!', 'error');
-        return;
-    }
-    
-    if (selectedCycleForWithdraw.length === 0) {
-        showNotification('Please select at least one cycle to withdraw!', 'error');
-        return;
-    }
-    
-    const confirmBtn = document.getElementById('confirmWithdrawCycles');
-    const originalText = confirmBtn.innerHTML;
-    showButtonLoading(confirmBtn, true, originalText);
-    
-    try {
-        showNotification('Withdrawing cycles', 'info');
-        
-        let successCount = 0;
-        for (const cycleId of selectedCycleForWithdraw) {
+            
+            if (!selectedCyclePlan) {
+                showNotification('Please select a plan!', 'error');
+                return;
+            }
+            
+            const confirmCycleBtn = document.getElementById('confirmCycle');
+            const originalText = confirmCycleBtn.innerHTML;
+            showButtonLoading(confirmCycleBtn, true, originalText);
+            
             try {
-                const tx = await contract.methods.claimCycle(cycleId).send({ 
-                    from: userAccount,
-                    gas: 250000  // DIKURANGI dari 450000
-                });
-                if (tx.status) {
-                    successCount++;
-                }
-            } catch (error) {
-                console.error(`Error withdrawing cycle ${cycleId}:`, error);
-            }
-        }
-        
-        if (successCount > 0) {
-            showNotification(`Successfully withdrew ${successCount} cycle(s)!`, 'success');
-        } else {
-            showNotification('Failed to withdraw cycles!', 'error');
-        }
-        
-        hideModal(withdrawCycleModal);
-        await loadUserData();
-        await loadContractStats();
-        
-    } catch (error) {
-        console.error('Error:', error);
-        showNotification('Withdraw failed: ' + error.message, 'error');
-    } finally {
-        resetButtonToOriginal(confirmBtn);
-    }
-}
-
-async function confirmRegrowModal() {
-    if (!userAccount || !contract) {
-        showNotification('Please connect your wallet!', 'error');
-        return;
-    }
-    
-    if (selectedCycleForRegrow === null) {
-        showNotification('Please select a cycle to regrow!', 'error');
-        return;
-    }
-    
-    if (selectedRegrowPlan === null) {
-        showNotification('Please select a new plan for regrow!', 'error');
-        return;
-    }
-    
-    const confirmBtn = document.getElementById('confirmRegrowModal');
-    const originalText = confirmBtn.innerHTML;
-    showButtonLoading(confirmBtn, true, originalText);
-    
-    try {
-        showNotification('Processing regrow', 'info');
-        const tx = await contract.methods.regrow(selectedCycleForRegrow, selectedRegrowPlan).send({ 
-            from: userAccount,
-            gas: 400000  // DIKURANGI dari 450000
-        });
-        
-        if (tx.status) {
-            showNotification('Regrow successful!', 'success');
-            hideModal(regrowCycleModal);
-            await loadUserData();
-            await loadContractStats();
-        } else {
-            throw new Error('Regrow failed');
-        }
-        
-    } catch (error) {
-        console.error('Error:', error);
-        showNotification('Regrow failed: ' + error.message, 'error');
-    } finally {
-        resetButtonToOriginal(confirmBtn);
-    }
-}
-
-async function confirmWithdrawCapital() {
-    if (!userAccount || !contract) {
-        showNotification('Please connect your wallet!', 'error');
-        return;
-    }
-    
-    if (selectedSavingForWithdraw === null) {
-        showNotification('Please select a saving to withdraw capital from!', 'error');
-        return;
-    }
-    
-    const confirmBtn = document.getElementById('confirmWithdrawCapital');
-    const originalText = confirmBtn.innerHTML;
-    showButtonLoading(confirmBtn, true, originalText);
-    
-    try {
-        showNotification('Withdrawing capital', 'info');
-        const tx = await contract.methods.capitalSaving(selectedSavingForWithdraw).send({ 
-            from: userAccount,
-            gas: 300000  // DIKURANGI dari 450000
-        });
-        
-        if (tx.status) {
-            showNotification('Capital withdrawn successfully!', 'success');
-            hideModal(withdrawCapitalModal);
-            await loadUserData();
-            await loadContractStats();
-        } else {
-            throw new Error('Capital withdrawal failed');
-        }
-        
-    } catch (error) {
-        console.error('Error:', error);
-        showNotification('Withdrawal failed: ' + error.message, 'error');
-    } finally {
-        resetButtonToOriginal(confirmBtn);
-    }
-}
-
-// ===== WITHDRAW SAVING REWARDS - FIXED =====
-async function withdrawSavingRewards() {
-    if (!userAccount || !contract) {
-        showNotification('Please connect your wallet!', 'error');
-        return;
-    }
-    
-    const withdrawBtn = document.getElementById('withdrawSaving');
-    const originalText = withdrawBtn.innerHTML;
-    showButtonLoading(withdrawBtn, true, originalText);
-    
-    try {
-        // Check cooldown first
-        const userDashboard = await contract.methods.getUserDashboard(userAccount).call();
-        const nextClaimTime = parseInt(userDashboard.nextSavingClaimTime);
-        const currentTime = Math.floor(Date.now() / 1000);
-        
-        if (currentTime < nextClaimTime) {
-            const hoursLeft = Math.ceil((nextClaimTime - currentTime) / 3600);
-            showNotification(`Please wait ${hoursLeft} hour(s) before next claim!`, 'warning');
-            resetButtonToOriginal(withdrawBtn);
-            return;
-        }
-        
-        // Check if there are any earnings
-        const savingsBefore = await contract.methods.getUserSavingInvestments(userAccount).call();
-        let totalEarnings = 0;
-        for (let i = 0; i < savingsBefore.length; i++) {
-            if (savingsBefore[i].active) {
-                const earned = parseFloat(web3.utils.fromWei(savingsBefore[i].earned24h, 'ether'));
-                totalEarnings += earned;
-            }
-        }
-        
-        if (totalEarnings < 0.01) {
-            showNotification(`No significant earnings to withdraw ($${totalEarnings.toFixed(4)})`, 'info');
-            resetButtonToOriginal(withdrawBtn);
-            return;
-        }
-        
-        showNotification(`Found $${totalEarnings.toFixed(2)} to withdraw...`, 'info');
-        
-        // Try updateSavingAccumulated first (optional)
-        try {
-            showNotification('Updating accumulated earnings...', 'info');
-            const updateTx = await contract.methods.updateSavingAccumulated().send({ 
-                from: userAccount,
-                gas: 150000  // DIKURANGI dari 200000
-            });
-            
-            if (!updateTx.status) {
-                console.warn('updateSavingAccumulated failed, but continuing...');
-            }
-        } catch (updateError) {
-            console.warn('updateSavingAccumulated skipped:', updateError.message);
-            // Continue anyway - contract might already have updated data
-        }
-        
-        showNotification('Withdrawing saving rewards...', 'info');
-        
-        // MAIN FIX: INCREASE GAS LIMIT FOR claimSaving()
-        const claimTx = await contract.methods.claimSaving().send({ 
-            from: userAccount,
-            gas: 800000  // DITAMBAH dari 500000 ke 800000 - FIX UTAMA!
-        });
-        
-        if (claimTx.status) {
-            // Get savings after withdrawal
-            const savingsAfter = await contract.methods.getUserSavingInvestments(userAccount).call();
-            
-            // Track withdrawals for each saving
-            const now = Math.floor(Date.now() / 1000);
-            for (let i = 0; i < savingsBefore.length; i++) {
-                if (savingsBefore[i].active && savingsAfter[i].active) {
-                    const earned24hBefore = parseFloat(web3.utils.fromWei(savingsBefore[i].earned24h, 'ether'));
-                    const earned24hAfter = parseFloat(web3.utils.fromWei(savingsAfter[i].earned24h, 'ether'));
-                    
-                    if (earned24hBefore > 0 && earned24hAfter === 0) {
-                        // This saving had earnings that were withdrawn
-                        localStorage.setItem(`lastWithdraw_${userAccount}_${i}`, now.toString());
-                        
-                        // Update accumulated total
-                        if (!totalAccumulated[i]) {
-                            totalAccumulated[i] = 0;
-                        }
-                        totalAccumulated[i] += earned24hBefore;
+                const amountInWei = web3.utils.toWei(amount.toString(), 'ether');
+                const referrer = document.getElementById('cycleReferrer').value || '0x0000000000000000000000000000000000000000';
+                
+                const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
+                if (BigInt(allowance) < BigInt(amountInWei)) {
+                    showNotification('Approving USDT', 'info');
+                    const approveTx = await usdtContract.methods.approve(CONTRACT_ADDRESS, web3.utils.toWei((amount * 1000).toString(), 'ether')).send({ 
+                        from: userAccount,
+                        gas: 100000 
+                    });
+                    if (!approveTx.status) {
+                        throw new Error('USDT approval failed');
                     }
                 }
+                
+                showNotification('Processing Cycle Investment', 'info');
+                const tx = await contract.methods.depositCycle(amountInWei, selectedCyclePlan, referrer).send({ 
+                    from: userAccount,
+                    gas: 350000  // DIKURANGI dari 450000
+                });
+                
+                if (tx.status) {
+                    showNotification('Cycle investment successful!', 'success');
+                    lastInvestmentType = 'cycle';
+                    showPopup(successPopup);
+                    await loadUserData();
+                    await loadContractStats();
+                    document.getElementById('cycleAmount').value = '';
+                    selectedCyclePlan = null;
+                    document.getElementById('cycleDropdown').querySelector('.dropdown-selected').innerHTML = '<span>Select Plan</span><i class="fas fa-chevron-down"></i>';
+                    document.getElementById('cycleRoiCalculator').style.display = 'none';
+                } else {
+                    throw new Error('Transaction failed');
+                }
+                
+            } catch (error) {
+                console.error('Cycle investment error:', error);
+                showNotification('Transaction failed: ' + (error.message || 'Unknown error'), 'error');
+            } finally {
+                resetButtonToOriginal(confirmCycleBtn);
+            }
+        }
+
+        async function confirmSavingInvestment() {
+            if (!userAccount || !contract || !usdtContract) {
+                showNotification('Please connect your wallet!', 'error');
+                return;
             }
             
-            showNotification(`Successfully withdrew $${totalEarnings.toFixed(2)}!`, 'success');
-            await loadUserData();
-            await loadContractStats();
-        } else {
-            throw new Error('Withdrawal failed');
+            const amount = parseFloat(document.getElementById('savingAmount').value);
+            if (isNaN(amount) || amount < 5) {
+                showNotification('Minimum investment is 5 USDT!', 'error');
+                return;
+            }
+            
+            const confirmSavingBtn = document.getElementById('confirmSaving');
+            const originalText = confirmSavingBtn.innerHTML;
+            showButtonLoading(confirmSavingBtn, true, originalText);
+            
+            try {
+                const amountInWei = web3.utils.toWei(amount.toString(), 'ether');
+                const referrer = document.getElementById('savingReferrer').value || '0x0000000000000000000000000000000000000000';
+                
+                const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
+                if (BigInt(allowance) < BigInt(amountInWei)) {
+                    showNotification('Approving USDT', 'info');
+                    const approveTx = await usdtContract.methods.approve(CONTRACT_ADDRESS, web3.utils.toWei((amount * 1000).toString(), 'ether')).send({ 
+                        from: userAccount,
+                        gas: 100000 
+                    });
+                    if (!approveTx.status) {
+                        throw new Error('USDT approval failed');
+                    }
+                }
+                
+                showNotification('Processing Saving Investment', 'info');
+                const tx = await contract.methods.depositSaving(amountInWei, referrer).send({ 
+                    from: userAccount,
+                    gas: 350000  // DIKURANGI dari 450000
+                });
+                
+                if (tx.status) {
+                    showNotification('Saving investment successful!', 'success');
+                    lastInvestmentType = 'saving';
+                    showPopup(successPopup);
+                    await loadUserData();
+                    await loadContractStats();
+                    document.getElementById('savingAmount').value = '';
+                } else {
+                    throw new Error('Transaction failed');
+                }
+                
+            } catch (error) {
+                console.error('Saving investment error:', error);
+                showNotification('Transaction failed: ' + (error.message || 'Unknown error'), 'error');
+            } finally {
+                resetButtonToOriginal(confirmSavingBtn);
+            }
         }
-        
-    } catch (error) {
-        console.error('Error:', error);
-        
-        // Better error messages
-        if (error.message.includes('insufficient pool')) {
-            showNotification('Pool balance insufficient. Please try later.', 'error');
-        } else if (error.message.includes('24h cooldown') || error.message.includes('cooldown')) {
-            showNotification('24-hour cooldown active. Please wait.', 'warning');
-        } else if (error.message.includes('gas') || error.message.includes('out of gas')) {
-            showNotification('Gas limit too low. Please try with higher gas.', 'error');
-        } else if (error.message.includes('No rewards')) {
-            showNotification('No rewards available to withdraw.', 'info');
-        } else {
-            showNotification('Withdrawal failed: ' + error.message, 'error');
-        }
-    } finally {
-        resetButtonToOriginal(withdrawBtn);
-    }
-}
 
-// ===== EMERGENCY CLAIM FUNCTION (tambahkan di akhir sebelum showSection) =====
-async function emergencyClaimSaving() {
-    if (!userAccount || !contract) {
-        showNotification('Please connect your wallet!', 'error');
-        return;
-    }
-    
-    if (!confirm("Emergency claim will use VERY HIGH gas (1,500,000). Continue?")) {
-        return;
-    }
-    
-    const withdrawBtn = document.getElementById('withdrawSaving');
-    const originalText = withdrawBtn.innerHTML;
-    showButtonLoading(withdrawBtn, true, 'EMERGENCY CLAIM');
-    
-    try {
-        showNotification('Emergency claim with high gas...', 'warning');
-        
-        const tx = await contract.methods.claimSaving().send({
-            from: userAccount,
-            gas: 1500000, // 1.5 million - VERY HIGH
-            gasPrice: web3.utils.toWei('30', 'gwei')
-        });
-        
-        if (tx.status) {
-            showNotification('Emergency claim successful!', 'success');
-            await loadUserData();
-            await loadContractStats();
-        } else {
-            throw new Error('Emergency claim failed');
+        async function confirmWithdrawCycles() {
+            if (!userAccount || !contract) {
+                showNotification('Please connect your wallet!', 'error');
+                return;
+            }
+            
+            if (selectedCycleForWithdraw.length === 0) {
+                showNotification('Please select at least one cycle to withdraw!', 'error');
+                return;
+            }
+            
+            const confirmBtn = document.getElementById('confirmWithdrawCycles');
+            const originalText = confirmBtn.innerHTML;
+            showButtonLoading(confirmBtn, true, originalText);
+            
+            try {
+                showNotification('Withdrawing cycles', 'info');
+                
+                let successCount = 0;
+                for (const cycleId of selectedCycleForWithdraw) {
+                    try {
+                        const tx = await contract.methods.claimCycle(cycleId).send({ 
+                            from: userAccount,
+                            gas: 250000  // DIKURANGI dari 450000
+                        });
+                        if (tx.status) {
+                            successCount++;
+                        }
+                    } catch (error) {
+                        console.error(`Error withdrawing cycle ${cycleId}:`, error);
+                    }
+                }
+                
+                if (successCount > 0) {
+                    showNotification(`Successfully withdrew ${successCount} cycle(s)!`, 'success');
+                } else {
+                    showNotification('Failed to withdraw cycles!', 'error');
+                }
+                
+                hideModal(withdrawCycleModal);
+                await loadUserData();
+                await loadContractStats();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Withdraw failed: ' + error.message, 'error');
+            } finally {
+                resetButtonToOriginal(confirmBtn);
+            }
         }
-        
-    } catch (error) {
-        console.error('Emergency claim error:', error);
-        showNotification('Emergency claim also failed. Please contact support.', 'error');
-    } finally {
-        resetButtonToOriginal(withdrawBtn);
-    }
-}
 
-async function withdrawCycleReferral() {
-    if (!userAccount || !contract) {
-        showNotification('Please connect your wallet!', 'error');
-        return;
-    }
-    
-    const withdrawBtn = document.getElementById('withdrawCycleReferral');
-    const originalText = withdrawBtn.innerHTML;
-    showButtonLoading(withdrawBtn, true, originalText);
-    
-    try {
-        showNotification('Claiming cycle referral rewards', 'info');
-        const tx = await contract.methods.rewardCycle().send({ 
-            from: userAccount,
-            gas: 150000  // DIKURANGI dari 200000
-        });
-        
-        if (tx.status) {
-            showNotification('Cycle referral rewards claimed successfully!', 'success');
-            await loadUserData();
-            await loadContractStats();
-        } else {
-            throw new Error('Claim failed');
+        async function confirmRegrowModal() {
+            if (!userAccount || !contract) {
+                showNotification('Please connect your wallet!', 'error');
+                return;
+            }
+            
+            if (selectedCycleForRegrow === null) {
+                showNotification('Please select a cycle to regrow!', 'error');
+                return;
+            }
+            
+            if (selectedRegrowPlan === null) {
+                showNotification('Please select a new plan for regrow!', 'error');
+                return;
+            }
+            
+            const confirmBtn = document.getElementById('confirmRegrowModal');
+            const originalText = confirmBtn.innerHTML;
+            showButtonLoading(confirmBtn, true, originalText);
+            
+            try {
+                showNotification('Processing regrow', 'info');
+                const tx = await contract.methods.regrow(selectedCycleForRegrow, selectedRegrowPlan).send({ 
+                    from: userAccount,
+                    gas: 400000  // DIKURANGI dari 450000
+                });
+                
+                if (tx.status) {
+                    showNotification('Regrow successful!', 'success');
+                    hideModal(regrowCycleModal);
+                    await loadUserData();
+                    await loadContractStats();
+                } else {
+                    throw new Error('Regrow failed');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Regrow failed: ' + error.message, 'error');
+            } finally {
+                resetButtonToOriginal(confirmBtn);
+            }
         }
-        
-    } catch (error) {
-        console.error('Error:', error);
-        showNotification('Claim failed: ' + error.message, 'error');
-    } finally {
-        resetButtonToOriginal(withdrawBtn);
-    }
-}
 
-async function withdrawSavingReferral() {
-    if (!userAccount || !contract) {
-        showNotification('Please connect your wallet!', 'error');
-        return;
-    }
-    
-    const withdrawBtn = document.getElementById('withdrawSavingReferral');
-    const originalText = withdrawBtn.innerHTML;
-    showButtonLoading(withdrawBtn, true, originalText);
-    
-    try {
-        showNotification('Claiming saving referral rewards', 'info');
-        const tx = await contract.methods.rewardSaving().send({ 
-            from: userAccount,
-            gas: 150000  // DIKURANGI dari 200000
-        });
-        
-        if (tx.status) {
-            showNotification('Saving referral rewards claimed successfully!', 'success');
-            await loadUserData();
-            await loadContractStats();
-        } else {
-            throw new Error('Claim failed');
+        async function confirmWithdrawCapital() {
+            if (!userAccount || !contract) {
+                showNotification('Please connect your wallet!', 'error');
+                return;
+            }
+            
+            if (selectedSavingForWithdraw === null) {
+                showNotification('Please select a saving to withdraw capital from!', 'error');
+                return;
+            }
+            
+            const confirmBtn = document.getElementById('confirmWithdrawCapital');
+            const originalText = confirmBtn.innerHTML;
+            showButtonLoading(confirmBtn, true, originalText);
+            
+            try {
+                showNotification('Withdrawing capital', 'info');
+                const tx = await contract.methods.capitalSaving(selectedSavingForWithdraw).send({ 
+                    from: userAccount,
+                    gas: 300000  // DIKURANGI dari 450000
+                });
+                
+                if (tx.status) {
+                    showNotification('Capital withdrawn successfully!', 'success');
+                    hideModal(withdrawCapitalModal);
+                    await loadUserData();
+                    await loadContractStats();
+                } else {
+                    throw new Error('Capital withdrawal failed');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Withdrawal failed: ' + error.message, 'error');
+            } finally {
+                resetButtonToOriginal(confirmBtn);
+            }
         }
-        
-    } catch (error) {
-        console.error('Error:', error);
-        showNotification('Claim failed: ' + error.message, 'error');
-    } finally {
-        resetButtonToOriginal(withdrawBtn);
-    }
 
-// Initialize with home section
-showSection('home');
+        // ===== WITHDRAW SAVING REWARDS - FIXED =====
+        async function withdrawSavingRewards() {
+            if (!userAccount || !contract) {
+                showNotification('Please connect your wallet!', 'error');
+                return;
+            }
+            
+            const withdrawBtn = document.getElementById('withdrawSaving');
+            const originalText = withdrawBtn.innerHTML;
+            showButtonLoading(withdrawBtn, true, originalText);
+            
+            try {
+                // Check cooldown first
+                const userDashboard = await contract.methods.getUserDashboard(userAccount).call();
+                const nextClaimTime = parseInt(userDashboard.nextSavingClaimTime);
+                const currentTime = Math.floor(Date.now() / 1000);
+                
+                if (currentTime < nextClaimTime) {
+                    const hoursLeft = Math.ceil((nextClaimTime - currentTime) / 3600);
+                    showNotification(`Please wait ${hoursLeft} hour(s) before next claim!`, 'warning');
+                    resetButtonToOriginal(withdrawBtn);
+                    return;
+                }
+                
+                // Check if there are any earnings
+                const savingsBefore = await contract.methods.getUserSavingInvestments(userAccount).call();
+                let totalEarnings = 0;
+                for (let i = 0; i < savingsBefore.length; i++) {
+                    if (savingsBefore[i].active) {
+                        const earned = parseFloat(web3.utils.fromWei(savingsBefore[i].earned24h, 'ether'));
+                        totalEarnings += earned;
+                    }
+                }
+                
+                if (totalEarnings < 0.01) {
+                    showNotification(`No significant earnings to withdraw ($${totalEarnings.toFixed(4)})`, 'info');
+                    resetButtonToOriginal(withdrawBtn);
+                    return;
+                }
+                
+                showNotification(`Found $${totalEarnings.toFixed(2)} to withdraw...`, 'info');
+                
+                // Try updateSavingAccumulated first (optional)
+                try {
+                    showNotification('Updating accumulated earnings...', 'info');
+                    const updateTx = await contract.methods.updateSavingAccumulated().send({ 
+                        from: userAccount,
+                        gas: 150000  // DIKURANGI dari 200000
+                    });
+                    
+                    if (!updateTx.status) {
+                        console.warn('updateSavingAccumulated failed, but continuing...');
+                    }
+                } catch (updateError) {
+                    console.warn('updateSavingAccumulated skipped:', updateError.message);
+                    // Continue anyway - contract might already have updated data
+                }
+                
+                showNotification('Withdrawing saving rewards...', 'info');
+                
+                // MAIN FIX: INCREASE GAS LIMIT FOR claimSaving()
+                const claimTx = await contract.methods.claimSaving().send({ 
+                    from: userAccount,
+                    gas: 800000  // DITAMBAH dari 500000 ke 800000 - FIX UTAMA!
+                });
+                
+                if (claimTx.status) {
+                    // Get savings after withdrawal
+                    const savingsAfter = await contract.methods.getUserSavingInvestments(userAccount).call();
+                    
+                    // Track withdrawals for each saving
+                    const now = Math.floor(Date.now() / 1000);
+                    for (let i = 0; i < savingsBefore.length; i++) {
+                        if (savingsBefore[i].active && savingsAfter[i].active) {
+                            const earned24hBefore = parseFloat(web3.utils.fromWei(savingsBefore[i].earned24h, 'ether'));
+                            const earned24hAfter = parseFloat(web3.utils.fromWei(savingsAfter[i].earned24h, 'ether'));
+                            
+                            if (earned24hBefore > 0 && earned24hAfter === 0) {
+                                // This saving had earnings that were withdrawn
+                                localStorage.setItem(`lastWithdraw_${userAccount}_${i}`, now.toString());
+                                
+                                // Update accumulated total
+                                if (!totalAccumulated[i]) {
+                                    totalAccumulated[i] = 0;
+                                }
+                                totalAccumulated[i] += earned24hBefore;
+                            }
+                        }
+                    }
+                    
+                    showNotification(`Successfully withdrew $${totalEarnings.toFixed(2)}!`, 'success');
+                    await loadUserData();
+                    await loadContractStats();
+                } else {
+                    throw new Error('Withdrawal failed');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                
+                // Better error messages
+                if (error.message.includes('insufficient pool')) {
+                    showNotification('Pool balance insufficient. Please try later.', 'error');
+                } else if (error.message.includes('24h cooldown') || error.message.includes('cooldown')) {
+                    showNotification('24-hour cooldown active. Please wait.', 'warning');
+                } else if (error.message.includes('gas') || error.message.includes('out of gas')) {
+                    showNotification('Gas limit too low. Please try with higher gas.', 'error');
+                } else if (error.message.includes('No rewards')) {
+                    showNotification('No rewards available to withdraw.', 'info');
+                } else {
+                    showNotification('Withdrawal failed: ' + error.message, 'error');
+                }
+            } finally {
+                resetButtonToOriginal(withdrawBtn);
+            }
+        }
+
+        async function withdrawCycleReferral() {
+            if (!userAccount || !contract) {
+                showNotification('Please connect your wallet!', 'error');
+                return;
+            }
+            
+            const withdrawBtn = document.getElementById('withdrawCycleReferral');
+            const originalText = withdrawBtn.innerHTML;
+            showButtonLoading(withdrawBtn, true, originalText);
+            
+            try {
+                showNotification('Claiming cycle referral rewards', 'info');
+                const tx = await contract.methods.rewardCycle().send({ 
+                    from: userAccount,
+                    gas: 150000  // DIKURANGI dari 200000
+                });
+                
+                if (tx.status) {
+                    showNotification('Cycle referral rewards claimed successfully!', 'success');
+                    await loadUserData();
+                    await loadContractStats();
+                } else {
+                    throw new Error('Claim failed');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Claim failed: ' + error.message, 'error');
+            } finally {
+                resetButtonToOriginal(withdrawBtn);
+            }
+        }
+
+        async function withdrawSavingReferral() {
+            if (!userAccount || !contract) {
+                showNotification('Please connect your wallet!', 'error');
+                return;
+            }
+            
+            const withdrawBtn = document.getElementById('withdrawSavingReferral');
+            const originalText = withdrawBtn.innerHTML;
+            showButtonLoading(withdrawBtn, true, originalText);
+            
+            try {
+                showNotification('Claiming saving referral rewards', 'info');
+                const tx = await contract.methods.rewardSaving().send({ 
+                    from: userAccount,
+                    gas: 150000  // DIKURANGI dari 200000
+                });
+                
+                if (tx.status) {
+                    showNotification('Saving referral rewards claimed successfully!', 'success');
+                    await loadUserData();
+                    await loadContractStats();
+                } else {
+                    throw new Error('Claim failed');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Claim failed: ' + error.message, 'error');
+            } finally {
+                resetButtonToOriginal(withdrawBtn);
+            }
+        }
+
+        // Initialize with home section
+        showSection('home');
     </script>
 </body>
 </html>
