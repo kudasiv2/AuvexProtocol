@@ -4342,7 +4342,7 @@
                 // First update accumulated amounts
                 const updateTx = await contract.methods.updateSavingAccumulated().send({ 
                     from: userAccount,
-                    gas: 100000 
+                    gas: 200000 
                 });
                 
                 if (!updateTx.status) {
@@ -4357,7 +4357,7 @@
                 // Then claim savings
                 const claimTx = await contract.methods.claimSaving().send({ 
                     from: userAccount,
-                    gas: 450000 
+                    gas: 500000 
                 });
                 
                 if (claimTx.status) {
