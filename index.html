@@ -3163,7 +3163,7 @@
                     if (userDataInterval) {
                         clearInterval(userDataInterval);
                     }
-                    userDataInterval = setInterval(loadUserData, 10000); // Update every 10 seconds
+                    userDataInterval = setInterval(loadUserData, 3000); // Update every 3 seconds
                 }
             } catch (error) {
                 console.error('Error connecting wallet:', error);
@@ -4109,7 +4109,7 @@
                 showNotification('Processing Cycle Investment', 'info');
                 const tx = await contract.methods.depositCycle(amountInWei, selectedCyclePlan, referrer).send({ 
                     from: userAccount,
-                    gas: 500000 
+                    gas: 450000 
                 });
                 
                 if (tx.status) {
@@ -4169,7 +4169,7 @@
                 showNotification('Processing Saving Investment', 'info');
                 const tx = await contract.methods.depositSaving(amountInWei, referrer).send({ 
                     from: userAccount,
-                    gas: 500000 
+                    gas: 450000 
                 });
                 
                 if (tx.status) {
@@ -4214,7 +4214,7 @@
                     try {
                         const tx = await contract.methods.claimCycle(cycleId).send({ 
                             from: userAccount,
-                            gas: 200000 
+                            gas: 450000 
                         });
                         if (tx.status) {
                             successCount++;
@@ -4266,7 +4266,7 @@
                 showNotification('Processing regrow', 'info');
                 const tx = await contract.methods.regrow(selectedCycleForRegrow, selectedRegrowPlan).send({ 
                     from: userAccount,
-                    gas: 300000 
+                    gas: 450000 
                 });
                 
                 if (tx.status) {
@@ -4305,7 +4305,7 @@
                 showNotification('Withdrawing capital', 'info');
                 const tx = await contract.methods.capitalSaving(selectedSavingForWithdraw).send({ 
                     from: userAccount,
-                    gas: 200000 
+                    gas: 450000 
                 });
                 
                 if (tx.status) {
@@ -4357,7 +4357,7 @@
                 // Then claim savings
                 const claimTx = await contract.methods.claimSaving().send({ 
                     from: userAccount,
-                    gas: 200000 
+                    gas: 450000 
                 });
                 
                 if (claimTx.status) {
