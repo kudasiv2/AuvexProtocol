@@ -1,0 +1,2495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrcaTrust - Premium DeFi Investment Platform</title>
+    <meta name="description" content="OrcaTrust - Decentralized investment platform with daily ROI and multi-level referral rewards on BSC">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23007AFF'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='white' font-family='Arial'%3E🐋%3C/text%3E%3C/svg%3E">
+    
+    <!-- Font & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Web3 -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+
+    <style>
+        /* ===== CSS VARIABLES ===== */
+        :root {
+            /* Black Elegant 85% + Premium Blue 15% Theme */
+            --bg-primary: #050508;
+            --bg-secondary: #0a0a0f;
+            --bg-card: rgba(15, 15, 25, 0.7);
+            --bg-card-hover: rgba(20, 20, 35, 0.8);
+            
+            /* Premium Blue Palette */
+            --blue-primary: #007AFF;
+            --blue-secondary: #5856D6;
+            --blue-accent: #5AC8FA;
+            --blue-glow: rgba(0, 122, 255, 0.4);
+            --blue-glow-strong: rgba(0, 122, 255, 0.6);
+            
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            --text-blue: #5AC8FA;
+            
+            /* Gradients */
+            --gradient-blue: linear-gradient(135deg, #007AFF 0%, #5856D6 50%, #5AC8FA 100%);
+            --gradient-dark: linear-gradient(180deg, #050508 0%, #0a0a0f 100%);
+            --gradient-card: linear-gradient(145deg, rgba(15, 15, 25, 0.8), rgba(10, 10, 15, 0.9));
+            --gradient-glow: radial-gradient(ellipse at center, rgba(0, 122, 255, 0.15) 0%, transparent 70%);
+            
+            /* Glassmorphism */
+            --glass-bg: rgba(15, 15, 25, 0.6);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --glass-border-blue: 1px solid rgba(0, 122, 255, 0.3);
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 30px rgba(0, 122, 255, 0.3);
+            --shadow-glow-strong: 0 0 40px rgba(0, 122, 255, 0.5);
+            
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+            --radius-full: 9999px;
+            
+            /* Transitions */
+            --transition-fast: 0.15s ease;
+            --transition-base: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 0%, rgba(0, 122, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(88, 86, 214, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(90, 200, 250, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--blue-primary);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--blue-accent);
+        }
+
+        /* ===== UTILITIES ===== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .gradient-text {
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== PRELOADER ===== */
+        .preloader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .preloader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-logo {
+            font-size: 4rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .preloader-text {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 1rem;
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .preloader-subtext {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 72px;
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: var(--glass-border);
+            z-index: 1000;
+            transition: all var(--transition-base);
+        }
+
+        .header.scrolled {
+            background: rgba(5, 5, 8, 0.95);
+            border-bottom-color: rgba(0, 122, 255, 0.2);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .nav__logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-blue);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav__menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav__links {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+        }
+
+        .nav__link {
+            padding: 0.5rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: var(--radius-full);
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .nav__link:hover,
+        .nav__link.active {
+            color: var(--text-primary);
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .nav__toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.25rem;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-full);
+            font-family: var(--font-primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        .btn--primary {
+            background: var(--gradient-blue);
+            color: white;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn--primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow-strong);
+        }
+
+        .btn--secondary {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: var(--glass-border-blue);
+        }
+
+        .btn--secondary:hover {
+            background: rgba(0, 122, 255, 0.15);
+            border-color: var(--blue-primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn--outline {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn--outline:hover {
+            border-color: var(--blue-primary);
+            color: var(--text-primary);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        /* ===== GLASS CARDS ===== */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            transition: all var(--transition-base);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(0, 122, 255, 0.2);
+            box-shadow: var(--shadow-md);
+        }
+
+        .glass-card--blue {
+            border: var(--glass-border-blue);
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 6rem 0;
+            min-height: 100vh;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section__header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section__title {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .section__subtitle {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            padding-top: 8rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 122, 255, 0.1);
+            border: 1px solid rgba(0, 122, 255, 0.3);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            color: var(--blue-accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero__title {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero__description {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero__buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .hero__stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .hero__stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero__stat-value {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-blue);
+        }
+
+        .hero__stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Stats Card */
+        .stats-card {
+            background: var(--gradient-card);
+            border: var(--glass-border-blue);
+            border-radius: var(--radius-2xl);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--blue-primary), transparent);
+        }
+
+        .stats-card__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-card__title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: #34C759;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #34C759;
+            border-radius: 50%;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .stats-card__item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stats-card__item:last-child {
+            border-bottom: none;
+        }
+
+        .stats-card__label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .stats-card__value {
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-blue);
+        }
+
+        /* ===== DASHBOARD SECTION ===== */
+        .dashboard__grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-tile {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all var(--transition-base);
+        }
+
+        .stat-tile:hover {
+            border-color: rgba(0, 122, 255, 0.3);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-tile__icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 122, 255, 0.1);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: var(--blue-primary);
+            font-size: 1.25rem;
+        }
+
+        .stat-tile__value {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-tile__label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== INVESTMENT SECTIONS ===== */
+        .investment__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .investment-card {
+            background: var(--gradient-card);
+            border: var(--glass-border);
+            border-radius: var(--radius-2xl);
+            padding: 2rem;
+        }
+
+        .investment-card__header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .investment-card__icon {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-blue);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .investment-card__title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .investment-card__subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--blue-primary);
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.375rem;
+        }
+
+        /* ROI Calculator */
+        .roi-calculator {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 122, 255, 0.2);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .roi-calculator__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .roi-calculator__title {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .roi-calculator__percent {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #34C759;
+        }
+
+        .roi-calculator__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .roi-item {
+            text-align: center;
+        }
+
+        .roi-item__label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .roi-item__value {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Positions Table */
+        .positions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .positions-table th,
+        .positions-table td {
+            padding: 0.875rem 1rem;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+
+        .positions-table th {
+            background: rgba(0, 122, 255, 0.1);
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        .positions-table td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+        }
+
+        .positions-table tr:hover td {
+            background: rgba(0, 122, 255, 0.05);
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge--active {
+            background: rgba(52, 199, 89, 0.15);
+            color: #34C759;
+        }
+
+        .status-badge--pending {
+            background: rgba(255, 193, 7, 0.15);
+            color: #FFC107;
+        }
+
+        .status-badge--expired {
+            background: rgba(255, 59, 48, 0.15);
+            color: #FF3B30;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+        }
+
+        /* ===== REFERRAL SECTION ===== */
+        .referral__grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .referral-level {
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 1.25rem;
+            text-align: center;
+            transition: all var(--transition-base);
+        }
+
+        .referral-level:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 122, 255, 0.3);
+        }
+
+        .referral-level.qualified {
+            border-color: #34C759;
+            background: rgba(52, 199, 89, 0.05);
+        }
+
+        .referral-level__number {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .referral-level__percent {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .referral-level__req {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .referral-link-box {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .referral-link {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            font-family: monospace;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* ===== RANK SECTION ===== */
+        .ranks__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .rank-card {
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all var(--transition-base);
+            position: relative;
+        }
+
+        .rank-card:hover {
+            border-color: rgba(0, 122, 255, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .rank-card.current {
+            border-color: var(--blue-primary);
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        .rank-card__badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.25rem 0.75rem;
+            background: var(--gradient-blue);
+            border-radius: var(--radius-full);
+            font-size: 0.625rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: white;
+        }
+
+        .rank-card__name {
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .rank-card__bonus {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--blue-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .rank-card__req {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== ALERTS ===== */
+        .alert {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .alert--warning {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            color: #FFC107;
+        }
+
+        .alert--info {
+            background: rgba(0, 122, 255, 0.1);
+            border: 1px solid rgba(0, 122, 255, 0.3);
+            color: var(--blue-accent);
+        }
+
+        .alert--success {
+            background: rgba(52, 199, 89, 0.1);
+            border: 1px solid rgba(52, 199, 89, 0.3);
+            color: #34C759;
+        }
+
+        /* ===== NOTIFICATION ===== */
+        .notification {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: var(--glass-border);
+            border-left: 3px solid var(--blue-primary);
+            border-radius: var(--radius-lg);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            z-index: 3000;
+            transform: translateX(150%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 350px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left-color: #34C759;
+        }
+
+        .notification.error {
+            border-left-color: #FF3B30;
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-base);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal__content {
+            background: var(--gradient-card);
+            border: var(--glass-border);
+            border-radius: var(--radius-2xl);
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: scale(0.9) translateY(20px);
+            transition: transform var(--transition-base);
+        }
+
+        .modal.active .modal__content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal__header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal__title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal__subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-menu {
+            position: fixed;
+            top: 72px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(5, 5, 8, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 999;
+            padding: 2rem;
+            transform: translateX(100%);
+            transition: transform var(--transition-base);
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu__links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mobile-menu__link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1rem;
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-fast);
+        }
+
+        .mobile-menu__link:hover,
+        .mobile-menu__link.active {
+            background: rgba(0, 122, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            border-top: var(--glass-border);
+            padding: 3rem 0;
+            margin-top: auto;
+        }
+
+        .footer__content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer__logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .footer__text {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .footer__social {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            border-radius: var(--radius-lg);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .social-link:hover {
+            background: rgba(0, 122, 255, 0.2);
+            border-color: var(--blue-primary);
+            color: var(--text-primary);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .hero__grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+
+            .hero__description {
+                margin: 0 auto 2rem;
+            }
+
+            .hero__buttons {
+                justify-content: center;
+            }
+
+            .hero__stats {
+                justify-content: center;
+            }
+
+            .dashboard__grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .investment__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .referral__grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .ranks__grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav__menu {
+                display: none;
+            }
+
+            .nav__toggle {
+                display: flex;
+            }
+
+            .hero__title {
+                font-size: 2.5rem;
+            }
+
+            .section__title {
+                font-size: 2rem;
+            }
+
+            .dashboard__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .referral__grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .ranks__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .footer__content {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero__title {
+                font-size: 2rem;
+            }
+
+            .hero__buttons {
+                flex-direction: column;
+            }
+
+            .referral__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .roi-calculator__grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn.loading {
+            pointer-events: none;
+        }
+
+        .btn.loading .btn-text {
+            display: none;
+        }
+
+        /* Tab Navigation for Mobile */
+        .mobile-tabs {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(5, 5, 8, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: var(--glass-border);
+            padding: 0.75rem;
+            z-index: 1000;
+        }
+
+        .mobile-tabs__list {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+        }
+
+        .mobile-tabs__item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.625rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border-radius: var(--radius-lg);
+        }
+
+        .mobile-tabs__item i {
+            font-size: 1.25rem;
+        }
+
+        .mobile-tabs__item:hover,
+        .mobile-tabs__item.active {
+            color: var(--blue-primary);
+            background: rgba(0, 122, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-tabs {
+                display: block;
+            }
+
+            .section {
+                padding-bottom: 6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-logo">🐋</div>
+        <div class="preloader-text">OrcaTrust</div>
+        <div class="preloader-subtext">Premium DeFi Investment Platform</div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="#" class="nav__logo" onclick="showSection('home'); return false;">
+                <div class="logo-icon">🐋</div>
+                <span class="logo-text">OrcaTrust</span>
+            </a>
+
+            <div class="nav__menu">
+                <ul class="nav__links">
+                    <li><a class="nav__link active" onclick="showSection('home')">Home</a></li>
+                    <li><a class="nav__link" onclick="showSection('dashboard')">Dashboard</a></li>
+                    <li><a class="nav__link" onclick="showSection('invest')">Invest</a></li>
+                    <li><a class="nav__link" onclick="showSection('referral')">Referral</a></li>
+                    <li><a class="nav__link" onclick="showSection('ranks')">Ranks</a></li>
+                </ul>
+                <button class="btn btn--primary" id="connectWalletBtn">
+                    <i class="fas fa-wallet"></i>
+                    <span>Connect Wallet</span>
+                </button>
+            </div>
+
+            <button class="nav__toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-menu__links">
+            <li><a class="mobile-menu__link active" onclick="showSection('home'); toggleMobileMenu();">
+                <i class="fas fa-home"></i> Home
+            </a></li>
+            <li><a class="mobile-menu__link" onclick="showSection('dashboard'); toggleMobileMenu();">
+                <i class="fas fa-chart-pie"></i> Dashboard
+            </a></li>
+            <li><a class="mobile-menu__link" onclick="showSection('invest'); toggleMobileMenu();">
+                <i class="fas fa-coins"></i> Invest
+            </a></li>
+            <li><a class="mobile-menu__link" onclick="showSection('referral'); toggleMobileMenu();">
+                <i class="fas fa-users"></i> Referral
+            </a></li>
+            <li><a class="mobile-menu__link" onclick="showSection('ranks'); toggleMobileMenu();">
+                <i class="fas fa-trophy"></i> Ranks
+            </a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Home Section -->
+        <section class="section active" id="home">
+            <div class="hero">
+                <div class="container">
+                    <div class="hero__grid">
+                        <div class="hero__content">
+                            <div class="hero__badge">
+                                <i class="fas fa-shield-alt"></i>
+                                Audited & Secure
+                            </div>
+                            <h1 class="hero__title">
+                                Premium <span class="gradient-text">DeFi</span> Investment Platform
+                            </h1>
+                            <p class="hero__description">
+                                Earn 2.22% daily ROI with OrcaTrust. Multi-level referral rewards, 
+                                rank bonuses, and secure smart contract on BSC.
+                            </p>
+                            <div class="hero__buttons">
+                                <button class="btn btn--primary btn-lg" onclick="showSection('invest')">
+                                    <i class="fas fa-rocket"></i>
+                                    Start Investing
+                                </button>
+                                <button class="btn btn--secondary btn-lg" onclick="showSection('dashboard')">
+                                    <i class="fas fa-chart-pie"></i>
+                                    View Dashboard
+                                </button>
+                            </div>
+                            <div class="hero__stats">
+                                <div class="hero__stat">
+                                    <span class="hero__stat-value" id="heroTotalUsers">-</span>
+                                    <span class="hero__stat-label">Total Users</span>
+                                </div>
+                                <div class="hero__stat">
+                                    <span class="hero__stat-value" id="heroTotalWithdrawn">-</span>
+                                    <span class="hero__stat-label">Total Withdrawn</span>
+                                </div>
+                                <div class="hero__stat">
+                                    <span class="hero__stat-value">2.22%</span>
+                                    <span class="hero__stat-label">Daily ROI</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero__card">
+                            <div class="stats-card">
+                                <div class="stats-card__header">
+                                    <h3 class="stats-card__title">Live Statistics</h3>
+                                    <div class="live-indicator">
+                                        <span class="live-dot"></span>
+                                        LIVE
+                                    </div>
+                                </div>
+                                <div class="stats-card__item">
+                                    <span class="stats-card__label">Contract Balance</span>
+                                    <span class="stats-card__value" id="statContractBalance">-</span>
+                                </div>
+                                <div class="stats-card__item">
+                                    <span class="stats-card__label">Total Users</span>
+                                    <span class="stats-card__value" id="statTotalUsers">-</span>
+                                </div>
+                                <div class="stats-card__item">
+                                    <span class="stats-card__label">Total Deposited</span>
+                                    <span class="stats-card__value" id="statTotalDeposited">-</span>
+                                </div>
+                                <div class="stats-card__item">
+                                    <span class="stats-card__label">Total Withdrawn</span>
+                                    <span class="stats-card__value" id="statTotalWithdrawn">-</span>
+                                </div>
+                                <div class="stats-card__item">
+                                    <span class="stats-card__label">Daily ROI</span>
+                                    <span class="stats-card__value">2.22%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section class="section" id="dashboard">
+            <div class="container">
+                <div class="section__header">
+                    <h2 class="section__title gradient-text">Your Dashboard</h2>
+                    <p class="section__subtitle">Track your investments, rewards, and team performance</p>
+                </div>
+
+                <div class="alert alert--warning" id="dashboardWalletAlert">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Please connect your wallet to view your dashboard</span>
+                </div>
+
+                <div id="dashboardContent" style="display: none;">
+                    <div class="dashboard__grid">
+                        <div class="stat-tile">
+                            <div class="stat-tile__icon"><i class="fas fa-wallet"></i></div>
+                            <div class="stat-tile__value" id="dashActiveDeposit">0</div>
+                            <div class="stat-tile__label">Active Deposit</div>
+                        </div>
+                        <div class="stat-tile">
+                            <div class="stat-tile__icon"><i class="fas fa-coins"></i></div>
+                            <div class="stat-tile__value" id="dashDailyRewards">0</div>
+                            <div class="stat-tile__label">Daily Rewards</div>
+                        </div>
+                        <div class="stat-tile">
+                            <div class="stat-tile__icon"><i class="fas fa-gift"></i></div>
+                            <div class="stat-tile__value" id="dashNetworkRewards">0</div>
+                            <div class="stat-tile__label">Network Rewards</div>
+                        </div>
+                        <div class="stat-tile">
+                            <div class="stat-tile__icon"><i class="fas fa-users"></i></div>
+                            <div class="stat-tile__value" id="dashTeamCount">0</div>
+                            <div class="stat-tile__label">Team Size</div>
+                        </div>
+                    </div>
+
+                    <div class="investment__grid">
+                        <div class="investment-card">
+                            <div class="investment-card__header">
+                                <div class="investment-card__icon"><i class="fas fa-sun"></i></div>
+                                <div>
+                                    <h3 class="investment-card__title">Daily Rewards</h3>
+                                    <p class="investment-card__subtitle">Available to withdraw or compound</p>
+                                </div>
+                            </div>
+                            <div class="roi-calculator">
+                                <div class="roi-calculator__header">
+                                    <span class="roi-calculator__title">Available Rewards</span>
+                                    <span class="roi-calculator__percent" id="dashAvailableDaily">0 USDT</span>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn--primary" id="btnWithdrawDaily" onclick="withdrawDailyReward()">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                    <span class="btn-text">Withdraw</span>
+                                </button>
+                                <button class="btn btn--secondary" id="btnCompoundDaily" onclick="compoundDailyReward()">
+                                    <i class="fas fa-sync-alt"></i>
+                                    <span class="btn-text">Compound</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="investment-card">
+                            <div class="investment-card__header">
+                                <div class="investment-card__icon"><i class="fas fa-network-wired"></i></div>
+                                <div>
+                                    <h3 class="investment-card__title">Network Rewards</h3>
+                                    <p class="investment-card__subtitle">Referral, onboarding & rank rewards</p>
+                                </div>
+                            </div>
+                            <div class="roi-calculator">
+                                <div class="roi-calculator__header">
+                                    <span class="roi-calculator__title">Available Rewards</span>
+                                    <span class="roi-calculator__percent" id="dashAvailableNetwork">0 USDT</span>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn--primary" id="btnWithdrawNetwork" onclick="withdrawNetworkReward()">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                    <span class="btn-text">Withdraw</span>
+                                </button>
+                                <button class="btn btn--secondary" id="btnCompoundNetwork" onclick="compoundNetworkReward()">
+                                    <i class="fas fa-sync-alt"></i>
+                                    <span class="btn-text">Compound</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="margin-top: 2rem;">
+                        <h3 style="margin-bottom: 1rem;">Your Positions</h3>
+                        <div style="overflow-x: auto;">
+                            <table class="positions-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Amount</th>
+                                        <th>Start Date</th>
+                                        <th>Status</th>
+                                        <th>Earned</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="positionsTableBody">
+                                    <tr>
+                                        <td colspan="5" style="text-align: center; color: var(--text-muted);">No positions found</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Invest Section -->
+        <section class="section" id="invest">
+            <div class="container">
+                <div class="section__header">
+                    <h2 class="section__title gradient-text">Make Investment</h2>
+                    <p class="section__subtitle">Deposit USDT to start earning 2.22% daily ROI</p>
+                </div>
+
+                <div class="alert alert--warning" id="investWalletAlert">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Please connect your wallet to make an investment</span>
+                </div>
+
+                <div id="investContent" style="display: none;">
+                    <div class="investment__grid">
+                        <div class="investment-card">
+                            <div class="investment-card__header">
+                                <div class="investment-card__icon"><i class="fas fa-plus-circle"></i></div>
+                                <div>
+                                    <h3 class="investment-card__title">New Deposit</h3>
+                                    <p class="investment-card__subtitle">Minimum deposit: 10 USDT</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Username (for registration)</label>
+                                <input type="text" class="form-input" id="regUsername" placeholder="Enter username (3-20 chars)">
+                                <p class="form-hint">Letters and numbers only</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Referrer Username (optional)</label>
+                                <input type="text" class="form-input" id="regReferrer" placeholder="Enter referrer username">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Deposit Amount (USDT)</label>
+                                <input type="number" class="form-input" id="depositAmount" placeholder="Minimum 10 USDT" min="10">
+                                <p class="form-hint">10% management fee applies</p>
+                            </div>
+
+                            <div class="roi-calculator" id="depositRoiCalc" style="display: none;">
+                                <div class="roi-calculator__header">
+                                    <span class="roi-calculator__title">Projected Returns (45 days)</span>
+                                    <span class="roi-calculator__percent">100%</span>
+                                </div>
+                                <div class="roi-calculator__grid">
+                                    <div class="roi-item">
+                                        <div class="roi-item__label">Daily</div>
+                                        <div class="roi-item__value" id="projDaily">0 USDT</div>
+                                    </div>
+                                    <div class="roi-item">
+                                        <div class="roi-item__label">45 Days</div>
+                                        <div class="roi-item__value" id="projTotal">0 USDT</div>
+                                    </div>
+                                    <div class="roi-item">
+                                        <div class="roi-item__label">Net Deposit</div>
+                                        <div class="roi-item__value" id="projNet">0 USDT</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn--primary btn-lg" id="btnDeposit" onclick="makeDeposit()" style="width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-rocket"></i>
+                                <span class="btn-text">Deposit Now</span>
+                            </button>
+                        </div>
+
+                        <div class="investment-card">
+                            <div class="investment-card__header">
+                                <div class="investment-card__icon"><i class="fas fa-info-circle"></i></div>
+                                <div>
+                                    <h3 class="investment-card__title">Investment Info</h3>
+                                    <p class="investment-card__subtitle">How OrcaTrust works</p>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div class="glass-card">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <i class="fas fa-percentage" style="color: var(--blue-primary);"></i>
+                                        <div>
+                                            <div style="font-weight: 600;">2.22% Daily ROI</div>
+                                            <div style="font-size: 0.75rem; color: var(--text-muted);">Earn daily for 45 days per position</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="glass-card">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <i class="fas fa-clock" style="color: var(--blue-primary);"></i>
+                                        <div>
+                                            <div style="font-weight: 600;">45 Day Cycle</div>
+                                            <div style="font-size: 0.75rem; color: var(--text-muted);">Each position lasts 45 days</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="glass-card">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <i class="fas fa-users" style="color: var(--blue-primary);"></i>
+                                        <div>
+                                            <div style="font-weight: 600;">10 Level Referral</div>
+                                            <div style="font-size: 0.75rem; color: var(--text-muted);">Earn from your team's deposits</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="glass-card">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <i class="fas fa-trophy" style="color: var(--blue-primary);"></i>
+                                        <div>
+                                            <div style="font-weight: 600;">9 Rank Levels</div>
+                                            <div style="font-size: 0.75rem; color: var(--text-muted);">Up to 5% leadership bonus</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Referral Section -->
+        <section class="section" id="referral">
+            <div class="container">
+                <div class="section__header">
+                    <h2 class="section__title gradient-text">Referral Program</h2>
+                    <p class="section__subtitle">Build your team and earn up to 10 levels of referral rewards</p>
+                </div>
+
+                <div class="alert alert--warning" id="referralWalletAlert">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Please connect your wallet to view your referral info</span>
+                </div>
+
+                <div id="referralContent" style="display: none;">
+                    <div class="investment__grid">
+                        <div class="investment-card">
+                            <div class="investment-card__header">
+                                <div class="investment-card__icon"><i class="fas fa-link"></i></div>
+                                <div>
+                                    <h3 class="investment-card__title">Your Referral Link</h3>
+                                    <p class="investment-card__subtitle">Share and earn rewards</p>
+                                </div>
+                            </div>
+
+                            <div class="referral-link-box">
+                                <div class="referral-link" id="referralLink">Connect wallet to generate link</div>
+                                <button class="btn btn--primary" onclick="copyReferralLink()">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+
+                            <div class="dashboard__grid" style="margin-top: 1.5rem;">
+                                <div class="stat-tile">
+                                    <div class="stat-tile__icon"><i class="fas fa-user-friends"></i></div>
+                                    <div class="stat-tile__value" id="refDirects">0</div>
+                                    <div class="stat-tile__label">Directs</div>
+                                </div>
+                                <div class="stat-tile">
+                                    <div class="stat-tile__icon"><i class="fas fa-sitemap"></i></div>
+                                    <div class="stat-tile__value" id="refTeam">0</div>
+                                    <div class="stat-tile__label">Total Team</div>
+                                </div>
+                                <div class="stat-tile">
+                                    <div class="stat-tile__icon"><i class="fas fa-coins"></i></div>
+                                    <div class="stat-tile__value" id="refTeamDeposit">0</div>
+                                    <div class="stat-tile__label">Team Deposit</div>
+                                </div>
+                                <div class="stat-tile">
+                                    <div class="stat-tile__icon"><i class="fas fa-gift"></i></div>
+                                    <div class="stat-tile__value" id="refRewards">0</div>
+                                    <div class="stat-tile__label">Your Rewards</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="investment-card">
+                            <div class="investment-card__header">
+                                <div class="investment-card__icon"><i class="fas fa-chart-line"></i></div>
+                                <div>
+                                    <h3 class="investment-card__title">Referral Statistics</h3>
+                                    <p class="investment-card__subtitle">Your team performance</p>
+                                </div>
+                            </div>
+
+                            <div class="stats-card__item">
+                                <span class="stats-card__label">Total Deposited</span>
+                                <span class="stats-card__value" id="refTotalDeposited">0 USDT</span>
+                            </div>
+                            <div class="stats-card__item">
+                                <span class="stats-card__label">Total Compounded</span>
+                                <span class="stats-card__value" id="refTotalCompounded">0 USDT</span>
+                            </div>
+                            <div class="stats-card__item">
+                                <span class="stats-card__label">Team Active Deposit</span>
+                                <span class="stats-card__value" id="refTeamActive">0 USDT</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Referral Levels</h3>
+                    <div class="referral__grid" id="referralLevels">
+                        <!-- Generated by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ranks Section -->
+        <section class="section" id="ranks">
+            <div class="container">
+                <div class="section__header">
+                    <h2 class="section__title gradient-text">Rank System</h2>
+                    <p class="section__subtitle">Climb the ranks and earn leadership bonuses</p>
+                </div>
+
+                <div class="alert alert--warning" id="ranksWalletAlert">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Please connect your wallet to view your rank</span>
+                </div>
+
+                <div id="ranksContent" style="display: none;">
+                    <div class="glass-card" style="margin-bottom: 2rem; text-align: center;">
+                        <p style="color: var(--text-muted); margin-bottom: 0.5rem;">Your Current Rank</p>
+                        <h2 class="gradient-text" id="currentRankName" style="font-size: 2rem;">Unranked</h2>
+                        <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+                            Team: <span id="rankTeamCount">0</span> members | 
+                            Deposit: <span id="rankTeamDeposit">0</span> USDT
+                        </p>
+                    </div>
+
+                    <div class="ranks__grid" id="ranksGrid">
+                        <!-- Generated by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Mobile Tabs -->
+    <nav class="mobile-tabs">
+        <ul class="mobile-tabs__list">
+            <li class="mobile-tabs__item active" onclick="showSection('home')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </li>
+            <li class="mobile-tabs__item" onclick="showSection('dashboard')">
+                <i class="fas fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </li>
+            <li class="mobile-tabs__item" onclick="showSection('invest')">
+                <i class="fas fa-coins"></i>
+                <span>Invest</span>
+            </li>
+            <li class="mobile-tabs__item" onclick="showSection('referral')">
+                <i class="fas fa-users"></i>
+                <span>Team</span>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__logo">
+                    <div class="logo-icon">🐋</div>
+                    <span class="logo-text">OrcaTrust</span>
+                </div>
+                <p class="footer__text">Premium DeFi Investment Platform on BSC</p>
+                <div class="footer__social">
+                    <a href="#" class="social-link" target="_blank"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://bscscan.com/address/0x98929d0c70e45FeE1C3BbF0E693D443F24EB457a" class="social-link" target="_blank"><i class="fas fa-file-contract"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+
+        // ===== ORCATRUST CONTRACT CONFIGURATION =====
+        const CONTRACT_ADDRESS = '0x98929d0c70e45FeE1C3BbF0E693D443F24EB457a';
+        const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
+        const BSC_RPC = 'https://bsc-dataseed.binance.org/';
+        const BSC_CHAIN_ID = '0x38';
+
+        // Contract ABI
+        const CONTRACT_ABI = [{"inputs":[{"internalType":"uint256","name":"_lpPositionId","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"AlreadyRegistered","type":"error"},{"inputs":[],"name":"BelowMinimum","type":"error"},{"inputs":[],"name":"CannotSelfRefer","type":"error"},{"inputs":[],"name":"DailyLimitReached","type":"error"},{"inputs":[],"name":"InsufficientBalance","type":"error"},{"inputs":[],"name":"InsufficientLPLiquidity","type":"error"},{"inputs":[],"name":"InsufficientPositions","type":"error"},{"inputs":[],"name":"InvalidUsername","type":"error"},{"inputs":[],"name":"MaxPositions","type":"error"},{"inputs":[],"name":"MustRegisterFirst","type":"error"},{"inputs":[],"name":"NoRewards","type":"error"},{"inputs":[],"name":"NotOwner","type":"error"},{"inputs":[],"name":"NotRegistered","type":"error"},{"inputs":[],"name":"ReentrancyGuardReentrantCall","type":"error"},{"inputs":[],"name":"ReferrerNotQualified","type":"error"},{"inputs":[],"name":"ReferrerNotRegistered","type":"error"},{"inputs":[{"internalType":"address","name":"token","type":"address"}],"name":"SafeERC20FailedOperation","type":"error"},{"inputs":[],"name":"TooFrequentCalculation","type":"error"},{"inputs":[],"name":"UsernameTaken","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"string","name":"newUsername","type":"string"},{"indexed":false,"internalType":"uint256","name":"cost","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"totalUsernames","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"AdditionalUsernamePurchased","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"DailyRewardCompounded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"DailyRewardWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"Deposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"upline","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"rank","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LeadershipReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"positionId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"usdtAmount","type":"uint256"},{"indexed":false,"internalType":"uint128","name":"liquidity","type":"uint128"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LiquidityAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LiquidityRefunded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"positionId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"usdtAmount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LiquidityRemoved","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"totalReward","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"ManualRewardCalculated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"NetworkRewardCompounded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"NetworkRewardWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"upline","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"OnboardingReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint8","name":"rank","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"RankUpgrade","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"upline","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint8","name":"level","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"ReferralReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"string","name":"username","type":"string"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"},{"indexed":false,"internalType":"string","name":"uplineUsername","type":"string"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"Registration","type":"event"},{"inputs":[],"name":"MANAGE_WALLET","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SecureLPPosition","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"TIME_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"compoundDailyReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"compoundNetworkReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"deposit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"directReferrals","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractInfo","outputs":[{"internalType":"uint256","name":"currentGlobalCheckpoint","type":"uint256"},{"internalType":"uint256","name":"nextCheckpoint","type":"uint256"},{"internalType":"uint256","name":"_totalRegisteredUsers","type":"uint256"},{"internalType":"uint256","name":"_totalActiveUsers","type":"uint256"},{"internalType":"uint256","name":"_totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"_currentDay","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCurrentGlobalCheckpoint","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getDailyRewards","outputs":[{"internalType":"uint256","name":"availableReward","type":"uint256"},{"internalType":"uint256","name":"reserve","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getDirectReferrals","outputs":[{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"startTime","type":"uint256"}],"name":"getFullDaysSince","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getLastwithdrawTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getNetworkRewards","outputs":[{"internalType":"uint256","name":"availableReward","type":"uint256"},{"internalType":"uint256","name":"reserve","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getNextDailyCheckpoint","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"}],"name":"getPosition","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"lastCheckpoint","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"earned","type":"uint256"},{"internalType":"uint256","name":"expectedTotalEarn","type":"uint256"},{"internalType":"uint8","name":"source","type":"uint8"},{"internalType":"bool","name":"active","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getPositionCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"}],"name":"getPositionExtra","outputs":[{"internalType":"uint256","name":"nextProfitTime","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getQualifiedDirectsCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint8","name":"rank","type":"uint8"}],"name":"getRankPercentage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"string","name":"username","type":"string"},{"internalType":"address","name":"referrer","type":"address"},{"internalType":"bool","name":"registered","type":"bool"},{"internalType":"uint256","name":"_teamActiveDeposit","type":"uint256"},{"internalType":"uint256","name":"_totalDeposited","type":"uint256"},{"internalType":"uint256","name":"_totalDailyCompounded","type":"uint256"},{"internalType":"uint256","name":"_totalNetworkCompounded","type":"uint256"},{"internalType":"uint256","name":"_totalWithdrawn","type":"uint256"},{"internalType":"uint32","name":"directsCount","type":"uint32"},{"internalType":"uint32","name":"teamCount","type":"uint32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getUserInfoExtra","outputs":[{"internalType":"uint256","name":"_totalActiveDeposit","type":"uint256"},{"internalType":"uint8","name":"rank","type":"uint8"},{"internalType":"uint256","name":"activeDepositsCount","type":"uint256"},{"internalType":"uint256","name":"dailyReturnAmount","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"referrerUsername","type":"string"},{"internalType":"address","name":"userAddr","type":"address"}],"name":"isValidUplineUsername","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"username","type":"string"}],"name":"isValidUsername","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"lastManualCalculation","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lastProjectWithdrawal","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"manualCalculateRewards","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"newUsername","type":"string"}],"name":"purchaseAdditionalUsername","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"username","type":"string"},{"internalType":"string","name":"referrerUsername","type":"string"}],"name":"register","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"totalActiveUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalRegisteredUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalWithdrawn","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdtIsToken0","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userNetworkWithdrawByDay","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userToUsernames","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"userWithdraws","outputs":[{"internalType":"uint256","name":"dailyWithdraw","type":"uint256"},{"internalType":"uint256","name":"dailyCompound","type":"uint256"},{"internalType":"uint256","name":"referralWithdraw","type":"uint256"},{"internalType":"uint256","name":"onboardingWithdraw","type":"uint256"},{"internalType":"uint256","name":"leadershipWithdraw","type":"uint256"},{"internalType":"uint256","name":"networkCompound","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"usernameCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"","type":"string"}],"name":"usernameExists","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"","type":"string"}],"name":"usernameToAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"string","name":"username","type":"string"},{"internalType":"bool","name":"registered","type":"bool"},{"internalType":"uint256","name":"totalActiveDeposit","type":"uint256"},{"internalType":"uint256","name":"teamActiveDeposit","type":"uint256"},{"internalType":"uint256","name":"teamTotalDeposit","type":"uint256"},{"internalType":"uint256","name":"teamTotalCompound","type":"uint256"},{"internalType":"uint256","name":"totalDeposited","type":"uint256"},{"internalType":"uint256","name":"totalDailyCompounded","type":"uint256"},{"internalType":"uint256","name":"totalNetworkCompounded","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"usersExtra","outputs":[{"internalType":"uint256","name":"rewardsReferral","type":"uint256"},{"internalType":"uint256","name":"rewardsOnboarding","type":"uint256"},{"internalType":"uint256","name":"rewardsRank","type":"uint256"},{"internalType":"uint256","name":"reserveDaily","type":"uint256"},{"internalType":"uint256","name":"reserveNetwork","type":"uint256"},{"internalType":"uint32","name":"teamCount","type":"uint32"},{"internalType":"uint32","name":"directsCount","type":"uint32"},{"internalType":"uint8","name":"rank","type":"uint8"},{"internalType":"uint8","name":"directsCrownStar","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawDailyReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawNetworkReward","outputs":[],"stateMutability":"nonpayable","type":"function"}];
+
+        const USDT_ABI = [
+            {"constant": false, "inputs": [{"name": "_spender", "type": "address"}, {"name": "_value", "type": "uint256"}], "name": "approve", "outputs": [{"name": "", "type": "bool"}], "type": "function"},
+            {"constant": true, "inputs": [{"name": "_owner", "type": "address"}], "name": "balanceOf", "outputs": [{"name": "balance", "type": "uint256"}], "type": "function"},
+            {"constant": true, "inputs": [{"name": "_owner", "type": "address"}, {"name": "_spender", "type": "address"}], "name": "allowance", "outputs": [{"name": "", "type": "uint256"}], "type": "function"},
+            {"constant": true, "inputs": [], "name": "decimals", "outputs": [{"name": "", "type": "uint8"}], "type": "function"},
+            {"constant": false, "inputs": [{"name": "_to", "type": "address"}, {"name": "_value", "type": "uint256"}], "name": "transfer", "outputs": [{"name": "", "type": "bool"}], "type": "function"}
+        ];
+
+        // ===== GLOBAL VARIABLES =====
+        let web3;
+        let contract;
+        let usdtContract;
+        let userAccount = null;
+        let userData = null;
+        let contractStatsInterval = null;
+
+        // Referral percentages
+        const REFERRAL_PCT = [500, 300, 200, 100, 50, 50, 50, 50, 50, 50];
+        const RANK_PCT = [50, 100, 150, 200, 250, 300, 350, 400, 500];
+        const RANK_NAMES = ['Star', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Blue Diamond', 'Black Diamond', 'Crown', 'Crown Star'];
+        const RANK_TEAM_COUNT = [50, 150, 400, 800, 1500, 3000, 5000, 8000, 12000];
+
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+            setupEventListeners();
+            checkURLReferral();
+            
+            // Hide preloader
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('fade-out');
+            }, 1500);
+        });
+
+        async function initApp() {
+            try {
+                web3 = new Web3(new Web3.providers.HttpProvider(BSC_RPC));
+                contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                
+                await loadContractStats();
+                contractStatsInterval = setInterval(loadContractStats, 30000);
+                
+                // Check if wallet was previously connected
+                if (localStorage.getItem('walletConnected') === 'true' && window.ethereum) {
+                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                    if (accounts.length > 0) {
+                        userAccount = accounts[0];
+                        await connectWallet();
+                    }
+                }
+            } catch (error) {
+                console.error('Initialization error:', error);
+            }
+        }
+
+        function setupEventListeners() {
+            // Navigation
+            document.getElementById('navToggle').addEventListener('click', toggleMobileMenu);
+            document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
+            
+            // Header scroll effect
+            window.addEventListener('scroll', () => {
+                const header = document.getElementById('header');
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Deposit amount calculator
+            document.getElementById('depositAmount').addEventListener('input', updateDepositCalculator);
+            
+            // MetaMask events
+            if (window.ethereum) {
+                window.ethereum.on('accountsChanged', handleAccountsChanged);
+                window.ethereum.on('chainChanged', () => window.location.reload());
+            }
+        }
+
+        // ===== WALLET CONNECTION =====
+        async function connectWallet() {
+            if (!window.ethereum) {
+                showNotification('Please install MetaMask!', 'error');
+                return;
+            }
+            
+            try {
+                web3 = new Web3(window.ethereum);
+                contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+                
+                // Switch to BSC
+                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                if (chainId !== BSC_CHAIN_ID) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: BSC_CHAIN_ID }]
+                        });
+                    } catch (switchError) {
+                        if (switchError.code === 4902) {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [{
+                                    chainId: BSC_CHAIN_ID,
+                                    chainName: 'Binance Smart Chain',
+                                    nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
+                                    rpcUrls: [BSC_RPC],
+                                    blockExplorerUrls: ['https://bscscan.com/']
+                                }]
+                            });
+                        }
+                    }
+                }
+                
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                if (accounts.length > 0) {
+                    userAccount = accounts[0];
+                    localStorage.setItem('walletConnected', 'true');
+                    updateWalletUI();
+                    await loadUserData();
+                    showNotification('Wallet connected!', 'success');
+                }
+            } catch (error) {
+                console.error('Connection error:', error);
+                showNotification('Failed to connect wallet', 'error');
+            }
+        }
+
+        function updateWalletUI() {
+            const btn = document.getElementById('connectWalletBtn');
+            if (userAccount) {
+                const shortAddress = `${userAccount.slice(0, 6)}...${userAccount.slice(-4)}`;
+                btn.innerHTML = `<i class="fas fa-wallet"></i><span>${shortAddress}</span>`;
+                
+                // Show dashboard content
+                document.getElementById('dashboardWalletAlert').style.display = 'none';
+                document.getElementById('dashboardContent').style.display = 'block';
+                document.getElementById('investWalletAlert').style.display = 'none';
+                document.getElementById('investContent').style.display = 'block';
+                document.getElementById('referralWalletAlert').style.display = 'none';
+                document.getElementById('referralContent').style.display = 'block';
+                document.getElementById('ranksWalletAlert').style.display = 'none';
+                document.getElementById('ranksContent').style.display = 'block';
+            } else {
+                btn.innerHTML = `<i class="fas fa-wallet"></i><span>Connect Wallet</span>`;
+                
+                // Hide dashboard content
+                document.getElementById('dashboardWalletAlert').style.display = 'flex';
+                document.getElementById('dashboardContent').style.display = 'none';
+                document.getElementById('investWalletAlert').style.display = 'flex';
+                document.getElementById('investContent').style.display = 'none';
+                document.getElementById('referralWalletAlert').style.display = 'flex';
+                document.getElementById('referralContent').style.display = 'none';
+                document.getElementById('ranksWalletAlert').style.display = 'flex';
+                document.getElementById('ranksContent').style.display = 'none';
+            }
+        }
+
+        function handleAccountsChanged(accounts) {
+            if (accounts.length === 0) {
+                userAccount = null;
+                localStorage.removeItem('walletConnected');
+                updateWalletUI();
+                showNotification('Wallet disconnected', 'info');
+            } else {
+                userAccount = accounts[0];
+                updateWalletUI();
+                loadUserData();
+            }
+        }
+
+        // ===== CONTRACT INTERACTIONS =====
+        async function loadContractStats() {
+            if (!contract) return;
+            
+            try {
+                const info = await contract.methods.getContractInfo().call();
+                
+                document.getElementById('statTotalUsers').textContent = parseInt(info._totalRegisteredUsers).toLocaleString();
+                document.getElementById('statTotalWithdrawn').textContent = formatUSDT(info._totalWithdrawn);
+                document.getElementById('heroTotalUsers').textContent = parseInt(info._totalRegisteredUsers).toLocaleString();
+                document.getElementById('heroTotalWithdrawn').textContent = formatUSDT(info._totalWithdrawn);
+                
+                // Get USDT balance of contract
+                const usdtContractRead = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+                const balance = await usdtContractRead.methods.balanceOf(CONTRACT_ADDRESS).call();
+                document.getElementById('statContractBalance').textContent = formatUSDT(balance);
+                
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        async function loadUserData() {
+            if (!userAccount || !contract) return;
+            
+            try {
+                // Get user info
+                const userInfo = await contract.methods.getUserInfo(userAccount).call();
+                const userInfoExtra = await contract.methods.getUserInfoExtra(userAccount).call();
+                const usersExtra = await contract.methods.usersExtra(userAccount).call();
+                const dailyRewards = await contract.methods.getDailyRewards(userAccount).call();
+                const networkRewards = await contract.methods.getNetworkRewards(userAccount).call();
+                
+                // Update dashboard
+                document.getElementById('dashActiveDeposit').textContent = formatUSDT(userInfoExtra._totalActiveDeposit);
+                document.getElementById('dashDailyRewards').textContent = formatUSDT(userInfoExtra.dailyReturnAmount);
+                document.getElementById('dashNetworkRewards').textContent = formatUSDT(
+                    BigInt(usersExtra.rewardsReferral) + BigInt(usersExtra.rewardsOnboarding) + BigInt(usersExtra.rewardsRank)
+                );
+                document.getElementById('dashTeamCount').textContent = parseInt(userInfo.teamCount).toLocaleString();
+                
+                // Available rewards
+                const availableDaily = BigInt(dailyRewards.availableReward);
+                const availableNetwork = BigInt(networkRewards.availableReward);
+                
+                document.getElementById('dashAvailableDaily').textContent = formatUSDT(availableDaily.toString()) + ' USDT';
+                document.getElementById('dashAvailableNetwork').textContent = formatUSDT(availableNetwork.toString()) + ' USDT';
+                
+                // Update referral info
+                document.getElementById('refDirects').textContent = userInfo.directsCount;
+                document.getElementById('refTeam').textContent = userInfo.teamCount;
+                document.getElementById('refTeamDeposit').textContent = formatUSDT(userInfo.teamTotalDeposit);
+                document.getElementById('refRewards').textContent = formatUSDT(usersExtra.rewardsReferral);
+                document.getElementById('refTotalDeposited').textContent = formatUSDT(userInfo._totalDeposited) + ' USDT';
+                document.getElementById('refTotalCompounded').textContent = formatUSDT(
+                    BigInt(userInfo._totalDailyCompounded) + BigInt(userInfo._totalNetworkCompounded)
+                ) + ' USDT';
+                document.getElementById('refTeamActive').textContent = formatUSDT(userInfo._teamActiveDeposit) + ' USDT';
+                
+                // Referral link
+                const baseUrl = window.location.origin + window.location.pathname;
+                document.getElementById('referralLink').textContent = userInfo.registered ? 
+                    `${baseUrl}?ref=${userInfo.username}` : 'Register to get referral link';
+                
+                // Update rank info
+                const rank = parseInt(userInfoExtra.rank);
+                document.getElementById('currentRankName').textContent = rank > 0 ? RANK_NAMES[rank - 1] : 'Unranked';
+                document.getElementById('rankTeamCount').textContent = userInfo.teamCount;
+                document.getElementById('rankTeamDeposit').textContent = formatUSDT(userInfo._teamActiveDeposit);
+                
+                // Load positions
+                await loadUserPositions();
+                
+                // Render referral levels
+                renderReferralLevels();
+                
+                // Render ranks
+                renderRanks(rank);
+                
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        async function loadUserPositions() {
+            if (!userAccount || !contract) return;
+            
+            try {
+                const positionCount = await contract.methods.getPositionCount(userAccount).call();
+                const tbody = document.getElementById('positionsTableBody');
+                tbody.innerHTML = '';
+                
+                if (positionCount == 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">No positions found</td></tr>';
+                    return;
+                }
+                
+                for (let i = 0; i < positionCount; i++) {
+                    const position = await contract.methods.getPosition(userAccount, i).call();
+                    const extra = await contract.methods.getPositionExtra(userAccount, i).call();
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>#${i + 1}</td>
+                        <td>${formatUSDT(position.amount)} USDT</td>
+                        <td>${new Date(parseInt(position.startTime) * 1000).toLocaleDateString()}</td>
+                        <td><span class="status-badge ${position.active ? 'status-badge--active' : 'status-badge--expired'}">${position.active ? 'Active' : 'Expired'}</span></td>
+                        <td>${formatUSDT(position.earned)} USDT</td>
+                    `;
+                    tbody.appendChild(row);
+                }
+            } catch (error) {
+                console.error('Error loading positions:', error);
+            }
+        }
+
+        // ===== DEPOSIT FUNCTIONS =====
+        function updateDepositCalculator() {
+            const amount = parseFloat(document.getElementById('depositAmount').value) || 0;
+            const calc = document.getElementById('depositRoiCalc');
+            
+            if (amount >= 10) {
+                calc.style.display = 'block';
+                const netAmount = amount * 0.9; // 10% fee
+                const daily = netAmount * 0.0222;
+                const total45 = daily * 45;
+                
+                document.getElementById('projDaily').textContent = daily.toFixed(2) + ' USDT';
+                document.getElementById('projTotal').textContent = total45.toFixed(2) + ' USDT';
+                document.getElementById('projNet').textContent = netAmount.toFixed(2) + ' USDT';
+            } else {
+                calc.style.display = 'none';
+            }
+        }
+
+        async function makeDeposit() {
+            if (!userAccount) {
+                showNotification('Please connect wallet first', 'error');
+                return;
+            }
+            
+            const username = document.getElementById('regUsername').value.trim();
+            const referrer = document.getElementById('regReferrer').value.trim();
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            
+            if (!username || username.length < 3) {
+                showNotification('Username must be at least 3 characters', 'error');
+                return;
+            }
+            
+            if (!amount || amount < 10) {
+                showNotification('Minimum deposit is 10 USDT', 'error');
+                return;
+            }
+            
+            const btn = document.getElementById('btnDeposit');
+            btn.classList.add('loading');
+            btn.innerHTML = '<span class="spinner"></span>';
+            
+            try {
+                const amountInWei = web3.utils.toWei(amount.toString(), 'ether');
+                
+                // Check if user is registered
+                const userInfo = await contract.methods.getUserInfo(userAccount).call();
+                
+                if (!userInfo.registered) {
+                    // Register first
+                    showNotification('Registering...', 'info');
+                    await contract.methods.register(username, referrer || '').send({ from: userAccount });
+                }
+                
+                // Check allowance
+                const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
+                if (BigInt(allowance) < BigInt(amountInWei)) {
+                    showNotification('Approving USDT...', 'info');
+                    await usdtContract.methods.approve(CONTRACT_ADDRESS, amountInWei).send({ from: userAccount });
+                }
+                
+                // Deposit
+                showNotification('Processing deposit...', 'info');
+                await contract.methods.deposit(amountInWei).send({ from: userAccount, gas: 500000 });
+                
+                showNotification('Deposit successful!', 'success');
+                document.getElementById('depositAmount').value = '';
+                document.getElementById('depositRoiCalc').style.display = 'none';
+                await loadUserData();
+                
+            } catch (error) {
+                console.error('Deposit error:', error);
+                showNotification('Deposit failed: ' + error.message, 'error');
+            } finally {
+                btn.classList.remove('loading');
+                btn.innerHTML = '<i class="fas fa-rocket"></i><span class="btn-text">Deposit Now</span>';
+            }
+        }
+
+        // ===== WITHDRAW FUNCTIONS =====
+        async function withdrawDailyReward() {
+            if (!userAccount) return;
+            
+            const btn = document.getElementById('btnWithdrawDaily');
+            btn.classList.add('loading');
+            
+            try {
+                const rewards = await contract.methods.getDailyRewards(userAccount).call();
+                if (BigInt(rewards.availableReward) == 0) {
+                    showNotification('No daily rewards available', 'error');
+                    return;
+                }
+                
+                showNotification('Withdrawing daily rewards...', 'info');
+                await contract.methods.withdrawDailyReward(0).send({ from: userAccount, gas: 300000 });
+                showNotification('Daily rewards withdrawn!', 'success');
+                await loadUserData();
+            } catch (error) {
+                showNotification('Withdraw failed: ' + error.message, 'error');
+            } finally {
+                btn.classList.remove('loading');
+            }
+        }
+
+        async function compoundDailyReward() {
+            if (!userAccount) return;
+            
+            const btn = document.getElementById('btnCompoundDaily');
+            btn.classList.add('loading');
+            
+            try {
+                const rewards = await contract.methods.getDailyRewards(userAccount).call();
+                if (BigInt(rewards.availableReward) == 0) {
+                    showNotification('No daily rewards to compound', 'error');
+                    return;
+                }
+                
+                showNotification('Compounding daily rewards...', 'info');
+                await contract.methods.compoundDailyReward(0).send({ from: userAccount, gas: 500000 });
+                showNotification('Daily rewards compounded!', 'success');
+                await loadUserData();
+            } catch (error) {
+                showNotification('Compound failed: ' + error.message, 'error');
+            } finally {
+                btn.classList.remove('loading');
+            }
+        }
+
+        async function withdrawNetworkReward() {
+            if (!userAccount) return;
+            
+            const btn = document.getElementById('btnWithdrawNetwork');
+            btn.classList.add('loading');
+            
+            try {
+                const rewards = await contract.methods.getNetworkRewards(userAccount).call();
+                if (BigInt(rewards.availableReward) == 0) {
+                    showNotification('No network rewards available', 'error');
+                    return;
+                }
+                
+                showNotification('Withdrawing network rewards...', 'info');
+                await contract.methods.withdrawNetworkReward(0).send({ from: userAccount, gas: 300000 });
+                showNotification('Network rewards withdrawn!', 'success');
+                await loadUserData();
+            } catch (error) {
+                showNotification('Withdraw failed: ' + error.message, 'error');
+            } finally {
+                btn.classList.remove('loading');
+            }
+        }
+
+        async function compoundNetworkReward() {
+            if (!userAccount) return;
+            
+            const btn = document.getElementById('btnCompoundNetwork');
+            btn.classList.add('loading');
+            
+            try {
+                const rewards = await contract.methods.getNetworkRewards(userAccount).call();
+                if (BigInt(rewards.availableReward) == 0) {
+                    showNotification('No network rewards to compound', 'error');
+                    return;
+                }
+                
+                showNotification('Compounding network rewards...', 'info');
+                await contract.methods.compoundNetworkReward(0).send({ from: userAccount, gas: 500000 });
+                showNotification('Network rewards compounded!', 'success');
+                await loadUserData();
+            } catch (error) {
+                showNotification('Compound failed: ' + error.message, 'error');
+            } finally {
+                btn.classList.remove('loading');
+            }
+        }
+
+        // ===== REFERRAL FUNCTIONS =====
+        function renderReferralLevels() {
+            const container = document.getElementById('referralLevels');
+            container.innerHTML = '';
+            
+            const levelReqs = [
+                '20 USDT + Active',
+                '50 USDT + 3 Directs',
+                '50 USDT + 5 Directs',
+                '100 USDT + 8 Directs',
+                '100 USDT + 10 Directs',
+                '100 USDT + 10 Directs',
+                '100 USDT + 10 Directs',
+                '100 USDT + 10 Directs',
+                '100 USDT + 10 Directs',
+                '100 USDT + 10 Directs'
+            ];
+            
+            REFERRAL_PCT.forEach((pct, i) => {
+                const level = document.createElement('div');
+                level.className = 'referral-level';
+                level.innerHTML = `
+                    <div class="referral-level__number">${i + 1}</div>
+                    <div class="referral-level__percent">${(pct / 100).toFixed(1)}%</div>
+                    <div class="referral-level__req">${levelReqs[i]}</div>
+                `;
+                container.appendChild(level);
+            });
+        }
+
+        function copyReferralLink() {
+            const link = document.getElementById('referralLink').textContent;
+            if (link.includes('Register') || link.includes('Connect')) {
+                showNotification('Register first to get your referral link', 'error');
+                return;
+            }
+            navigator.clipboard.writeText(link).then(() => {
+                showNotification('Referral link copied!', 'success');
+            });
+        }
+
+        // ===== RANK FUNCTIONS =====
+        function renderRanks(currentRank) {
+            const container = document.getElementById('ranksGrid');
+            container.innerHTML = '';
+            
+            RANK_NAMES.forEach((name, i) => {
+                const rank = i + 1;
+                const teamCount = RANK_TEAM_COUNT[i] || 0;
+                const bonus = RANK_PCT[i] / 100;
+                
+                const card = document.createElement('div');
+                card.className = `rank-card ${rank === currentRank ? 'current' : ''}`;
+                card.innerHTML = `
+                    ${rank === currentRank ? '<span class="rank-card__badge">Current</span>' : ''}
+                    <div class="rank-card__name">${name}</div>
+                    <div class="rank-card__bonus">+${bonus.toFixed(1)}%</div>
+                    <div class="rank-card__req">${teamCount.toLocaleString()}+ team members</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ===== UTILITY FUNCTIONS =====
+        function formatUSDT(weiValue) {
+            if (!weiValue) return '0.00';
+            const value = parseFloat(web3.utils.fromWei(weiValue.toString(), 'ether'));
+            return value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show target section
+            const target = document.getElementById(sectionName);
+            if (target) {
+                target.classList.add('active');
+            }
+            
+            // Update nav links
+            document.querySelectorAll('.nav__link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelectorAll('.mobile-menu__link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelectorAll('.mobile-tabs__item').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Load user data if connected
+            if (userAccount) {
+                loadUserData();
+            }
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        function checkURLReferral() {
+            const params = new URLSearchParams(window.location.search);
+            const ref = params.get('ref');
+            if (ref) {
+                document.getElementById('regReferrer').value = ref;
+            }
+        }
+    </script>
+</body>
+</html>
