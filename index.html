@@ -1632,21 +1632,31 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="form-label">Username (for registration)</label>
-                                <input type="text" class="form-input" id="regUsername" placeholder="Enter username (3-20 chars)">
-                                <p class="form-hint">Letters and numbers only</p>
+                            <div id="registrationFields">
+                                <div class="form-group">
+                                    <label class="form-label">Username (for registration)</label>
+                                    <input type="text" class="form-input" id="regUsername" placeholder="Enter username (3-20 chars)">
+                                    <p class="form-hint">Letters and numbers only, no spaces</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Referrer Username (optional)</label>
+                                    <input type="text" class="form-input" id="regReferrer" placeholder="Enter referrer username">
+                                    <p class="form-hint">Leave empty if no referrer</p>
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="form-label">Referrer Username (optional)</label>
-                                <input type="text" class="form-input" id="regReferrer" placeholder="Enter referrer username">
+                            <div class="form-group" id="registeredInfo" style="display: none;">
+                                <div class="alert alert--info">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>You are already registered. You can deposit directly.</span>
+                                </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Deposit Amount (USDT)</label>
                                 <input type="number" class="form-input" id="depositAmount" placeholder="Minimum 10 USDT" min="10">
-                                <p class="form-hint">10% management fee applies</p>
+                                <p class="form-hint">10% management fee applies. Net amount will be deposited.</p>
                             </div>
 
                             <div class="roi-calculator" id="depositRoiCalc" style="display: none;">
@@ -2153,8 +2163,25 @@
                 // Render ranks
                 renderRanks(rank);
                 
+                // Update invest form based on registration status
+                updateInvestForm(userInfo.registered, userInfo.username);
+                
             } catch (error) {
                 console.error('Error loading user data:', error);
+            }
+        }
+
+        function updateInvestForm(isRegistered, username) {
+            const regFields = document.getElementById('registrationFields');
+            const regInfo = document.getElementById('registeredInfo');
+            
+            if (isRegistered) {
+                regFields.style.display = 'none';
+                regInfo.style.display = 'block';
+                document.getElementById('regUsername').value = username;
+            } else {
+                regFields.style.display = 'block';
+                regInfo.style.display = 'none';
             }
         }
 
@@ -2219,8 +2246,15 @@
             const referrer = document.getElementById('regReferrer').value.trim();
             const amount = parseFloat(document.getElementById('depositAmount').value);
             
-            if (!username || username.length < 3) {
-                showNotification('Username must be at least 3 characters', 'error');
+            // Validate username format (alphanumeric only, 3-20 chars)
+            if (!username || username.length < 3 || username.length > 20) {
+                showNotification('Username must be 3-20 characters', 'error');
+                return;
+            }
+            
+            const usernameRegex = /^[a-zA-Z0-9]+$/;
+            if (!usernameRegex.test(username)) {
+                showNotification('Username can only contain letters and numbers (no spaces or symbols)', 'error');
                 return;
             }
             
@@ -2240,30 +2274,86 @@
                 const userInfo = await contract.methods.getUserInfo(userAccount).call();
                 
                 if (!userInfo.registered) {
+                    // Check if username is available
+                    showNotification('Checking username availability...', 'info');
+                    const isValidUsername = await contract.methods.isValidUsername(username).call();
+                    if (!isValidUsername) {
+                        showNotification('Username is already taken or invalid. Please choose another.', 'error');
+                        btn.classList.remove('loading');
+                        btn.innerHTML = '<i class="fas fa-rocket"></i><span class="btn-text">Deposit Now</span>';
+                        return;
+                    }
+                    
+                    // Validate referrer if provided
+                    let referrerToUse = '';
+                    if (referrer) {
+                        const isValidReferrer = await contract.methods.isValidUplineUsername(referrer, userAccount).call();
+                        if (!isValidReferrer) {
+                            showNotification('Invalid referrer username. Referrer must be registered and have deposited at least 10 USDT.', 'error');
+                            btn.classList.remove('loading');
+                            btn.innerHTML = '<i class="fas fa-rocket"></i><span class="btn-text">Deposit Now</span>';
+                            return;
+                        }
+                        referrerToUse = referrer;
+                    }
+                    
                     // Register first
-                    showNotification('Registering...', 'info');
-                    await contract.methods.register(username, referrer || '').send({ from: userAccount });
+                    showNotification('Registering your account...', 'info');
+                    await contract.methods.register(username, referrerToUse).send({ from: userAccount, gas: 300000 });
+                    showNotification('Registration successful!', 'success');
+                } else {
+                    showNotification('You are already registered. Proceeding with deposit...', 'info');
                 }
                 
-                // Check allowance
+                // Check USDT balance
+                const usdtBalance = await usdtContract.methods.balanceOf(userAccount).call();
+                if (BigInt(usdtBalance) < BigInt(amountInWei)) {
+                    showNotification('Insufficient USDT balance. You need at least ' + amount + ' USDT.', 'error');
+                    btn.classList.remove('loading');
+                    btn.innerHTML = '<i class="fas fa-rocket"></i><span class="btn-text">Deposit Now</span>';
+                    return;
+                }
+                
+                // Check and approve allowance
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
                 if (BigInt(allowance) < BigInt(amountInWei)) {
-                    showNotification('Approving USDT...', 'info');
-                    await usdtContract.methods.approve(CONTRACT_ADDRESS, amountInWei).send({ from: userAccount });
+                    showNotification('Approving USDT spending...', 'info');
+                    await usdtContract.methods.approve(CONTRACT_ADDRESS, amountInWei).send({ from: userAccount, gas: 100000 });
                 }
                 
                 // Deposit
-                showNotification('Processing deposit...', 'info');
-                await contract.methods.deposit(amountInWei).send({ from: userAccount, gas: 500000 });
+                showNotification('Processing deposit... Please wait and confirm in MetaMask', 'info');
+                await contract.methods.deposit(amountInWei).send({ from: userAccount, gas: 800000 });
                 
-                showNotification('Deposit successful!', 'success');
+                showNotification('Deposit successful! Welcome to OrcaTrust!', 'success');
                 document.getElementById('depositAmount').value = '';
                 document.getElementById('depositRoiCalc').style.display = 'none';
                 await loadUserData();
                 
             } catch (error) {
                 console.error('Deposit error:', error);
-                showNotification('Deposit failed: ' + error.message, 'error');
+                
+                // Better error messages based on contract errors
+                let errorMsg = error.message;
+                if (error.message.includes('AlreadyRegistered')) {
+                    errorMsg = 'You are already registered with a different username.';
+                } else if (error.message.includes('InvalidUsername')) {
+                    errorMsg = 'Username is invalid. Use only letters and numbers (3-20 chars).';
+                } else if (error.message.includes('UsernameTaken')) {
+                    errorMsg = 'This username is already taken. Please choose another.';
+                } else if (error.message.includes('ReferrerNotFound')) {
+                    errorMsg = 'Referrer username not found.';
+                } else if (error.message.includes('ReferrerNotQualified')) {
+                    errorMsg = 'Referrer must have deposited at least 10 USDT first.';
+                } else if (error.message.includes('BelowMinimum')) {
+                    errorMsg = 'Minimum deposit is 10 USDT.';
+                } else if (error.message.includes('insufficient funds')) {
+                    errorMsg = 'Insufficient BNB for gas fees.';
+                } else if (error.message.includes('user rejected')) {
+                    errorMsg = 'Transaction was rejected in MetaMask.';
+                }
+                
+                showNotification('Deposit failed: ' + errorMsg, 'error');
             } finally {
                 btn.classList.remove('loading');
                 btn.innerHTML = '<i class="fas fa-rocket"></i><span class="btn-text">Deposit Now</span>';
