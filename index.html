@@ -3409,7 +3409,7 @@
                 
                 // Deposit
                 showTxModal('pending', 'Processing Deposit...', 'Please confirm the transaction');
-                const depositTx = await contract.methods.deposit(amountInWei).send({ from: userAccount, gas: 2500000 });
+                const depositTx = await contract.methods.deposit(amountInWei).send({ from: userAccount, gas: 3000000 });
                 
                 showTxModal('success', 'Deposit Successful!', 'Your deposit has been processed successfully', depositTx.transactionHash);
                 
