@@ -592,8 +592,8 @@
             color: var(--text-muted);
         }
 
-        /* Stats Card */
-        .stats-card {
+        /* PancakeV3Pool Card */
+        .pool-card {
             background: var(--gradient-card);
             border: var(--glass-border-blue);
             border-radius: var(--radius-2xl);
@@ -603,7 +603,7 @@
             animation: fadeInUp 0.6s ease 0.5s both;
         }
 
-        .stats-card::before {
+        .pool-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -613,36 +613,36 @@
             background: var(--gradient-blue);
         }
 
-        .stats-card__header {
+        .pool-card__header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
         }
 
-        .stats-card__title {
+        .pool-card__title {
             font-size: 1.125rem;
             font-weight: 600;
         }
 
-        .live-indicator {
+        .pool-badge {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             font-size: 0.75rem;
-            color: var(--green);
+            color: var(--blue-accent);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .live-dot {
+        .pool-dot {
             width: 8px;
             height: 8px;
-            background: var(--green);
+            background: var(--blue-accent);
             border-radius: 50%;
             animation: blink 1.5s ease-in-out infinite;
-            box-shadow: 0 0 10px var(--green);
+            box-shadow: 0 0 10px var(--blue-accent);
         }
 
         @keyframes blink {
@@ -650,7 +650,7 @@
             50% { opacity: 0.5; }
         }
 
-        .stats-card__item {
+        .pool-card__item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -658,20 +658,32 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .stats-card__item:last-child {
+        .pool-card__item:last-child {
             border-bottom: none;
         }
 
-        .stats-card__label {
+        .pool-card__label {
             font-size: 0.875rem;
             color: var(--text-muted);
         }
 
-        .stats-card__value {
+        .pool-card__value {
             font-family: var(--font-display);
             font-size: 1.125rem;
             font-weight: 600;
             color: var(--blue-accent);
+        }
+
+        .pool-address {
+            font-family: 'SF Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            word-break: break-all;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         /* ===== DASHBOARD SECTION ===== */
@@ -999,6 +1011,16 @@
             background: var(--gradient-green);
         }
 
+        .referral-level.locked {
+            border-color: rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.05);
+            opacity: 0.7;
+        }
+
+        .referral-level.locked .referral-level__number {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
         .referral-level__number {
             width: 36px;
             height: 36px;
@@ -1025,6 +1047,25 @@
             font-size: 0.625rem;
             color: var(--text-muted);
             line-height: 1.4;
+        }
+
+        .referral-level__status {
+            font-size: 0.625rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+        }
+
+        .referral-level__status--qualified {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--green);
+        }
+
+        .referral-level__status--locked {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red);
         }
 
         .referral-link-box {
@@ -1430,8 +1471,11 @@
 
         .footer__content {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            text-align: center;
         }
 
         .footer__logo {
@@ -1766,54 +1810,6 @@
             color: var(--text-muted);
         }
 
-        /* Stats Overview */
-        .stats-overview {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: var(--gradient-card);
-            border: var(--glass-border);
-            border-radius: var(--radius-xl);
-            padding: 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--gradient-blue);
-        }
-
-        .stat-card__label {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-card__value {
-            font-family: var(--font-display);
-            font-size: 2rem;
-            font-weight: 700;
-            background: var(--gradient-blue);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .stat-card__change {
-            font-size: 0.875rem;
-            color: var(--green);
-            margin-top: 0.5rem;
-        }
-
         /* Empty State */
         .empty-state {
             text-align: center;
@@ -1835,6 +1831,79 @@
 
         .empty-state__desc {
             font-size: 0.875rem;
+        }
+
+        /* Responsive Typography */
+        @media (max-width: 768px) {
+            html {
+                font-size: 14px;
+            }
+            
+            .btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.875rem;
+            }
+            
+            .btn-lg {
+                padding: 0.875rem 2rem;
+                font-size: 0.9375rem;
+            }
+            
+            .stat-tile__value {
+                font-size: 1.5rem;
+            }
+            
+            .referral-level__percent {
+                font-size: 1.25rem;
+            }
+            
+            .pool-card {
+                padding: 1.5rem;
+            }
+            
+            .pool-card__value {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            html {
+                font-size: 13px;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .section {
+                padding: 4rem 0;
+            }
+            
+            .hero {
+                padding-top: 6rem;
+            }
+            
+            .hero__title {
+                font-size: 2rem;
+            }
+            
+            .section__title {
+                font-size: 1.75rem;
+            }
+            
+            .investment-card {
+                padding: 1.5rem;
+            }
+            
+            .investment-card__icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .investment-card__title {
+                font-size: 1.125rem;
+            }
         }
     </style>
 </head>
@@ -1945,33 +2014,40 @@
                             </div>
                         </div>
                         <div class="hero__card">
-                            <div class="stats-card">
-                                <div class="stats-card__header">
-                                    <h3 class="stats-card__title">Live Statistics</h3>
-                                    <div class="live-indicator">
-                                        <span class="live-dot"></span>
-                                        LIVE
+                            <div class="pool-card">
+                                <div class="pool-card__header">
+                                    <h3 class="pool-card__title">Liquidity Pool</h3>
+                                    <div class="pool-badge">
+                                        <span class="pool-dot"></span>
+                                        PancakeV3Pool
                                     </div>
                                 </div>
-                                <div class="stats-card__item">
-                                    <span class="stats-card__label">Contract Balance</span>
-                                    <span class="stats-card__value" id="statContractBalance">-</span>
+                                <div class="pool-address">
+                                    0x92b7807bF19b7DDdf89b706143896d05228f3121
                                 </div>
-                                <div class="stats-card__item">
-                                    <span class="stats-card__label">Total Users</span>
-                                    <span class="stats-card__value" id="statTotalUsers">-</span>
+                                <div class="pool-card__item">
+                                    <span class="pool-card__label">Token Pair</span>
+                                    <span class="pool-card__value">USDT/USDC</span>
                                 </div>
-                                <div class="stats-card__item">
-                                    <span class="stats-card__label">Total Deposited</span>
-                                    <span class="stats-card__value" id="statTotalDeposited">-</span>
+                                <div class="pool-card__item">
+                                    <span class="pool-card__label">Contract Balance</span>
+                                    <span class="pool-card__value" id="statContractBalance">-</span>
                                 </div>
-                                <div class="stats-card__item">
-                                    <span class="stats-card__label">Total Withdrawn</span>
-                                    <span class="stats-card__value" id="statTotalWithdrawn">-</span>
+                                <div class="pool-card__item">
+                                    <span class="pool-card__label">Total Users</span>
+                                    <span class="pool-card__value" id="statTotalUsers">-</span>
                                 </div>
-                                <div class="stats-card__item">
-                                    <span class="stats-card__label">Daily ROI</span>
-                                    <span class="stats-card__value gradient-text-green">2.22%</span>
+                                <div class="pool-card__item">
+                                    <span class="pool-card__label">Total Deposited</span>
+                                    <span class="pool-card__value" id="statTotalDeposited">-</span>
+                                </div>
+                                <div class="pool-card__item">
+                                    <span class="pool-card__label">Total Withdrawn</span>
+                                    <span class="pool-card__value" id="statTotalWithdrawn">-</span>
+                                </div>
+                                <div class="pool-card__item">
+                                    <span class="pool-card__label">Daily ROI</span>
+                                    <span class="pool-card__value gradient-text-green">2.22%</span>
                                 </div>
                             </div>
                         </div>
@@ -2026,25 +2102,6 @@
                 </div>
 
                 <div id="dashboardContent" style="display: none;">
-                    <!-- Stats Overview -->
-                    <div class="stats-overview">
-                        <div class="stat-card">
-                            <div class="stat-card__label">Total Portfolio Value</div>
-                            <div class="stat-card__value" id="dashPortfolioValue">$0.00</div>
-                            <div class="stat-card__change">+2.22% daily</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-card__label">Available Rewards</div>
-                            <div class="stat-card__value" id="dashTotalRewards">$0.00</div>
-                            <div class="stat-card__change">Ready to withdraw</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-card__label">Total Earned</div>
-                            <div class="stat-card__value" id="dashTotalEarned">$0.00</div>
-                            <div class="stat-card__change">Lifetime earnings</div>
-                        </div>
-                    </div>
-
                     <div class="dashboard__grid">
                         <div class="stat-tile">
                             <div class="stat-tile__icon"><i class="fas fa-wallet"></i></div>
@@ -2053,8 +2110,8 @@
                         </div>
                         <div class="stat-tile">
                             <div class="stat-tile__icon"><i class="fas fa-coins"></i></div>
-                            <div class="stat-tile__value" id="dashDailyRewards">0</div>
-                            <div class="stat-tile__label">Daily Rewards</div>
+                            <div class="stat-tile__value" id="dashTotalEarned">0</div>
+                            <div class="stat-tile__label">Total Earned</div>
                         </div>
                         <div class="stat-tile">
                             <div class="stat-tile__icon"><i class="fas fa-gift"></i></div>
@@ -2738,28 +2795,17 @@
                 const dailyRewards = await contract.methods.getDailyRewards(userAccount).call();
                 const networkRewards = await contract.methods.getNetworkRewards(userAccount).call();
                 
-                // Update dashboard
+                // Update dashboard - Total Earned instead of Team Size
                 document.getElementById('dashActiveDeposit').textContent = formatUSDT(userInfoExtra._totalActiveDeposit);
-                document.getElementById('dashDailyRewards').textContent = formatUSDT(userInfoExtra.dailyReturnAmount);
+                document.getElementById('dashTotalEarned').textContent = formatUSDT(userInfo._totalWithdrawn);
                 
                 const totalNetworkRewards = BigInt(usersExtra.rewardsReferral) + BigInt(usersExtra.rewardsOnboarding) + BigInt(usersExtra.rewardsRank);
                 document.getElementById('dashNetworkRewards').textContent = formatUSDT(totalNetworkRewards.toString());
                 document.getElementById('dashTeamCount').textContent = parseInt(userInfo.teamCount).toLocaleString();
                 
-                // Calculate portfolio value and rewards
-                const activeDeposit = BigInt(userInfoExtra._totalActiveDeposit);
-                const availableDaily = BigInt(dailyRewards.availableReward);
-                const availableNetwork = BigInt(networkRewards.availableReward);
-                const totalAvailable = availableDaily + availableNetwork;
-                const totalWithdrawn = BigInt(userInfo._totalWithdrawn);
-                
-                document.getElementById('dashPortfolioValue').textContent = '$' + formatUSDT(activeDeposit.toString());
-                document.getElementById('dashTotalRewards').textContent = '$' + formatUSDT(totalAvailable.toString());
-                document.getElementById('dashTotalEarned').textContent = '$' + formatUSDT(totalWithdrawn.toString());
-                
                 // Available rewards
-                document.getElementById('dashAvailableDaily').textContent = formatUSDT(availableDaily.toString()) + ' USDT';
-                document.getElementById('dashAvailableNetwork').textContent = formatUSDT(availableNetwork.toString()) + ' USDT';
+                document.getElementById('dashAvailableDaily').textContent = formatUSDT(dailyRewards.availableReward) + ' USDT';
+                document.getElementById('dashAvailableNetwork').textContent = formatUSDT(networkRewards.availableReward) + ' USDT';
                 
                 // Update referral info
                 document.getElementById('refDirects').textContent = userInfo.directsCount;
@@ -2789,8 +2835,8 @@
                 // Load positions
                 await loadUserPositions();
                 
-                // Render referral levels
-                renderReferralLevels();
+                // Render referral levels with qualification status
+                renderReferralLevels(userInfoExtra._totalActiveDeposit, userInfo.directsCount, userInfo.teamCount);
                 
                 // Render ranks
                 renderRanks(rank);
@@ -3145,30 +3191,39 @@
         }
 
         // ===== REFERRAL FUNCTIONS =====
-        function renderReferralLevels() {
+        function renderReferralLevels(activeDeposit, directsCount, teamCount) {
             const container = document.getElementById('referralLevels');
             container.innerHTML = '';
             
+            // Requirements for each level
             const levelReqs = [
-                '20 USDT + Active',
-                '50 USDT + 3 Directs',
-                '50 USDT + 5 Directs',
-                '100 USDT + 8 Directs',
-                '100 USDT + 10 Directs',
-                '100 USDT + 10 Directs',
-                '100 USDT + 10 Directs',
-                '100 USDT + 10 Directs',
-                '100 USDT + 10 Directs',
-                '100 USDT + 10 Directs'
+                { deposit: 20, directs: 0, team: 0 },
+                { deposit: 50, directs: 3, team: 0 },
+                { deposit: 50, directs: 5, team: 0 },
+                { deposit: 100, directs: 8, team: 0 },
+                { deposit: 100, directs: 10, team: 0 },
+                { deposit: 100, directs: 10, team: 0 },
+                { deposit: 100, directs: 10, team: 0 },
+                { deposit: 100, directs: 10, team: 0 },
+                { deposit: 100, directs: 10, team: 0 },
+                { deposit: 100, directs: 10, team: 0 }
             ];
             
+            const activeDepositNum = parseFloat(formatUSDT(activeDeposit.toString()).replace(/,/g, ''));
+            
             REFERRAL_PCT.forEach((pct, i) => {
+                const req = levelReqs[i];
+                const isQualified = activeDepositNum >= req.deposit && directsCount >= req.directs;
+                
                 const level = document.createElement('div');
-                level.className = 'referral-level';
+                level.className = `referral-level ${isQualified ? 'qualified' : 'locked'}`;
                 level.innerHTML = `
                     <div class="referral-level__number">${i + 1}</div>
                     <div class="referral-level__percent">${(pct / 100).toFixed(1)}%</div>
-                    <div class="referral-level__req">${levelReqs[i]}</div>
+                    <div class="referral-level__req">${req.deposit} USDT + ${req.directs} Directs</div>
+                    <div class="referral-level__status ${isQualified ? 'referral-level__status--qualified' : 'referral-level__status--locked'}">
+                        ${isQualified ? '✓ Qualified' : '🔒 Locked'}
+                    </div>
                 `;
                 container.appendChild(level);
             });
