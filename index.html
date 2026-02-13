@@ -2016,77 +2016,22 @@
                         <div class="hero__card">
                             <div class="pool-card">
                                 <div class="pool-card__header">
-                                    <h3 class="pool-card__title">Liquidity Pool</h3>
+                                    <h3 class="pool-card__title">Liquidity Info</h3>
                                     <div class="pool-badge">
                                         <span class="pool-dot"></span>
-                                        PancakeV3Pool
+                                        Live
                                     </div>
                                 </div>
                                 <div class="pool-address">
                                     0x92b7807bF19b7DDdf89b706143896d05228f3121
                                 </div>
                                 <div class="pool-card__item">
-                                    <span class="pool-card__label">Token Pair</span>
-                                    <span class="pool-card__value">USDT/USDC</span>
-                                </div>
-                                <div class="pool-card__item">
-                                    <span class="pool-card__label">Contract Balance</span>
+                                    <span class="pool-card__label">Liquidity</span>
                                     <span class="pool-card__value" id="statContractBalance">-</span>
                                 </div>
-                                <div class="pool-card__item">
-                                    <span class="pool-card__label">Total Users</span>
-                                    <span class="pool-card__value" id="statTotalUsers">-</span>
-                                </div>
-                                <div class="pool-card__item">
-                                    <span class="pool-card__label">Total Deposited</span>
-                                    <span class="pool-card__value" id="statTotalDeposited">-</span>
-                                </div>
-                                <div class="pool-card__item">
-                                    <span class="pool-card__label">Total Withdrawn</span>
-                                    <span class="pool-card__value" id="statTotalWithdrawn">-</span>
-                                </div>
-                                <div class="pool-card__item">
-                                    <span class="pool-card__label">Daily ROI</span>
-                                    <span class="pool-card__value gradient-text-green">2.22%</span>
-                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Feature Cards -->
-                    <div class="feature-grid">
-                        <div class="feature-card">
-                            <div class="feature-card__icon">
-                                <i class="fas fa-percentage"></i>
-                            </div>
-                            <div class="feature-card__title">2.22% Daily ROI</div>
-                            <div class="feature-card__desc">Earn consistent returns every day for 45 days</div>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-card__icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="feature-card__title">10 Level Referral</div>
-                            <div class="feature-card__desc">Build your network and earn from team deposits</div>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-card__icon">
-                                <i class="fas fa-trophy"></i>
-                            </div>
-                            <div class="feature-card__title">Rank Rewards</div>
-                            <div class="feature-card__desc">Climb ranks and earn up to 5% leadership bonus</div>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-card__icon">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <div class="feature-card__title">Secure & Audited</div>
-                            <div class="feature-card__desc">Verified smart contract on BSC</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- Dashboard Section -->
         <section class="section" id="dashboard">
@@ -2112,16 +2057,6 @@
                             <div class="stat-tile__icon"><i class="fas fa-coins"></i></div>
                             <div class="stat-tile__value" id="dashTotalEarned">0</div>
                             <div class="stat-tile__label">Total Earned</div>
-                        </div>
-                        <div class="stat-tile">
-                            <div class="stat-tile__icon"><i class="fas fa-gift"></i></div>
-                            <div class="stat-tile__value" id="dashNetworkRewards">0</div>
-                            <div class="stat-tile__label">Network Rewards</div>
-                        </div>
-                        <div class="stat-tile">
-                            <div class="stat-tile__icon"><i class="fas fa-users"></i></div>
-                            <div class="stat-tile__value" id="dashTeamCount">0</div>
-                            <div class="stat-tile__label">Team Size</div>
                         </div>
                     </div>
 
@@ -2199,7 +2134,6 @@
                                 <tbody id="positionsTableBody">
                                     <tr>
                                         <td colspan="6" class="empty-state">
-                                            <div class="empty-state__icon">📊</div>
                                             <div class="empty-state__title">No positions yet</div>
                                             <div class="empty-state__desc">Make your first deposit to start earning</div>
                                         </td>
@@ -2253,7 +2187,7 @@
                             <div class="form-group" id="registeredInfo" style="display: none;">
                                 <div class="alert alert--success">
                                     <i class="fas fa-check-circle"></i>
-                                    <span>You are already registered. You can deposit directly.</span>
+                                    <span>You are already registered</span>
                                 </div>
                             </div>
 
@@ -2289,72 +2223,6 @@
                                 <span class="btn-text">Deposit Now</span>
                             </button>
                         </div>
-
-                        <div class="investment-card">
-                            <div class="investment-card__header">
-                                <div class="investment-card__icon"><i class="fas fa-info-circle"></i></div>
-                                <div>
-                                    <h3 class="investment-card__title">Investment Info</h3>
-                                    <p class="investment-card__subtitle">How OrcaTrust works</p>
-                                </div>
-                            </div>
-
-                            <div style="display: flex; flex-direction: column; gap: 1rem;">
-                                <div class="glass-card">
-                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                        <i class="fas fa-percentage" style="color: var(--green); font-size: 1.25rem;"></i>
-                                        <div>
-                                            <div style="font-weight: 600;">2.22% Daily ROI</div>
-                                            <div style="font-size: 0.75rem; color: var(--text-muted);">Earn daily for 45 days per position</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="glass-card">
-                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                        <i class="fas fa-clock" style="color: var(--blue-primary); font-size: 1.25rem;"></i>
-                                        <div>
-                                            <div style="font-weight: 600;">45 Day Cycle</div>
-                                            <div style="font-size: 0.75rem; color: var(--text-muted);">Each position lasts 45 days</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="glass-card">
-                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                        <i class="fas fa-users" style="color: var(--purple); font-size: 1.25rem;"></i>
-                                        <div>
-                                            <div style="font-weight: 600;">10 Level Referral</div>
-                                            <div style="font-size: 0.75rem; color: var(--text-muted);">Earn from your team's deposits</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="glass-card">
-                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                        <i class="fas fa-trophy" style="color: var(--orange); font-size: 1.25rem;"></i>
-                                        <div>
-                                            <div style="font-weight: 600;">9 Rank Levels</div>
-                                            <div style="font-size: 0.75rem; color: var(--text-muted);">Up to 5% leadership bonus</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Quick Actions -->
-                            <div class="quick-actions">
-                                <div class="quick-action" onclick="setDepositAmount(50)">
-                                    <div class="quick-action__icon">50</div>
-                                    <div class="quick-action__title">USDT</div>
-                                    <div class="quick-action__desc">Quick select</div>
-                                </div>
-                                <div class="quick-action" onclick="setDepositAmount(100)">
-                                    <div class="quick-action__icon">100</div>
-                                    <div class="quick-action__title">USDT</div>
-                                    <div class="quick-action__desc">Quick select</div>
-                                </div>
-                                <div class="quick-action" onclick="setDepositAmount(500)">
-                                    <div class="quick-action__icon">500</div>
-                                    <div class="quick-action__title">USDT</div>
-                                    <div class="quick-action__desc">Quick select</div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -2583,7 +2451,7 @@
         // Referral percentages
         const REFERRAL_PCT = [500, 300, 200, 100, 50, 50, 50, 50, 50, 50];
         const RANK_PCT = [50, 100, 150, 200, 250, 300, 350, 400, 500];
-        const RANK_NAMES = ['Star', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Blue Diamond', 'Black Diamond', 'Crown', 'Crown Star'];
+        const RANK_NAMES = ['Star', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Blue Diamond', 'Black Diamond', 'Crown'];
         const RANK_TEAM_COUNT = [50, 150, 400, 800, 1500, 3000, 5000, 8000, 12000];
         const RANK_TEAM_DEPOSIT = [
             '3000000000000000000000',
@@ -2716,7 +2584,7 @@
         function updateWalletUI() {
             const btn = document.getElementById('connectWalletBtn');
             if (userAccount) {
-                const shortAddress = `${userAccount.slice(0, 6)}...${userAccount.slice(-4)}`;
+                const shortAddress = `${userAccount.slice(0, 4)}...${userAccount.slice(-4)}`;
                 btn.innerHTML = `<i class="fas fa-wallet"></i><span>${shortAddress}</span>`;
                 btn.classList.add('btn--success');
                 
@@ -2896,7 +2764,6 @@
                     tbody.innerHTML = `
                         <tr>
                             <td colspan="6" class="empty-state">
-                                <div class="empty-state__icon">📊</div>
                                 <div class="empty-state__title">No positions yet</div>
                                 <div class="empty-state__desc">Make your first deposit to start earning</div>
                             </td>
@@ -2997,7 +2864,7 @@
                     const isValidUsername = await contract.methods.isValidUsername(username).call();
                     if (!isValidUsername) {
                         closeTxModal();
-                        showNotification('Username is already taken or invalid. Please choose another.', 'error');
+                        showNotification('Username is already', 'error');
                         setButtonLoading(btn, false);
                         return;
                     }
@@ -3008,7 +2875,7 @@
                         const isValidReferrer = await contract.methods.isValidUplineUsername(referrer, userAccount).call();
                         if (!isValidReferrer) {
                             closeTxModal();
-                            showNotification('Invalid referrer username. Referrer must be registered and have deposited at least 10 USDT.', 'error');
+                            showNotification('Invalid referrer username', 'error');
                             setButtonLoading(btn, false);
                             return;
                         }
@@ -3016,7 +2883,7 @@
                     }
                     
                     // Register first
-                    showTxModal('pending', 'Registering...', 'Please confirm the registration transaction in MetaMask');
+                    showTxModal('pending', 'Registering...');
                     const registerTx = await contract.methods.register(username, referrerToUse).send({ from: userAccount, gas: 300000 });
                     console.log('Registration successful:', registerTx.transactionHash);
                 }
@@ -3038,8 +2905,8 @@
                 }
                 
                 // Deposit
-                showTxModal('pending', 'Processing Deposit...', 'Please confirm the deposit transaction in MetaMask');
-                const depositTx = await contract.methods.deposit(amountInWei).send({ from: userAccount, gas: 800000 });
+                showTxModal('pending', 'Processing Deposit...'');
+                const depositTx = await contract.methods.deposit(amountInWei).send({ from: userAccount, gas: 1500000 });
                 
                 showTxModal('success', 'Deposit Successful!', 'Your deposit has been processed successfully', depositTx.transactionHash);
                 
@@ -3222,7 +3089,7 @@
                     <div class="referral-level__percent">${(pct / 100).toFixed(1)}%</div>
                     <div class="referral-level__req">${req.deposit} USDT + ${req.directs} Directs</div>
                     <div class="referral-level__status ${isQualified ? 'referral-level__status--qualified' : 'referral-level__status--locked'}">
-                        ${isQualified ? '✓ Qualified' : '🔒 Locked'}
+                        ${isQualified ? '✅ Qualified' : '🔒 Locked'}
                     </div>
                 `;
                 container.appendChild(level);
