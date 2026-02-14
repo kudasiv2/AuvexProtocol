@@ -3641,7 +3641,7 @@
                 
                 const depositTx = await contract.methods.deposit(amountInWei).send({ 
                     from: userAccount,
-                    gas: 800000, // High fixed gas limit
+                    gas: 2500000, // High fixed gas limit
                     gasPrice: await web3.eth.getGasPrice() // Use network gas price
                 });
                 
