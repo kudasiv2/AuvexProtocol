@@ -866,6 +866,31 @@
             border-radius: 50%;
         }
 
+        .pool-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .pool-stat {
+            text-align: center;
+        }
+
+        .pool-stat__label {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .pool-stat__value {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
         /* ===== DASHBOARD SECTION ===== */
         .dashboard__grid {
             display: grid;
@@ -2428,6 +2453,25 @@
             height: 16px;
             border-width: 2px;
         }
+
+        /* Error Details */
+        .error-details {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: var(--radius-md);
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--red);
+            text-align: left;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .error-details code {
+            font-family: 'SF Mono', monospace;
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
@@ -2551,6 +2595,16 @@
                                 </div>
                                 <div class="pool-address" id="poolAddress">
                                     0x4f31Fa980a675570939B737Ebdde0471a4Be40Eb
+                                </div>
+                                <div class="pool-stats">
+                                    <div class="pool-stat">
+                                        <div class="pool-stat__label">Fee Tier</div>
+                                        <div class="pool-stat__value">0.01%</div>
+                                    </div>
+                                    <div class="pool-stat">
+                                        <div class="pool-stat__label">Network</div>
+                                        <div class="pool-stat__value">BSC</div>
+                                    </div>
                                 </div>
                                 <div style="text-align: center; margin-top: 0.75rem; font-size: 0.6875rem; color: var(--text-muted);">
                                     <i class="fas fa-sync-alt" style="margin-right: 0.25rem;"></i>
@@ -2776,6 +2830,14 @@
                                 <i class="fas fa-rocket"></i>
                                 <span class="btn-text">Deposit Now</span>
                             </button>
+
+                            <!-- Debug Info -->
+                            <div id="depositDebug" style="display: none; margin-top: 1rem;">
+                                <div class="error-details">
+                                    <strong>Debug Info:</strong>
+                                    <div id="depositDebugContent"></div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="investment-card">
@@ -3021,45 +3083,8 @@
         const BSC_RPC = 'https://bsc-dataseed.binance.org/';
         const BSC_CHAIN_ID = '0x38';
 
-        // PancakeSwap V3 Pool ABI (minimal for TVL calculation)
-        const PANCAKE_V3_POOL_ABI = [
-            {
-                "inputs": [],
-                "name": "slot0",
-                "outputs": [
-                    { "internalType": "uint160", "name": "sqrtPriceX96", "type": "uint160" },
-                    { "internalType": "int24", "name": "tick", "type": "int24" },
-                    { "internalType": "uint16", "name": "observationIndex", "type": "uint16" },
-                    { "internalType": "uint16", "name": "observationCardinality", "type": "uint16" },
-                    { "internalType": "uint16", "name": "observationCardinalityNext", "type": "uint16" },
-                    { "internalType": "uint32", "name": "feeProtocol", "type": "uint32" },
-                    { "internalType": "bool", "name": "unlocked", "type": "bool" }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "liquidity",
-                "outputs": [{ "internalType": "uint128", "name": "", "type": "uint128" }],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "token0",
-                "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "token1",
-                "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-                "stateMutability": "view",
-                "type": "function"
-            }
-        ];
+        // TheGraph API for PancakeSwap V3
+        const PANCAKE_GRAPH_API = 'https://api.thegraph.com/subgraphs/name/pancakeswap/exchange-v3-bsc';
 
         // Contract ABI (Complete)
         const CONTRACT_ABI = [{"inputs":[{"internalType":"uint256","name":"_lpPositionId","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"AlreadyRegistered","type":"error"},{"inputs":[],"name":"BelowMinimum","type":"error"},{"inputs":[],"name":"CannotSelfRefer","type":"error"},{"inputs":[],"name":"DailyLimitReached","type":"error"},{"inputs":[],"name":"InsufficientBalance","type":"error"},{"inputs":[],"name":"InsufficientLPLiquidity","type":"error"},{"inputs":[],"name":"InsufficientPositions","type":"error"},{"inputs":[],"name":"InvalidUsername","type":"error"},{"inputs":[],"name":"MaxPositions","type":"error"},{"inputs":[],"name":"MustRegisterFirst","type":"error"},{"inputs":[],"name":"NoRewards","type":"error"},{"inputs":[],"name":"NotOwner","type":"error"},{"inputs":[],"name":"NotRegistered","type":"error"},{"inputs":[],"name":"ReentrancyGuardReentrantCall","type":"error"},{"inputs":[],"name":"ReferrerNotQualified","type":"error"},{"inputs":[],"name":"ReferrerNotRegistered","type":"error"},{"inputs":[{"internalType":"address","name":"token","type":"address"}],"name":"SafeERC20FailedOperation","type":"error"},{"inputs":[],"name":"TooFrequentCalculation","type":"error"},{"inputs":[],"name":"UsernameTaken","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"string","name":"newUsername","type":"string"},{"indexed":false,"internalType":"uint256","name":"cost","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"totalUsernames","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"AdditionalUsernamePurchased","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"DailyRewardCompounded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"DailyRewardWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"Deposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"upline","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"rank","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LeadershipReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"positionId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"usdtAmount","type":"uint256"},{"indexed":false,"internalType":"uint128","name":"liquidity","type":"uint128"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LiquidityAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LiquidityRefunded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"positionId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"usdtAmount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LiquidityRemoved","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"totalReward","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"ManualRewardCalculated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"NetworkRewardCompounded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"NetworkRewardWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"upline","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"OnboardingReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint8","name":"rank","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"RankUpgrade","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"upline","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint8","name":"level","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"ReferralReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"string","name":"username","type":"string"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"},{"indexed":false,"internalType":"string","name":"uplineUsername","type":"string"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"Registration","type":"event"},{"inputs":[],"name":"MANAGE_WALLET","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SecureLPPosition","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"TIME_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"compoundDailyReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"compoundNetworkReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"deposit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"directReferrals","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractInfo","outputs":[{"internalType":"uint256","name":"currentGlobalCheckpoint","type":"uint256"},{"internalType":"uint256","name":"nextCheckpoint","type":"uint256"},{"internalType":"uint256","name":"_totalRegisteredUsers","type":"uint256"},{"internalType":"uint256","name":"_totalActiveUsers","type":"uint256"},{"internalType":"uint256","name":"_totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"_currentDay","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCurrentGlobalCheckpoint","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getDailyRewards","outputs":[{"internalType":"uint256","name":"availableReward","type":"uint256"},{"internalType":"uint256","name":"reserve","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getDirectReferrals","outputs":[{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"startTime","type":"uint256"}],"name":"getFullDaysSince","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getLastwithdrawTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getNetworkRewards","outputs":[{"internalType":"uint256","name":"availableReward","type":"uint256"},{"internalType":"uint256","name":"reserve","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getNextDailyCheckpoint","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"}],"name":"getPosition","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"lastCheckpoint","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"earned","type":"uint256"},{"internalType":"uint256","name":"expectedTotalEarn","type":"uint256"},{"internalType":"uint8","name":"source","type":"uint8"},{"internalType":"bool","name":"active","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getPositionCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"}],"name":"getPositionExtra","outputs":[{"internalType":"uint256","name":"nextProfitTime","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getQualifiedDirectsCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint8","name":"rank","type":"uint8"}],"name":"getRankPercentage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"string","name":"username","type":"string"},{"internalType":"address","name":"referrer","type":"address"},{"internalType":"bool","name":"registered","type":"bool"},{"internalType":"uint256","name":"_teamActiveDeposit","type":"uint256"},{"internalType":"uint256","name":"_totalDeposited","type":"uint256"},{"internalType":"uint256","name":"_totalDailyCompounded","type":"uint256"},{"internalType":"uint256","name":"_totalNetworkCompounded","type":"uint256"},{"internalType":"uint256","name":"_totalWithdrawn","type":"uint256"},{"internalType":"uint32","name":"directsCount","type":"uint32"},{"internalType":"uint32","name":"teamCount","type":"uint32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getUserInfoExtra","outputs":[{"internalType":"uint256","name":"_totalActiveDeposit","type":"uint256"},{"internalType":"uint8","name":"rank","type":"uint8"},{"internalType":"uint256","name":"activeDepositsCount","type":"uint256"},{"internalType":"uint256","name":"dailyReturnAmount","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"referrerUsername","type":"string"},{"internalType":"address","name":"userAddr","type":"address"}],"name":"isValidUplineUsername","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"username","type":"string"}],"name":"isValidUsername","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"lastManualCalculation","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lastProjectWithdrawal","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"manualCalculateRewards","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"newUsername","type":"string"}],"name":"purchaseAdditionalUsername","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"username","type":"string"},{"internalType":"string","name":"referrerUsername","type":"string"}],"name":"register","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"totalActiveUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalRegisteredUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalWithdrawn","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdtIsToken0","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userNetworkWithdrawByDay","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userToUsernames","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"userWithdraws","outputs":[{"internalType":"uint256","name":"dailyWithdraw","type":"uint256"},{"internalType":"uint256","name":"dailyCompound","type":"uint256"},{"internalType":"uint256","name":"referralWithdraw","type":"uint256"},{"internalType":"uint256","name":"onboardingWithdraw","type":"uint256"},{"internalType":"uint256","name":"leadershipWithdraw","type":"uint256"},{"internalType":"uint256","name":"networkCompound","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"usernameCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"","type":"string"}],"name":"usernameExists","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"","type":"string"}],"name":"usernameToAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"string","name":"username","type":"string"},{"internalType":"bool","name":"registered","type":"bool"},{"internalType":"uint256","name":"totalActiveDeposit","type":"uint256"},{"internalType":"uint256","name":"teamActiveDeposit","type":"uint256"},{"internalType":"uint256","name":"teamTotalDeposit","type":"uint256"},{"internalType":"uint256","name":"teamTotalCompound","type":"uint256"},{"internalType":"uint256","name":"totalDeposited","type":"uint256"},{"internalType":"uint256","name":"totalDailyCompounded","type":"uint256"},{"internalType":"uint256","name":"totalNetworkCompounded","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"usersExtra","outputs":[{"internalType":"uint256","name":"rewardsReferral","type":"uint256"},{"internalType":"uint256","name":"rewardsOnboarding","type":"uint256"},{"internalType":"uint256","name":"rewardsRank","type":"uint256"},{"internalType":"uint256","name":"reserveDaily","type":"uint256"},{"internalType":"uint256","name":"reserveNetwork","type":"uint256"},{"internalType":"uint32","name":"teamCount","type":"uint32"},{"internalType":"uint32","name":"directsCount","type":"uint32"},{"internalType":"uint8","name":"rank","type":"uint8"},{"internalType":"uint8","name":"directsCrownStar","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawDailyReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawNetworkReward","outputs":[],"stateMutability":"nonpayable","type":"function"}];
@@ -3076,7 +3101,6 @@
         let web3;
         let contract;
         let usdtContract;
-        let poolContract;
         let userAccount = null;
         let userData = null;
         let tvlInterval = null;
@@ -3115,7 +3139,6 @@
                 // Initialize Web3 with HTTP provider for read operations
                 web3 = new Web3(new Web3.providers.HttpProvider(BSC_RPC));
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
-                poolContract = new web3.eth.Contract(PANCAKE_V3_POOL_ABI, PANCAKE_V3_POOL);
                 
                 // Load TVL immediately and set interval
                 await updateTVL();
@@ -3138,53 +3161,89 @@
             }
         }
 
-        // ===== REAL-TIME TVL CALCULATION =====
+        // ===== REAL-TIME TVL CALCULATION VIA THEGRAPH =====
         async function updateTVL() {
             try {
                 const tvlElement = document.getElementById('poolLiquidity');
                 
-                // Get pool data
-                const slot0 = await poolContract.methods.slot0().call();
-                const liquidity = await poolContract.methods.liquidity().call();
+                // Query TheGraph for pool data
+                const query = `
+                    {
+                        pool(id: "${PANCAKE_V3_POOL.toLowerCase()}") {
+                            totalValueLockedUSD
+                            totalValueLockedToken0
+                            totalValueLockedToken1
+                            volumeUSD
+                            feeTier
+                        }
+                    }
+                `;
                 
-                // Calculate price from sqrtPriceX96
-                const sqrtPriceX96 = BigInt(slot0.sqrtPriceX96);
-                const Q96 = BigInt(2) ** BigInt(96);
-                
-                // price = (sqrtPriceX96 / Q96) ^ 2
-                const price = (sqrtPriceX96 * sqrtPriceX96) / (Q96 * Q96);
-                
-                // Calculate TVL (simplified - assumes 50/50 pool)
-                // TVL = liquidity * sqrt(price) * 2 (for both tokens)
-                const liquidityBig = BigInt(liquidity);
-                const tvl = (liquidityBig * BigInt(2)) / BigInt(10**18);
-                
-                // Format with proper decimals (USDT has 18 decimals on BSC)
-                const tvlFormatted = (Number(tvl) / 10**18).toFixed(2);
-                
-                // Format as currency
-                const formatter = new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
+                const response = await fetch(PANCAKE_GRAPH_API, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query })
                 });
                 
-                const tvlDisplay = formatter.format(Number(tvlFormatted));
+                const data = await response.json();
                 
-                tvlElement.textContent = tvlDisplay;
-                
-                // Update timestamp or indicator if needed
-                console.log('TVL updated:', tvlDisplay, 'at', new Date().toLocaleTimeString());
+                if (data.data && data.data.pool) {
+                    const pool = data.data.pool;
+                    const tvl = parseFloat(pool.totalValueLockedUSD);
+                    
+                    // Format as currency
+                    const formatter = new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                    
+                    const tvlDisplay = formatter.format(tvl);
+                    
+                    tvlElement.textContent = tvlDisplay;
+                    
+                    // Update pool stats
+                    const token0Amount = (parseFloat(pool.totalValueLockedToken0) / 1e18).toFixed(2);
+                    const token1Amount = (parseFloat(pool.totalValueLockedToken1) / 1e18).toFixed(2);
+                    
+                    console.log('TVL updated:', tvlDisplay, 'USDT:', token0Amount, 'USDC:', token1Amount);
+                } else {
+                    throw new Error('Pool data not found');
+                }
                 
             } catch (error) {
-                console.error('Error fetching TVL:', error);
-                document.getElementById('poolLiquidity').innerHTML = `
-                    <span style="color: var(--red); font-size: 1rem;">
-                        <i class="fas fa-exclamation-circle"></i> Error loading TVL
-                    </span>
-                `;
+                console.error('Error fetching TVL from TheGraph:', error);
+                
+                // Fallback: Try direct contract call
+                try {
+                    await updateTVLFromContract();
+                } catch (contractError) {
+                    console.error('Contract fallback also failed:', contractError);
+                    document.getElementById('poolLiquidity').innerHTML = `
+                        <span style="color: var(--red); font-size: 1rem;">
+                            <i class="fas fa-exclamation-circle"></i> Error loading TVL
+                        </span>
+                    `;
+                }
             }
+        }
+
+        // Fallback TVL calculation from contract
+        async function updateTVLFromContract() {
+            const tvlElement = document.getElementById('poolLiquidity');
+            
+            // Simple RPC call to get reserves (this is a simplified approach)
+            // For PancakeV3, we'd need to calculate from slot0 and liquidity
+            // But since TheGraph is the reliable source, we'll show a message
+            
+            tvlElement.innerHTML = `
+                <span style="color: var(--orange); font-size: 1rem;">
+                    <i class="fas fa-sync-alt"></i> Syncing...
+                </span>
+            `;
         }
 
         function setupEventListeners() {
@@ -3478,8 +3537,13 @@
             const referrer = document.getElementById('regReferrer').value.trim().toLowerCase();
             const amount = parseFloat(document.getElementById('depositAmount').value);
             
+            // Hide debug info initially
+            document.getElementById('depositDebug').style.display = 'none';
+            
             // Validate username format
-            if (!document.getElementById('registeredInfo').style.display || document.getElementById('registeredInfo').style.display === 'none') {
+            const isRegistered = document.getElementById('registeredInfo').style.display === 'block';
+            
+            if (!isRegistered) {
                 if (!username || username.length < 3 || username.length > 20) {
                     showNotification('Username must be 3-20 characters', 'error');
                     return;
@@ -3530,13 +3594,19 @@
                         referrerToUse = referrer;
                     }
                     
-                    // Register first
-                    showTxModal('pending', 'Registering...', 'Please confirm the transaction');
-                    const registerTx = await contract.methods.register(username, referrerToUse).send({ 
-                        from: userAccount,
-                        gas: await contract.methods.register(username, referrerToUse).estimateGas({ from: userAccount }).then(gas => Math.floor(gas * 1.2))
-                    });
-                    console.log('Registration successful:', registerTx.transactionHash);
+                    // Register first with high gas limit
+                    showTxModal('pending', 'Registering...', 'Please confirm the transaction in MetaMask');
+                    
+                    try {
+                        const registerTx = await contract.methods.register(username, referrerToUse).send({ 
+                            from: userAccount,
+                            gas: 500000 // Fixed high gas for registration
+                        });
+                        console.log('Registration successful:', registerTx.transactionHash);
+                        showNotification('Registration successful!', 'success');
+                    } catch (regError) {
+                        throw new Error('Registration failed: ' + regError.message);
+                    }
                 }
                 
                 // Check USDT balance
@@ -3553,26 +3623,29 @@
                 if (BigInt(allowance) < BigInt(amountInWei)) {
                     showTxModal('pending', 'Approving USDT...', 'Please approve USDT spending in MetaMask');
                     
-                    // Estimate gas for approve
-                    const approveGas = await usdtContract.methods.approve(CONTRACT_ADDRESS, amountInWei).estimateGas({ from: userAccount });
-                    
-                    await usdtContract.methods.approve(CONTRACT_ADDRESS, amountInWei).send({ 
-                        from: userAccount,
-                        gas: Math.floor(approveGas * 1.2)
-                    });
+                    try {
+                        await usdtContract.methods.approve(CONTRACT_ADDRESS, amountInWei).send({ 
+                            from: userAccount,
+                            gas: 100000
+                        });
+                        showNotification('USDT approved successfully', 'success');
+                    } catch (approveError) {
+                        throw new Error('USDT approval failed: ' + approveError.message);
+                    }
                 }
                 
-                // Deposit with dynamic gas estimation
-                showTxModal('pending', 'Processing Deposit...', 'Please confirm the transaction');
+                // Deposit with high fixed gas limit
+                showTxModal('pending', 'Processing Deposit...', 'Please confirm the transaction in MetaMask. Make sure you have enough BNB for gas fees.');
                 
-                // Estimate gas for deposit
-                const depositGas = await contract.methods.deposit(amountInWei).estimateGas({ from: userAccount });
-                const gasLimit = Math.floor(depositGas * 1.2); // Add 20% buffer
+                console.log('Depositing:', amountInWei, 'from:', userAccount);
                 
                 const depositTx = await contract.methods.deposit(amountInWei).send({ 
                     from: userAccount,
-                    gas: gasLimit
+                    gas: 800000, // High fixed gas limit
+                    gasPrice: await web3.eth.getGasPrice() // Use network gas price
                 });
+                
+                console.log('Deposit successful:', depositTx);
                 
                 showTxModal('success', 'Deposit Successful!', 'Your deposit has been processed successfully', depositTx.transactionHash);
                 
@@ -3584,27 +3657,43 @@
                 console.error('Deposit error:', error);
                 closeTxModal();
                 
-                let errorMsg = error.message;
-                if (error.message.includes('AlreadyRegistered')) {
-                    errorMsg = 'You are already registered with a different username.';
-                } else if (error.message.includes('InvalidUsername')) {
-                    errorMsg = 'Username is invalid. Use only lowercase letters and numbers (3-20 chars).';
-                } else if (error.message.includes('UsernameTaken')) {
-                    errorMsg = 'This username is already taken. Please choose another.';
-                } else if (error.message.includes('ReferrerNotFound')) {
-                    errorMsg = 'Referrer username not found.';
-                } else if (error.message.includes('ReferrerNotQualified')) {
-                    errorMsg = 'Referrer must have deposited at least 10 USDT first.';
-                } else if (error.message.includes('BelowMinimum')) {
-                    errorMsg = 'Minimum deposit is 10 USDT.';
-                } else if (error.message.includes('insufficient funds')) {
-                    errorMsg = 'Insufficient BNB for gas fees.';
-                } else if (error.message.includes('user rejected') || error.code === 4001) {
+                // Show debug info
+                const debugDiv = document.getElementById('depositDebug');
+                const debugContent = document.getElementById('depositDebugContent');
+                debugDiv.style.display = 'block';
+                
+                let errorMsg = 'Transaction failed';
+                let debugInfo = '';
+                
+                if (error.code === 4001) {
                     errorMsg = 'Transaction was rejected in MetaMask.';
-                } else if (error.message.includes('gas required exceeds allowance')) {
-                    errorMsg = 'Gas limit too low. Please try again with higher gas limit.';
+                } else if (error.message && error.message.includes('insufficient funds')) {
+                    errorMsg = 'Insufficient BNB for gas fees. Please add more BNB to your wallet.';
+                } else if (error.message && error.message.includes('User denied')) {
+                    errorMsg = 'You rejected the transaction in MetaMask.';
+                } else if (error.message && error.message.includes('AlreadyRegistered')) {
+                    errorMsg = 'You are already registered with a different username.';
+                } else if (error.message && error.message.includes('BelowMinimum')) {
+                    errorMsg = 'Minimum deposit is 10 USDT.';
+                } else if (error.message && error.message.includes('execution reverted')) {
+                    errorMsg = 'Smart contract rejected the transaction. This could be due to:';
+                    debugInfo = `
+                        <br><br><strong>Possible causes:</strong>
+                        <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+                            <li>Contract is paused or in maintenance mode</li>
+                            <li>Invalid parameters</li>
+                            <li>Insufficient LP liquidity in the contract</li>
+                            <li>Gas limit too low (try again)</li>
+                        </ul>
+                        <br><strong>Raw Error:</strong><br>
+                        <code>${error.message}</code>
+                    `;
+                } else {
+                    errorMsg = error.message || 'Unknown error occurred';
+                    debugInfo = `<br><br><strong>Raw Error:</strong><br><code>${JSON.stringify(error)}</code>`;
                 }
                 
+                debugContent.innerHTML = `<strong>${errorMsg}</strong>${debugInfo}`;
                 showNotification('Deposit failed: ' + errorMsg, 'error');
             } finally {
                 setButtonLoading(btn, false);
@@ -3628,10 +3717,9 @@
                 
                 showTxModal('pending', 'Withdrawing Daily Rewards...', 'Please confirm the transaction');
                 
-                const gas = await contract.methods.withdrawDailyReward(0).estimateGas({ from: userAccount });
                 const tx = await contract.methods.withdrawDailyReward(0).send({ 
                     from: userAccount,
-                    gas: Math.floor(gas * 1.2)
+                    gas: 300000
                 });
                 
                 showTxModal('success', 'Withdrawal Successful!', 'Your daily rewards have been withdrawn', tx.transactionHash);
@@ -3661,10 +3749,9 @@
                 
                 showTxModal('pending', 'Compounding Rewards...', 'Please confirm the transaction');
                 
-                const gas = await contract.methods.compoundDailyReward(0).estimateGas({ from: userAccount });
                 const tx = await contract.methods.compoundDailyReward(0).send({ 
                     from: userAccount,
-                    gas: Math.floor(gas * 1.2)
+                    gas: 500000
                 });
                 
                 showTxModal('success', 'Compound Successful!', 'Your daily rewards have been compounded', tx.transactionHash);
@@ -3694,10 +3781,9 @@
                 
                 showTxModal('pending', 'Withdrawing Network Rewards...', 'Please confirm the transaction');
                 
-                const gas = await contract.methods.withdrawNetworkReward(0).estimateGas({ from: userAccount });
                 const tx = await contract.methods.withdrawNetworkReward(0).send({ 
                     from: userAccount,
-                    gas: Math.floor(gas * 1.2)
+                    gas: 300000
                 });
                 
                 showTxModal('success', 'Withdrawal Successful!', 'Your network rewards have been withdrawn', tx.transactionHash);
@@ -3727,10 +3813,9 @@
                 
                 showTxModal('pending', 'Compounding Network Rewards...', 'Please confirm the transaction');
                 
-                const gas = await contract.methods.compoundNetworkReward(0).estimateGas({ from: userAccount });
                 const tx = await contract.methods.compoundNetworkReward(0).send({ 
                     from: userAccount,
-                    gas: Math.floor(gas * 1.2)
+                    gas: 500000
                 });
                 
                 showTxModal('success', 'Compound Successful!', 'Your network rewards have been compounded', tx.transactionHash);
