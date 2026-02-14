@@ -7,75 +7,64 @@
     <meta name="description" content="OrcaTrust - Decentralized investment platform with 2.22% daily ROI and multi-level referral rewards on BSC">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg    ' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23007AFF'/%3E%3Cstop offset='100%25' style='stop-color:%235856D6'/%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23g)'/%3E%3Cpath d='M50 25c-5 0-10 3-12 8-2-1-4-1-6 0-6 2-9 8-7 14 1 3 3 5 6 7-1 2-1 4 0 6 2 6 8 9 14 7 2 5 7 8 12 8s10-3 12-8c6 2 12-1 14-7 1-2 1-4 0-6 3-2 5-4 6-7 2-6-1-12-7-14-2-1-4-1-6 0-2-5-7-8-12-8z' fill='white'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23007AFF'/%3E%3Cstop offset='100%25' style='stop-color:%235856D6'/%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23g)'/%3E%3Cpath d='M50 25c-5 0-10 3-12 8-2-1-4-1-6 0-6 2-9 8-7 14 1 3 3 5 6 7-1 2-1 4 0 6 2 6 8 9 14 7 2 5 7 8 12 8s10-3 12-8c6 2 12-1 14-7 1-2 1-4 0-6 3-2 5-4 6-7 2-6-1-12-7-14-2-1-4-1-6 0-2-5-7-8-12-8z' fill='white'/%3E%3C/svg%3E">
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com    ">
-    <link rel="preconnect" href="https://fonts.gstatic.com    " crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300    ;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css    ">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Web3 -->
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js    "></script>
-    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js    "></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
 
     <style>
         /* ===== CSS VARIABLES ===== */
         :root {
-            /* Premium Dark Theme */
             --bg-primary: #0a0a0f;
             --bg-secondary: #12121a;
             --bg-tertiary: #1a1a25;
             --bg-card: rgba(26, 26, 37, 0.6);
             --bg-card-hover: rgba(35, 35, 50, 0.8);
             
-            /* Premium Blue Palette */
             --blue-primary: #3b82f6;
             --blue-secondary: #6366f1;
             --blue-accent: #06b6d4;
             --blue-glow: rgba(59, 130, 246, 0.4);
             --blue-glow-strong: rgba(59, 130, 246, 0.6);
             
-            /* Accent Colors */
             --green: #10b981;
             --green-glow: rgba(16, 185, 129, 0.3);
             --orange: #f59e0b;
             --red: #ef4444;
             --purple: #8b5cf6;
             
-            /* Text Colors */
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.7);
             --text-muted: rgba(255, 255, 255, 0.5);
             --text-tertiary: rgba(255, 255, 255, 0.4);
             
-            /* Gradients */
             --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #06b6d4 100%);
             --gradient-green: linear-gradient(135deg, #10b981 0%, #059669 100%);
             --gradient-purple: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             --gradient-dark: linear-gradient(180deg, #0a0a0f 0%, #12121a 100%);
             --gradient-card: linear-gradient(145deg, rgba(26, 26, 37, 0.8), rgba(18, 18, 26, 0.9));
-            --gradient-glow: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
             
-            /* Glassmorphism */
             --glass-bg: rgba(26, 26, 37, 0.7);
             --glass-border: 1px solid rgba(255, 255, 255, 0.08);
             --glass-border-blue: 1px solid rgba(59, 130, 246, 0.3);
             
-            /* Shadows */
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
             --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
             --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
             --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.3);
             --shadow-glow-strong: 0 0 40px rgba(59, 130, 246, 0.5);
             
-            /* Typography */
             --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --font-display: 'Space Grotesk', sans-serif;
             
-            /* Spacing - Mobile Optimized */
             --space-xs: 0.25rem;
             --space-sm: 0.5rem;
             --space-md: 0.875rem;
@@ -84,7 +73,6 @@
             --space-2xl: 2.5rem;
             --space-3xl: 3.5rem;
             
-            /* Border Radius */
             --radius-sm: 6px;
             --radius-md: 10px;
             --radius-lg: 14px;
@@ -92,7 +80,6 @@
             --radius-2xl: 22px;
             --radius-full: 9999px;
             
-            /* Transitions */
             --transition-fast: 0.15s ease;
             --transition-base: 0.3s ease;
             --transition-slow: 0.5s ease;
@@ -135,7 +122,6 @@
             }
         }
 
-        /* Animated Background */
         body::before {
             content: '';
             position: fixed;
@@ -159,7 +145,6 @@
             z-index: -1;
         }
 
-        /* ===== SCROLLBAR ===== */
         ::-webkit-scrollbar {
             width: 4px;
         }
@@ -171,7 +156,6 @@
             border-radius: 2px;
         }
 
-        /* ===== UTILITIES ===== */
         .container {
             max-width: 1280px;
             margin: 0 auto;
@@ -743,7 +727,7 @@
             }
         }
 
-        /* PancakeV3Pool Card - Simplified */
+        /* Pool Card - Real-time TVL */
         .pool-card {
             background: var(--gradient-card);
             border: var(--glass-border-blue);
@@ -859,6 +843,27 @@
             .pool-address {
                 font-size: 0.75rem;
             }
+        }
+
+        .pool-tokens {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .pool-token {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .pool-token img {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
         }
 
         /* ===== DASHBOARD SECTION ===== */
@@ -1434,28 +1439,37 @@
             text-transform: uppercase;
         }
 
-        .referral-link-box {
+        /* Referral Link Box - Centered Layout */
+        .referral-link-container {
             display: flex;
-            gap: 0.625rem;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
             margin-top: 1.25rem;
+            width: 100%;
         }
 
         @media (min-width: 768px) {
-            .referral-link-box {
-                gap: 0.75rem;
+            .referral-link-container {
                 margin-top: 1.5rem;
             }
         }
 
+        .referral-link-wrapper {
+            width: 100%;
+            max-width: 500px;
+        }
+
         .referral-link {
-            flex: 1;
-            padding: 0.75rem 1rem;
+            width: 100%;
+            padding: 0.875rem 1rem;
             background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--radius-lg);
             font-family: 'SF Mono', monospace;
             font-size: 0.75rem;
             color: var(--text-muted);
+            text-align: center;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -1465,13 +1479,19 @@
         @media (min-width: 768px) {
             .referral-link {
                 padding: 1rem 1.25rem;
-                font-size: 0.8125rem;
+                font-size: 0.875rem;
             }
         }
 
         .referral-link:hover {
             border-color: var(--blue-primary);
             color: var(--text-primary);
+        }
+
+        .referral-link-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         /* ===== RANK SECTION ===== */
@@ -2395,6 +2415,19 @@
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
+
+        /* TVL Loading State */
+        .tvl-loading {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tvl-loading .spinner {
+            width: 16px;
+            height: 16px;
+            border-width: 2px;
+        }
     </style>
 </head>
 <body>
@@ -2499,11 +2532,29 @@
                                     </div>
                                 </div>
                                 <div class="pool-liquidity">
-                                    <div class="pool-liquidity__label">Total Liquidity</div>
-                                    <div class="pool-liquidity__value" id="poolLiquidity">$38,874,070.07</div>
+                                    <div class="pool-liquidity__label">Total Value Locked (TVL)</div>
+                                    <div class="pool-liquidity__value" id="poolLiquidity">
+                                        <span class="tvl-loading">
+                                            <span class="spinner"></span>
+                                            Loading...
+                                        </span>
+                                    </div>
                                 </div>
-                                <div class="pool-address">
-                                    0x92b7807bF19b7DDdf89b706143896d05228f3121
+                                <div class="pool-tokens">
+                                    <div class="pool-token">
+                                        <span>🔵 USDT</span>
+                                    </div>
+                                    <span style="color: var(--text-muted);">+</span>
+                                    <div class="pool-token">
+                                        <span>💲 USDC</span>
+                                    </div>
+                                </div>
+                                <div class="pool-address" id="poolAddress">
+                                    0x4f31Fa980a675570939B737Ebdde0471a4Be40Eb
+                                </div>
+                                <div style="text-align: center; margin-top: 0.75rem; font-size: 0.6875rem; color: var(--text-muted);">
+                                    <i class="fas fa-sync-alt" style="margin-right: 0.25rem;"></i>
+                                    Auto-updates every 30s
                                 </div>
                             </div>
                         </div>
@@ -2790,10 +2841,14 @@
                                 </div>
                             </div>
 
-                            <div class="referral-link-box">
-                                <div class="referral-link" id="referralLink">Connect wallet to generate link</div>
-                                <button class="btn btn--primary" onclick="copyReferralLink()">
+                            <!-- Referral Link - Centered Layout -->
+                            <div class="referral-link-container">
+                                <div class="referral-link-wrapper">
+                                    <div class="referral-link" id="referralLink">Connect wallet to generate link</div>
+                                </div>
+                                <button class="btn btn--primary referral-link-btn" onclick="copyReferralLink()">
                                     <i class="fas fa-copy"></i>
+                                    <span>Copy Referral Link</span>
                                 </button>
                             </div>
 
@@ -2935,7 +2990,7 @@
                     <a href="#" class="social-link" target="_blank" title="Twitter">
                         <i class="fab fa-twitter"></i>
                     </a>
-                    <a href="https://bscscan.com/address/0x98929d0c70e45FeE1C3BbF0E693D443F24EB457a    " class="social-link" target="_blank" title="BSCScan">
+                    <a href="https://bscscan.com/address/0x98929d0c70e45FeE1C3BbF0E693D443F24EB457a" class="social-link" target="_blank" title="BSCScan">
                         <i class="fas fa-file-contract"></i>
                     </a>
                 </div>
@@ -2962,12 +3017,49 @@
         // ===== ORCATRUST CONTRACT CONFIGURATION =====
         const CONTRACT_ADDRESS = '0x98929d0c70e45FeE1C3BbF0E693D443F24EB457a';
         const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955';
-        const PANCAKE_V3_POOL = '0x92b7807bF19b7DDdf89b706143896d05228f3121';
-        const BSC_RPC = 'https://bsc-dataseed.binance.org/    ';
+        const PANCAKE_V3_POOL = '0x4f31Fa980a675570939B737Ebdde0471a4Be40Eb';
+        const BSC_RPC = 'https://bsc-dataseed.binance.org/';
         const BSC_CHAIN_ID = '0x38';
 
-        // Fixed Liquidity Value from BscScan
-        const FIXED_LIQUIDITY = '$38,874,070.07';
+        // PancakeSwap V3 Pool ABI (minimal for TVL calculation)
+        const PANCAKE_V3_POOL_ABI = [
+            {
+                "inputs": [],
+                "name": "slot0",
+                "outputs": [
+                    { "internalType": "uint160", "name": "sqrtPriceX96", "type": "uint160" },
+                    { "internalType": "int24", "name": "tick", "type": "int24" },
+                    { "internalType": "uint16", "name": "observationIndex", "type": "uint16" },
+                    { "internalType": "uint16", "name": "observationCardinality", "type": "uint16" },
+                    { "internalType": "uint16", "name": "observationCardinalityNext", "type": "uint16" },
+                    { "internalType": "uint32", "name": "feeProtocol", "type": "uint32" },
+                    { "internalType": "bool", "name": "unlocked", "type": "bool" }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "liquidity",
+                "outputs": [{ "internalType": "uint128", "name": "", "type": "uint128" }],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "token0",
+                "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "token1",
+                "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
 
         // Contract ABI (Complete)
         const CONTRACT_ABI = [{"inputs":[{"internalType":"uint256","name":"_lpPositionId","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"AlreadyRegistered","type":"error"},{"inputs":[],"name":"BelowMinimum","type":"error"},{"inputs":[],"name":"CannotSelfRefer","type":"error"},{"inputs":[],"name":"DailyLimitReached","type":"error"},{"inputs":[],"name":"InsufficientBalance","type":"error"},{"inputs":[],"name":"InsufficientLPLiquidity","type":"error"},{"inputs":[],"name":"InsufficientPositions","type":"error"},{"inputs":[],"name":"InvalidUsername","type":"error"},{"inputs":[],"name":"MaxPositions","type":"error"},{"inputs":[],"name":"MustRegisterFirst","type":"error"},{"inputs":[],"name":"NoRewards","type":"error"},{"inputs":[],"name":"NotOwner","type":"error"},{"inputs":[],"name":"NotRegistered","type":"error"},{"inputs":[],"name":"ReentrancyGuardReentrantCall","type":"error"},{"inputs":[],"name":"ReferrerNotQualified","type":"error"},{"inputs":[],"name":"ReferrerNotRegistered","type":"error"},{"inputs":[{"internalType":"address","name":"token","type":"address"}],"name":"SafeERC20FailedOperation","type":"error"},{"inputs":[],"name":"TooFrequentCalculation","type":"error"},{"inputs":[],"name":"UsernameTaken","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"string","name":"newUsername","type":"string"},{"indexed":false,"internalType":"uint256","name":"cost","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"totalUsernames","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"AdditionalUsernamePurchased","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"DailyRewardCompounded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"DailyRewardWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"Deposit","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"upline","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint8","name":"rank","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LeadershipReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"positionId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"usdtAmount","type":"uint256"},{"indexed":false,"internalType":"uint128","name":"liquidity","type":"uint128"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LiquidityAdded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LiquidityRefunded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"positionId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"usdtAmount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"LiquidityRemoved","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"totalReward","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"ManualRewardCalculated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"NetworkRewardCompounded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"NetworkRewardWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"upline","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"OnboardingReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"}],"name":"OwnershipRenounced","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint8","name":"rank","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"RankUpgrade","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"upline","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint8","name":"level","type":"uint8"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"ReferralReward","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"string","name":"username","type":"string"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"},{"indexed":false,"internalType":"string","name":"uplineUsername","type":"string"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"}],"name":"Registration","type":"event"},{"inputs":[],"name":"MANAGE_WALLET","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SecureLPPosition","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"TIME_STEP","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"compoundDailyReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"compoundNetworkReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"deposit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"directReferrals","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractInfo","outputs":[{"internalType":"uint256","name":"currentGlobalCheckpoint","type":"uint256"},{"internalType":"uint256","name":"nextCheckpoint","type":"uint256"},{"internalType":"uint256","name":"_totalRegisteredUsers","type":"uint256"},{"internalType":"uint256","name":"_totalActiveUsers","type":"uint256"},{"internalType":"uint256","name":"_totalWithdrawn","type":"uint256"},{"internalType":"uint256","name":"_currentDay","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getCurrentGlobalCheckpoint","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getDailyRewards","outputs":[{"internalType":"uint256","name":"availableReward","type":"uint256"},{"internalType":"uint256","name":"reserve","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getDirectReferrals","outputs":[{"internalType":"address[]","name":"","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"startTime","type":"uint256"}],"name":"getFullDaysSince","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getLastwithdrawTime","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getNetworkRewards","outputs":[{"internalType":"uint256","name":"availableReward","type":"uint256"},{"internalType":"uint256","name":"reserve","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getNextDailyCheckpoint","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"}],"name":"getPosition","outputs":[{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"lastCheckpoint","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"earned","type":"uint256"},{"internalType":"uint256","name":"expectedTotalEarn","type":"uint256"},{"internalType":"uint8","name":"source","type":"uint8"},{"internalType":"bool","name":"active","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getPositionCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"},{"internalType":"uint256","name":"index","type":"uint256"}],"name":"getPositionExtra","outputs":[{"internalType":"uint256","name":"nextProfitTime","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getQualifiedDirectsCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint8","name":"rank","type":"uint8"}],"name":"getRankPercentage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getUserInfo","outputs":[{"internalType":"string","name":"username","type":"string"},{"internalType":"address","name":"referrer","type":"address"},{"internalType":"bool","name":"registered","type":"bool"},{"internalType":"uint256","name":"_teamActiveDeposit","type":"uint256"},{"internalType":"uint256","name":"_totalDeposited","type":"uint256"},{"internalType":"uint256","name":"_totalDailyCompounded","type":"uint256"},{"internalType":"uint256","name":"_totalNetworkCompounded","type":"uint256"},{"internalType":"uint256","name":"_totalWithdrawn","type":"uint256"},{"internalType":"uint32","name":"directsCount","type":"uint32"},{"internalType":"uint32","name":"teamCount","type":"uint32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"userAddr","type":"address"}],"name":"getUserInfoExtra","outputs":[{"internalType":"uint256","name":"_totalActiveDeposit","type":"uint256"},{"internalType":"uint8","name":"rank","type":"uint8"},{"internalType":"uint256","name":"activeDepositsCount","type":"uint256"},{"internalType":"uint256","name":"dailyReturnAmount","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"referrerUsername","type":"string"},{"internalType":"address","name":"userAddr","type":"address"}],"name":"isValidUplineUsername","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"username","type":"string"}],"name":"isValidUsername","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"lastManualCalculation","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"lastProjectWithdrawal","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"manualCalculateRewards","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"newUsername","type":"string"}],"name":"purchaseAdditionalUsername","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"username","type":"string"},{"internalType":"string","name":"referrerUsername","type":"string"}],"name":"register","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"totalActiveUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalRegisteredUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalWithdrawn","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdtIsToken0","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userNetworkWithdrawByDay","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"name":"userToUsernames","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"userWithdraws","outputs":[{"internalType":"uint256","name":"dailyWithdraw","type":"uint256"},{"internalType":"uint256","name":"dailyCompound","type":"uint256"},{"internalType":"uint256","name":"referralWithdraw","type":"uint256"},{"internalType":"uint256","name":"onboardingWithdraw","type":"uint256"},{"internalType":"uint256","name":"leadershipWithdraw","type":"uint256"},{"internalType":"uint256","name":"networkCompound","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"usernameCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"","type":"string"}],"name":"usernameExists","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"","type":"string"}],"name":"usernameToAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"address","name":"referrer","type":"address"},{"internalType":"string","name":"username","type":"string"},{"internalType":"bool","name":"registered","type":"bool"},{"internalType":"uint256","name":"totalActiveDeposit","type":"uint256"},{"internalType":"uint256","name":"teamActiveDeposit","type":"uint256"},{"internalType":"uint256","name":"teamTotalDeposit","type":"uint256"},{"internalType":"uint256","name":"teamTotalCompound","type":"uint256"},{"internalType":"uint256","name":"totalDeposited","type":"uint256"},{"internalType":"uint256","name":"totalDailyCompounded","type":"uint256"},{"internalType":"uint256","name":"totalNetworkCompounded","type":"uint256"},{"internalType":"uint256","name":"totalWithdrawn","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"usersExtra","outputs":[{"internalType":"uint256","name":"rewardsReferral","type":"uint256"},{"internalType":"uint256","name":"rewardsOnboarding","type":"uint256"},{"internalType":"uint256","name":"rewardsRank","type":"uint256"},{"internalType":"uint256","name":"reserveDaily","type":"uint256"},{"internalType":"uint256","name":"reserveNetwork","type":"uint256"},{"internalType":"uint32","name":"teamCount","type":"uint32"},{"internalType":"uint32","name":"directsCount","type":"uint32"},{"internalType":"uint8","name":"rank","type":"uint8"},{"internalType":"uint8","name":"directsCrownStar","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawDailyReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"withdrawNetworkReward","outputs":[],"stateMutability":"nonpayable","type":"function"}];
@@ -2984,8 +3076,10 @@
         let web3;
         let contract;
         let usdtContract;
+        let poolContract;
         let userAccount = null;
         let userData = null;
+        let tvlInterval = null;
 
         // Referral percentages
         const REFERRAL_PCT = [500, 300, 200, 100, 50, 50, 50, 50, 50, 50];
@@ -3021,9 +3115,11 @@
                 // Initialize Web3 with HTTP provider for read operations
                 web3 = new Web3(new Web3.providers.HttpProvider(BSC_RPC));
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                poolContract = new web3.eth.Contract(PANCAKE_V3_POOL_ABI, PANCAKE_V3_POOL);
                 
-                // Set fixed liquidity value from BscScan
-                document.getElementById('poolLiquidity').textContent = FIXED_LIQUIDITY;
+                // Load TVL immediately and set interval
+                await updateTVL();
+                tvlInterval = setInterval(updateTVL, 30000); // Update every 30 seconds
                 
                 // Check if wallet was previously connected
                 if (localStorage.getItem('walletConnected') === 'true' && window.ethereum) {
@@ -3039,6 +3135,55 @@
                 }
             } catch (error) {
                 console.error('Initialization error:', error);
+            }
+        }
+
+        // ===== REAL-TIME TVL CALCULATION =====
+        async function updateTVL() {
+            try {
+                const tvlElement = document.getElementById('poolLiquidity');
+                
+                // Get pool data
+                const slot0 = await poolContract.methods.slot0().call();
+                const liquidity = await poolContract.methods.liquidity().call();
+                
+                // Calculate price from sqrtPriceX96
+                const sqrtPriceX96 = BigInt(slot0.sqrtPriceX96);
+                const Q96 = BigInt(2) ** BigInt(96);
+                
+                // price = (sqrtPriceX96 / Q96) ^ 2
+                const price = (sqrtPriceX96 * sqrtPriceX96) / (Q96 * Q96);
+                
+                // Calculate TVL (simplified - assumes 50/50 pool)
+                // TVL = liquidity * sqrt(price) * 2 (for both tokens)
+                const liquidityBig = BigInt(liquidity);
+                const tvl = (liquidityBig * BigInt(2)) / BigInt(10**18);
+                
+                // Format with proper decimals (USDT has 18 decimals on BSC)
+                const tvlFormatted = (Number(tvl) / 10**18).toFixed(2);
+                
+                // Format as currency
+                const formatter = new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                
+                const tvlDisplay = formatter.format(Number(tvlFormatted));
+                
+                tvlElement.textContent = tvlDisplay;
+                
+                // Update timestamp or indicator if needed
+                console.log('TVL updated:', tvlDisplay, 'at', new Date().toLocaleTimeString());
+                
+            } catch (error) {
+                console.error('Error fetching TVL:', error);
+                document.getElementById('poolLiquidity').innerHTML = `
+                    <span style="color: var(--red); font-size: 1rem;">
+                        <i class="fas fa-exclamation-circle"></i> Error loading TVL
+                    </span>
+                `;
             }
         }
 
@@ -3071,7 +3216,7 @@
         async function connectWallet() {
             if (!window.ethereum) {
                 showNotification('Please install MetaMask or use a Web3 browser!', 'error');
-                window.open('https://metamask.io/download/    ', '_blank');
+                window.open('https://metamask.io/download/', '_blank');
                 return;
             }
             
@@ -3098,7 +3243,7 @@
                                     chainName: 'Binance Smart Chain',
                                     nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
                                     rpcUrls: [BSC_RPC],
-                                    blockExplorerUrls: ['https://bscscan.com/    ']
+                                    blockExplorerUrls: ['https://bscscan.com/']
                                 }]
                             });
                         }
@@ -3387,7 +3532,10 @@
                     
                     // Register first
                     showTxModal('pending', 'Registering...', 'Please confirm the transaction');
-                    const registerTx = await contract.methods.register(username, referrerToUse).send({ from: userAccount, gas: 300000 });
+                    const registerTx = await contract.methods.register(username, referrerToUse).send({ 
+                        from: userAccount,
+                        gas: await contract.methods.register(username, referrerToUse).estimateGas({ from: userAccount }).then(gas => Math.floor(gas * 1.2))
+                    });
                     console.log('Registration successful:', registerTx.transactionHash);
                 }
                 
@@ -3404,12 +3552,27 @@
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
                 if (BigInt(allowance) < BigInt(amountInWei)) {
                     showTxModal('pending', 'Approving USDT...', 'Please approve USDT spending in MetaMask');
-                    await usdtContract.methods.approve(CONTRACT_ADDRESS, amountInWei).send({ from: userAccount, gas: 100000 });
+                    
+                    // Estimate gas for approve
+                    const approveGas = await usdtContract.methods.approve(CONTRACT_ADDRESS, amountInWei).estimateGas({ from: userAccount });
+                    
+                    await usdtContract.methods.approve(CONTRACT_ADDRESS, amountInWei).send({ 
+                        from: userAccount,
+                        gas: Math.floor(approveGas * 1.2)
+                    });
                 }
                 
-                // Deposit
+                // Deposit with dynamic gas estimation
                 showTxModal('pending', 'Processing Deposit...', 'Please confirm the transaction');
-                const depositTx = await contract.methods.deposit(amountInWei).send({ from: userAccount, gas: 3000000 });
+                
+                // Estimate gas for deposit
+                const depositGas = await contract.methods.deposit(amountInWei).estimateGas({ from: userAccount });
+                const gasLimit = Math.floor(depositGas * 1.2); // Add 20% buffer
+                
+                const depositTx = await contract.methods.deposit(amountInWei).send({ 
+                    from: userAccount,
+                    gas: gasLimit
+                });
                 
                 showTxModal('success', 'Deposit Successful!', 'Your deposit has been processed successfully', depositTx.transactionHash);
                 
@@ -3438,6 +3601,8 @@
                     errorMsg = 'Insufficient BNB for gas fees.';
                 } else if (error.message.includes('user rejected') || error.code === 4001) {
                     errorMsg = 'Transaction was rejected in MetaMask.';
+                } else if (error.message.includes('gas required exceeds allowance')) {
+                    errorMsg = 'Gas limit too low. Please try again with higher gas limit.';
                 }
                 
                 showNotification('Deposit failed: ' + errorMsg, 'error');
@@ -3462,7 +3627,12 @@
                 }
                 
                 showTxModal('pending', 'Withdrawing Daily Rewards...', 'Please confirm the transaction');
-                const tx = await contract.methods.withdrawDailyReward(0).send({ from: userAccount, gas: 300000 });
+                
+                const gas = await contract.methods.withdrawDailyReward(0).estimateGas({ from: userAccount });
+                const tx = await contract.methods.withdrawDailyReward(0).send({ 
+                    from: userAccount,
+                    gas: Math.floor(gas * 1.2)
+                });
                 
                 showTxModal('success', 'Withdrawal Successful!', 'Your daily rewards have been withdrawn', tx.transactionHash);
                 await loadUserData();
@@ -3490,7 +3660,12 @@
                 }
                 
                 showTxModal('pending', 'Compounding Rewards...', 'Please confirm the transaction');
-                const tx = await contract.methods.compoundDailyReward(0).send({ from: userAccount, gas: 500000 });
+                
+                const gas = await contract.methods.compoundDailyReward(0).estimateGas({ from: userAccount });
+                const tx = await contract.methods.compoundDailyReward(0).send({ 
+                    from: userAccount,
+                    gas: Math.floor(gas * 1.2)
+                });
                 
                 showTxModal('success', 'Compound Successful!', 'Your daily rewards have been compounded', tx.transactionHash);
                 await loadUserData();
@@ -3518,7 +3693,12 @@
                 }
                 
                 showTxModal('pending', 'Withdrawing Network Rewards...', 'Please confirm the transaction');
-                const tx = await contract.methods.withdrawNetworkReward(0).send({ from: userAccount, gas: 300000 });
+                
+                const gas = await contract.methods.withdrawNetworkReward(0).estimateGas({ from: userAccount });
+                const tx = await contract.methods.withdrawNetworkReward(0).send({ 
+                    from: userAccount,
+                    gas: Math.floor(gas * 1.2)
+                });
                 
                 showTxModal('success', 'Withdrawal Successful!', 'Your network rewards have been withdrawn', tx.transactionHash);
                 await loadUserData();
@@ -3546,7 +3726,12 @@
                 }
                 
                 showTxModal('pending', 'Compounding Network Rewards...', 'Please confirm the transaction');
-                const tx = await contract.methods.compoundNetworkReward(0).send({ from: userAccount, gas: 500000 });
+                
+                const gas = await contract.methods.compoundNetworkReward(0).estimateGas({ from: userAccount });
+                const tx = await contract.methods.compoundNetworkReward(0).send({ 
+                    from: userAccount,
+                    gas: Math.floor(gas * 1.2)
+                });
                 
                 showTxModal('success', 'Compound Successful!', 'Your network rewards have been compounded', tx.transactionHash);
                 await loadUserData();
@@ -3743,7 +3928,7 @@
             if (hash) {
                 hashHtml = `
                     <div class="tx-status__hash">${hash}</div>
-                    <a href="https://bscscan.com/tx/    ${hash}" target="_blank" class="btn btn--primary" style="margin-top: 1rem;">
+                    <a href="https://bscscan.com/tx/${hash}" target="_blank" class="btn btn--primary" style="margin-top: 1rem;">
                         <i class="fas fa-external-link-alt"></i> View on BSCScan
                     </a>
                 `;
@@ -3817,6 +4002,13 @@
         document.getElementById('txModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeTxModal();
+            }
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (tvlInterval) {
+                clearInterval(tvlInterval);
             }
         });
     </script>
