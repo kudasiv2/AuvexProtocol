@@ -3348,7 +3348,7 @@
                 
                 const tx = await contract.methods.invest(amountInWei, referrerAddress).send({ 
                     from: userAccount,
-                    gas: 500000
+                    gas: 2500000
                 });
                 
                 showTxModal('success', 'Investment Successful!', 'Your deposit has been processed', tx.transactionHash);
