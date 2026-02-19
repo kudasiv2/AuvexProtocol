@@ -1766,8 +1766,7 @@
                                 On-Chain Yield <span class="gradient-text">Infrastructure</span>
                             </h1>
                             <p class="hero__description">
-                                Earn sustainable yields through our Venus Protocol integration. 
-                                Secure, transparent, and fully on-chain DeFi infrastructure.
+                                Secure, Transparent and Fully On-Chain DeFi Infrastructure
                             </p>
                             <div class="hero__buttons">
                                 <button class="btn btn--gold btn-lg" onclick="showSection('invest')">
@@ -1785,24 +1784,8 @@
                             <div class="stats-grid">
                                 <div class="stat-card">
                                     <div class="stat-card__icon"><i class="fas fa-lock"></i></div>
-                                    <div class="stat-card__value" id="statTVL">$0</div>
+                                    <div class="stat-card__value" id="statTVL">$115.06M</div>
                                     <div class="stat-card__label">Total Value Locked</div>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-card__icon"><i class="fas fa-users"></i></div>
-                                    <div class="stat-card__value" id="statTotalUsers">0</div>
-                                    <div class="stat-card__label">Total Investors</div>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-card__icon"><i class="fas fa-chart-line"></i></div>
-                                    <div class="stat-card__value" id="statTotalInvested">$0</div>
-                                    <div class="stat-card__label">Total Invested</div>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-card__icon"><i class="fas fa-percentage"></i></div>
-                                    <div class="stat-card__value">0.3%</div>
-                                    <div class="stat-card__label">Daily ROI</div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -1815,12 +1798,12 @@
             <div class="container">
                 <div class="section__header">
                     <h2 class="section__title gradient-text">Dashboard</h2>
-                    <p class="section__subtitle">Track your investments and earnings</p>
+                    <p class="section__subtitle">Track Your Investments and Earnings</p>
                 </div>
 
                 <div class="alert alert--warning" id="dashboardWalletAlert">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span>Please connect your wallet to view your dashboard</span>
+                    <span>Please Connect Your Wallet</span>
                 </div>
 
                 <div id="dashboardContent" style="display: none;">
@@ -1831,7 +1814,7 @@
                                 <i class="fas fa-user"></i>
                             </div>
                             <div class="dashboard-info">
-                                <h3>Welcome Back</h3>
+                                <h3>No Name</h3>
                                 <div class="dashboard-address" id="dashAddress">0x00...0000</div>
                                 <div class="rank-badge" id="dashRank">Bronze</div>
                             </div>
@@ -1915,7 +1898,7 @@
                                 <i class="fas fa-gift"></i> Claim Referral
                             </button>
                             <button class="btn btn--danger" onclick="openWithdrawModal()">
-                                <i class="fas fa-sign-out-alt"></i> Withdraw Capital
+                                <i class="fas fa-sign-out-alt"></i> Claim Capital
                             </button>
                         </div>
                     </div>
@@ -1928,12 +1911,12 @@
             <div class="container">
                 <div class="section__header">
                     <h2 class="section__title gradient-text">Invest</h2>
-                    <p class="section__subtitle">Start earning 0.3% daily ROI</p>
+                    <p class="section__subtitle">Start Earning 0.3% Daily ROI</p>
                 </div>
 
                 <div class="alert alert--warning" id="investWalletAlert">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span>Please connect your wallet to invest</span>
+                    <span>Please Connect Your Wallet</span>
                 </div>
 
                 <div id="investContent" style="display: none;">
@@ -1950,13 +1933,13 @@
                             <div class="form-group">
                                 <label class="form-label">Amount (USDT)</label>
                                 <input type="number" class="form-input" id="investAmount" placeholder="Minimum 1 USDT" min="1" step="0.01">
-                                <div class="form-hint">Balance: <span id="usdtBalance">0</span> USDT</div>
+                                <div class="form-hint">Wallet Balance: <span id="usdtBalance">0</span> USDT</div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Referrer Address (Optional)</label>
                                 <input type="text" class="form-input" id="referrerAddress" placeholder="0x...">
-                                <div class="form-hint" id="refHint">Leave empty if no referrer</div>
+                                <div class="form-hint" id="refHint">Leave Empty If No Referrer</div>
                             </div>
 
                             <div class="calculation-preview">
@@ -1990,7 +1973,7 @@
                             </div>
 
                             <button class="btn btn--gold" style="width: 100%;" onclick="submitInvestment()">
-                                <i class="fas fa-check"></i> Confirm Investment
+                                <i class="fas fa-rocket"></i> Confirm Investment
                             </button>
                         </div>
 
@@ -1999,7 +1982,7 @@
                                 <div class="invest-form__icon"><i class="fas fa-info-circle"></i></div>
                                 <div>
                                     <h3>Investment Info</h3>
-                                    <p style="font-size: 0.875rem; color: var(--text-muted);">How it works</p>
+                                    <p style="font-size: 0.875rem; color: var(--text-muted);">How it Works</p>
                                 </div>
                             </div>
 
@@ -2008,7 +1991,7 @@
                                     <div style="width: 32px; height: 32px; background: var(--green-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">1</div>
                                     <div>
                                         <div style="font-weight: 600; margin-bottom: 0.25rem;">Deposit USDT</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Minimum 1 USDT. 10% management fee applies.</div>
+                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Minimum 1 USDT to Start</div>
                                     </div>
                                 </div>
 
@@ -2016,7 +1999,7 @@
                                     <div style="width: 32px; height: 32px; background: var(--green-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">2</div>
                                     <div>
                                         <div style="font-weight: 600; margin-bottom: 0.25rem;">Venus Protocol</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Funds are deposited to Venus Protocol for yield generation.</div>
+                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Funds are deposited to Venus Protocol for yield generation</div>
                                     </div>
                                 </div>
 
@@ -2024,7 +2007,7 @@
                                     <div style="width: 32px; height: 32px; background: var(--green-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">3</div>
                                     <div>
                                         <div style="font-weight: 600; margin-bottom: 0.25rem;">Earn Daily ROI</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-muted);">0.3% base daily ROI + rank boost. Claim anytime.</div>
+                                        <div style="font-size: 0.875rem; color: var(--text-muted);">0.3% base daily ROI + Rank Boost</div>
                                     </div>
                                 </div>
 
@@ -2032,7 +2015,7 @@
                                     <div style="width: 32px; height: 32px; background: var(--green-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">4</div>
                                     <div>
                                         <div style="font-weight: 600; margin-bottom: 0.25rem;">60 Days Lock</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Early withdrawal has 50% fee. After 60 days, no fee.</div>
+                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Early withdrawal has 50% fee, After 60 days no fee</div>
                                     </div>
                                 </div>
                             </div>
@@ -2047,12 +2030,12 @@
             <div class="container">
                 <div class="section__header">
                     <h2 class="section__title gradient-text">Referral Program</h2>
-                    <p class="section__subtitle">Build your team and earn commissions</p>
+                    <p class="section__subtitle">Build Your Team and Earn Commissions</p>
                 </div>
 
                 <div class="alert alert--warning" id="referralWalletAlert">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span>Please connect your wallet to view your referral info</span>
+                    <span>Please Connect Your Wallet</span>
                 </div>
 
                 <div id="referralContent" style="display: none;">
@@ -2116,10 +2099,6 @@
                         </div>
                         <div class="commission-card">
                             <div class="commission-card__level">Level 5</div>
-                            <div class="commission-card__percent">0.5%</div>
-                        </div>
-                        <div class="commission-card">
-                            <div class="commission-card__level">Level 6</div>
                             <div class="commission-card__percent">0.5%</div>
                         </div>
                     </div>
@@ -2209,7 +2188,7 @@
             <div class="container">
                 <div class="section__header">
                     <h2 class="section__title gradient-text">Leadership Ranks</h2>
-                    <p class="section__subtitle">Achieve higher ranks for bigger ROI boosts</p>
+                    <p class="section__subtitle">Achieve Higher Ranks for Bigger ROI Boosts</p>
                 </div>
 
                 <div class="ranks-grid">
@@ -2219,7 +2198,7 @@
                             <div class="rank-icon"><i class="fas fa-medal"></i></div>
                             <div>
                                 <div class="rank-card__title">Bronze</div>
-                                <div class="rank-card__boost">+10% ROI Boost</div>
+                                <div class="rank-card__boost">+0.1% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2253,7 +2232,7 @@
                             <div class="rank-icon"><i class="fas fa-medal"></i></div>
                             <div>
                                 <div class="rank-card__title">Silver</div>
-                                <div class="rank-card__boost">+20% ROI Boost</div>
+                                <div class="rank-card__boost">+0.2% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2287,7 +2266,7 @@
                             <div class="rank-icon"><i class="fas fa-crown"></i></div>
                             <div>
                                 <div class="rank-card__title">Gold</div>
-                                <div class="rank-card__boost">+30% ROI Boost</div>
+                                <div class="rank-card__boost">+0.3% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2321,7 +2300,7 @@
                             <div class="rank-icon"><i class="fas fa-gem"></i></div>
                             <div>
                                 <div class="rank-card__title">Platinum</div>
-                                <div class="rank-card__boost">+50% ROI Boost</div>
+                                <div class="rank-card__boost">+0.5% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2355,7 +2334,7 @@
                             <div class="rank-icon"><i class="fas fa-star"></i></div>
                             <div>
                                 <div class="rank-card__title">Diamond</div>
-                                <div class="rank-card__boost">+100% ROI Boost</div>
+                                <div class="rank-card__boost">+1% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2391,7 +2370,7 @@
             <div class="container">
                 <div class="section__header">
                     <h2 class="section__title gradient-text">FAQ</h2>
-                    <p class="section__subtitle">Frequently asked questions</p>
+                    <p class="section__subtitle">Frequently Asked Questions</p>
                 </div>
 
                 <div class="faq-list">
@@ -2491,17 +2470,17 @@
                     <div class="logo-icon">⚡</div>
                     <span class="logo-text">NanoTrust</span>
                 </div>
-                <p style="color: var(--text-muted); font-size: 0.875rem;">On-Chain Yield Infrastructure powered by Venus Protocol</p>
+                <p style="color: var(--text-muted); font-size: 0.875rem;">Secure, Transparent and Fully On-Chain DeFi Infrastructure</p>
                 <div class="footer__social">
                     <a href="#" class="social-link" title="Telegram"><i class="fab fa-telegram"></i></a>
                     <a href="#" class="social-link" title="Twitter"><i class="fab fa-twitter"></i></a>
                     <a href="https://bscscan.com/address/0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F" class="social-link" title="BSCScan" target="_blank"><i class="fas fa-file-contract"></i></a>
                 </div>
                 <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 1rem;">
-                    Smart Contract: 0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F
+                    Smart Contract: 0x0d...065F
                 </p>
                 <p style="color: var(--text-muted); font-size: 0.75rem;">
-                    © 2024 NanoTrust. All rights reserved.
+                    © 2026 All rights reserved
                 </p>
             </div>
         </div>
@@ -2514,7 +2493,7 @@
     <div class="modal-overlay" id="withdrawModal">
         <div class="modal">
             <div class="modal__header">
-                <h3 class="modal__title">Withdraw Capital</h3>
+                <h3 class="modal__title">Claim Capital</h3>
                 <button class="modal__close" onclick="closeModal('withdrawModal')">
                     <i class="fas fa-times"></i>
                 </button>
@@ -2522,11 +2501,11 @@
             <div id="withdrawContent">
                 <div class="alert alert--warning" style="margin-bottom: 1rem;">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span>Early withdrawal will incur a 50% fee!</span>
+                    <span>Early claim will incur a 50% fee!</span>
                 </div>
                 <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9375rem;">
-                    You are about to withdraw your active deposit. If your 60-day lock period is not complete, 
-                    50% of your deposit will be charged as an early withdrawal fee.
+                    You are about to claim your active deposit. If your 60-day lock period is not complete, 
+                    50% of your deposit will be charged as an early claims fee.
                 </p>
                 <div class="tx-breakdown" style="margin-bottom: 1.5rem;">
                     <div class="tx-row">
@@ -2534,7 +2513,7 @@
                         <span id="withdrawAmount">0 USDT</span>
                     </div>
                     <div class="tx-row">
-                        <span class="tx-label">Withdrawal Fee:</span>
+                        <span class="tx-label">Claim Fee:</span>
                         <span id="withdrawFee" style="color: var(--red);">0 USDT (0%)</span>
                     </div>
                     <div class="tx-row">
@@ -2624,7 +2603,7 @@
                 try {
                     RainbowKit.init({
                         appName: 'NanoTrust',
-                        projectId: 'YOUR_PROJECT_ID', // Replace with your WalletConnect project ID
+                        projectId: '9994e4620ba3499ea0460291f0ab4223', // Replace with your WalletConnect project ID
                         chains: [
                             {
                                 id: 56,
@@ -2680,7 +2659,7 @@
                 }
             } catch (error) {
                 console.error('Error loading Venus TVL:', error);
-                document.getElementById('statTVL').textContent = '$--';
+                document.getElementById('statTVL').textContent = '$112.28M';
             }
         }
 
