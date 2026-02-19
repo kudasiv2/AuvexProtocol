@@ -16,6 +16,8 @@
     
     <!-- Web3 -->
     <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+    <!-- Axios for API calls -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <style>
         /* ===== CSS VARIABLES ===== */
@@ -602,22 +604,16 @@
         /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr;
             gap: 1rem;
             margin-bottom: 2rem;
-        }
-
-        @media (min-width: 640px) {
-            .stats-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
         }
 
         .stat-card {
             background: var(--gradient-card);
             border: var(--glass-border);
             border-radius: var(--radius-xl);
-            padding: 1.25rem;
+            padding: 1.5rem;
             text-align: center;
             transition: all var(--transition-base);
         }
@@ -629,28 +625,29 @@
         }
 
         .stat-card__icon {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             background: rgba(124, 179, 66, 0.15);
             border-radius: var(--radius-lg);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 0.75rem;
+            margin: 0 auto 1rem;
             color: var(--green-accent);
-            font-size: 1.25rem;
+            font-size: 1.5rem;
         }
 
         .stat-card__value {
             font-family: var(--font-display);
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 700;
             color: var(--gold);
             margin-bottom: 0.25rem;
+            line-height: 1.2;
         }
 
         .stat-card__label {
-            font-size: 0.8125rem;
+            font-size: 0.9375rem;
             color: var(--text-muted);
         }
 
@@ -949,6 +946,12 @@
             outline: none;
             border-color: var(--green-accent);
             box-shadow: 0 0 0 3px rgba(124, 179, 66, 0.1);
+        }
+
+        .form-input:read-only {
+            background: rgba(0, 0, 0, 0.6);
+            cursor: not-allowed;
+            opacity: 0.8;
         }
 
         .form-input::placeholder {
@@ -1877,21 +1880,6 @@
                                     <div class="stat-card__value" id="statTVL">$0.00</div>
                                     <div class="stat-card__label">Total Value Locked</div>
                                 </div>
-                                <div class="stat-card">
-                                    <div class="stat-card__icon"><i class="fas fa-users"></i></div>
-                                    <div class="stat-card__value" id="statTotalUsers">0</div>
-                                    <div class="stat-card__label">Total Users</div>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-card__icon"><i class="fas fa-chart-line"></i></div>
-                                    <div class="stat-card__value" id="statTotalInvested">$0.00</div>
-                                    <div class="stat-card__label">Total Invested</div>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-card__icon"><i class="fas fa-coins"></i></div>
-                                    <div class="stat-card__value" id="statPoolAge">0 Days</div>
-                                    <div class="stat-card__label">Pool Age</div>
-                                </div>
                             </div>
 
                             <div class="info-card">
@@ -1992,6 +1980,10 @@
                                 <div class="investment-stat__value" id="invBoost">0%</div>
                                 <div class="investment-stat__label">Rank ROI Boost</div>
                             </div>
+                            <div class="investment-stat">
+                                <div class="investment-stat__value" id="invTotalEarned">0 USDT</div>
+                                <div class="investment-stat__label">Total Referral Earned</div>
+                            </div>
                         </div>
 
                         <div style="margin-bottom: 1rem;">
@@ -2043,10 +2035,6 @@
                                 <div class="dashboard-card__value" id="dashTeamVolume" style="font-size: 1.125rem;">0 USDT</div>
                                 <div class="dashboard-card__label">Team Volume</div>
                             </div>
-                            <div class="dashboard-card" style="background: transparent; border: none; padding: 0.75rem;">
-                                <div class="dashboard-card__value" id="dashTotalEarned" style="font-size: 1.125rem;">0 USDT</div>
-                                <div class="dashboard-card__label">Total Referral Earned</div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -2084,14 +2072,14 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Referrer Address (Optional)</label>
-                                <input type="text" class="form-input" id="referrerAddress" placeholder="0x...">
-                                <div class="form-hint" id="refHint">Leave empty if no referrer</div>
+                                <label class="form-label">Referrer Address</label>
+                                <input type="text" class="form-input" id="referrerAddress" readonly>
+                                <div class="form-hint" id="refHint"></div>
                             </div>
 
                             <div class="calculation-preview">
                                 <div class="calc-row">
-                                    <span class="calc-label">Net Deposit (after fee):</span>
+                                    <span class="calc-label">Net Deposit:</span>
                                     <span class="calc-value" id="calcNet">0.00 USDT</span>
                                 </div>
                                 <div class="calc-row">
@@ -2101,21 +2089,6 @@
                                 <div class="calc-row">
                                     <span class="calc-label">60 Days Projection:</span>
                                     <span class="calc-value highlight" id="calc60Days">0.00 USDT</span>
-                                </div>
-                            </div>
-
-                            <div class="tx-breakdown">
-                                <div class="tx-row">
-                                    <span class="tx-label">You Pay:</span>
-                                    <span id="txTotal">0.00 USDT</span>
-                                </div>
-                                <div class="tx-row">
-                                    <span class="tx-label">Fee (10%):</span>
-                                    <span id="txFee">0.00 USDT</span>
-                                </div>
-                                <div class="tx-row">
-                                    <span class="tx-label">Net Deposit:</span>
-                                    <span id="txNet">0.00 USDT</span>
                                 </div>
                             </div>
 
@@ -2768,6 +2741,10 @@
         const VENUS_USDT_ADDRESS = '0xfD5840Cd36d94D7229439859C0112a4185BC0255'; // Venus USDT Market
         const BSC_RPC = 'https://bsc-dataseed.binance.org/';
         const BSC_CHAIN_ID = '0x38';
+        
+        // BSCScan API untuk mengambil data Venus
+        const BSCSCAN_API_KEY = 'YourBSCScanAPIKey'; // Ganti dengan API key Anda
+        const VENUS_CONTRACT_ADDRESS = '0xfD5840Cd36d94D7229439859C0112a4185BC0255';
 
         // ===== CONTRACT ABI =====
         const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_usdt","type":"address"},{"internalType":"address","name":"_venusUSDT","type":"address"},{"internalType":"address","name":"_manageWallet","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"ReentrancyGuardReentrantCall","type":"error"},{"inputs":[{"internalType":"address","name":"token","type":"address"}],"name":"SafeERC20FailedOperation","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"}],"name":"Deposited","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"newRank","type":"uint256"}],"name":"RankUpgraded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint256","name":"level","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"ReferralPaid","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":true,"internalType":"address","name":"wallet","type":"address"}],"name":"SecureLpVenusExecuted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"VaultDeposited","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"fee","type":"uint256"}],"name":"WithdrawnCapital","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"WithdrawnROI","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"WithdrawnReferralBonuses","type":"event"},{"inputs":[],"name":"BASE_DAILY_ROI","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"DIRECT_QUALIFIED_MIN","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"FEE_EARLY_WITHDRAW","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"FEE_MANAGE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"LOCK_PERIOD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_INVEST","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_WITHDRAW","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractStats","outputs":[{"internalType":"uint256","name":"invested","type":"uint256"},{"internalType":"uint256","name":"usersCount","type":"uint256"},{"internalType":"uint256","name":"fees","type":"uint256"},{"internalType":"uint256","name":"poolAge","type":"uint256"},{"internalType":"uint256","name":"balance","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"},{"internalType":"uint256","name":"_index","type":"uint256"}],"name":"getDownlineInfo","outputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getDownlineLength","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getQualifiedStatus","outputs":[{"internalType":"bool[5]","name":"","type":"bool[5]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_rank","type":"uint256"}],"name":"getRankInfo","outputs":[{"internalType":"string","name":"name","type":"string"},{"internalType":"uint256","name":"volume","type":"uint256"},{"internalType":"uint256","name":"directs","type":"uint256"},{"internalType":"uint256","name":"personal","type":"uint256"},{"internalType":"uint256","name":"boost","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserNetwork","outputs":[{"internalType":"uint256","name":"directs","type":"uint256"},{"internalType":"uint256","name":"qualified","type":"uint256"},{"internalType":"uint256","name":"volume","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserSummary","outputs":[{"internalType":"uint256","name":"activeDeposit","type":"uint256"},{"internalType":"uint256","name":"pendingROI","type":"uint256"},{"internalType":"uint256","name":"pendingBonuses","type":"uint256"},{"internalType":"uint256","name":"rank","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserTime","outputs":[{"internalType":"uint256","name":"depositTime","type":"uint256"},{"internalType":"uint256","name":"lastClaim","type":"uint256"},{"internalType":"uint256","name":"daysLeft","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getWithdrawFee","outputs":[{"internalType":"uint256","name":"percent","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"address","name":"_referrer","type":"address"}],"name":"invest","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"manageWallet","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"ranks","outputs":[{"internalType":"string","name":"name","type":"string"},{"internalType":"uint256","name":"requiredTeamVolume","type":"uint256"},{"internalType":"uint256","name":"requiredQualifiedDirects","type":"uint256"},{"internalType":"uint256","name":"requiredPersonalDeposit","type":"uint256"},{"internalType":"uint256","name":"roiBoost","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"secureLpVenus","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"totalFeesCollected","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalInvested","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalReferralBonusesPaid","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdt","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"userIdToAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"uint256","name":"id","type":"uint256"},{"internalType":"address","name":"referrer","type":"address"},{"internalType":"uint256","name":"activeDeposit","type":"uint256"},{"internalType":"uint256","name":"totalDeposit","type":"uint256"},{"internalType":"uint256","name":"lastClaimTime","type":"uint256"},{"internalType":"uint256","name":"pendingReferralBonuses","type":"uint256"},{"internalType":"uint256","name":"referralEarnings","type":"uint256"},{"internalType":"uint256","name":"depositTime","type":"uint256"},{"internalType":"uint256","name":"rank","type":"uint256"},{"internalType":"uint256","name":"directCount","type":"uint256"},{"internalType":"uint256","name":"qualifiedDirects","type":"uint256"},{"internalType":"uint256","name":"teamVolume","type":"uint256"},{"internalType":"bool","name":"exists","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"vault","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"venusPoolCreated","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"venusUSDT","outputs":[{"internalType":"contract IVenusProtocol","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdrawCapital","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawROI","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawReferralBonuses","outputs":[],"stateMutability":"nonpayable","type":"function"}];
@@ -2806,11 +2783,14 @@
             // Check for referral in URL
             const urlParams = new URLSearchParams(window.location.search);
             const ref = urlParams.get('ref');
-            if (ref && web3 && web3.utils && web3.utils.isAddress(ref)) {
-                document.getElementById('referrerAddress').value = ref;
-                document.getElementById('refHint').innerHTML = 'Referrer from link: <span style="color: var(--green-accent);">' + ref.substring(0, 6) + '...' + ref.substring(38) + '</span>';
+            const refInput = document.getElementById('referrerAddress');
+            
+            if (ref && ref.startsWith('0x') && ref.length === 42) {
+                refInput.value = ref;
+                document.getElementById('refHint').innerHTML = 'Referrer from link detected';
             } else {
-                document.getElementById('referrerAddress').value = 'Not detected';
+                refInput.value = 'Not detected';
+                document.getElementById('refHint').innerHTML = 'No referrer detected';
             }
         });
 
@@ -2824,8 +2804,8 @@
                 
                 isInitialized = true;
                 
-                // Load global stats
-                await loadGlobalStats();
+                // Load Venus TVL
+                await loadVenusTVL();
                 
                 // Check if wallet was previously connected
                 if (localStorage.getItem('walletConnected') === 'true' && window.ethereum) {
@@ -2842,6 +2822,26 @@
             } catch (error) {
                 console.error('Initialization error:', error);
                 showNotification('Failed to initialize app. Please refresh.', 'error');
+            }
+        }
+
+        async function loadVenusTVL() {
+            try {
+                // Menggunakan API BSCScan untuk mendapatkan total supply vToken
+                // Atau menggunakan RPC call ke contract Venus
+                const venusTVL = await venusContract.methods.balanceOfUnderlying(VENUS_USDT_ADDRESS).call();
+                const tvlValue = parseFloat(web3.utils.fromWei(venusTVL, 'ether'));
+                document.getElementById('statTVL').textContent = '$' + formatNumber(tvlValue);
+            } catch (error) {
+                console.error('Error loading Venus TVL:', error);
+                // Fallback: tampilkan data dari contract NanoTrust jika gagal
+                try {
+                    const stats = await contract.methods.getContractStats().call();
+                    const contractBalance = parseFloat(web3.utils.fromWei(stats[4], 'ether'));
+                    document.getElementById('statTVL').textContent = '$' + formatNumber(contractBalance);
+                } catch (e) {
+                    document.getElementById('statTVL').textContent = '$0.00';
+                }
             }
         }
 
@@ -2958,44 +2958,6 @@
         }
 
         // ===== DATA LOADING =====
-        async function loadGlobalStats() {
-            if (!isInitialized) return;
-            
-            try {
-                const stats = await contract.methods.getContractStats().call();
-                contractStats = stats;
-                
-                // Get Venus balance for accurate TVL
-                let venusBalance = 0;
-                try {
-                    venusBalance = await venusContract.methods.balanceOfUnderlying(CONTRACT_ADDRESS).call();
-                } catch (e) {
-                    console.log('Could not fetch Venus balance');
-                }
-                
-                const contractBalance = parseFloat(web3.utils.fromWei(stats[4], 'ether'));
-                const venusBalanceNum = parseFloat(web3.utils.fromWei(venusBalance.toString(), 'ether'));
-                const totalTVL = contractBalance + venusBalanceNum;
-                
-                document.getElementById('statTVL').textContent = '$' + formatNumber(totalTVL);
-                document.getElementById('statTotalUsers').textContent = stats[1].toString();
-                
-                const totalInvestedNum = parseFloat(web3.utils.fromWei(stats[0], 'ether'));
-                document.getElementById('statTotalInvested').textContent = '$' + formatNumber(totalInvestedNum);
-                
-                const poolAgeDays = Math.floor(parseInt(stats[3]) / (24 * 60 * 60));
-                document.getElementById('statPoolAge').textContent = poolAgeDays + ' Days';
-                
-            } catch (error) {
-                console.error('Error loading stats:', error);
-                // Set default values on error
-                document.getElementById('statTVL').textContent = '$0.00';
-                document.getElementById('statTotalUsers').textContent = '0';
-                document.getElementById('statTotalInvested').textContent = '$0.00';
-                document.getElementById('statPoolAge').textContent = '0 Days';
-            }
-        }
-
         async function loadUserData() {
             if (!userAccount || !contract) return;
             
@@ -3070,6 +3032,7 @@
             document.getElementById('invActive').textContent = '0 USDT';
             document.getElementById('invAvailable').textContent = '0 USDT';
             document.getElementById('invBoost').textContent = '0%';
+            document.getElementById('invTotalEarned').textContent = '0 USDT';
             
             document.getElementById('dashLockInfo').textContent = 'No active deposit';
             document.getElementById('lockProgressText').textContent = '0%';
@@ -3080,8 +3043,6 @@
             document.getElementById('dashDirects').textContent = '0';
             document.getElementById('dashQualified').textContent = '0';
             document.getElementById('dashTeamVolume').textContent = '0 USDT';
-            document.getElementById('dashTotalEarned').textContent = '0 USDT';
-            document.getElementById('dashLastClaim').textContent = 'Never';
             
             document.getElementById('btnClaimROI').disabled = true;
             document.getElementById('btnClaimRef').disabled = true;
@@ -3118,6 +3079,7 @@
             // Boost calculation
             const boosts = [0, 10, 20, 30, 50, 100];
             document.getElementById('invBoost').textContent = '+' + (boosts[rank] || 0) + '%';
+            document.getElementById('invTotalEarned').textContent = formatUSDT(userDetails[6]) + ' USDT';
             
             // Lock info
             const daysLeftNum = parseInt(daysLeft);
@@ -3146,10 +3108,6 @@
             document.getElementById('dashDirects').textContent = directs;
             document.getElementById('dashQualified').textContent = qualified;
             document.getElementById('dashTeamVolume').textContent = formatUSDT(volume) + ' USDT';
-            document.getElementById('dashTotalEarned').textContent = formatUSDT(userDetails[6]) + ' USDT';
-            
-            const lastClaimDate = parseInt(lastClaim) > 0 ? new Date(parseInt(lastClaim) * 1000).toLocaleDateString() : 'Never';
-            document.getElementById('dashLastClaim').textContent = lastClaimDate;
             
             // Update button states
             const minWithdraw = web3.utils.toWei('1', 'ether');
@@ -3161,14 +3119,12 @@
         function updateInvestPage(summary) {
             if (!summary) {
                 window.userRankBoost = 0;
-                document.getElementById('calcBoostPercent').textContent = '0';
                 return;
             }
             
             const rank = parseInt(summary[3]);
             const boosts = [0, 10, 20, 30, 50, 100];
             window.userRankBoost = boosts[rank] || 0;
-            document.getElementById('calcBoostPercent').textContent = window.userRankBoost;
         }
 
         function updateReferralPage(network, qualifiedStatus, userDetails) {
@@ -3273,19 +3229,16 @@
             const amount = parseFloat(document.getElementById('investAmount').value) || 0;
             const boost = window.userRankBoost || 0;
             
-            const fee = amount * 0.10;
-            const net = amount - fee;
+            // Net deposit TIDAK dikurangi fee 10% (sesuai contract)
+            const net = amount;
             const baseRate = 0.003;
             const boostedRate = baseRate * (1 + boost / 100);
             const boostedDaily = net * boostedRate;
             const projection60 = boostedDaily * 60;
             
-            document.getElementById('txFee').textContent = fee.toFixed(2) + ' USDT';
-            document.getElementById('txNet').textContent = net.toFixed(2) + ' USDT';
             document.getElementById('calcNet').textContent = net.toFixed(2) + ' USDT';
             document.getElementById('calcDaily').textContent = boostedDaily.toFixed(4) + ' USDT';
             document.getElementById('calc60Days').textContent = projection60.toFixed(2) + ' USDT';
-            document.getElementById('txTotal').textContent = amount.toFixed(2) + ' USDT';
         }
 
         async function submitInvestment() {
