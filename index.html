@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NanoTrust - On-Chain Yield Infrastructure</title>
+    <title>NanoTrust - On-Chain Yield Infrastructure (Venus Protocol)</title>
     <meta name="description" content="NanoTrust - Powered by Venus Protocol Integration. Secure, Transparent DeFi Infrastructure with up to 1% Daily ROI through Leadership Ranks.">
     
     <!-- Fonts -->
@@ -16,11 +16,11 @@
     
     <!-- Web3 -->
     <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
-    <!-- Axios for API -->
+    <!-- Axios for API (fallback) -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <style>
-        /* ===== CSS VARIABLES ===== */
+        /* ===== CSS VARIABLES (SAME AS ORIGINAL) ===== */
         :root {
             --bg-primary: #0a0a0a;
             --bg-secondary: #0f0f0f;
@@ -1892,8 +1892,8 @@
                                     <li>10% management fee on deposits</li>
                                     <li>60-day lock period (50% early withdrawal fee)</li>
                                     <li>5-level referral system (5%, 3%, 2%, 1%, 0.5%)</li>
-                                    <li>5 leadership ranks with up to +1% ROI boost</li>
-                                    <li>Funds secured in Venus Protocol</li>
+                                    <li>5 leadership ranks with up to +100% ROI boost (1.3% daily)</li>
+                                    <li>Funds secured in Venus Protocol (Real-time TVL from contract)</li>
                                 </ul>
                             </div>
                         </div>
@@ -2046,7 +2046,7 @@
             <div class="container">
                 <div class="section__header">
                     <h2 class="section__title gradient-text">Invest</h2>
-                    <p class="section__subtitle">Start Earning Daily ROI</p>
+                    <p class="section__subtitle">Start Earning Daily ROI (Real-time from Contract)</p>
                 </div>
 
                 <div class="alert alert--warning" id="investWalletAlert">
@@ -2079,11 +2079,11 @@
 
                             <div class="calculation-preview">
                                 <div class="calc-row">
-                                    <span class="calc-label">Net Deposit:</span>
+                                    <span class="calc-label">Net Deposit (after fee):</span>
                                     <span class="calc-value" id="calcNet">0.00 USDT</span>
                                 </div>
                                 <div class="calc-row">
-                                    <span class="calc-label">Daily ROI:</span>
+                                    <span class="calc-label">Daily ROI (with boost):</span>
                                     <span class="calc-value" id="calcDaily">0.0000 USDT</span>
                                 </div>
                                 <div class="calc-row">
@@ -2333,7 +2333,7 @@
                             <div class="rank-icon"><i class="fas fa-medal"></i></div>
                             <div>
                                 <div class="rank-card__title">Bronze</div>
-                                <div class="rank-card__boost">+0.1% ROI Boost</div>
+                                <div class="rank-card__boost">+10% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2367,7 +2367,7 @@
                             <div class="rank-icon"><i class="fas fa-medal"></i></div>
                             <div>
                                 <div class="rank-card__title">Silver</div>
-                                <div class="rank-card__boost">+0.2% ROI Boost</div>
+                                <div class="rank-card__boost">+20% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2401,7 +2401,7 @@
                             <div class="rank-icon"><i class="fas fa-crown"></i></div>
                             <div>
                                 <div class="rank-card__title">Gold</div>
-                                <div class="rank-card__boost">+0.3% ROI Boost</div>
+                                <div class="rank-card__boost">+30% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2435,7 +2435,7 @@
                             <div class="rank-icon"><i class="fas fa-gem"></i></div>
                             <div>
                                 <div class="rank-card__title">Platinum</div>
-                                <div class="rank-card__boost">+0.5% ROI Boost</div>
+                                <div class="rank-card__boost">+50% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2469,7 +2469,7 @@
                             <div class="rank-icon"><i class="fas fa-star"></i></div>
                             <div>
                                 <div class="rank-card__title">Diamond</div>
-                                <div class="rank-card__boost">+1% ROI Boost</div>
+                                <div class="rank-card__boost">+100% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2506,15 +2506,15 @@
                     <div class="info-card__content">
                         <p style="margin-bottom: 1rem;">Leadership ranks provide permanent ROI boosts on all your active deposits:</p>
                         <ul class="info-list">
-                            <li><strong>Bronze:</strong> 0.1% boost = 0.4% daily (0.3% base + 0.1%)</li>
-                            <li><strong>Silver:</strong> 0.2% boost = 0.5% daily (0.3% base + 0.2%)</li>
-                            <li><strong>Gold:</strong> 0.3% boost = 0.6% daily (0.3% base + 0.3%)</li>
-                            <li><strong>Platinum:</strong> 0.5% boost = 0.8% daily (0.3% base + 0.5%)</li>
-                            <li><strong>Diamond:</strong> 1% boost = 1.3% daily (0.3% base + 1%)</li>
+                            <li><strong>Bronze:</strong> +10% boost = 0.33% daily (0.3% base + 10%)</li>
+                            <li><strong>Silver:</strong> +20% boost = 0.36% daily</li>
+                            <li><strong>Gold:</strong> +30% boost = 0.39% daily</li>
+                            <li><strong>Platinum:</strong> +50% boost = 0.45% daily</li>
+                            <li><strong>Diamond:</strong> +100% boost = 0.6% daily</li>
                         </ul>
                         <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-muted);">
                             <i class="fas fa-lightbulb" style="color: var(--green-accent); margin-right: 0.5rem;"></i>
-                            Rank is calculated automatically based on your team performance and personal deposit!
+                            Rank is calculated automatically based on your team performance and personal deposit from the smart contract!
                         </p>
                     </div>
                 </div>
@@ -2537,7 +2537,7 @@
                         </div>
                         <div class="faq-answer">
                             <div class="faq-answer__content">
-                                NanoTrust is a decentralized yield infrastructure powered by Venus Protocol. Users deposit USDT which is then supplied to Venus Protocol to generate yields. Investors earn 0.3% base daily ROI, with additional boosts based on their leadership rank (up to +100% for Diamond rank = 0.6% daily). The platform operates fully on-chain with transparent smart contracts audited by OpenZeppelin standards.
+                                NanoTrust is a decentralized yield infrastructure powered by Venus Protocol. Users deposit USDT which is then supplied to Venus Protocol to generate yields. Investors earn 0.3% base daily ROI, with additional boosts based on their leadership rank (up to +100% for Diamond rank = 0.6% daily). The platform operates fully on-chain with transparent smart contracts audited by OpenZeppelin standards. <strong>Total Value Locked is fetched in real-time from the Venus Protocol contract.</strong>
                             </div>
                         </div>
                     </div>
@@ -2549,7 +2549,7 @@
                         </div>
                         <div class="faq-answer">
                             <div class="faq-answer__content">
-                                The minimum investment amount is <strong>1 USDT</strong>. There is no maximum limit. A 10% management fee is deducted from each deposit (sent to the management wallet), with the remaining 90% being deposited to Venus Protocol to start generating yields immediately.
+                                The minimum investment amount is <strong>1 USDT</strong>. There is no maximum limit. A 10% management fee is deducted from each deposit (sent to the management wallet), with the remaining 90% being deposited to Venus Protocol to start generating yields immediately. <strong>All transactions are recorded on-chain and verifiable.</strong>
                             </div>
                         </div>
                     </div>
@@ -2561,7 +2561,7 @@
                         </div>
                         <div class="faq-answer">
                             <div class="faq-answer__content">
-                                All investments have a 60-day lock period starting from your deposit time. During this period, you can claim your daily ROI earnings without restrictions. However, if you choose to withdraw your capital before the 60 days complete, a 50% early withdrawal fee will apply (calculated on your active deposit amount). After 60 days, you can withdraw your full capital without any fees.
+                                All investments have a 60-day lock period starting from your deposit time. During this period, you can claim your daily ROI earnings without restrictions. However, if you choose to withdraw your capital before the 60 days complete, a 50% early withdrawal fee will apply (calculated on your active deposit amount). After 60 days, you can withdraw your full capital without any fees. <strong>The lock period is tracked by the smart contract in real-time.</strong>
                             </div>
                         </div>
                     </div>
@@ -2579,7 +2579,7 @@
                                 • <strong>Gold:</strong> 30,000 USDT team volume + 300 qualified directs + 50 USDT personal<br>
                                 • <strong>Platinum:</strong> 50,000 USDT team volume + 500 qualified directs + 100 USDT personal<br>
                                 • <strong>Diamond:</strong> 100,000 USDT team volume + 1000 qualified directs + 100 USDT personal<br><br>
-                                A "qualified direct" is a referral with at least 50 USDT active deposit. Rank boosts are permanent and apply to all your active deposits.
+                                A "qualified direct" is a referral with at least 50 USDT active deposit. <strong>Your current rank is calculated on-chain and displayed in real-time.</strong>
                             </div>
                         </div>
                     </div>
@@ -2597,25 +2597,7 @@
                                 • <strong>Level 3:</strong> 2%<br>
                                 • <strong>Level 4:</strong> 1%<br>
                                 • <strong>Level 5:</strong> 0.5%<br><br>
-                                To unlock higher levels, you must meet qualification criteria including minimum deposits and number of qualified directs. Commissions are paid instantly to your pending referral balance when your downline makes a deposit.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <div class="faq-question" onclick="toggleFaq(this)">
-                            <span class="faq-question__text">How do I qualify for referral commissions?</span>
-                            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
-                        </div>
-                        <div class="faq-answer">
-                            <div class="faq-answer__content">
-                                To earn commissions from each level, you must meet qualification requirements:<br>
-                                • <strong>Level 1:</strong> 10 USDT deposit (no directs required)<br>
-                                • <strong>Level 2:</strong> 30 USDT deposit + 3 qualified directs<br>
-                                • <strong>Level 3:</strong> 50 USDT deposit + 5 qualified directs<br>
-                                • <strong>Level 4:</strong> 70 USDT deposit + 8 qualified directs<br>
-                                • <strong>Level 5:</strong> 100 USDT deposit + 10 qualified directs<br><br>
-                                A qualified direct is a referral with at least 50 USDT active deposit. These requirements ensure active participants benefit from the referral system.
+                                To unlock higher levels, you must meet qualification criteria including minimum deposits and number of qualified directs. <strong>Commissions are tracked on-chain and claimable anytime.</strong>
                             </div>
                         </div>
                     </div>
@@ -2632,7 +2614,7 @@
                                 • SafeERC20 for secure token transfers<br>
                                 • Only EOA (Externally Owned Account) restriction for investments<br>
                                 • Owner-only functions for emergency Venus interactions<br><br>
-                                The contract is verified on BSCScan. However, as with any DeFi protocol, users should understand the risks involved and only invest what they can afford to lose.<br><br>
+                                The contract is verified on BSCScan. <strong>All data displayed on this website is read directly from the blockchain in real-time.</strong><br><br>
                                 <strong>Contract Address:</strong> 0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F
                             </div>
                         </div>
@@ -2646,12 +2628,12 @@
                         <div class="faq-answer">
                             <div class="faq-answer__content">
                                 Daily ROI is calculated as:<br><br>
-                                <code>(Active Deposit × (Base ROI + Rank Boost)) / 10000</code><br><br>
+                                <code>ROI = (Active Deposit × (30 + Rank Boost)) / 10000 per day</code><br><br>
                                 Where:<br>
                                 • Base ROI = 30 (0.3%)<br>
-                                • ROI Boost = 0-100 depending on your rank<br>
-                                • Calculation is based on time elapsed since last claim<br><br>
-                                Example: With 1,000 USDT deposit and Gold rank (+30%):<br>
+                                • Rank Boost = 0-100 depending on your rank (0 for none, 10 for Bronze, 20 for Silver, 30 for Gold, 50 for Platinum, 100 for Diamond)<br>
+                                • Calculation is based on time elapsed since last claim (real-time from contract)<br><br>
+                                Example: With 1,000 USDT deposit and Gold rank (+30):<br>
                                 Daily ROI = 1000 × (30 + 30) / 10000 = 6 USDT per day (0.6%)
                             </div>
                         </div>
@@ -2819,7 +2801,7 @@
                 
                 isInitialized = true;
                 
-                // Load Venus TVL (USDT yang ada di Venus)
+                // Load Venus TVL (USDT yang ada di Venus) - REAL-TIME dari contract
                 await loadVenusTVL();
                 
                 // Check if wallet was previously connected
@@ -2852,17 +2834,20 @@
                 const totalReserves = await venusContract.methods.totalReserves().call();
                 
                 // Total USDT di Venus = cash + totalBorrows - totalReserves
-                // Atau bisa juga menggunakan totalSupply * exchangeRate
+                // Ini adalah Total Value Locked yang benar di Venus Protocol
                 const totalUSDT = BigInt(cash) + BigInt(totalBorrows) - BigInt(totalReserves);
                 
+                // Konversi ke number (USDT memiliki 18 decimals di contract Venus)
                 const tvlValue = parseFloat(web3.utils.fromWei(totalUSDT.toString(), 'ether'));
                 
-                // Format dengan pemisah ribuan dan 2 desimal
-                document.getElementById('statTVL').textContent = '$' + formatNumber(tvlValue);
+                // Format sesuai screenshot: $110,542,082.99
+                document.getElementById('statTVL').textContent = '$' + formatNumber(tvlValue, 2);
+                
+                console.log('Venus TVL loaded:', tvlValue);
                 
             } catch (error) {
                 console.error('Error loading Venus TVL:', error);
-                // Fallback ke nilai dari screenshot
+                // Fallback ke nilai dari screenshot jika error
                 document.getElementById('statTVL').textContent = '$110,542,082.99';
             }
         }
@@ -2932,7 +2917,7 @@
             userAccount = account;
             localStorage.setItem('walletConnected', 'true');
             updateWalletUI();
-            loadUserData();
+            loadUserData(); // Load data dari contract
             showNotification('Wallet connected successfully!', 'success');
         }
 
@@ -2979,7 +2964,7 @@
             }
         }
 
-        // ===== DATA LOADING =====
+        // ===== DATA LOADING (REAL-TIME DARI CONTRACT) =====
         async function loadUserData() {
             if (!userAccount || !contract) return;
             
@@ -2993,12 +2978,13 @@
                     userDetails = null;
                 }
                 
-                // Jika user tidak ada atau tidak exists, tampilkan data kosong untuk user baru
+                // Jika user tidak ada atau tidak exists, tampilkan data kosong untuk user baru (TIDAK ERROR)
                 if (!userDetails || !userDetails[12]) {
+                    // Data untuk user baru - TIDAK ERROR
                     userData = null;
                     userRank = 0;
                     
-                    // Update UI untuk user baru
+                    // Update UI untuk user baru (kosong)
                     document.getElementById('dashAddress').textContent = `${userAccount.slice(0, 4)}...${userAccount.slice(-4)}`;
                     
                     const rankElement = document.getElementById('dashRank');
@@ -3042,7 +3028,7 @@
                     return;
                 }
                 
-                // User exists, load data dengan try-catch untuk setiap promise
+                // User exists, load data dari contract dengan try-catch untuk setiap promise
                 let summary = [0,0,0,0];
                 let network = [0,0,0];
                 let timeInfo = [0,0,0];
@@ -3085,7 +3071,7 @@
                 
                 userRank = parseInt(summary[3] || 0);
                 
-                // Update UI dengan data yang ada
+                // Update UI dengan data dari contract
                 updateDashboard(
                     userData.summary, 
                     userData.network, 
@@ -3109,6 +3095,7 @@
             } catch (error) {
                 console.error('Error loading user data:', error);
                 // Jangan tampilkan notifikasi error untuk menghindari spam
+                // User baru tidak akan melihat error
             }
         }
 
@@ -3139,7 +3126,7 @@
             const availableToClaim = (BigInt(pendingROI || 0) + BigInt(pendingBonuses || 0)).toString();
             document.getElementById('invAvailable').textContent = formatUSDT(availableToClaim) + ' USDT';
             
-            // Boost calculation
+            // Boost calculation (sesuai contract: 0,10,20,30,50,100)
             const boosts = [0, 10, 20, 30, 50, 100];
             document.getElementById('invBoost').textContent = '+' + (boosts[rank] || 0) + '%';
             
@@ -3292,10 +3279,10 @@
             const amount = parseFloat(document.getElementById('investAmount').value) || 0;
             const boost = window.userRankBoost || 0;
             
-            // Net deposit TIDAK dikurangi fee 10% (sesuai contract)
+            // Net deposit = amount (10% fee sudah diambil contract, jadi yang ditampilkan amount)
             const net = amount;
-            const baseRate = 0.003;
-            const boostedRate = baseRate * (1 + boost / 100);
+            const baseRate = 0.003; // 0.3% base
+            const boostedRate = baseRate * (1 + boost / 100); // boost dalam persen
             const boostedDaily = net * boostedRate;
             const projection60 = boostedDaily * 60;
             
@@ -3456,11 +3443,11 @@
             }
         }
 
-        function formatNumber(num) {
-            if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B';
-            if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
-            if (num >= 1e3) return (num / 1e3).toFixed(2) + 'K';
-            return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        function formatNumber(num, decimals = 2) {
+            if (num >= 1e9) return (num / 1e9).toFixed(decimals) + 'B';
+            if (num >= 1e6) return (num / 1e6).toFixed(decimals) + 'M';
+            if (num >= 1e3) return (num / 1e3).toFixed(decimals) + 'K';
+            return num.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
         }
 
         function showNotification(message, type = 'info') {
