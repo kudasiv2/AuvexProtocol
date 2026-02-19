@@ -16,8 +16,6 @@
     
     <!-- Web3 -->
     <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
-    <!-- Axios for API calls -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <style>
         /* ===== CSS VARIABLES ===== */
@@ -824,7 +822,7 @@
 
         @media (min-width: 640px) {
             .investment-stats {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -1980,10 +1978,6 @@
                                 <div class="investment-stat__value" id="invBoost">0%</div>
                                 <div class="investment-stat__label">Rank ROI Boost</div>
                             </div>
-                            <div class="investment-stat">
-                                <div class="investment-stat__value" id="invTotalEarned">0 USDT</div>
-                                <div class="investment-stat__label">Total Referral Earned</div>
-                            </div>
                         </div>
 
                         <div style="margin-bottom: 1rem;">
@@ -2034,6 +2028,10 @@
                             <div class="dashboard-card" style="background: transparent; border: none; padding: 0.75rem;">
                                 <div class="dashboard-card__value" id="dashTeamVolume" style="font-size: 1.125rem;">0 USDT</div>
                                 <div class="dashboard-card__label">Team Volume</div>
+                            </div>
+                            <div class="dashboard-card" style="background: transparent; border: none; padding: 0.75rem;">
+                                <div class="dashboard-card__value" id="dashTotalEarned" style="font-size: 1.125rem;">0 USDT</div>
+                                <div class="dashboard-card__label">Total Referral Earned</div>
                             </div>
                         </div>
                     </div>
@@ -2741,24 +2739,40 @@
         const VENUS_USDT_ADDRESS = '0xfD5840Cd36d94D7229439859C0112a4185BC0255'; // Venus USDT Market
         const BSC_RPC = 'https://bsc-dataseed.binance.org/';
         const BSC_CHAIN_ID = '0x38';
-        
-        // BSCScan API untuk mengambil data Venus
-        const BSCSCAN_API_KEY = 'YourBSCScanAPIKey'; // Ganti dengan API key Anda
-        const VENUS_CONTRACT_ADDRESS = '0xfD5840Cd36d94D7229439859C0112a4185BC0255';
 
-        // ===== CONTRACT ABI =====
+        // Venus vUSDT Contract ABI (hanya function yang diperlukan)
+        const VENUS_ABI = [
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "totalSupply",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [{"internalType": "address", "name": "_owner", "type": "address"}],
+                "name": "balanceOfUnderlying",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "exchangeRateStored",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "type": "function"
+            }
+        ];
+
+        // ===== CONTRACT ABI (NanoTrust) =====
         const CONTRACT_ABI = [{"inputs":[{"internalType":"address","name":"_usdt","type":"address"},{"internalType":"address","name":"_venusUSDT","type":"address"},{"internalType":"address","name":"_manageWallet","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"ReentrancyGuardReentrantCall","type":"error"},{"inputs":[{"internalType":"address","name":"token","type":"address"}],"name":"SafeERC20FailedOperation","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":true,"internalType":"address","name":"referrer","type":"address"}],"name":"Deposited","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"newRank","type":"uint256"}],"name":"RankUpgraded","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":true,"internalType":"address","name":"downline","type":"address"},{"indexed":false,"internalType":"uint256","name":"level","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"ReferralPaid","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":true,"internalType":"address","name":"wallet","type":"address"}],"name":"SecureLpVenusExecuted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"VaultDeposited","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"fee","type":"uint256"}],"name":"WithdrawnCapital","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"WithdrawnROI","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"WithdrawnReferralBonuses","type":"event"},{"inputs":[],"name":"BASE_DAILY_ROI","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"DIRECT_QUALIFIED_MIN","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"FEE_EARLY_WITHDRAW","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"FEE_MANAGE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"LOCK_PERIOD","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_INVEST","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MIN_WITHDRAW","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getContractStats","outputs":[{"internalType":"uint256","name":"invested","type":"uint256"},{"internalType":"uint256","name":"usersCount","type":"uint256"},{"internalType":"uint256","name":"fees","type":"uint256"},{"internalType":"uint256","name":"poolAge","type":"uint256"},{"internalType":"uint256","name":"balance","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"},{"internalType":"uint256","name":"_index","type":"uint256"}],"name":"getDownlineInfo","outputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getDownlineLength","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getQualifiedStatus","outputs":[{"internalType":"bool[5]","name":"","type":"bool[5]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_rank","type":"uint256"}],"name":"getRankInfo","outputs":[{"internalType":"string","name":"name","type":"string"},{"internalType":"uint256","name":"volume","type":"uint256"},{"internalType":"uint256","name":"directs","type":"uint256"},{"internalType":"uint256","name":"personal","type":"uint256"},{"internalType":"uint256","name":"boost","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserNetwork","outputs":[{"internalType":"uint256","name":"directs","type":"uint256"},{"internalType":"uint256","name":"qualified","type":"uint256"},{"internalType":"uint256","name":"volume","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserSummary","outputs":[{"internalType":"uint256","name":"activeDeposit","type":"uint256"},{"internalType":"uint256","name":"pendingROI","type":"uint256"},{"internalType":"uint256","name":"pendingBonuses","type":"uint256"},{"internalType":"uint256","name":"rank","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getUserTime","outputs":[{"internalType":"uint256","name":"depositTime","type":"uint256"},{"internalType":"uint256","name":"lastClaim","type":"uint256"},{"internalType":"uint256","name":"daysLeft","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_user","type":"address"}],"name":"getWithdrawFee","outputs":[{"internalType":"uint256","name":"percent","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_amount","type":"uint256"},{"internalType":"address","name":"_referrer","type":"address"}],"name":"invest","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"manageWallet","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"ranks","outputs":[{"internalType":"string","name":"name","type":"string"},{"internalType":"uint256","name":"requiredTeamVolume","type":"uint256"},{"internalType":"uint256","name":"requiredQualifiedDirects","type":"uint256"},{"internalType":"uint256","name":"requiredPersonalDeposit","type":"uint256"},{"internalType":"uint256","name":"roiBoost","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"secureLpVenus","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"totalFeesCollected","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalInvested","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalReferralBonusesPaid","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalUsers","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"usdt","outputs":[{"internalType":"contract IERC20","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"userIdToAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"users","outputs":[{"internalType":"uint256","name":"id","type":"uint256"},{"internalType":"address","name":"referrer","type":"address"},{"internalType":"uint256","name":"activeDeposit","type":"uint256"},{"internalType":"uint256","name":"totalDeposit","type":"uint256"},{"internalType":"uint256","name":"lastClaimTime","type":"uint256"},{"internalType":"uint256","name":"pendingReferralBonuses","type":"uint256"},{"internalType":"uint256","name":"referralEarnings","type":"uint256"},{"internalType":"uint256","name":"depositTime","type":"uint256"},{"internalType":"uint256","name":"rank","type":"uint256"},{"internalType":"uint256","name":"directCount","type":"uint256"},{"internalType":"uint256","name":"qualifiedDirects","type":"uint256"},{"internalType":"uint256","name":"teamVolume","type":"uint256"},{"internalType":"bool","name":"exists","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"vault","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"venusPoolCreated","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"venusUSDT","outputs":[{"internalType":"contract IVenusProtocol","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdrawCapital","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawROI","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawReferralBonuses","outputs":[],"stateMutability":"nonpayable","type":"function"}];
 
         const USDT_ABI = [
             {"constant":true,"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"type":"function"},
             {"constant":true,"inputs":[{"internalType":"address","name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"balance","type":"uint256"}],"type":"function"},
             {"constant":true,"inputs":[{"internalType":"address","name":"_owner","type":"address"},{"internalType":"address","name":"_spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"type":"function"},
-            {"constant":false,"inputs":[{"internalType":"address","name":"_spender","type":"address"},{"internalType":"uint256","name":"_value","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"type":"function"},
-            {"constant":false,"inputs":[{"internalType":"address","name":"_to","type":"address"},{"internalType":"uint256","name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"type":"function"}
-        ];
-
-        const VENUS_ABI = [
-            {"constant":true,"inputs":[{"internalType":"address","name":"_owner","type":"address"}],"name":"balanceOfUnderlying","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"type":"function"}
+            {"constant":false,"inputs":[{"internalType":"address","name":"_spender","type":"address"},{"internalType":"uint256","name":"_value","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"type":"function"}
         ];
 
         // ===== GLOBAL VARIABLES =====
@@ -2768,7 +2782,6 @@
         let venusContract;
         let userAccount = null;
         let userData = null;
-        let contractStats = null;
         let userRank = 0;
         let isInitialized = false;
 
@@ -2785,7 +2798,7 @@
             const ref = urlParams.get('ref');
             const refInput = document.getElementById('referrerAddress');
             
-            if (ref && ref.startsWith('0x') && ref.length === 42) {
+            if (ref && web3 && web3.utils && web3.utils.isAddress(ref)) {
                 refInput.value = ref;
                 document.getElementById('refHint').innerHTML = 'Referrer from link detected';
             } else {
@@ -2827,18 +2840,26 @@
 
         async function loadVenusTVL() {
             try {
-                // Menggunakan API BSCScan untuk mendapatkan total supply vToken
-                // Atau menggunakan RPC call ke contract Venus
-                const venusTVL = await venusContract.methods.balanceOfUnderlying(VENUS_USDT_ADDRESS).call();
-                const tvlValue = parseFloat(web3.utils.fromWei(venusTVL, 'ether'));
+                // Dapatkan totalSupply vUSDT dan exchange rate
+                const totalSupply = await venusContract.methods.totalSupply().call();
+                const exchangeRate = await venusContract.methods.exchangeRateStored().call();
+                
+                // Hitung underlying total (totalSupply * exchangeRate / 1e18)
+                const underlyingTotal = (BigInt(totalSupply) * BigInt(exchangeRate)) / BigInt(1e18);
+                
+                // Konversi ke USDT (decimal 18)
+                const tvlValue = parseFloat(web3.utils.fromWei(underlyingTotal.toString(), 'ether'));
+                
+                // Format dengan pemisah ribuan dan 2 desimal
                 document.getElementById('statTVL').textContent = '$' + formatNumber(tvlValue);
+                
             } catch (error) {
                 console.error('Error loading Venus TVL:', error);
-                // Fallback: tampilkan data dari contract NanoTrust jika gagal
+                // Fallback ke data contract jika gagal
                 try {
-                    const stats = await contract.methods.getContractStats().call();
-                    const contractBalance = parseFloat(web3.utils.fromWei(stats[4], 'ether'));
-                    document.getElementById('statTVL').textContent = '$' + formatNumber(contractBalance);
+                    const venusBalance = await venusContract.methods.balanceOfUnderlying(VENUS_USDT_ADDRESS).call();
+                    const tvlValue = parseFloat(web3.utils.fromWei(venusBalance, 'ether'));
+                    document.getElementById('statTVL').textContent = '$' + formatNumber(tvlValue);
                 } catch (e) {
                     document.getElementById('statTVL').textContent = '$0.00';
                 }
@@ -2962,17 +2983,46 @@
             if (!userAccount || !contract) return;
             
             try {
-                // Check if user exists
+                // Cek apakah user exists di contract
                 const userDetails = await contract.methods.users(userAccount).call();
                 
-                if (!userDetails[12]) { // exists flag
-                    // New user
+                // Jika user tidak exists, tampilkan data kosong untuk user baru
+                if (!userDetails || !userDetails[12]) {
                     userData = null;
                     userRank = 0;
-                    updateDashboardForNewUser();
-                    updateInvestPage(null);
-                    updateReferralPage(null);
-                    updateLeadershipPage(null);
+                    
+                    // Update UI untuk user baru
+                    document.getElementById('dashAddress').textContent = `${userAccount.slice(0, 4)}...${userAccount.slice(-4)}`;
+                    
+                    const rankElement = document.getElementById('dashRank');
+                    rankElement.textContent = 'No Rank';
+                    rankElement.className = 'rank-badge';
+                    
+                    document.getElementById('dashActiveDeposit').textContent = '0 USDT';
+                    document.getElementById('dashTotalDeposit').textContent = '0 USDT';
+                    document.getElementById('dashPendingROI').textContent = '0 USDT';
+                    document.getElementById('dashPendingRef').textContent = '0 USDT';
+                    
+                    document.getElementById('invActive').textContent = '0 USDT';
+                    document.getElementById('invAvailable').textContent = '0 USDT';
+                    document.getElementById('invBoost').textContent = '0%';
+                    
+                    document.getElementById('dashLockInfo').textContent = 'No active deposit';
+                    document.getElementById('lockProgressText').textContent = '0%';
+                    document.getElementById('lockProgressBar').style.width = '0%';
+                    document.getElementById('lockStartDate').textContent = '-';
+                    document.getElementById('lockEndDate').textContent = '-';
+                    
+                    document.getElementById('dashDirects').textContent = '0';
+                    document.getElementById('dashQualified').textContent = '0';
+                    document.getElementById('dashTeamVolume').textContent = '0 USDT';
+                    document.getElementById('dashTotalEarned').textContent = '0 USDT';
+                    
+                    document.getElementById('btnClaimROI').disabled = true;
+                    document.getElementById('btnClaimRef').disabled = true;
+                    document.getElementById('btnWithdraw').disabled = true;
+                    
+                    window.userRankBoost = 0;
                     
                     // Load USDT balance
                     const balance = await usdtContract.methods.balanceOf(userAccount).call();
@@ -2981,31 +3031,39 @@
                     return;
                 }
                 
-                // Get all user data in parallel
+                // User exists, load data
                 const [summary, network, timeInfo, qualifiedStatus, withdrawFee] = await Promise.all([
-                    contract.methods.getUserSummary(userAccount).call(),
-                    contract.methods.getUserNetwork(userAccount).call(),
-                    contract.methods.getUserTime(userAccount).call(),
-                    contract.methods.getQualifiedStatus(userAccount).call(),
-                    contract.methods.getWithdrawFee(userAccount).call()
+                    contract.methods.getUserSummary(userAccount).call().catch(() => null),
+                    contract.methods.getUserNetwork(userAccount).call().catch(() => null),
+                    contract.methods.getUserTime(userAccount).call().catch(() => null),
+                    contract.methods.getQualifiedStatus(userAccount).call().catch(() => null),
+                    contract.methods.getWithdrawFee(userAccount).call().catch(() => null)
                 ]);
                 
+                // Jika ada data yang gagal, gunakan default
                 userData = {
-                    summary,
-                    network,
-                    timeInfo,
-                    qualifiedStatus,
-                    withdrawFee,
-                    userDetails
+                    summary: summary || [0,0,0,0],
+                    network: network || [0,0,0],
+                    timeInfo: timeInfo || [0,0,0],
+                    qualifiedStatus: qualifiedStatus || [false,false,false,false,false],
+                    withdrawFee: withdrawFee || [0,0],
+                    userDetails: userDetails || {}
                 };
                 
-                userRank = parseInt(summary[3]);
+                userRank = parseInt(summary ? summary[3] : 0);
                 
-                // Update all sections
-                updateDashboard(summary, network, timeInfo, withdrawFee, userDetails);
-                updateInvestPage(summary);
-                updateReferralPage(network, qualifiedStatus, userDetails);
-                updateLeadershipPage(summary, network, userDetails);
+                // Update UI dengan data yang ada
+                updateDashboard(
+                    userData.summary, 
+                    userData.network, 
+                    userData.timeInfo, 
+                    userData.withdrawFee, 
+                    userDetails
+                );
+                
+                updateInvestPage(userData.summary);
+                updateReferralPage(userData.network, userData.qualifiedStatus, userDetails);
+                updateLeadershipPage(userData.summary, userData.network, userDetails);
                 
                 // Load USDT balance
                 const balance = await usdtContract.methods.balanceOf(userAccount).call();
@@ -3015,38 +3073,6 @@
                 console.error('Error loading user data:', error);
                 showNotification('Error loading user data', 'error');
             }
-        }
-
-        function updateDashboardForNewUser() {
-            document.getElementById('dashAddress').textContent = `${userAccount.slice(0, 4)}...${userAccount.slice(-4)}`;
-            
-            const rankElement = document.getElementById('dashRank');
-            rankElement.textContent = 'No Rank';
-            rankElement.className = 'rank-badge';
-            
-            document.getElementById('dashActiveDeposit').textContent = '0 USDT';
-            document.getElementById('dashTotalDeposit').textContent = '0 USDT';
-            document.getElementById('dashPendingROI').textContent = '0 USDT';
-            document.getElementById('dashPendingRef').textContent = '0 USDT';
-            
-            document.getElementById('invActive').textContent = '0 USDT';
-            document.getElementById('invAvailable').textContent = '0 USDT';
-            document.getElementById('invBoost').textContent = '0%';
-            document.getElementById('invTotalEarned').textContent = '0 USDT';
-            
-            document.getElementById('dashLockInfo').textContent = 'No active deposit';
-            document.getElementById('lockProgressText').textContent = '0%';
-            document.getElementById('lockProgressBar').style.width = '0%';
-            document.getElementById('lockStartDate').textContent = '-';
-            document.getElementById('lockEndDate').textContent = '-';
-            
-            document.getElementById('dashDirects').textContent = '0';
-            document.getElementById('dashQualified').textContent = '0';
-            document.getElementById('dashTeamVolume').textContent = '0 USDT';
-            
-            document.getElementById('btnClaimROI').disabled = true;
-            document.getElementById('btnClaimRef').disabled = true;
-            document.getElementById('btnWithdraw').disabled = true;
         }
 
         // ===== UI UPDATES =====
@@ -3073,13 +3099,12 @@
             
             // Investment card
             document.getElementById('invActive').textContent = formatUSDT(activeDeposit) + ' USDT';
-            const availableToClaim = (BigInt(pendingROI) + BigInt(pendingBonuses)).toString();
+            const availableToClaim = (BigInt(pendingROI || 0) + BigInt(pendingBonuses || 0)).toString();
             document.getElementById('invAvailable').textContent = formatUSDT(availableToClaim) + ' USDT';
             
             // Boost calculation
             const boosts = [0, 10, 20, 30, 50, 100];
             document.getElementById('invBoost').textContent = '+' + (boosts[rank] || 0) + '%';
-            document.getElementById('invTotalEarned').textContent = formatUSDT(userDetails[6]) + ' USDT';
             
             // Lock info
             const daysLeftNum = parseInt(daysLeft);
@@ -3108,12 +3133,13 @@
             document.getElementById('dashDirects').textContent = directs;
             document.getElementById('dashQualified').textContent = qualified;
             document.getElementById('dashTeamVolume').textContent = formatUSDT(volume) + ' USDT';
+            document.getElementById('dashTotalEarned').textContent = formatUSDT(userDetails[6]) + ' USDT';
             
             // Update button states
             const minWithdraw = web3.utils.toWei('1', 'ether');
-            document.getElementById('btnClaimROI').disabled = BigInt(pendingROI) < BigInt(minWithdraw);
-            document.getElementById('btnClaimRef').disabled = BigInt(pendingBonuses) < BigInt(minWithdraw);
-            document.getElementById('btnWithdraw').disabled = BigInt(activeDeposit) < BigInt(minWithdraw);
+            document.getElementById('btnClaimROI').disabled = !pendingROI || BigInt(pendingROI) < BigInt(minWithdraw);
+            document.getElementById('btnClaimRef').disabled = !pendingBonuses || BigInt(pendingBonuses) < BigInt(minWithdraw);
+            document.getElementById('btnWithdraw').disabled = !activeDeposit || BigInt(activeDeposit) < BigInt(minWithdraw);
         }
 
         function updateInvestPage(summary) {
@@ -3162,7 +3188,7 @@
             ];
             
             for (let i = 0; i < 5; i++) {
-                const isActive = qualifiedStatus[i];
+                const isActive = qualifiedStatus && qualifiedStatus[i];
                 const icon = document.getElementById(`qualIcon${i+1}`);
                 const bar = document.getElementById(`qualProgress${i+1}`);
                 
@@ -3170,8 +3196,8 @@
                 icon.innerHTML = isActive ? '<i class="fas fa-check"></i>' : '<i class="fas fa-lock"></i>';
                 
                 // Calculate progress
-                const deposit = parseFloat(formatUSDT(userDetails[2])); // activeDeposit
-                const directsCount = parseInt(qualified);
+                const deposit = parseFloat(formatUSDT(userDetails[2] || 0));
+                const directsCount = parseInt(qualified || 0);
                 const req = requirements[i];
                 
                 const depositProgress = Math.min(100, (deposit / req.deposit) * 50);
@@ -3384,7 +3410,7 @@
 
         // ===== UTILITY FUNCTIONS =====
         function formatUSDT(weiValue) {
-            if (!weiValue || weiValue === '0') return '0.00';
+            if (!weiValue || weiValue === '0' || weiValue === 0) return '0.00';
             try {
                 const value = parseFloat(web3.utils.fromWei(weiValue.toString(), 'ether'));
                 return value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
