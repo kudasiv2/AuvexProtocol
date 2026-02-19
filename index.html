@@ -1730,46 +1730,6 @@
         .contract-badge a:hover {
             text-decoration: underline;
         }
-
-        /* Data Loading Status */
-        .data-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.375rem 0.75rem;
-            background: rgba(124, 179, 66, 0.1);
-            border-radius: var(--radius-full);
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-left: 1rem;
-        }
-
-        .data-status.error {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--red);
-        }
-
-        .data-status.loading {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--orange);
-        }
-
-        /* Retry Button */
-        .retry-btn {
-            background: transparent;
-            border: 1px solid var(--green-accent);
-            color: var(--green-accent);
-            padding: 0.5rem 1rem;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            font-size: 0.875rem;
-            margin-top: 1rem;
-            transition: all var(--transition-fast);
-        }
-
-        .retry-btn:hover {
-            background: rgba(124, 179, 66, 0.1);
-        }
     </style>
 </head>
 <body>
@@ -1799,16 +1759,10 @@
                 </ul>
             </div>
 
-            <div style="display: flex; align-items: center;">
-                <span class="data-status" id="dataStatus" style="display: none;">
-                    <i class="fas fa-circle-notch fa-spin"></i>
-                    <span>Loading...</span>
-                </span>
-                <button class="wallet-btn" id="connectWalletBtn">
-                    <i class="fas fa-wallet"></i>
-                    <span>Connect Wallet</span>
-                </button>
-            </div>
+            <button class="wallet-btn" id="connectWalletBtn">
+                <i class="fas fa-wallet"></i>
+                <span>Connect Wallet</span>
+            </button>
         </nav>
     </header>
 
@@ -2838,8 +2792,6 @@
         let contractStats = null;
         let userRank = 0;
         let isInitialized = false;
-        let dataRetryCount = 0;
-        const MAX_RETRIES = 3;
 
         // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', function() {
@@ -2860,15 +2812,12 @@
 
         async function initApp() {
             try {
-                updateDataStatus('loading', 'Initializing...');
-                
                 // Initialize Web3 with HTTP provider for read-only operations
                 web3 = new Web3(new Web3.providers.HttpProvider(BSC_RPC));
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
                 
                 isInitialized = true;
-                updateDataStatus('success', 'Ready');
                 
                 // Load global stats
                 await loadGlobalStats();
@@ -2881,14 +2830,13 @@
                             await connectWallet();
                         }
                     } catch (e) {
-                        console.log('Auto-connect failed:', e);
+                        console.log('Auto-connect failed');
                     }
                 }
                 
             } catch (error) {
                 console.error('Initialization error:', error);
-                updateDataStatus('error', 'Init Failed');
-                showNotification('Failed to initialize app. Please check your connection.', 'error');
+                showNotification('Failed to initialize app. Please refresh.', 'error');
             }
         }
 
@@ -2902,25 +2850,6 @@
             }
         }
 
-        function updateDataStatus(type, message) {
-            const statusEl = document.getElementById('dataStatus');
-            if (!statusEl) return;
-            
-            statusEl.style.display = 'flex';
-            statusEl.className = 'data-status ' + type;
-            
-            const icon = type === 'loading' ? 'fa-circle-notch fa-spin' : 
-                        type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle';
-            
-            statusEl.innerHTML = `<i class="fas ${icon}"></i><span>${message}</span>`;
-            
-            if (type === 'success') {
-                setTimeout(() => {
-                    statusEl.style.display = 'none';
-                }, 2000);
-            }
-        }
-
         // ===== WALLET CONNECTION =====
         async function connectWallet() {
             if (!window.ethereum) {
@@ -2929,8 +2858,6 @@
             }
             
             try {
-                updateDataStatus('loading', 'Connecting...');
-                
                 // Switch to BSC if needed
                 const chainId = await window.ethereum.request({ method: 'eth_chainId' });
                 if (chainId !== BSC_CHAIN_ID) {
@@ -2969,7 +2896,6 @@
                 }
             } catch (error) {
                 console.error('Connection error:', error);
-                updateDataStatus('error', 'Connection Failed');
                 showNotification('Failed to connect: ' + (error.message || 'Unknown error'), 'error');
             }
         }
@@ -2978,16 +2904,7 @@
             userAccount = account;
             localStorage.setItem('walletConnected', 'true');
             updateWalletUI();
-            
-            // Reset retry count on successful connection
-            dataRetryCount = 0;
-            
-            // Load user data with delay to ensure provider is ready
-            setTimeout(() => {
-                loadUserData();
-            }, 500);
-            
-            updateDataStatus('success', 'Connected');
+            loadUserData();
             showNotification('Wallet connected successfully!', 'success');
         }
 
@@ -2995,7 +2912,6 @@
             userAccount = null;
             localStorage.removeItem('walletConnected');
             updateWalletUI();
-            updateDataStatus('error', 'Disconnected');
             showNotification('Wallet disconnected', 'warning');
         }
 
@@ -3060,35 +2976,18 @@
         }
 
         async function loadUserData() {
-            if (!userAccount || !contract) {
-                console.log('Cannot load user data: missing account or contract');
-                return;
-            }
-            
-            updateDataStatus('loading', 'Loading Data...');
+            if (!userAccount || !contract) return;
             
             try {
-                console.log('Loading user data for:', userAccount);
-                
-                // Get all user data in parallel with timeout
-                const dataPromises = [
+                // Get all user data in parallel
+                const [summary, network, timeInfo, qualifiedStatus, withdrawFee, userDetails] = await Promise.all([
                     contract.methods.getUserSummary(userAccount).call(),
                     contract.methods.getUserNetwork(userAccount).call(),
                     contract.methods.getUserTime(userAccount).call(),
                     contract.methods.getQualifiedStatus(userAccount).call(),
                     contract.methods.getWithdrawFee(userAccount).call(),
                     contract.methods.users(userAccount).call()
-                ];
-                
-                // Add timeout to prevent hanging
-                const timeoutPromise = new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('Request timeout')), 30000)
-                );
-                
-                const [summary, network, timeInfo, qualifiedStatus, withdrawFee, userDetails] = 
-                    await Promise.race([Promise.all(dataPromises), timeoutPromise]);
-                
-                console.log('User data loaded successfully:', { summary, network, timeInfo });
+                ]);
                 
                 userData = {
                     summary,
@@ -3100,7 +2999,6 @@
                 };
                 
                 userRank = parseInt(summary[3]);
-                dataRetryCount = 0; // Reset retry count on success
                 
                 // Update all sections
                 updateDashboard(summary, network, timeInfo, withdrawFee, userDetails);
@@ -3109,352 +3007,195 @@
                 updateLeadershipPage(summary, network, userDetails);
                 
                 // Load USDT balance
-                try {
-                    const balance = await usdtContract.methods.balanceOf(userAccount).call();
-                    document.getElementById('usdtBalance').textContent = formatUSDT(balance);
-                } catch (e) {
-                    console.log('Error loading USDT balance:', e);
-                    document.getElementById('usdtBalance').textContent = '0.00';
-                }
-                
-                updateDataStatus('success', 'Data Loaded');
+                const balance = await usdtContract.methods.balanceOf(userAccount).call();
+                document.getElementById('usdtBalance').textContent = formatUSDT(balance);
                 
             } catch (error) {
                 console.error('Error loading user data:', error);
-                
-                // Retry logic
-                if (dataRetryCount < MAX_RETRIES) {
-                    dataRetryCount++;
-                    console.log(`Retrying... Attempt ${dataRetryCount}/${MAX_RETRIES}`);
-                    updateDataStatus('loading', `Retrying (${dataRetryCount}/${MAX_RETRIES})...`);
-                    
-                    setTimeout(() => {
-                        loadUserData();
-                    }, 2000 * dataRetryCount); // Exponential backoff
-                    
-                    return;
-                }
-                
-                // Max retries reached, show error state
-                updateDataStatus('error', 'Data Error');
-                
-                // Check if user exists in contract
-                if (error.message && error.message.includes('User does not exist')) {
-                    showNotification('Welcome! Please make your first investment to register.', 'info');
-                    // Set default empty state
-                    setDefaultUserData();
-                } else if (error.message && error.message.includes('timeout')) {
-                    showNotification('Network timeout. Please check your connection and try again.', 'error');
-                } else {
-                    showNotification('Error loading data. Please refresh or reconnect wallet.', 'error');
-                }
+                showNotification('Error loading user data', 'error');
             }
-        }
-
-        function setDefaultUserData() {
-            // Set default values for new users
-            const defaultSummary = ['0', '0', '0', '0']; // activeDeposit, pendingROI, pendingBonuses, rank
-            const defaultNetwork = ['0', '0', '0']; // directs, qualified, volume
-            const defaultTimeInfo = ['0', '0', '0']; // depositTime, lastClaim, daysLeft
-            const defaultQualifiedStatus = [false, false, false, false, false];
-            const defaultWithdrawFee = ['0', '0']; // percent, amount
-            const defaultUserDetails = ['0', '0x0000000000000000000000000000000000000000', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', false];
-            
-            updateDashboard(defaultSummary, defaultNetwork, defaultTimeInfo, defaultWithdrawFee, defaultUserDetails);
-            updateInvestPage(defaultSummary);
-            updateReferralPage(defaultNetwork, defaultQualifiedStatus, defaultUserDetails);
-            updateLeadershipPage(defaultSummary, defaultNetwork, defaultUserDetails);
         }
 
         // ===== UI UPDATES =====
         function updateDashboard(summary, network, timeInfo, withdrawFee, userDetails) {
-            try {
-                const [activeDeposit, pendingROI, pendingBonuses, rank] = summary;
-                const [directs, qualified, volume] = network;
-                const [depositTime, lastClaim, daysLeft] = timeInfo;
-                const [feePercent, feeAmount] = withdrawFee;
-                
-                // Profile
-                const dashAddress = document.getElementById('dashAddress');
-                if (dashAddress) {
-                    dashAddress.textContent = userAccount ? `${userAccount.slice(0, 6)}...${userAccount.slice(-4)}` : '0x00...0000';
-                }
-                
-                const rankNames = ['No Rank', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond'];
-                const rankClasses = ['', 'bronze', 'silver', 'gold', 'platinum', 'diamond'];
-                const rankElement = document.getElementById('dashRank');
-                if (rankElement) {
-                    const rankIndex = parseInt(rank) || 0;
-                    rankElement.textContent = rankNames[rankIndex] || 'No Rank';
-                    rankElement.className = `rank-badge ${rankClasses[rankIndex] || ''}`;
-                }
-                
-                // Stats
-                const dashActiveDeposit = document.getElementById('dashActiveDeposit');
-                if (dashActiveDeposit) dashActiveDeposit.textContent = formatUSDT(activeDeposit) + ' USDT';
-                
-                const dashTotalDeposit = document.getElementById('dashTotalDeposit');
-                if (dashTotalDeposit) dashTotalDeposit.textContent = formatUSDT(userDetails[3]) + ' USDT';
-                
-                const dashPendingROI = document.getElementById('dashPendingROI');
-                if (dashPendingROI) dashPendingROI.textContent = formatUSDT(pendingROI) + ' USDT';
-                
-                const dashPendingRef = document.getElementById('dashPendingRef');
-                if (dashPendingRef) dashPendingRef.textContent = formatUSDT(pendingBonuses) + ' USDT';
-                
-                // Investment card
-                const invActive = document.getElementById('invActive');
-                if (invActive) invActive.textContent = formatUSDT(activeDeposit) + ' USDT';
-                
-                const invEarned = document.getElementById('invEarned');
-                if (invEarned) invEarned.textContent = formatUSDT(userDetails[6]) + ' USDT';
-                
-                const invAvailable = document.getElementById('invAvailable');
-                if (invAvailable) {
-                    const available = (BigInt(pendingROI || 0) + BigInt(pendingBonuses || 0)).toString();
-                    invAvailable.textContent = formatUSDT(available) + ' USDT';
-                }
-                
-                // Boost calculation
-                const boosts = [0, 10, 20, 30, 50, 100];
-                const invBoost = document.getElementById('invBoost');
-                if (invBoost) {
-                    const rankIdx = parseInt(rank) || 0;
-                    invBoost.textContent = '+' + (boosts[rankIdx] || 0) + '%';
-                }
-                
-                // Lock info
-                const daysLeftNum = parseInt(daysLeft) || 0;
-                const totalDays = 60;
-                const progress = Math.min(100, ((totalDays - daysLeftNum) / totalDays) * 100);
-                
-                const dashLockInfo = document.getElementById('dashLockInfo');
-                if (dashLockInfo) {
-                    if (parseInt(activeDeposit) > 0) {
-                        dashLockInfo.textContent = daysLeftNum > 0 ? `${daysLeftNum} days remaining` : 'Unlocked (No fee)';
-                    } else {
-                        dashLockInfo.textContent = 'No active deposit';
-                    }
-                }
-                
-                const lockProgressText = document.getElementById('lockProgressText');
-                if (lockProgressText) lockProgressText.textContent = Math.round(progress) + '%';
-                
-                const lockProgressBar = document.getElementById('lockProgressBar');
-                if (lockProgressBar) lockProgressBar.style.width = progress + '%';
+            const [activeDeposit, pendingROI, pendingBonuses, rank] = summary;
+            const [directs, qualified, volume] = network;
+            const [depositTime, lastClaim, daysLeft] = timeInfo;
+            const [feePercent, feeAmount] = withdrawFee;
+            
+            // Profile
+            document.getElementById('dashAddress').textContent = `${userAccount.slice(0, 6)}...${userAccount.slice(-4)}`;
+            
+            const rankNames = ['No Rank', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond'];
+            const rankClasses = ['', 'bronze', 'silver', 'gold', 'platinum', 'diamond'];
+            const rankElement = document.getElementById('dashRank');
+            rankElement.textContent = rankNames[rank] || 'No Rank';
+            rankElement.className = `rank-badge ${rankClasses[rank] || ''}`;
+            
+            // Stats
+            document.getElementById('dashActiveDeposit').textContent = formatUSDT(activeDeposit) + ' USDT';
+            document.getElementById('dashTotalDeposit').textContent = formatUSDT(userDetails[3]) + ' USDT';
+            document.getElementById('dashPendingROI').textContent = formatUSDT(pendingROI) + ' USDT';
+            document.getElementById('dashPendingRef').textContent = formatUSDT(pendingBonuses) + ' USDT';
+            
+            // Investment card
+            document.getElementById('invActive').textContent = formatUSDT(activeDeposit) + ' USDT';
+            document.getElementById('invEarned').textContent = formatUSDT(userDetails[6]) + ' USDT';
+            document.getElementById('invAvailable').textContent = formatUSDT(
+                (BigInt(pendingROI) + BigInt(pendingBonuses)).toString()
+            ) + ' USDT';
+            
+            // Boost calculation
+            const boosts = [0, 10, 20, 30, 50, 100];
+            document.getElementById('invBoost').textContent = '+' + boosts[rank] + '%';
+            
+            // Lock info
+            const daysLeftNum = parseInt(daysLeft);
+            const totalDays = 60;
+            const progress = Math.min(100, ((totalDays - daysLeftNum) / totalDays) * 100);
+            
+            if (parseInt(activeDeposit) > 0) {
+                document.getElementById('dashLockInfo').textContent = daysLeftNum > 0 ? `${daysLeftNum} days remaining` : 'Unlocked (No fee)';
+                document.getElementById('lockProgressText').textContent = Math.round(progress) + '%';
+                document.getElementById('lockProgressBar').style.width = progress + '%';
                 
                 // Dates
-                const lockStartDate = document.getElementById('lockStartDate');
-                const lockEndDate = document.getElementById('lockEndDate');
-                
-                if (parseInt(depositTime) > 0) {
-                    const depositDate = new Date(parseInt(depositTime) * 1000);
-                    const endDate = new Date((parseInt(depositTime) + (60 * 24 * 60 * 60)) * 1000);
-                    if (lockStartDate) lockStartDate.textContent = depositDate.toLocaleDateString();
-                    if (lockEndDate) lockEndDate.textContent = endDate.toLocaleDateString();
-                } else {
-                    if (lockStartDate) lockStartDate.textContent = '-';
-                    if (lockEndDate) lockEndDate.textContent = '-';
-                }
-                
-                // Network stats
-                const dashDirects = document.getElementById('dashDirects');
-                if (dashDirects) dashDirects.textContent = directs || '0';
-                
-                const dashQualified = document.getElementById('dashQualified');
-                if (dashQualified) dashQualified.textContent = qualified || '0';
-                
-                const dashTeamVolume = document.getElementById('dashTeamVolume');
-                if (dashTeamVolume) dashTeamVolume.textContent = formatUSDT(volume) + ' USDT';
-                
-                const dashLastClaim = document.getElementById('dashLastClaim');
-                if (dashLastClaim) {
-                    const lastClaimDate = parseInt(lastClaim) > 0 ? new Date(parseInt(lastClaim) * 1000).toLocaleDateString() : 'Never';
-                    dashLastClaim.textContent = lastClaimDate;
-                }
-                
-                // Update button states
-                const btnClaimROI = document.getElementById('btnClaimROI');
-                if (btnClaimROI) {
-                    const minWithdraw = BigInt(web3.utils.toWei('1', 'ether'));
-                    btnClaimROI.disabled = BigInt(pendingROI || 0) < minWithdraw;
-                }
-                
-                const btnClaimRef = document.getElementById('btnClaimRef');
-                if (btnClaimRef) {
-                    const minWithdraw = BigInt(web3.utils.toWei('1', 'ether'));
-                    btnClaimRef.disabled = BigInt(pendingBonuses || 0) < minWithdraw;
-                }
-                
-                const btnWithdraw = document.getElementById('btnWithdraw');
-                if (btnWithdraw) {
-                    btnWithdraw.disabled = parseInt(activeDeposit) === 0;
-                }
-                
-            } catch (error) {
-                console.error('Error updating dashboard:', error);
+                const depositDate = new Date(parseInt(depositTime) * 1000);
+                const endDate = new Date((parseInt(depositTime) + (60 * 24 * 60 * 60)) * 1000);
+                document.getElementById('lockStartDate').textContent = depositDate.toLocaleDateString();
+                document.getElementById('lockEndDate').textContent = endDate.toLocaleDateString();
+            } else {
+                document.getElementById('dashLockInfo').textContent = 'No active deposit';
+                document.getElementById('lockProgressText').textContent = '0%';
+                document.getElementById('lockProgressBar').style.width = '0%';
+                document.getElementById('lockStartDate').textContent = '-';
+                document.getElementById('lockEndDate').textContent = '-';
             }
+            
+            // Network stats
+            document.getElementById('dashDirects').textContent = directs;
+            document.getElementById('dashQualified').textContent = qualified;
+            document.getElementById('dashTeamVolume').textContent = formatUSDT(volume) + ' USDT';
+            
+            const lastClaimDate = parseInt(lastClaim) > 0 ? new Date(parseInt(lastClaim) * 1000).toLocaleDateString() : 'Never';
+            document.getElementById('dashLastClaim').textContent = lastClaimDate;
+            
+            // Update button states
+            const hasPending = BigInt(pendingROI) > 0 || BigInt(pendingBonuses) > 0;
+            const hasDeposit = parseInt(activeDeposit) > 0;
+            
+            document.getElementById('btnClaimROI').disabled = BigInt(pendingROI) < BigInt(web3.utils.toWei('1', 'ether'));
+            document.getElementById('btnClaimRef').disabled = BigInt(pendingBonuses) < BigInt(web3.utils.toWei('1', 'ether'));
+            document.getElementById('btnWithdraw').disabled = !hasDeposit;
         }
 
         function updateInvestPage(summary) {
-            try {
-                const rank = parseInt(summary[3]) || 0;
-                const boosts = [0, 10, 20, 30, 50, 100];
-                window.userRankBoost = boosts[rank] || 0;
-                
-                const calcBoostPercent = document.getElementById('calcBoostPercent');
-                if (calcBoostPercent) calcBoostPercent.textContent = window.userRankBoost;
-            } catch (error) {
-                console.error('Error updating invest page:', error);
-            }
+            const rank = parseInt(summary[3]);
+            const boosts = [0, 10, 20, 30, 50, 100];
+            window.userRankBoost = boosts[rank] || 0;
+            document.getElementById('calcBoostPercent').textContent = window.userRankBoost;
         }
 
         function updateReferralPage(network, qualifiedStatus, userDetails) {
-            try {
-                const [directs, qualified, volume] = network;
+            const [directs, qualified, volume] = network;
+            
+            document.getElementById('refDirects').textContent = directs;
+            document.getElementById('refQualified').textContent = qualified;
+            document.getElementById('refVolume').textContent = formatUSDT(volume) + ' USDT';
+            document.getElementById('refTotalEarned').textContent = formatUSDT(userDetails[6]) + ' USDT';
+            
+            // Ref link
+            const baseUrl = window.location.origin + window.location.pathname;
+            document.getElementById('refLink').value = `${baseUrl}?ref=${userAccount}`;
+            
+            // Qualification status
+            const requirements = [
+                { deposit: 10, directs: 0 },
+                { deposit: 30, directs: 3 },
+                { deposit: 50, directs: 5 },
+                { deposit: 70, directs: 8 },
+                { deposit: 100, directs: 10 }
+            ];
+            
+            for (let i = 0; i < 5; i++) {
+                const isActive = qualifiedStatus[i];
+                const icon = document.getElementById(`qualIcon${i+1}`);
+                const bar = document.getElementById(`qualProgress${i+1}`);
                 
-                const refDirects = document.getElementById('refDirects');
-                if (refDirects) refDirects.textContent = directs || '0';
+                icon.className = 'qualified-status-icon ' + (isActive ? 'active' : 'inactive');
+                icon.innerHTML = isActive ? '<i class="fas fa-check"></i>' : '<i class="fas fa-lock"></i>';
                 
-                const refQualified = document.getElementById('refQualified');
-                if (refQualified) refQualified.textContent = qualified || '0';
+                // Calculate progress
+                const deposit = parseFloat(formatUSDT(userDetails[2])); // activeDeposit
+                const directsCount = parseInt(qualified);
+                const req = requirements[i];
                 
-                const refVolume = document.getElementById('refVolume');
-                if (refVolume) refVolume.textContent = formatUSDT(volume) + ' USDT';
+                const depositProgress = Math.min(100, (deposit / req.deposit) * 50);
+                const directsProgress = req.directs > 0 ? Math.min(50, (directsCount / req.directs) * 50) : 50;
                 
-                const refTotalEarned = document.getElementById('refTotalEarned');
-                if (refTotalEarned) refTotalEarned.textContent = formatUSDT(userDetails[6]) + ' USDT';
-                
-                // Ref link
-                const refLink = document.getElementById('refLink');
-                if (refLink && userAccount) {
-                    const baseUrl = window.location.origin + window.location.pathname;
-                    refLink.value = `${baseUrl}?ref=${userAccount}`;
-                }
-                
-                // Qualification status
-                const requirements = [
-                    { deposit: 10, directs: 0 },
-                    { deposit: 30, directs: 3 },
-                    { deposit: 50, directs: 5 },
-                    { deposit: 70, directs: 8 },
-                    { deposit: 100, directs: 10 }
-                ];
-                
-                for (let i = 0; i < 5; i++) {
-                    const qualIcon = document.getElementById(`qualIcon${i+1}`);
-                    const qualProgress = document.getElementById(`qualProgress${i+1}`);
-                    
-                    if (!qualIcon || !qualProgress) continue;
-                    
-                    const isActive = qualifiedStatus && qualifiedStatus[i];
-                    
-                    qualIcon.className = 'qualified-status-icon ' + (isActive ? 'active' : 'inactive');
-                    qualIcon.innerHTML = isActive ? '<i class="fas fa-check"></i>' : '<i class="fas fa-lock"></i>';
-                    
-                    // Calculate progress
-                    const deposit = parseFloat(formatUSDT(userDetails[2])) || 0; // activeDeposit
-                    const directsCount = parseInt(qualified) || 0;
-                    const req = requirements[i];
-                    
-                    const depositProgress = Math.min(100, (deposit / req.deposit) * 50);
-                    const directsProgress = req.directs > 0 ? Math.min(50, (directsCount / req.directs) * 50) : 50;
-                    
-                    qualProgress.style.width = (depositProgress + directsProgress) + '%';
-                }
-            } catch (error) {
-                console.error('Error updating referral page:', error);
+                bar.style.width = (depositProgress + directsProgress) + '%';
             }
         }
 
         function updateLeadershipPage(summary, network, userDetails) {
-            try {
-                const rank = parseInt(summary[3]) || 0;
-                const [directs, qualified, volume] = network;
-                const personalDeposit = parseFloat(formatUSDT(userDetails[2])) || 0;
-                const teamVolume = parseFloat(formatUSDT(volume)) || 0;
-                const qualifiedDirects = parseInt(qualified) || 0;
+            const rank = parseInt(summary[3]);
+            const [directs, qualified, volume] = network;
+            const personalDeposit = parseFloat(formatUSDT(userDetails[2]));
+            const teamVolume = parseFloat(formatUSDT(volume));
+            const qualifiedDirects = parseInt(qualified);
+            
+            const rankRequirements = [
+                { volume: 5000, directs: 50, deposit: 50 },
+                { volume: 15000, directs: 130, deposit: 50 },
+                { volume: 30000, directs: 300, deposit: 50 },
+                { volume: 50000, directs: 500, deposit: 100 },
+                { volume: 100000, directs: 1000, deposit: 100 }
+            ];
+            
+            for (let i = 0; i < 5; i++) {
+                const req = rankRequirements[i];
+                const isCurrentRank = rank === i + 1;
+                const isAchieved = rank > i + 1;
+                const card = document.getElementById(`rankCard${i+1}`);
                 
-                const rankRequirements = [
-                    { volume: 5000, directs: 50, deposit: 50 },
-                    { volume: 15000, directs: 130, deposit: 50 },
-                    { volume: 30000, directs: 300, deposit: 50 },
-                    { volume: 50000, directs: 500, deposit: 100 },
-                    { volume: 100000, directs: 1000, deposit: 100 }
-                ];
+                // Calculate progress percentages
+                const volProgress = Math.min(100, (teamVolume / req.volume) * 100);
+                const dirProgress = Math.min(100, (qualifiedDirects / req.directs) * 100);
+                const depProgress = Math.min(100, (personalDeposit / req.deposit) * 100);
                 
-                for (let i = 0; i < 5; i++) {
-                    const req = rankRequirements[i];
-                    const isCurrentRank = rank === i + 1;
-                    const isAchieved = rank > i + 1;
-                    const card = document.getElementById(`rankCard${i+1}`);
-                    
-                    if (!card) continue;
-                    
-                    // Calculate progress percentages
-                    const volProgress = req.volume > 0 ? Math.min(100, (teamVolume / req.volume) * 100) : 0;
-                    const dirProgress = req.directs > 0 ? Math.min(100, (qualifiedDirects / req.directs) * 100) : 0;
-                    const depProgress = req.deposit > 0 ? Math.min(100, (personalDeposit / req.deposit) * 100) : 0;
-                    
-                    const avgProgress = (volProgress + dirProgress + depProgress) / 3;
-                    
-                    const rankProgress = document.getElementById(`rankProgress${i+1}`);
-                    if (rankProgress) rankProgress.textContent = Math.round(avgProgress) + '%';
-                    
-                    const rankBar = document.getElementById(`rankBar${i+1}`);
-                    if (rankBar) rankBar.style.width = avgProgress + '%';
-                    
-                    // Visual indication
-                    if (isCurrentRank) {
-                        card.style.boxShadow = '0 0 30px rgba(124, 179, 66, 0.5)';
-                        card.style.borderColor = 'var(--green-accent)';
-                    } else if (isAchieved) {
-                        card.style.opacity = '0.8';
-                        card.style.borderColor = 'rgba(124, 179, 66, 0.5)';
-                    } else {
-                        card.style.boxShadow = '';
-                        card.style.borderColor = '';
-                        card.style.opacity = '';
-                    }
+                const avgProgress = (volProgress + dirProgress + depProgress) / 3;
+                
+                document.getElementById(`rankProgress${i+1}`).textContent = Math.round(avgProgress) + '%';
+                document.getElementById(`rankBar${i+1}`).style.width = avgProgress + '%';
+                
+                // Visual indication
+                if (isCurrentRank) {
+                    card.style.boxShadow = '0 0 30px rgba(124, 179, 66, 0.5)';
+                    card.style.borderColor = 'var(--green-accent)';
+                } else if (isAchieved) {
+                    card.style.opacity = '0.8';
                 }
-            } catch (error) {
-                console.error('Error updating leadership page:', error);
             }
         }
 
         // ===== INVESTMENT FUNCTIONS =====
         function calculateInvestment() {
-            try {
-                const amount = parseFloat(document.getElementById('investAmount').value) || 0;
-                const boost = window.userRankBoost || 0;
-                
-                const fee = amount * 0.10;
-                const net = amount - fee;
-                const baseDaily = net * 0.003;
-                const boostedRate = 0.003 * (1 + boost / 100);
-                const boostedDaily = net * boostedRate;
-                const projection60 = boostedDaily * 60;
-                
-                const calcFee = document.getElementById('calcFee');
-                if (calcFee) calcFee.textContent = fee.toFixed(2) + ' USDT';
-                
-                const calcNet = document.getElementById('calcNet');
-                if (calcNet) calcNet.textContent = net.toFixed(2) + ' USDT';
-                
-                const calcDaily = document.getElementById('calcDaily');
-                if (calcDaily) calcDaily.textContent = baseDaily.toFixed(4) + ' USDT';
-                
-                const calcBoosted = document.getElementById('calcBoosted');
-                if (calcBoosted) calcBoosted.textContent = boostedDaily.toFixed(4) + ' USDT';
-                
-                const calc60Days = document.getElementById('calc60Days');
-                if (calc60Days) calc60Days.textContent = projection60.toFixed(2) + ' USDT';
-                
-                const txTotal = document.getElementById('txTotal');
-                if (txTotal) txTotal.textContent = amount.toFixed(2) + ' USDT';
-            } catch (error) {
-                console.error('Error calculating investment:', error);
-            }
+            const amount = parseFloat(document.getElementById('investAmount').value) || 0;
+            const boost = window.userRankBoost || 0;
+            
+            const fee = amount * 0.10;
+            const net = amount - fee;
+            const baseDaily = net * 0.003;
+            const boostedRate = 0.003 * (1 + boost / 100);
+            const boostedDaily = net * boostedRate;
+            const projection60 = boostedDaily * 60;
+            
+            document.getElementById('calcFee').textContent = fee.toFixed(2) + ' USDT';
+            document.getElementById('calcNet').textContent = net.toFixed(2) + ' USDT';
+            document.getElementById('calcDaily').textContent = baseDaily.toFixed(4) + ' USDT';
+            document.getElementById('calcBoosted').textContent = boostedDaily.toFixed(4) + ' USDT';
+            document.getElementById('calc60Days').textContent = projection60.toFixed(2) + ' USDT';
+            document.getElementById('txTotal').textContent = amount.toFixed(2) + ' USDT';
         }
 
         async function submitInvestment() {
@@ -3478,7 +3219,6 @@
             }
             
             const btn = document.getElementById('btnInvest');
-            const originalContent = btn.innerHTML;
             btn.classList.add('loading');
             btn.innerHTML = '<span class="spinner"></span> Processing...';
             
@@ -3504,30 +3244,21 @@
                 showNotification('Investment successful! Welcome to NanoTrust.', 'success');
                 document.getElementById('investAmount').value = '';
                 calculateInvestment();
-                
-                // Reload data after investment
-                setTimeout(() => {
-                    loadUserData();
-                    showSection('dashboard');
-                }, 2000);
+                await loadUserData();
+                showSection('dashboard');
                 
             } catch (error) {
                 console.error('Investment error:', error);
                 showNotification('Investment failed: ' + (error.message || 'Unknown error'), 'error');
             } finally {
                 btn.classList.remove('loading');
-                btn.innerHTML = originalContent;
+                btn.innerHTML = '<i class="fas fa-rocket"></i> Confirm Investment';
             }
         }
 
         // ===== CLAIM FUNCTIONS =====
         async function claimROI() {
             if (!userAccount) return;
-            
-            const btn = document.getElementById('btnClaimROI');
-            const originalContent = btn.innerHTML;
-            btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Claiming...';
             
             try {
                 showNotification('Claiming ROI...', 'info');
@@ -3537,19 +3268,11 @@
             } catch (error) {
                 console.error('Claim error:', error);
                 showNotification('Claim failed: ' + (error.message || 'Minimum withdraw is 1 USDT or no pending ROI'), 'error');
-            } finally {
-                btn.classList.remove('loading');
-                btn.innerHTML = originalContent;
             }
         }
 
         async function claimReferral() {
             if (!userAccount) return;
-            
-            const btn = document.getElementById('btnClaimRef');
-            const originalContent = btn.innerHTML;
-            btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Claiming...';
             
             try {
                 showNotification('Claiming referral bonuses...', 'info');
@@ -3559,9 +3282,6 @@
             } catch (error) {
                 console.error('Claim error:', error);
                 showNotification('Claim failed: ' + (error.message || 'Minimum withdraw is 1 USDT or no pending bonuses'), 'error');
-            } finally {
-                btn.classList.remove('loading');
-                btn.innerHTML = originalContent;
             }
         }
 
@@ -3578,28 +3298,19 @@
                 return;
             }
             
-            const withdrawAmount = document.getElementById('withdrawAmount');
-            if (withdrawAmount) withdrawAmount.textContent = formatUSDT(activeDeposit) + ' USDT';
-            
-            const withdrawFee = document.getElementById('withdrawFee');
-            if (withdrawFee) withdrawFee.textContent = `${formatUSDT(feeAmount)} USDT (${feePercent}%)`;
-            
-            const withdrawReceive = document.getElementById('withdrawReceive');
-            if (withdrawReceive) withdrawReceive.textContent = formatUSDT(receiveAmount) + ' USDT';
+            document.getElementById('withdrawAmount').textContent = formatUSDT(activeDeposit) + ' USDT';
+            document.getElementById('withdrawFee').textContent = `${formatUSDT(feeAmount)} USDT (${feePercent}%)`;
+            document.getElementById('withdrawReceive').textContent = formatUSDT(receiveAmount) + ' USDT';
             
             // Update warning text based on fee
-            const withdrawWarningText = document.getElementById('withdrawWarningText');
-            const withdrawFeeExplanation = document.getElementById('withdrawFeeExplanation');
-            const warningAlert = withdrawWarningText ? withdrawWarningText.parentElement : null;
-            
             if (parseInt(feePercent) === 0) {
-                if (withdrawWarningText) withdrawWarningText.textContent = 'Lock period complete - No withdrawal fee!';
-                if (warningAlert) warningAlert.className = 'alert alert--info';
-                if (withdrawFeeExplanation) withdrawFeeExplanation.textContent = 'Your 60-day lock period is complete. You can withdraw your full capital without any fees.';
+                document.getElementById('withdrawWarningText').textContent = 'Lock period complete - No withdrawal fee!';
+                document.getElementById('withdrawWarningText').parentElement.className = 'alert alert--info';
+                document.getElementById('withdrawFeeExplanation').textContent = 'Your 60-day lock period is complete. You can withdraw your full capital without any fees.';
             } else {
-                if (withdrawWarningText) withdrawWarningText.textContent = 'Early withdrawal will incur a 50% fee!';
-                if (warningAlert) warningAlert.className = 'alert alert--warning';
-                if (withdrawFeeExplanation) withdrawFeeExplanation.textContent = 'Since your 60-day lock period is not complete, 50% of your deposit will be deducted as an early withdrawal fee.';
+                document.getElementById('withdrawWarningText').textContent = 'Early withdrawal will incur a 50% fee!';
+                document.getElementById('withdrawWarningText').parentElement.className = 'alert alert--warning';
+                document.getElementById('withdrawFeeExplanation').textContent = 'Since your 60-day lock period is not complete, 50% of your deposit will be deducted as an early withdrawal fee.';
             }
             
             document.getElementById('withdrawModal').classList.add('active');
@@ -3627,7 +3338,6 @@
                 const value = parseFloat(web3.utils.fromWei(weiValue.toString(), 'ether'));
                 return value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             } catch (e) {
-                console.error('Error formatting USDT:', e);
                 return '0.00';
             }
         }
