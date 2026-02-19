@@ -1803,7 +1803,7 @@
                 <i class="fas fa-shield-alt"></i>
                 <span>Contract:</span>
                 <a href="https://bscscan.com/address/0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F" target="_blank">
-                    0x0d00...065F
+                    0x0d...065F
                 </a>
             </div>
         </div>
@@ -1861,8 +1861,8 @@
                             </div>
                             
                             <div class="contract-badge" style="margin-top: 1.5rem;">
-                                <i class="fas fa-file-contract"></i>
-                                <span>Smart Contract:</span>
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Contract:</span>
                                 <a href="https://bscscan.com/address/0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F" target="_blank" style="color: var(--gold);">
                                     0x0d...065F
                                 </a>
@@ -2825,7 +2825,7 @@
         // ===== WALLET CONNECTION =====
         async function connectWallet() {
             if (!window.ethereum) {
-                showNotification('Please install MetaMask or use a Web3 browser!', 'error');
+                showNotification('Please install MetaMask!', 'error');
                 return;
             }
             
@@ -2996,7 +2996,7 @@
             const [feePercent, feeAmount] = withdrawFee;
             
             // Profile
-            document.getElementById('dashAddress').textContent = `${userAccount.slice(0, 6)}...${userAccount.slice(-4)}`;
+            document.getElementById('dashAddress').textContent = `${userAccount.slice(0, 4)}...${userAccount.slice(-4)}`;
             
             const rankNames = ['No Rank', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond'];
             const rankClasses = ['', 'bronze', 'silver', 'gold', 'platinum', 'diamond'];
@@ -3213,7 +3213,7 @@
                 showNotification('Submitting investment...', 'info');
                 await contract.methods.invest(amountWei, referrer).send({ from: userAccount });
                 
-                showNotification('Investment successful! Welcome to NanoTrust.', 'success');
+                showNotification('Investment successful!', 'success');
                 document.getElementById('investAmount').value = '';
                 calculateInvestment();
                 await loadUserData();
