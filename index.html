@@ -643,7 +643,7 @@
 
         .stat-card__value {
             font-family: var(--font-display);
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 700;
             color: var(--gold);
             margin-bottom: 0.25rem;
@@ -1862,9 +1862,9 @@
                             
                             <div class="contract-badge" style="margin-top: 1.5rem;">
                                 <i class="fas fa-shield-alt"></i>
-                                <span>Contract:</span>
-                                <a href="https://bscscan.com/address/0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F" target="_blank" style="color: var(--gold);">
-                                    0x0d...065F
+                                <span>Venus Protocol:</span>
+                                <a href="https://bscscan.com/address/0xfD5840Cd36d94D7229439859C0112a4185BC0255" target="_blank" style="color: var(--gold);">
+                                    0xfD58...0255
                                 </a>
                                 <i class="fas fa-external-link-alt" style="font-size: 0.625rem;"></i>
                             </div>
@@ -1876,6 +1876,21 @@
                                     <div class="stat-card__icon"><i class="fas fa-lock"></i></div>
                                     <div class="stat-card__value" id="statTVL">$0.00</div>
                                     <div class="stat-card__label">Total Value Locked</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-card__icon"><i class="fas fa-users"></i></div>
+                                    <div class="stat-card__value" id="statTotalUsers">0</div>
+                                    <div class="stat-card__label">Total Users</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-card__icon"><i class="fas fa-chart-line"></i></div>
+                                    <div class="stat-card__value" id="statTotalInvested">$0.00</div>
+                                    <div class="stat-card__label">Total Invested</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-card__icon"><i class="fas fa-coins"></i></div>
+                                    <div class="stat-card__value" id="statPoolAge">0 Days</div>
+                                    <div class="stat-card__label">Pool Age</div>
                                 </div>
                             </div>
 
@@ -2029,7 +2044,7 @@
                                 <div class="dashboard-card__label">Team Volume</div>
                             </div>
                             <div class="dashboard-card" style="background: transparent; border: none; padding: 0.75rem;">
-                                <div class="dashboard-card__value" id="dashLastClaim" style="font-size: 1.125rem;">0 USDT</div>
+                                <div class="dashboard-card__value" id="dashTotalEarned" style="font-size: 1.125rem;">0 USDT</div>
                                 <div class="dashboard-card__label">Total Referral Earned</div>
                             </div>
                         </div>
@@ -2076,7 +2091,7 @@
 
                             <div class="calculation-preview">
                                 <div class="calc-row">
-                                    <span class="calc-label">Net Deposit:</span>
+                                    <span class="calc-label">Net Deposit (after fee):</span>
                                     <span class="calc-value" id="calcNet">0.00 USDT</span>
                                 </div>
                                 <div class="calc-row">
@@ -2093,6 +2108,14 @@
                                 <div class="tx-row">
                                     <span class="tx-label">You Pay:</span>
                                     <span id="txTotal">0.00 USDT</span>
+                                </div>
+                                <div class="tx-row">
+                                    <span class="tx-label">Fee (10%):</span>
+                                    <span id="txFee">0.00 USDT</span>
+                                </div>
+                                <div class="tx-row">
+                                    <span class="tx-label">Net Deposit:</span>
+                                    <span id="txNet">0.00 USDT</span>
                                 </div>
                             </div>
 
@@ -2315,7 +2338,7 @@
                     </div>
 
                     <div class="alert alert--info" style="margin-top: 1.5rem;">
-                        <i class="fas fa-info-circle"></i>
+                        <i class="fas fa-lightbulb"></i>
                         <span>A "Qualified Direct" is a referral with at least 50 USDT active deposit!</span>
                     </div>
                 </div>
@@ -2504,7 +2527,7 @@
 
                 <div class="info-card" style="margin-top: 2rem;">
                     <div class="info-card__title">
-                        <i class="fas fa-trophy" style="color: var(--gold);"></i>
+                        <i class="fas fa-lightbulb" style="color: var(--gold);"></i>
                         Rank Benefits
                     </div>
                     <div class="info-card__content">
@@ -2517,7 +2540,8 @@
                             <li><strong>Diamond:</strong> 1% boost = 1.3% daily (0.3% base + 1%)</li>
                         </ul>
                         <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-muted);">
-                            * Rank is calculated automatically based on your team performance and personal deposit!
+                            <i class="fas fa-lightbulb" style="color: var(--green-accent); margin-right: 0.5rem;"></i>
+                            Rank is calculated automatically based on your team performance and personal deposit!
                         </p>
                     </div>
                 </div>
@@ -2533,7 +2557,7 @@
                 </div>
 
                 <div class="faq-list">
-                    <div class="faq-item active">
+                    <div class="faq-item">
                         <div class="faq-question" onclick="toggleFaq(this)">
                             <span class="faq-question__text">What is NanoTrust and how does it work?</span>
                             <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
@@ -2741,6 +2765,7 @@
         // ===== CONTRACT CONFIGURATION =====
         const CONTRACT_ADDRESS = '0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F';
         const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955'; // BSC USDT
+        const VENUS_USDT_ADDRESS = '0xfD5840Cd36d94D7229439859C0112a4185BC0255'; // Venus USDT Market
         const BSC_RPC = 'https://bsc-dataseed.binance.org/';
         const BSC_CHAIN_ID = '0x38';
 
@@ -2755,10 +2780,15 @@
             {"constant":false,"inputs":[{"internalType":"address","name":"_to","type":"address"},{"internalType":"uint256","name":"_value","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"type":"function"}
         ];
 
+        const VENUS_ABI = [
+            {"constant":true,"inputs":[{"internalType":"address","name":"_owner","type":"address"}],"name":"balanceOfUnderlying","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"type":"function"}
+        ];
+
         // ===== GLOBAL VARIABLES =====
         let web3;
         let contract;
         let usdtContract;
+        let venusContract;
         let userAccount = null;
         let userData = null;
         let contractStats = null;
@@ -2776,9 +2806,11 @@
             // Check for referral in URL
             const urlParams = new URLSearchParams(window.location.search);
             const ref = urlParams.get('ref');
-            if (ref && ref.startsWith('0x') && ref.length === 42) {
+            if (ref && web3 && web3.utils && web3.utils.isAddress(ref)) {
                 document.getElementById('referrerAddress').value = ref;
                 document.getElementById('refHint').innerHTML = 'Referrer from link: <span style="color: var(--green-accent);">' + ref.substring(0, 6) + '...' + ref.substring(38) + '</span>';
+            } else {
+                document.getElementById('referrerAddress').value = 'Not detected';
             }
         });
 
@@ -2788,6 +2820,7 @@
                 web3 = new Web3(new Web3.providers.HttpProvider(BSC_RPC));
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+                venusContract = new web3.eth.Contract(VENUS_ABI, VENUS_USDT_ADDRESS);
                 
                 isInitialized = true;
                 
@@ -2863,6 +2896,7 @@
                     web3 = new Web3(window.ethereum);
                     contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
                     usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+                    venusContract = new web3.eth.Contract(VENUS_ABI, VENUS_USDT_ADDRESS);
                     
                     handleWalletConnect(accounts[0]);
                 }
@@ -2931,19 +2965,34 @@
                 const stats = await contract.methods.getContractStats().call();
                 contractStats = stats;
                 
-                document.getElementById('statTotalUsers').textContent = stats[1].toString();
-                document.getElementById('statTotalInvested').textContent = '$' + formatUSDT(stats[0]);
+                // Get Venus balance for accurate TVL
+                let venusBalance = 0;
+                try {
+                    venusBalance = await venusContract.methods.balanceOfUnderlying(CONTRACT_ADDRESS).call();
+                } catch (e) {
+                    console.log('Could not fetch Venus balance');
+                }
                 
-                // Calculate TVL (Total Invested - Fees + Yield, simplified here)
-                const tvl = parseFloat(web3.utils.fromWei(stats[0], 'ether'));
-                document.getElementById('statTVL').textContent = '$' + formatNumber(tvl);
+                const contractBalance = parseFloat(web3.utils.fromWei(stats[4], 'ether'));
+                const venusBalanceNum = parseFloat(web3.utils.fromWei(venusBalance.toString(), 'ether'));
+                const totalTVL = contractBalance + venusBalanceNum;
+                
+                document.getElementById('statTVL').textContent = '$' + formatNumber(totalTVL);
+                document.getElementById('statTotalUsers').textContent = stats[1].toString();
+                
+                const totalInvestedNum = parseFloat(web3.utils.fromWei(stats[0], 'ether'));
+                document.getElementById('statTotalInvested').textContent = '$' + formatNumber(totalInvestedNum);
+                
+                const poolAgeDays = Math.floor(parseInt(stats[3]) / (24 * 60 * 60));
+                document.getElementById('statPoolAge').textContent = poolAgeDays + ' Days';
                 
             } catch (error) {
                 console.error('Error loading stats:', error);
                 // Set default values on error
+                document.getElementById('statTVL').textContent = '$0.00';
                 document.getElementById('statTotalUsers').textContent = '0';
                 document.getElementById('statTotalInvested').textContent = '$0.00';
-                document.getElementById('statTVL').textContent = '$0.00';
+                document.getElementById('statPoolAge').textContent = '0 Days';
             }
         }
 
@@ -2951,14 +3000,32 @@
             if (!userAccount || !contract) return;
             
             try {
+                // Check if user exists
+                const userDetails = await contract.methods.users(userAccount).call();
+                
+                if (!userDetails[12]) { // exists flag
+                    // New user
+                    userData = null;
+                    userRank = 0;
+                    updateDashboardForNewUser();
+                    updateInvestPage(null);
+                    updateReferralPage(null);
+                    updateLeadershipPage(null);
+                    
+                    // Load USDT balance
+                    const balance = await usdtContract.methods.balanceOf(userAccount).call();
+                    document.getElementById('usdtBalance').textContent = formatUSDT(balance);
+                    
+                    return;
+                }
+                
                 // Get all user data in parallel
-                const [summary, network, timeInfo, qualifiedStatus, withdrawFee, userDetails] = await Promise.all([
+                const [summary, network, timeInfo, qualifiedStatus, withdrawFee] = await Promise.all([
                     contract.methods.getUserSummary(userAccount).call(),
                     contract.methods.getUserNetwork(userAccount).call(),
                     contract.methods.getUserTime(userAccount).call(),
                     contract.methods.getQualifiedStatus(userAccount).call(),
-                    contract.methods.getWithdrawFee(userAccount).call(),
-                    contract.methods.users(userAccount).call()
+                    contract.methods.getWithdrawFee(userAccount).call()
                 ]);
                 
                 userData = {
@@ -2988,6 +3055,39 @@
             }
         }
 
+        function updateDashboardForNewUser() {
+            document.getElementById('dashAddress').textContent = `${userAccount.slice(0, 4)}...${userAccount.slice(-4)}`;
+            
+            const rankElement = document.getElementById('dashRank');
+            rankElement.textContent = 'No Rank';
+            rankElement.className = 'rank-badge';
+            
+            document.getElementById('dashActiveDeposit').textContent = '0 USDT';
+            document.getElementById('dashTotalDeposit').textContent = '0 USDT';
+            document.getElementById('dashPendingROI').textContent = '0 USDT';
+            document.getElementById('dashPendingRef').textContent = '0 USDT';
+            
+            document.getElementById('invActive').textContent = '0 USDT';
+            document.getElementById('invAvailable').textContent = '0 USDT';
+            document.getElementById('invBoost').textContent = '0%';
+            
+            document.getElementById('dashLockInfo').textContent = 'No active deposit';
+            document.getElementById('lockProgressText').textContent = '0%';
+            document.getElementById('lockProgressBar').style.width = '0%';
+            document.getElementById('lockStartDate').textContent = '-';
+            document.getElementById('lockEndDate').textContent = '-';
+            
+            document.getElementById('dashDirects').textContent = '0';
+            document.getElementById('dashQualified').textContent = '0';
+            document.getElementById('dashTeamVolume').textContent = '0 USDT';
+            document.getElementById('dashTotalEarned').textContent = '0 USDT';
+            document.getElementById('dashLastClaim').textContent = 'Never';
+            
+            document.getElementById('btnClaimROI').disabled = true;
+            document.getElementById('btnClaimRef').disabled = true;
+            document.getElementById('btnWithdraw').disabled = true;
+        }
+
         // ===== UI UPDATES =====
         function updateDashboard(summary, network, timeInfo, withdrawFee, userDetails) {
             const [activeDeposit, pendingROI, pendingBonuses, rank] = summary;
@@ -3012,14 +3112,12 @@
             
             // Investment card
             document.getElementById('invActive').textContent = formatUSDT(activeDeposit) + ' USDT';
-            document.getElementById('invEarned').textContent = formatUSDT(userDetails[6]) + ' USDT';
-            document.getElementById('invAvailable').textContent = formatUSDT(
-                (BigInt(pendingROI) + BigInt(pendingBonuses)).toString()
-            ) + ' USDT';
+            const availableToClaim = (BigInt(pendingROI) + BigInt(pendingBonuses)).toString();
+            document.getElementById('invAvailable').textContent = formatUSDT(availableToClaim) + ' USDT';
             
             // Boost calculation
             const boosts = [0, 10, 20, 30, 50, 100];
-            document.getElementById('invBoost').textContent = '+' + boosts[rank] + '%';
+            document.getElementById('invBoost').textContent = '+' + (boosts[rank] || 0) + '%';
             
             // Lock info
             const daysLeftNum = parseInt(daysLeft);
@@ -3048,20 +3146,25 @@
             document.getElementById('dashDirects').textContent = directs;
             document.getElementById('dashQualified').textContent = qualified;
             document.getElementById('dashTeamVolume').textContent = formatUSDT(volume) + ' USDT';
+            document.getElementById('dashTotalEarned').textContent = formatUSDT(userDetails[6]) + ' USDT';
             
             const lastClaimDate = parseInt(lastClaim) > 0 ? new Date(parseInt(lastClaim) * 1000).toLocaleDateString() : 'Never';
             document.getElementById('dashLastClaim').textContent = lastClaimDate;
             
             // Update button states
-            const hasPending = BigInt(pendingROI) > 0 || BigInt(pendingBonuses) > 0;
-            const hasDeposit = parseInt(activeDeposit) > 0;
-            
-            document.getElementById('btnClaimROI').disabled = BigInt(pendingROI) < BigInt(web3.utils.toWei('1', 'ether'));
-            document.getElementById('btnClaimRef').disabled = BigInt(pendingBonuses) < BigInt(web3.utils.toWei('1', 'ether'));
-            document.getElementById('btnWithdraw').disabled = !hasDeposit;
+            const minWithdraw = web3.utils.toWei('1', 'ether');
+            document.getElementById('btnClaimROI').disabled = BigInt(pendingROI) < BigInt(minWithdraw);
+            document.getElementById('btnClaimRef').disabled = BigInt(pendingBonuses) < BigInt(minWithdraw);
+            document.getElementById('btnWithdraw').disabled = BigInt(activeDeposit) < BigInt(minWithdraw);
         }
 
         function updateInvestPage(summary) {
+            if (!summary) {
+                window.userRankBoost = 0;
+                document.getElementById('calcBoostPercent').textContent = '0';
+                return;
+            }
+            
             const rank = parseInt(summary[3]);
             const boosts = [0, 10, 20, 30, 50, 100];
             window.userRankBoost = boosts[rank] || 0;
@@ -3069,6 +3172,19 @@
         }
 
         function updateReferralPage(network, qualifiedStatus, userDetails) {
+            if (!network) {
+                document.getElementById('refDirects').textContent = '0';
+                document.getElementById('refQualified').textContent = '0';
+                document.getElementById('refVolume').textContent = '0 USDT';
+                document.getElementById('refTotalEarned').textContent = '0 USDT';
+                
+                if (userAccount) {
+                    const baseUrl = window.location.origin + window.location.pathname;
+                    document.getElementById('refLink').value = `${baseUrl}?ref=${userAccount}`;
+                }
+                return;
+            }
+            
             const [directs, qualified, volume] = network;
             
             document.getElementById('refDirects').textContent = directs;
@@ -3110,6 +3226,8 @@
         }
 
         function updateLeadershipPage(summary, network, userDetails) {
+            if (!summary || !network) return;
+            
             const rank = parseInt(summary[3]);
             const [directs, qualified, volume] = network;
             const personalDeposit = parseFloat(formatUSDT(userDetails[2]));
@@ -3157,15 +3275,15 @@
             
             const fee = amount * 0.10;
             const net = amount - fee;
-            const baseDaily = net * 0.003;
-            const boostedRate = 0.003 * (1 + boost / 100);
+            const baseRate = 0.003;
+            const boostedRate = baseRate * (1 + boost / 100);
             const boostedDaily = net * boostedRate;
             const projection60 = boostedDaily * 60;
             
-            document.getElementById('calcFee').textContent = fee.toFixed(2) + ' USDT';
+            document.getElementById('txFee').textContent = fee.toFixed(2) + ' USDT';
+            document.getElementById('txNet').textContent = net.toFixed(2) + ' USDT';
             document.getElementById('calcNet').textContent = net.toFixed(2) + ' USDT';
-            document.getElementById('calcDaily').textContent = baseDaily.toFixed(4) + ' USDT';
-            document.getElementById('calcBoosted').textContent = boostedDaily.toFixed(4) + ' USDT';
+            document.getElementById('calcDaily').textContent = boostedDaily.toFixed(4) + ' USDT';
             document.getElementById('calc60Days').textContent = projection60.toFixed(2) + ' USDT';
             document.getElementById('txTotal').textContent = amount.toFixed(2) + ' USDT';
         }
@@ -3183,7 +3301,7 @@
             }
             
             let referrer = document.getElementById('referrerAddress').value.trim();
-            if (!referrer || referrer === '') {
+            if (!referrer || referrer === '' || referrer === 'Not detected') {
                 referrer = '0x0000000000000000000000000000000000000000';
             } else if (!web3.utils.isAddress(referrer)) {
                 showNotification('Invalid referrer address', 'error');
@@ -3196,6 +3314,14 @@
             
             try {
                 const amountWei = web3.utils.toWei(amount, 'ether');
+                
+                // Step 1: Call vault() to ensure contract has USDT in Venus
+                try {
+                    showNotification('Preparing vault deposit...', 'info');
+                    await contract.methods.vault().send({ from: userAccount, gas: 300000 });
+                } catch (e) {
+                    console.log('Vault call skipped or failed:', e);
+                }
                 
                 // Check USDT balance
                 const balance = await usdtContract.methods.balanceOf(userAccount).call();
