@@ -1847,8 +1847,7 @@
                                 Decentralized Yield <span class="gradient-text">Infrastructure</span>
                             </h1>
                             <p class="hero__description">
-                                Secure, transparent, and fully on-chain DeFi platform powered by Venus Protocol. 
-                                Earn up to <strong>0.6% daily ROI</strong> through our 5-tier Leadership Rank system.
+                                Secure, transparent, and fully on-chain DeFi platform powered by Venus Protocol
                             </p>
                             <div class="hero__buttons">
                                 <button class="btn btn--gold btn-lg" onclick="showSection('invest')">
@@ -1865,7 +1864,7 @@
                                 <i class="fas fa-file-contract"></i>
                                 <span>Smart Contract:</span>
                                 <a href="https://bscscan.com/address/0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F" target="_blank" style="color: var(--gold);">
-                                    0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F
+                                    0x0d...065F
                                 </a>
                                 <i class="fas fa-external-link-alt" style="font-size: 0.625rem;"></i>
                             </div>
@@ -1877,21 +1876,6 @@
                                     <div class="stat-card__icon"><i class="fas fa-lock"></i></div>
                                     <div class="stat-card__value" id="statTVL">$0.00</div>
                                     <div class="stat-card__label">Total Value Locked</div>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-card__icon"><i class="fas fa-users"></i></div>
-                                    <div class="stat-card__value" id="statTotalUsers">0</div>
-                                    <div class="stat-card__label">Total Users</div>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-card__icon"><i class="fas fa-chart-line"></i></div>
-                                    <div class="stat-card__value" id="statTotalInvested">$0.00</div>
-                                    <div class="stat-card__label">Total Invested</div>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-card__icon"><i class="fas fa-percentage"></i></div>
-                                    <div class="stat-card__value">0.3%</div>
-                                    <div class="stat-card__label">Base Daily ROI</div>
                                 </div>
                             </div>
 
@@ -1920,7 +1904,7 @@
             <div class="container">
                 <div class="section__header">
                     <h2 class="section__title gradient-text">Dashboard</h2>
-                    <p class="section__subtitle">Track Your Investments, Earnings, and Rank Progress</p>
+                    <p class="section__subtitle">Track Your Investments, Earnings and Rank Progress</p>
                 </div>
 
                 <div class="alert alert--warning" id="dashboardWalletAlert">
@@ -1986,10 +1970,6 @@
                                 <div class="investment-stat__label">Active Deposit</div>
                             </div>
                             <div class="investment-stat">
-                                <div class="investment-stat__value" id="invEarned">0 USDT</div>
-                                <div class="investment-stat__label">Referral Earned</div>
-                            </div>
-                            <div class="investment-stat">
                                 <div class="investment-stat__value" id="invAvailable">0 USDT</div>
                                 <div class="investment-stat__label">Available to Claim</div>
                             </div>
@@ -2050,7 +2030,7 @@
                             </div>
                             <div class="dashboard-card" style="background: transparent; border: none; padding: 0.75rem;">
                                 <div class="dashboard-card__value" id="dashLastClaim" style="font-size: 1.125rem;">-</div>
-                                <div class="dashboard-card__label">Last Claim</div>
+                                <div class="dashboard-card__label">Total Referral Earned</div>
                             </div>
                         </div>
                     </div>
@@ -2063,7 +2043,7 @@
             <div class="container">
                 <div class="section__header">
                     <h2 class="section__title gradient-text">Invest</h2>
-                    <p class="section__subtitle">Start Earning 0.3% Base Daily ROI + Rank Boosts</p>
+                    <p class="section__subtitle">Start Earning Daily ROI</p>
                 </div>
 
                 <div class="alert alert--warning" id="investWalletAlert">
@@ -2078,38 +2058,30 @@
                                 <div class="invest-form__icon"><i class="fas fa-rocket"></i></div>
                                 <div>
                                     <h3>New Investment</h3>
-                                    <p style="font-size: 0.875rem; color: var(--text-muted);">Minimum 1 USDT • 10% management fee</p>
+                                    <p style="font-size: 0.875rem; color: var(--text-muted);">Minimum 1 USDT</p>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Investment Amount (USDT)</label>
-                                <input type="number" class="form-input" id="investAmount" placeholder="Enter amount (min 1 USDT)" min="1" step="0.01">
+                                <input type="number" class="form-input" id="investAmount" placeholder="Enter amount" min="1" step="0.01">
                                 <div class="form-hint">Wallet Balance: <span id="usdtBalance">0.00</span> USDT</div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Referrer Address (Optional)</label>
                                 <input type="text" class="form-input" id="referrerAddress" placeholder="0x...">
-                                <div class="form-hint" id="refHint">Leave empty if no referrer. Must be valid address.</div>
+                                <div class="form-hint" id="refHint">Leave empty if no referrer</div>
                             </div>
 
                             <div class="calculation-preview">
                                 <div class="calc-row">
-                                    <span class="calc-label">Management Fee (10%):</span>
-                                    <span class="calc-value" id="calcFee">0.00 USDT</span>
-                                </div>
-                                <div class="calc-row">
-                                    <span class="calc-label">Net Deposit to Venus:</span>
+                                    <span class="calc-label">Net Deposit:</span>
                                     <span class="calc-value" id="calcNet">0.00 USDT</span>
                                 </div>
                                 <div class="calc-row">
-                                    <span class="calc-label">Base Daily ROI (0.3%):</span>
+                                    <span class="calc-label">Daily ROI:</span>
                                     <span class="calc-value" id="calcDaily">0.0000 USDT</span>
-                                </div>
-                                <div class="calc-row">
-                                    <span class="calc-label">With Rank Boost (<span id="calcBoostPercent">0</span>%):</span>
-                                    <span class="calc-value highlight" id="calcBoosted">0.0000 USDT</span>
                                 </div>
                                 <div class="calc-row">
                                     <span class="calc-label">60 Days Projection:</span>
@@ -2143,7 +2115,7 @@
                                     <div style="width: 32px; height: 32px; background: var(--green-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">1</div>
                                     <div>
                                         <div style="font-weight: 600; margin-bottom: 0.25rem;">Deposit USDT</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Minimum 1 USDT. 10% fee deducted for management.</div>
+                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Minimum 1 USDT to start.</div>
                                     </div>
                                 </div>
 
@@ -2151,7 +2123,7 @@
                                     <div style="width: 32px; height: 32px; background: var(--green-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">2</div>
                                     <div>
                                         <div style="font-weight: 600; margin-bottom: 0.25rem;">Venus Protocol</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-muted);">90% of your deposit is supplied to Venus Protocol for yield generation.</div>
+                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Your deposit is supplied to Venus Protocol for yield generation.</div>
                                     </div>
                                 </div>
 
@@ -2344,7 +2316,7 @@
 
                     <div class="alert alert--info" style="margin-top: 1.5rem;">
                         <i class="fas fa-info-circle"></i>
-                        <span>A "Qualified Direct" is a referral with at least 50 USDT active deposit.</span>
+                        <span>A "Qualified Direct" is a referral with at least 50 USDT active deposit!</span>
                     </div>
                 </div>
             </div>
@@ -2365,7 +2337,7 @@
                             <div class="rank-icon"><i class="fas fa-medal"></i></div>
                             <div>
                                 <div class="rank-card__title">Bronze</div>
-                                <div class="rank-card__boost">+10% ROI Boost (0.33% daily)</div>
+                                <div class="rank-card__boost">+0.1% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2399,7 +2371,7 @@
                             <div class="rank-icon"><i class="fas fa-medal"></i></div>
                             <div>
                                 <div class="rank-card__title">Silver</div>
-                                <div class="rank-card__boost">+20% ROI Boost (0.36% daily)</div>
+                                <div class="rank-card__boost">+0.2% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2433,7 +2405,7 @@
                             <div class="rank-icon"><i class="fas fa-crown"></i></div>
                             <div>
                                 <div class="rank-card__title">Gold</div>
-                                <div class="rank-card__boost">+30% ROI Boost (0.39% daily)</div>
+                                <div class="rank-card__boost">+0.3% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2467,7 +2439,7 @@
                             <div class="rank-icon"><i class="fas fa-gem"></i></div>
                             <div>
                                 <div class="rank-card__title">Platinum</div>
-                                <div class="rank-card__boost">+50% ROI Boost (0.45% daily)</div>
+                                <div class="rank-card__boost">+0.5% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2501,7 +2473,7 @@
                             <div class="rank-icon"><i class="fas fa-star"></i></div>
                             <div>
                                 <div class="rank-card__title">Diamond</div>
-                                <div class="rank-card__boost">+100% ROI Boost (0.6% daily)</div>
+                                <div class="rank-card__boost">+1% ROI Boost</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2538,14 +2510,14 @@
                     <div class="info-card__content">
                         <p style="margin-bottom: 1rem;">Leadership ranks provide permanent ROI boosts on all your active deposits:</p>
                         <ul class="info-list">
-                            <li><strong>Bronze:</strong> 10% boost = 0.33% daily (0.3% base + 0.03%)</li>
-                            <li><strong>Silver:</strong> 20% boost = 0.36% daily (0.3% base + 0.06%)</li>
-                            <li><strong>Gold:</strong> 30% boost = 0.39% daily (0.3% base + 0.09%)</li>
-                            <li><strong>Platinum:</strong> 50% boost = 0.45% daily (0.3% base + 0.15%)</li>
-                            <li><strong>Diamond:</strong> 100% boost = 0.6% daily (0.3% base + 0.3%)</li>
+                            <li><strong>Bronze:</strong> 0.1% boost = 0.4% daily (0.3% base + 0.1%)</li>
+                            <li><strong>Silver:</strong> 0.2% boost = 0.5% daily (0.3% base + 0.2%)</li>
+                            <li><strong>Gold:</strong> 0.3% boost = 0.6% daily (0.3% base + 0.3%)</li>
+                            <li><strong>Platinum:</strong> 0.5% boost = 0.8% daily (0.3% base + 0.5%)</li>
+                            <li><strong>Diamond:</strong> 1% boost = 1.3% daily (0.3% base + 1%)</li>
                         </ul>
                         <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-muted);">
-                            * Rank is calculated automatically based on your team performance and personal deposit.
+                            * Rank is calculated automatically based on your team performance and personal deposit!
                         </p>
                     </div>
                 </div>
@@ -2680,7 +2652,7 @@
                                 <code>(Active Deposit × (Base ROI + Rank Boost)) / 10000</code><br><br>
                                 Where:<br>
                                 • Base ROI = 30 (0.3%)<br>
-                                • Rank Boost = 0-100 depending on your rank<br>
+                                • ROI Boost = 0-100 depending on your rank<br>
                                 • Calculation is based on time elapsed since last claim<br><br>
                                 Example: With 1,000 USDT deposit and Gold rank (+30%):<br>
                                 Daily ROI = 1000 × (30 + 30) / 10000 = 6 USDT per day (0.6%)
@@ -2700,7 +2672,7 @@
                     <div class="logo-icon">⚡</div>
                     <span class="logo-text">NanoTrust</span>
                 </div>
-                <p style="color: var(--text-muted); font-size: 0.875rem;">Secure, Transparent and Fully On-Chain DeFi Infrastructure</p>
+                <p style="color: var(--text-muted); font-size: 0.875rem;">Secure, transparent, and fully on-chain DeFi platform powered by Venus Protocol</p>
                 <div class="footer__social">
                     <a href="#" class="social-link" title="Telegram"><i class="fab fa-telegram"></i></a>
                     <a href="#" class="social-link" title="Twitter"><i class="fab fa-twitter"></i></a>
@@ -2710,11 +2682,11 @@
                     <i class="fas fa-shield-alt"></i>
                     <span>Contract:</span>
                     <a href="https://bscscan.com/address/0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F" target="_blank">
-                        0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F
+                        0x0d...065F
                     </a>
                 </div>
                 <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 1rem;">
-                    © 2026 NanoTrust. All rights reserved.
+                    © 2026 All rights reserved
                 </p>
             </div>
         </div>
