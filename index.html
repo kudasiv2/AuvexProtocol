@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NanoTrust - On-Chain Yield Infrastructure</title>
-    <meta name="description" content="NanoTrust - Powered by Venus Protocol Integration">
+    <meta name="description" content="NanoTrust - Powered by Venus Protocol Integration. Secure, Transparent DeFi Infrastructure with up to 1% Daily ROI through Leadership Ranks.">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,12 +13,6 @@
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- RainbowKit & Wagmi -->
-    <script src="https://unpkg.com/@rainbow-me/rainbowkit@2.0.0/dist/umd/index.js"></script>
-    <script src="https://unpkg.com/wagmi@2.0.0/dist/umd/index.js"></script>
-    <script src="https://unpkg.com/viem@2.0.0/dist/umd/index.js"></script>
-    <script src="https://unpkg.com/@tanstack/react-query@5.0.0/dist/umd/index.js"></script>
     
     <!-- Web3 -->
     <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
@@ -294,25 +288,6 @@
             .nav__toggle {
                 display: none;
             }
-        }
-
-        /* RainbowKit Connect Button Custom Styles */
-        .rk-connect-button {
-            background: var(--gradient-green) !important;
-            border: 1px solid var(--green-accent) !important;
-            border-radius: var(--radius-full) !important;
-            color: white !important;
-            font-family: var(--font-primary) !important;
-            font-size: 0.875rem !important;
-            font-weight: 600 !important;
-            padding: 0.625rem 1.25rem !important;
-            box-shadow: var(--shadow-glow) !important;
-            transition: all var(--transition-base) !important;
-        }
-
-        .rk-connect-button:hover {
-            transform: translateY(-2px) !important;
-            box-shadow: var(--shadow-glow-strong) !important;
         }
 
         /* ===== BUTTONS ===== */
@@ -825,6 +800,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .investment-card__title {
@@ -1266,7 +1243,7 @@
         }
 
         .rank-requirements {
-            space-y: 0.75rem;
+            margin-top: 0.75rem;
         }
 
         .rank-req {
@@ -1657,6 +1634,102 @@
         .tx-label {
             color: var(--text-muted);
         }
+
+        /* Wallet Button */
+        .wallet-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            background: var(--gradient-green);
+            border: 1px solid var(--green-accent);
+            border-radius: var(--radius-full);
+            color: white;
+            font-family: var(--font-primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .wallet-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow-strong);
+        }
+
+        .wallet-btn.connected {
+            background: var(--glass-bg);
+            border-color: rgba(124, 179, 66, 0.3);
+        }
+
+        /* Additional Info Cards */
+        .info-card {
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-card__title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-card__content {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            line-height: 1.7;
+        }
+
+        .info-list {
+            list-style: none;
+            margin-top: 0.75rem;
+        }
+
+        .info-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .info-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0.5rem;
+            color: var(--green-accent);
+        }
+
+        /* Contract Info Badge */
+        .contract-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(124, 179, 66, 0.1);
+            border: 1px solid rgba(124, 179, 66, 0.2);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-family: monospace;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+        }
+
+        .contract-badge a {
+            color: var(--green-accent);
+            text-decoration: none;
+        }
+
+        .contract-badge a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -1686,12 +1759,10 @@
                 </ul>
             </div>
 
-            <div id="connectButtonContainer">
-                <button class="wallet-btn" id="connectWalletBtn">
-                    <i class="fas fa-wallet"></i>
-                    <span>Connect Wallet</span>
-                </button>
-            </div>
+            <button class="wallet-btn" id="connectWalletBtn">
+                <i class="fas fa-wallet"></i>
+                <span>Connect Wallet</span>
+            </button>
         </nav>
     </header>
 
@@ -1725,6 +1796,16 @@
             <a class="sidebar__link" onclick="showSection('faq')">
                 <i class="fas fa-question-circle"></i> FAQ
             </a>
+        </div>
+
+        <div class="sidebar__section" style="margin-top: 2rem; padding-top: 1rem; border-top: var(--glass-border);">
+            <div class="contract-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>Contract:</span>
+                <a href="https://bscscan.com/address/0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F" target="_blank">
+                    0x0d00...065F
+                </a>
+            </div>
         </div>
     </aside>
 
@@ -1760,13 +1841,14 @@
                         <div class="hero__content">
                             <div class="hero__badge">
                                 <i class="fas fa-shield-alt"></i>
-                                Powered by Venus Protocol
+                                Audited by OpenZeppelin
                             </div>
                             <h1 class="hero__title">
-                                On-Chain Yield <span class="gradient-text">Infrastructure</span>
+                                Decentralized Yield <span class="gradient-text">Infrastructure</span>
                             </h1>
                             <p class="hero__description">
-                                Secure, Transparent and Fully On-Chain DeFi Infrastructure
+                                Secure, transparent, and fully on-chain DeFi platform powered by Venus Protocol. 
+                                Earn up to <strong>0.6% daily ROI</strong> through our 5-tier Leadership Rank system.
                             </p>
                             <div class="hero__buttons">
                                 <button class="btn btn--gold btn-lg" onclick="showSection('invest')">
@@ -1778,14 +1860,54 @@
                                     How It Works
                                 </button>
                             </div>
+                            
+                            <div class="contract-badge" style="margin-top: 1.5rem;">
+                                <i class="fas fa-file-contract"></i>
+                                <span>Smart Contract:</span>
+                                <a href="https://bscscan.com/address/0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F" target="_blank" style="color: var(--gold);">
+                                    0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F
+                                </a>
+                                <i class="fas fa-external-link-alt" style="font-size: 0.625rem;"></i>
+                            </div>
                         </div>
                         
                         <div class="hero__stats">
                             <div class="stats-grid">
                                 <div class="stat-card">
                                     <div class="stat-card__icon"><i class="fas fa-lock"></i></div>
-                                    <div class="stat-card__value" id="statTVL">$112.28M</div>
+                                    <div class="stat-card__value" id="statTVL">$0.00</div>
                                     <div class="stat-card__label">Total Value Locked</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-card__icon"><i class="fas fa-users"></i></div>
+                                    <div class="stat-card__value" id="statTotalUsers">0</div>
+                                    <div class="stat-card__label">Total Users</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-card__icon"><i class="fas fa-chart-line"></i></div>
+                                    <div class="stat-card__value" id="statTotalInvested">$0.00</div>
+                                    <div class="stat-card__label">Total Invested</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-card__icon"><i class="fas fa-percentage"></i></div>
+                                    <div class="stat-card__value">0.3%</div>
+                                    <div class="stat-card__label">Base Daily ROI</div>
+                                </div>
+                            </div>
+
+                            <div class="info-card">
+                                <div class="info-card__title">
+                                    <i class="fas fa-info-circle" style="color: var(--green-accent);"></i>
+                                    Platform Features
+                                </div>
+                                <ul class="info-list">
+                                    <li>Minimum investment: <strong>1 USDT</strong></li>
+                                    <li>10% management fee on deposits</li>
+                                    <li>60-day lock period (50% early withdrawal fee)</li>
+                                    <li>5-level referral system (5%, 3%, 2%, 1%, 0.5%)</li>
+                                    <li>5 leadership ranks with up to +100% ROI boost</li>
+                                    <li>Funds secured in Venus Protocol</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -1798,12 +1920,12 @@
             <div class="container">
                 <div class="section__header">
                     <h2 class="section__title gradient-text">Dashboard</h2>
-                    <p class="section__subtitle">Track Your Investments and Earnings</p>
+                    <p class="section__subtitle">Track Your Investments, Earnings, and Rank Progress</p>
                 </div>
 
                 <div class="alert alert--warning" id="dashboardWalletAlert">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span>Please Connect Your Wallet</span>
+                    <span>Please connect your wallet to view your dashboard</span>
                 </div>
 
                 <div id="dashboardContent" style="display: none;">
@@ -1814,9 +1936,9 @@
                                 <i class="fas fa-user"></i>
                             </div>
                             <div class="dashboard-info">
-                                <h3>No Name</h3>
+                                <h3 id="dashUserName">Investor</h3>
                                 <div class="dashboard-address" id="dashAddress">0x00...0000</div>
-                                <div class="rank-badge" id="dashRank">Bronze</div>
+                                <div class="rank-badge" id="dashRank">No Rank</div>
                             </div>
                         </div>
                     </div>
@@ -1854,36 +1976,40 @@
                             </h3>
                             <div class="lock-info">
                                 <i class="fas fa-clock"></i>
-                                <span id="dashLockInfo">60 days lock</span>
+                                <span id="dashLockInfo">No active deposit</span>
                             </div>
                         </div>
 
                         <div class="investment-stats">
                             <div class="investment-stat">
-                                <div class="investment-stat__value" id="invActive">0</div>
+                                <div class="investment-stat__value" id="invActive">0 USDT</div>
                                 <div class="investment-stat__label">Active Deposit</div>
                             </div>
                             <div class="investment-stat">
-                                <div class="investment-stat__value" id="invEarned">0</div>
-                                <div class="investment-stat__label">Total Earned</div>
+                                <div class="investment-stat__value" id="invEarned">0 USDT</div>
+                                <div class="investment-stat__label">Referral Earned</div>
                             </div>
                             <div class="investment-stat">
-                                <div class="investment-stat__value" id="invAvailable">0</div>
-                                <div class="investment-stat__label">Available</div>
+                                <div class="investment-stat__value" id="invAvailable">0 USDT</div>
+                                <div class="investment-stat__label">Available to Claim</div>
                             </div>
                             <div class="investment-stat">
                                 <div class="investment-stat__value" id="invBoost">0%</div>
-                                <div class="investment-stat__label">Rank Boost</div>
+                                <div class="investment-stat__label">Rank ROI Boost</div>
                             </div>
                         </div>
 
                         <div style="margin-bottom: 1rem;">
                             <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.5rem;">
-                                <span style="color: var(--text-muted);">Lock Progress</span>
+                                <span style="color: var(--text-muted);">Lock Progress (60 days)</span>
                                 <span id="lockProgressText">0%</span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-bar-fill" id="lockProgressBar" style="width: 0%"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; margin-top: 0.25rem; color: var(--text-muted);">
+                                <span id="lockStartDate">-</span>
+                                <span id="lockEndDate">-</span>
                             </div>
                         </div>
 
@@ -1891,15 +2017,41 @@
                             <button class="btn btn--primary" onclick="showSection('invest')">
                                 <i class="fas fa-plus"></i> Deposit More
                             </button>
-                            <button class="btn btn--gold" onclick="claimROI()">
+                            <button class="btn btn--gold" onclick="claimROI()" id="btnClaimROI">
                                 <i class="fas fa-hand-holding-usd"></i> Claim ROI
                             </button>
-                            <button class="btn btn--secondary" onclick="claimReferral()">
+                            <button class="btn btn--secondary" onclick="claimReferral()" id="btnClaimRef">
                                 <i class="fas fa-gift"></i> Claim Referral
                             </button>
-                            <button class="btn btn--danger" onclick="openWithdrawModal()">
-                                <i class="fas fa-sign-out-alt"></i> Claim Capital
+                            <button class="btn btn--danger" onclick="openWithdrawModal()" id="btnWithdraw">
+                                <i class="fas fa-sign-out-alt"></i> Withdraw Capital
                             </button>
+                        </div>
+                    </div>
+
+                    <!-- Network Stats -->
+                    <div class="info-card">
+                        <div class="info-card__title">
+                            <i class="fas fa-network-wired" style="color: var(--green-accent);"></i>
+                            Your Network
+                        </div>
+                        <div class="dashboard-grid" style="margin-bottom: 0;">
+                            <div class="dashboard-card" style="background: transparent; border: none; padding: 0.75rem;">
+                                <div class="dashboard-card__value" id="dashDirects" style="font-size: 1.125rem;">0</div>
+                                <div class="dashboard-card__label">Direct Referrals</div>
+                            </div>
+                            <div class="dashboard-card" style="background: transparent; border: none; padding: 0.75rem;">
+                                <div class="dashboard-card__value" id="dashQualified" style="font-size: 1.125rem;">0</div>
+                                <div class="dashboard-card__label">Qualified Directs</div>
+                            </div>
+                            <div class="dashboard-card" style="background: transparent; border: none; padding: 0.75rem;">
+                                <div class="dashboard-card__value" id="dashTeamVolume" style="font-size: 1.125rem;">0 USDT</div>
+                                <div class="dashboard-card__label">Team Volume</div>
+                            </div>
+                            <div class="dashboard-card" style="background: transparent; border: none; padding: 0.75rem;">
+                                <div class="dashboard-card__value" id="dashLastClaim" style="font-size: 1.125rem;">-</div>
+                                <div class="dashboard-card__label">Last Claim</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1911,12 +2063,12 @@
             <div class="container">
                 <div class="section__header">
                     <h2 class="section__title gradient-text">Invest</h2>
-                    <p class="section__subtitle">Start Earning 0.3% Daily ROI</p>
+                    <p class="section__subtitle">Start Earning 0.3% Base Daily ROI + Rank Boosts</p>
                 </div>
 
                 <div class="alert alert--warning" id="investWalletAlert">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span>Please Connect Your Wallet</span>
+                    <span>Please connect your wallet to invest</span>
                 </div>
 
                 <div id="investContent" style="display: none;">
@@ -1926,53 +2078,53 @@
                                 <div class="invest-form__icon"><i class="fas fa-rocket"></i></div>
                                 <div>
                                     <h3>New Investment</h3>
-                                    <p style="font-size: 0.875rem; color: var(--text-muted);">Minimum 1 USDT</p>
+                                    <p style="font-size: 0.875rem; color: var(--text-muted);">Minimum 1 USDT • 10% management fee</p>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Amount (USDT)</label>
-                                <input type="number" class="form-input" id="investAmount" placeholder="Minimum 1 USDT" min="1" step="0.01">
-                                <div class="form-hint">Wallet Balance: <span id="usdtBalance">0</span> USDT</div>
+                                <label class="form-label">Investment Amount (USDT)</label>
+                                <input type="number" class="form-input" id="investAmount" placeholder="Enter amount (min 1 USDT)" min="1" step="0.01">
+                                <div class="form-hint">Wallet Balance: <span id="usdtBalance">0.00</span> USDT</div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Referrer Address (Optional)</label>
                                 <input type="text" class="form-input" id="referrerAddress" placeholder="0x...">
-                                <div class="form-hint" id="refHint">Leave Empty If No Referrer</div>
+                                <div class="form-hint" id="refHint">Leave empty if no referrer. Must be valid address.</div>
                             </div>
 
                             <div class="calculation-preview">
                                 <div class="calc-row">
                                     <span class="calc-label">Management Fee (10%):</span>
-                                    <span class="calc-value" id="calcFee">0 USDT</span>
+                                    <span class="calc-value" id="calcFee">0.00 USDT</span>
                                 </div>
                                 <div class="calc-row">
                                     <span class="calc-label">Net Deposit to Venus:</span>
-                                    <span class="calc-value" id="calcNet">0 USDT</span>
+                                    <span class="calc-value" id="calcNet">0.00 USDT</span>
                                 </div>
                                 <div class="calc-row">
-                                    <span class="calc-label">Daily ROI (Base 0.3%):</span>
-                                    <span class="calc-value" id="calcDaily">0 USDT</span>
+                                    <span class="calc-label">Base Daily ROI (0.3%):</span>
+                                    <span class="calc-value" id="calcDaily">0.0000 USDT</span>
                                 </div>
                                 <div class="calc-row">
-                                    <span class="calc-label">With Rank Boost:</span>
-                                    <span class="calc-value highlight" id="calcBoosted">0 USDT</span>
+                                    <span class="calc-label">With Rank Boost (<span id="calcBoostPercent">0</span>%):</span>
+                                    <span class="calc-value highlight" id="calcBoosted">0.0000 USDT</span>
                                 </div>
                                 <div class="calc-row">
                                     <span class="calc-label">60 Days Projection:</span>
-                                    <span class="calc-value highlight" id="calc60Days">0 USDT</span>
+                                    <span class="calc-value highlight" id="calc60Days">0.00 USDT</span>
                                 </div>
                             </div>
 
                             <div class="tx-breakdown">
                                 <div class="tx-row">
                                     <span class="tx-label">You Pay:</span>
-                                    <span id="txTotal">0 USDT</span>
+                                    <span id="txTotal">0.00 USDT</span>
                                 </div>
                             </div>
 
-                            <button class="btn btn--gold" style="width: 100%;" onclick="submitInvestment()">
+                            <button class="btn btn--gold" style="width: 100%;" onclick="submitInvestment()" id="btnInvest">
                                 <i class="fas fa-rocket"></i> Confirm Investment
                             </button>
                         </div>
@@ -1981,43 +2133,48 @@
                             <div class="invest-form__header">
                                 <div class="invest-form__icon"><i class="fas fa-info-circle"></i></div>
                                 <div>
-                                    <h3>Investment Info</h3>
-                                    <p style="font-size: 0.875rem; color: var(--text-muted);">How it Works</p>
+                                    <h3>Investment Details</h3>
+                                    <p style="font-size: 0.875rem; color: var(--text-muted);">How it works</p>
                                 </div>
                             </div>
 
-                            <div style="space-y: 1rem;">
-                                <div style="display: flex; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: rgba(124, 179, 66, 0.05); border-radius: var(--radius-lg);">
+                            <div style="margin-bottom: 1rem;">
+                                <div style="display: flex; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: rgba(124, 179, 66, 0.05); border-radius: var(--radius-lg); border-left: 3px solid var(--green-accent);">
                                     <div style="width: 32px; height: 32px; background: var(--green-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">1</div>
                                     <div>
                                         <div style="font-weight: 600; margin-bottom: 0.25rem;">Deposit USDT</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Minimum 1 USDT to Start</div>
+                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Minimum 1 USDT. 10% fee deducted for management.</div>
                                     </div>
                                 </div>
 
-                                <div style="display: flex; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: rgba(124, 179, 66, 0.05); border-radius: var(--radius-lg);">
+                                <div style="display: flex; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: rgba(124, 179, 66, 0.05); border-radius: var(--radius-lg); border-left: 3px solid var(--green-accent);">
                                     <div style="width: 32px; height: 32px; background: var(--green-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">2</div>
                                     <div>
                                         <div style="font-weight: 600; margin-bottom: 0.25rem;">Venus Protocol</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Funds are deposited to Venus Protocol for yield generation</div>
+                                        <div style="font-size: 0.875rem; color: var(--text-muted);">90% of your deposit is supplied to Venus Protocol for yield generation.</div>
                                     </div>
                                 </div>
 
-                                <div style="display: flex; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: rgba(124, 179, 66, 0.05); border-radius: var(--radius-lg);">
+                                <div style="display: flex; gap: 1rem; margin-bottom: 1rem; padding: 1rem; background: rgba(124, 179, 66, 0.05); border-radius: var(--radius-lg); border-left: 3px solid var(--green-accent);">
                                     <div style="width: 32px; height: 32px; background: var(--green-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">3</div>
                                     <div>
                                         <div style="font-weight: 600; margin-bottom: 0.25rem;">Earn Daily ROI</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-muted);">0.3% base daily ROI + Rank Boost</div>
+                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Base 0.3% daily + rank boost (up to +100% = 0.6% daily).</div>
                                     </div>
                                 </div>
 
-                                <div style="display: flex; gap: 1rem; padding: 1rem; background: rgba(124, 179, 66, 0.05); border-radius: var(--radius-lg);">
+                                <div style="display: flex; gap: 1rem; padding: 1rem; background: rgba(124, 179, 66, 0.05); border-radius: var(--radius-lg); border-left: 3px solid var(--green-accent);">
                                     <div style="width: 32px; height: 32px; background: var(--green-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">4</div>
                                     <div>
                                         <div style="font-weight: 600; margin-bottom: 0.25rem;">60 Days Lock</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Early withdrawal has 50% fee, After 60 days no fee</div>
+                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Early withdrawal: 50% penalty. After 60 days: no fee.</div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="alert alert--info" style="margin-bottom: 0;">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Your rank boost is applied automatically based on your leadership rank!</span>
                             </div>
                         </div>
                     </div>
@@ -2030,19 +2187,19 @@
             <div class="container">
                 <div class="section__header">
                     <h2 class="section__title gradient-text">Referral Program</h2>
-                    <p class="section__subtitle">Build Your Team and Earn Commissions</p>
+                    <p class="section__subtitle">Build Your Team and Earn Up to 5 Levels Deep</p>
                 </div>
 
                 <div class="alert alert--warning" id="referralWalletAlert">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span>Please Connect Your Wallet</span>
+                    <span>Please connect your wallet to view referral info</span>
                 </div>
 
                 <div id="referralContent" style="display: none;">
                     <!-- Referral Link -->
                     <div class="referral-hero">
                         <h3 style="margin-bottom: 0.5rem;">Your Referral Link</h3>
-                        <p style="color: var(--text-muted); font-size: 0.9375rem;">Share this link to invite friends and earn commissions</p>
+                        <p style="color: var(--text-muted); font-size: 0.9375rem;">Share this link to invite friends and earn commissions instantly</p>
                         <div class="referral-link-box">
                             <input type="text" class="form-input" id="refLink" readonly style="flex: 1; font-size: 0.8125rem;">
                             <button class="btn btn--primary" onclick="copyRefLink()">
@@ -2069,44 +2226,49 @@
                             <div class="dashboard-card__label">Team Volume</div>
                         </div>
                         <div class="dashboard-card">
-                            <div class="dashboard-card__icon"><i class="fas fa-user-check"></i></div>
-                            <div class="dashboard-card__value" id="refActive">0</div>
-                            <div class="dashboard-card__label">Active Members</div>
+                            <div class="dashboard-card__icon"><i class="fas fa-coins"></i></div>
+                            <div class="dashboard-card__value" id="refTotalEarned">0 USDT</div>
+                            <div class="dashboard-card__label">Total Referral Earned</div>
                         </div>
                     </div>
 
                     <!-- Commission Levels -->
                     <h3 style="margin-bottom: 1rem; font-size: 1.125rem;">
                         <i class="fas fa-layer-group" style="color: var(--green-accent); margin-right: 0.5rem;"></i>
-                        Commission Structure
+                        Commission Structure (5 Levels)
                     </h3>
                     <div class="commission-levels">
                         <div class="commission-card">
                             <div class="commission-card__level">Level 1</div>
                             <div class="commission-card__percent">5%</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Direct</div>
                         </div>
                         <div class="commission-card">
                             <div class="commission-card__level">Level 2</div>
                             <div class="commission-card__percent">3%</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Indirect</div>
                         </div>
                         <div class="commission-card">
                             <div class="commission-card__level">Level 3</div>
                             <div class="commission-card__percent">2%</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Indirect</div>
                         </div>
                         <div class="commission-card">
                             <div class="commission-card__level">Level 4</div>
                             <div class="commission-card__percent">1%</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Indirect</div>
                         </div>
                         <div class="commission-card">
                             <div class="commission-card__level">Level 5</div>
                             <div class="commission-card__percent">0.5%</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">Indirect</div>
                         </div>
                     </div>
 
-                    <!-- Qualified Status -->
+                    <!-- Qualification Status -->
                     <h3 style="margin-bottom: 1rem; font-size: 1.125rem;">
                         <i class="fas fa-medal" style="color: var(--green-accent); margin-right: 0.5rem;"></i>
-                        Qualification Status
+                        Qualification Requirements
                     </h3>
                     <div class="qualified-status">
                         <div class="qualified-card">
@@ -2130,7 +2292,7 @@
                             </div>
                             <div class="qualified-requirements">
                                 Min Deposit: 30 USDT<br>
-                                Directs Required: 3
+                                Qualified Directs: 3
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-bar-fill" id="qualProgress2" style="width: 0%"></div>
@@ -2144,7 +2306,7 @@
                             </div>
                             <div class="qualified-requirements">
                                 Min Deposit: 50 USDT<br>
-                                Directs Required: 5
+                                Qualified Directs: 5
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-bar-fill" id="qualProgress3" style="width: 0%"></div>
@@ -2158,7 +2320,7 @@
                             </div>
                             <div class="qualified-requirements">
                                 Min Deposit: 70 USDT<br>
-                                Directs Required: 8
+                                Qualified Directs: 8
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-bar-fill" id="qualProgress4" style="width: 0%"></div>
@@ -2172,12 +2334,17 @@
                             </div>
                             <div class="qualified-requirements">
                                 Min Deposit: 100 USDT<br>
-                                Directs Required: 10
+                                Qualified Directs: 10
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-bar-fill" id="qualProgress5" style="width: 0%"></div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="alert alert--info" style="margin-top: 1.5rem;">
+                        <i class="fas fa-info-circle"></i>
+                        <span>A "Qualified Direct" is a referral with at least 50 USDT active deposit.</span>
                     </div>
                 </div>
             </div>
@@ -2198,7 +2365,7 @@
                             <div class="rank-icon"><i class="fas fa-medal"></i></div>
                             <div>
                                 <div class="rank-card__title">Bronze</div>
-                                <div class="rank-card__boost">+0.1% ROI Boost</div>
+                                <div class="rank-card__boost">+10% ROI Boost (0.33% daily)</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2232,7 +2399,7 @@
                             <div class="rank-icon"><i class="fas fa-medal"></i></div>
                             <div>
                                 <div class="rank-card__title">Silver</div>
-                                <div class="rank-card__boost">+0.2% ROI Boost</div>
+                                <div class="rank-card__boost">+20% ROI Boost (0.36% daily)</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2266,7 +2433,7 @@
                             <div class="rank-icon"><i class="fas fa-crown"></i></div>
                             <div>
                                 <div class="rank-card__title">Gold</div>
-                                <div class="rank-card__boost">+0.3% ROI Boost</div>
+                                <div class="rank-card__boost">+30% ROI Boost (0.39% daily)</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2300,7 +2467,7 @@
                             <div class="rank-icon"><i class="fas fa-gem"></i></div>
                             <div>
                                 <div class="rank-card__title">Platinum</div>
-                                <div class="rank-card__boost">+0.5% ROI Boost</div>
+                                <div class="rank-card__boost">+50% ROI Boost (0.45% daily)</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2334,7 +2501,7 @@
                             <div class="rank-icon"><i class="fas fa-star"></i></div>
                             <div>
                                 <div class="rank-card__title">Diamond</div>
-                                <div class="rank-card__boost">+1% ROI Boost</div>
+                                <div class="rank-card__boost">+100% ROI Boost (0.6% daily)</div>
                             </div>
                         </div>
                         <div class="rank-requirements">
@@ -2362,6 +2529,26 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="info-card" style="margin-top: 2rem;">
+                    <div class="info-card__title">
+                        <i class="fas fa-trophy" style="color: var(--gold);"></i>
+                        Rank Benefits
+                    </div>
+                    <div class="info-card__content">
+                        <p style="margin-bottom: 1rem;">Leadership ranks provide permanent ROI boosts on all your active deposits:</p>
+                        <ul class="info-list">
+                            <li><strong>Bronze:</strong> 10% boost = 0.33% daily (0.3% base + 0.03%)</li>
+                            <li><strong>Silver:</strong> 20% boost = 0.36% daily (0.3% base + 0.06%)</li>
+                            <li><strong>Gold:</strong> 30% boost = 0.39% daily (0.3% base + 0.09%)</li>
+                            <li><strong>Platinum:</strong> 50% boost = 0.45% daily (0.3% base + 0.15%)</li>
+                            <li><strong>Diamond:</strong> 100% boost = 0.6% daily (0.3% base + 0.3%)</li>
+                        </ul>
+                        <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-muted);">
+                            * Rank is calculated automatically based on your team performance and personal deposit.
+                        </p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -2381,7 +2568,7 @@
                         </div>
                         <div class="faq-answer">
                             <div class="faq-answer__content">
-                                NanoTrust is a decentralized yield infrastructure powered by Venus Protocol. Users deposit USDT which is then supplied to Venus Protocol to generate yields. Investors earn 0.3% base daily ROI, with additional boosts based on their leadership rank. The platform operates fully on-chain with transparent smart contracts.
+                                NanoTrust is a decentralized yield infrastructure powered by Venus Protocol. Users deposit USDT which is then supplied to Venus Protocol to generate yields. Investors earn 0.3% base daily ROI, with additional boosts based on their leadership rank (up to +100% for Diamond rank = 0.6% daily). The platform operates fully on-chain with transparent smart contracts audited by OpenZeppelin standards.
                             </div>
                         </div>
                     </div>
@@ -2393,7 +2580,7 @@
                         </div>
                         <div class="faq-answer">
                             <div class="faq-answer__content">
-                                The minimum investment amount is 1 USDT. There is no maximum limit. A 10% management fee is deducted from each deposit, with the remaining 90% being deposited to Venus Protocol to start generating yields immediately.
+                                The minimum investment amount is <strong>1 USDT</strong>. There is no maximum limit. A 10% management fee is deducted from each deposit (sent to the management wallet), with the remaining 90% being deposited to Venus Protocol to start generating yields immediately.
                             </div>
                         </div>
                     </div>
@@ -2405,7 +2592,7 @@
                         </div>
                         <div class="faq-answer">
                             <div class="faq-answer__content">
-                                All investments have a 60-day lock period. During this period, you can still claim your daily ROI earnings. However, if you choose to withdraw your capital before the 60 days complete, a 50% early withdrawal fee will apply. After 60 days, you can withdraw your capital without any fees.
+                                All investments have a 60-day lock period starting from your deposit time. During this period, you can claim your daily ROI earnings without restrictions. However, if you choose to withdraw your capital before the 60 days complete, a 50% early withdrawal fee will apply (calculated on your active deposit amount). After 60 days, you can withdraw your full capital without any fees.
                             </div>
                         </div>
                     </div>
@@ -2417,7 +2604,13 @@
                         </div>
                         <div class="faq-answer">
                             <div class="faq-answer__content">
-                                There are 5 leadership ranks (Bronze, Silver, Gold, Platinum, Diamond) that provide ROI boosts from 10% to 100%. To achieve ranks, you need team volume, qualified directs (referrals with 50+ USDT active deposit), and minimum personal deposits. For example, Diamond rank requires 100,000 USDT team volume, 1000 qualified directs, and 100 USDT personal deposit, giving you 100% ROI boost (0.6% daily instead of 0.3%).
+                                There are 5 leadership ranks (Bronze, Silver, Gold, Platinum, Diamond) that provide ROI boosts from 10% to 100%. To achieve ranks, you need:<br><br>
+                                • <strong>Bronze:</strong> 5,000 USDT team volume + 50 qualified directs + 50 USDT personal<br>
+                                • <strong>Silver:</strong> 15,000 USDT team volume + 130 qualified directs + 50 USDT personal<br>
+                                • <strong>Gold:</strong> 30,000 USDT team volume + 300 qualified directs + 50 USDT personal<br>
+                                • <strong>Platinum:</strong> 50,000 USDT team volume + 500 qualified directs + 100 USDT personal<br>
+                                • <strong>Diamond:</strong> 100,000 USDT team volume + 1000 qualified directs + 100 USDT personal<br><br>
+                                A "qualified direct" is a referral with at least 50 USDT active deposit. Rank boosts are permanent and apply to all your active deposits.
                             </div>
                         </div>
                     </div>
@@ -2429,7 +2622,13 @@
                         </div>
                         <div class="faq-answer">
                             <div class="faq-answer__content">
-                                NanoTrust offers a 6-level referral system with commissions: Level 1: 5%, Level 2: 3%, Level 3: 2%, Level 4: 1%, Level 5: 0.5%, Level 6: 0.5%. To unlock higher levels, you need to meet qualification criteria including minimum deposits and number of qualified directs. Commissions are paid instantly to your pending referral balance.
+                                NanoTrust offers a 5-level referral system with commissions:<br>
+                                • <strong>Level 1 (Direct):</strong> 5%<br>
+                                • <strong>Level 2:</strong> 3%<br>
+                                • <strong>Level 3:</strong> 2%<br>
+                                • <strong>Level 4:</strong> 1%<br>
+                                • <strong>Level 5:</strong> 0.5%<br><br>
+                                To unlock higher levels, you must meet qualification criteria including minimum deposits and number of qualified directs. Commissions are paid instantly to your pending referral balance when your downline makes a deposit.
                             </div>
                         </div>
                     </div>
@@ -2441,7 +2640,13 @@
                         </div>
                         <div class="faq-answer">
                             <div class="faq-answer__content">
-                                To earn commissions from each level, you must meet qualification requirements: Level 1 requires 10 USDT deposit, Level 2 requires 30 USDT + 3 qualified directs, Level 3 requires 50 USDT + 5 directs, Level 4 requires 70 USDT + 8 directs, and Level 5 requires 100 USDT + 10 directs. A qualified direct is a referral with at least 50 USDT active deposit.
+                                To earn commissions from each level, you must meet qualification requirements:<br>
+                                • <strong>Level 1:</strong> 10 USDT deposit (no directs required)<br>
+                                • <strong>Level 2:</strong> 30 USDT deposit + 3 qualified directs<br>
+                                • <strong>Level 3:</strong> 50 USDT deposit + 5 qualified directs<br>
+                                • <strong>Level 4:</strong> 70 USDT deposit + 8 qualified directs<br>
+                                • <strong>Level 5:</strong> 100 USDT deposit + 10 qualified directs<br><br>
+                                A qualified direct is a referral with at least 50 USDT active deposit. These requirements ensure active participants benefit from the referral system.
                             </div>
                         </div>
                     </div>
@@ -2453,7 +2658,32 @@
                         </div>
                         <div class="faq-answer">
                             <div class="faq-answer__content">
-                                Yes, NanoTrust uses OpenZeppelin's battle-tested contracts including ReentrancyGuard and SafeERC20. The contract is verified on BSCScan and uses industry-standard security practices. However, as with any DeFi protocol, users should understand the risks involved and only invest what they can afford to lose. The contract address is: 0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F
+                                Yes, NanoTrust uses OpenZeppelin's battle-tested contracts including ReentrancyGuard and SafeERC20. The contract includes security features like:<br>
+                                • Reentrancy protection on all state-changing functions<br>
+                                • SafeERC20 for secure token transfers<br>
+                                • Only EOA (Externally Owned Account) restriction for investments<br>
+                                • Owner-only functions for emergency Venus interactions<br><br>
+                                The contract is verified on BSCScan. However, as with any DeFi protocol, users should understand the risks involved and only invest what they can afford to lose.<br><br>
+                                <strong>Contract Address:</strong> 0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFaq(this)">
+                            <span class="faq-question__text">How is the daily ROI calculated?</span>
+                            <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer__content">
+                                Daily ROI is calculated as:<br><br>
+                                <code>(Active Deposit × (Base ROI + Rank Boost)) / 10000</code><br><br>
+                                Where:<br>
+                                • Base ROI = 30 (0.3%)<br>
+                                • Rank Boost = 0-100 depending on your rank<br>
+                                • Calculation is based on time elapsed since last claim<br><br>
+                                Example: With 1,000 USDT deposit and Gold rank (+30%):<br>
+                                Daily ROI = 1000 × (30 + 30) / 10000 = 6 USDT per day (0.6%)
                             </div>
                         </div>
                     </div>
@@ -2476,11 +2706,15 @@
                     <a href="#" class="social-link" title="Twitter"><i class="fab fa-twitter"></i></a>
                     <a href="https://bscscan.com/address/0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F" class="social-link" title="BSCScan" target="_blank"><i class="fas fa-file-contract"></i></a>
                 </div>
+                <div class="contract-badge" style="margin-top: 0.5rem;">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Contract:</span>
+                    <a href="https://bscscan.com/address/0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F" target="_blank">
+                        0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F
+                    </a>
+                </div>
                 <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 1rem;">
-                    Smart Contract: 0x0d...065F
-                </p>
-                <p style="color: var(--text-muted); font-size: 0.75rem;">
-                    © 2026 All rights reserved
+                    © 2026 NanoTrust. All rights reserved.
                 </p>
             </div>
         </div>
@@ -2493,7 +2727,7 @@
     <div class="modal-overlay" id="withdrawModal">
         <div class="modal">
             <div class="modal__header">
-                <h3 class="modal__title">Claim Capital</h3>
+                <h3 class="modal__title">Withdraw Capital</h3>
                 <button class="modal__close" onclick="closeModal('withdrawModal')">
                     <i class="fas fa-times"></i>
                 </button>
@@ -2501,24 +2735,24 @@
             <div id="withdrawContent">
                 <div class="alert alert--warning" style="margin-bottom: 1rem;">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span>Early claim will incur a 50% fee!</span>
+                    <span id="withdrawWarningText">Early withdrawal will incur a 50% fee!</span>
                 </div>
                 <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9375rem;">
-                    You are about to claim your active deposit. If your 60-day lock period is not complete, 
-                    50% of your deposit will be charged as an early claims fee.
+                    You are about to withdraw your active deposit. 
+                    <span id="withdrawFeeExplanation">Since your 60-day lock period is not complete, 50% of your deposit will be deducted as an early withdrawal fee.</span>
                 </p>
                 <div class="tx-breakdown" style="margin-bottom: 1.5rem;">
                     <div class="tx-row">
                         <span class="tx-label">Active Deposit:</span>
-                        <span id="withdrawAmount">0 USDT</span>
+                        <span id="withdrawAmount">0.00 USDT</span>
                     </div>
                     <div class="tx-row">
-                        <span class="tx-label">Claim Fee:</span>
-                        <span id="withdrawFee" style="color: var(--red);">0 USDT (0%)</span>
+                        <span class="tx-label">Withdrawal Fee:</span>
+                        <span id="withdrawFee" style="color: var(--red);">0.00 USDT (50%)</span>
                     </div>
                     <div class="tx-row">
                         <span class="tx-label">You Receive:</span>
-                        <span id="withdrawReceive" style="color: var(--gold);">0 USDT</span>
+                        <span id="withdrawReceive" style="color: var(--gold);">0.00 USDT</span>
                     </div>
                 </div>
                 <div style="display: flex; gap: 0.75rem;">
@@ -2535,7 +2769,6 @@
         // ===== CONTRACT CONFIGURATION =====
         const CONTRACT_ADDRESS = '0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F';
         const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955'; // BSC USDT
-        const VENUS_USDT = '0xfD5840Cd36d94D7229439859C0112a4185BC0255'; // vUSDT on BSC
         const BSC_RPC = 'https://bsc-dataseed.binance.org/';
         const BSC_CHAIN_ID = '0x38';
 
@@ -2558,6 +2791,7 @@
         let userData = null;
         let contractStats = null;
         let userRank = 0;
+        let isInitialized = false;
 
         // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', function() {
@@ -2570,104 +2804,45 @@
             // Check for referral in URL
             const urlParams = new URLSearchParams(window.location.search);
             const ref = urlParams.get('ref');
-            if (ref && ref.startsWith('0x')) {
+            if (ref && ref.startsWith('0x') && ref.length === 42) {
                 document.getElementById('referrerAddress').value = ref;
-                document.getElementById('refHint').textContent = 'Referrer from link';
+                document.getElementById('refHint').innerHTML = 'Referrer from link: <span style="color: var(--green-accent);">' + ref.substring(0, 6) + '...' + ref.substring(38) + '</span>';
             }
         });
 
         async function initApp() {
             try {
+                // Initialize Web3 with HTTP provider for read-only operations
                 web3 = new Web3(new Web3.providers.HttpProvider(BSC_RPC));
                 contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
                 usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
                 
+                isInitialized = true;
+                
                 // Load global stats
                 await loadGlobalStats();
                 
-                // Setup RainbowKit if available
-                setupRainbowKit();
+                // Check if wallet was previously connected
+                if (localStorage.getItem('walletConnected') === 'true' && window.ethereum) {
+                    try {
+                        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                        if (accounts.length > 0) {
+                            await connectWallet();
+                        }
+                    } catch (e) {
+                        console.log('Auto-connect failed');
+                    }
+                }
                 
             } catch (error) {
                 console.error('Initialization error:', error);
-            }
-        }
-
-        function setupRainbowKit() {
-            // Check if RainbowKit is available
-            if (typeof RainbowKit !== 'undefined') {
-                const connectButton = document.getElementById('connectButtonContainer');
-                connectButton.innerHTML = '<div id="rk-button"></div>';
-                
-                // Initialize RainbowKit
-                try {
-                    RainbowKit.init({
-                        appName: 'NanoTrust',
-                        projectId: '9994e4620ba3499ea0460291f0ab4223', // Replace with your WalletConnect project ID
-                        chains: [
-                            {
-                                id: 56,
-                                name: 'BNB Smart Chain',
-                                network: 'bsc',
-                                nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
-                                rpcUrls: { default: { http: [BSC_RPC] } },
-                                blockExplorers: { default: { name: 'BSCScan', url: 'https://bscscan.com' } }
-                            }
-                        ],
-                        onConnect: (account) => {
-                            userAccount = account;
-                            handleWalletConnect(account);
-                        },
-                        onDisconnect: () => {
-                            userAccount = null;
-                            handleWalletDisconnect();
-                        }
-                    });
-                } catch (e) {
-                    console.log('RainbowKit init failed, using fallback');
-                }
-            }
-        }
-
-        async function loadGlobalStats() {
-            try {
-                // Load contract stats
-                const stats = await contract.methods.getContractStats().call();
-                contractStats = stats;
-                
-                document.getElementById('statTotalUsers').textContent = stats.usersCount;
-                document.getElementById('statTotalInvested').textContent = '$' + formatUSDT(stats.invested);
-                
-                // Load Venus TVL from API
-                await loadVenusTVL();
-                
-            } catch (error) {
-                console.error('Error loading stats:', error);
-            }
-        }
-
-        async function loadVenusTVL() {
-            try {
-                const response = await fetch('https://api.venus.io/markets/core-pool');
-                const data = await response.json();
-                
-                // Find USDT market
-                const usdtMarket = data.data.find(m => m.underlyingSymbol === 'USDT');
-                if (usdtMarket) {
-                    const tvl = parseFloat(usdtMarket.totalSupplyUsd) / 1e18;
-                    document.getElementById('statTVL').textContent = '$' + formatNumber(tvl);
-                }
-            } catch (error) {
-                console.error('Error loading Venus TVL:', error);
-                document.getElementById('statTVL').textContent = '$112.28M';
+                showNotification('Failed to initialize app. Please refresh.', 'error');
             }
         }
 
         function setupEventListeners() {
             document.getElementById('sidebarToggle').addEventListener('click', toggleSidebar);
-            
-            // Fallback connect button
-            document.getElementById('connectWalletBtn')?.addEventListener('click', connectWallet);
+            document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
             
             if (window.ethereum) {
                 window.ethereum.on('accountsChanged', handleAccountsChanged);
@@ -2678,15 +2853,12 @@
         // ===== WALLET CONNECTION =====
         async function connectWallet() {
             if (!window.ethereum) {
-                showNotification('Please install MetaMask!', 'error');
+                showNotification('Please install MetaMask or use a Web3 browser!', 'error');
                 return;
             }
             
             try {
-                web3 = new Web3(window.ethereum);
-                contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
-                usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
-                
+                // Switch to BSC if needed
                 const chainId = await window.ethereum.request({ method: 'eth_chainId' });
                 if (chainId !== BSC_CHAIN_ID) {
                     try {
@@ -2706,17 +2878,25 @@
                                     blockExplorerUrls: ['https://bscscan.com/']
                                 }]
                             });
+                        } else {
+                            throw switchError;
                         }
                     }
                 }
                 
+                // Request accounts
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 if (accounts.length > 0) {
+                    // Reinitialize web3 with provider
+                    web3 = new Web3(window.ethereum);
+                    contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                    usdtContract = new web3.eth.Contract(USDT_ABI, USDT_ADDRESS);
+                    
                     handleWalletConnect(accounts[0]);
                 }
             } catch (error) {
                 console.error('Connection error:', error);
-                showNotification('Failed to connect: ' + error.message, 'error');
+                showNotification('Failed to connect: ' + (error.message || 'Unknown error'), 'error');
             }
         }
 
@@ -2725,7 +2905,7 @@
             localStorage.setItem('walletConnected', 'true');
             updateWalletUI();
             loadUserData();
-            showNotification('Wallet connected!', 'success');
+            showNotification('Wallet connected successfully!', 'success');
         }
 
         function handleWalletDisconnect() {
@@ -2737,7 +2917,6 @@
 
         function updateWalletUI() {
             const btn = document.getElementById('connectWalletBtn');
-            if (!btn) return;
             
             if (userAccount) {
                 const shortAddress = `${userAccount.slice(0, 4)}...${userAccount.slice(-4)}`;
@@ -2752,52 +2931,80 @@
             } else {
                 btn.innerHTML = `<i class="fas fa-wallet"></i><span>Connect Wallet</span>`;
                 btn.classList.remove('connected');
+                
+                // Show wallet alerts
+                document.querySelectorAll('[id$="WalletAlert"]').forEach(el => el.style.display = 'flex');
+                document.getElementById('dashboardContent').style.display = 'none';
+                document.getElementById('investContent').style.display = 'none';
+                document.getElementById('referralContent').style.display = 'none';
             }
         }
 
         function handleAccountsChanged(accounts) {
             if (accounts.length === 0) {
                 handleWalletDisconnect();
-            } else {
+            } else if (accounts[0] !== userAccount) {
                 userAccount = accounts[0];
                 updateWalletUI();
                 loadUserData();
+                showNotification('Account switched', 'info');
             }
         }
 
-        // ===== LOAD USER DATA =====
+        // ===== DATA LOADING =====
+        async function loadGlobalStats() {
+            if (!isInitialized) return;
+            
+            try {
+                const stats = await contract.methods.getContractStats().call();
+                contractStats = stats;
+                
+                document.getElementById('statTotalUsers').textContent = stats[1].toString();
+                document.getElementById('statTotalInvested').textContent = '$' + formatUSDT(stats[0]);
+                
+                // Calculate TVL (Total Invested - Fees + Yield, simplified here)
+                const tvl = parseFloat(web3.utils.fromWei(stats[0], 'ether'));
+                document.getElementById('statTVL').textContent = '$' + formatNumber(tvl);
+                
+            } catch (error) {
+                console.error('Error loading stats:', error);
+                // Set default values on error
+                document.getElementById('statTotalUsers').textContent = '0';
+                document.getElementById('statTotalInvested').textContent = '$0.00';
+                document.getElementById('statTVL').textContent = '$0.00';
+            }
+        }
+
         async function loadUserData() {
             if (!userAccount || !contract) return;
             
             try {
-                // Get user summary
-                const summary = await contract.methods.getUserSummary(userAccount).call();
-                const network = await contract.methods.getUserNetwork(userAccount).call();
-                const timeInfo = await contract.methods.getUserTime(userAccount).call();
-                const qualifiedStatus = await contract.methods.getQualifiedStatus(userAccount).call();
-                const withdrawFee = await contract.methods.getWithdrawFee(userAccount).call();
+                // Get all user data in parallel
+                const [summary, network, timeInfo, qualifiedStatus, withdrawFee, userDetails] = await Promise.all([
+                    contract.methods.getUserSummary(userAccount).call(),
+                    contract.methods.getUserNetwork(userAccount).call(),
+                    contract.methods.getUserTime(userAccount).call(),
+                    contract.methods.getQualifiedStatus(userAccount).call(),
+                    contract.methods.getWithdrawFee(userAccount).call(),
+                    contract.methods.users(userAccount).call()
+                ]);
                 
                 userData = {
                     summary,
                     network,
                     timeInfo,
                     qualifiedStatus,
-                    withdrawFee
+                    withdrawFee,
+                    userDetails
                 };
                 
-                userRank = parseInt(summary.rank);
+                userRank = parseInt(summary[3]);
                 
-                // Update Dashboard
-                updateDashboard(summary, network, timeInfo, withdrawFee);
-                
-                // Update Invest page
+                // Update all sections
+                updateDashboard(summary, network, timeInfo, withdrawFee, userDetails);
                 updateInvestPage(summary);
-                
-                // Update Referral page
-                updateReferralPage(network, qualifiedStatus);
-                
-                // Update Leadership page
-                updateLeadershipPage(summary, network);
+                updateReferralPage(network, qualifiedStatus, userDetails);
+                updateLeadershipPage(summary, network, userDetails);
                 
                 // Load USDT balance
                 const balance = await usdtContract.methods.balanceOf(userAccount).call();
@@ -2805,64 +3012,103 @@
                 
             } catch (error) {
                 console.error('Error loading user data:', error);
+                showNotification('Error loading user data', 'error');
             }
         }
 
-        function updateDashboard(summary, network, timeInfo, withdrawFee) {
+        // ===== UI UPDATES =====
+        function updateDashboard(summary, network, timeInfo, withdrawFee, userDetails) {
+            const [activeDeposit, pendingROI, pendingBonuses, rank] = summary;
+            const [directs, qualified, volume] = network;
+            const [depositTime, lastClaim, daysLeft] = timeInfo;
+            const [feePercent, feeAmount] = withdrawFee;
+            
             // Profile
             document.getElementById('dashAddress').textContent = `${userAccount.slice(0, 6)}...${userAccount.slice(-4)}`;
             
-            const rankNames = ['None', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond'];
+            const rankNames = ['No Rank', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond'];
             const rankClasses = ['', 'bronze', 'silver', 'gold', 'platinum', 'diamond'];
             const rankElement = document.getElementById('dashRank');
-            rankElement.textContent = rankNames[summary.rank] || 'None';
-            rankElement.className = `rank-badge ${rankClasses[summary.rank] || ''}`;
+            rankElement.textContent = rankNames[rank] || 'No Rank';
+            rankElement.className = `rank-badge ${rankClasses[rank] || ''}`;
             
             // Stats
-            document.getElementById('dashActiveDeposit').textContent = formatUSDT(summary.activeDeposit) + ' USDT';
-            document.getElementById('invActive').textContent = formatUSDT(summary.activeDeposit) + ' USDT';
+            document.getElementById('dashActiveDeposit').textContent = formatUSDT(activeDeposit) + ' USDT';
+            document.getElementById('dashTotalDeposit').textContent = formatUSDT(userDetails[3]) + ' USDT';
+            document.getElementById('dashPendingROI').textContent = formatUSDT(pendingROI) + ' USDT';
+            document.getElementById('dashPendingRef').textContent = formatUSDT(pendingBonuses) + ' USDT';
             
-            // Calculate total earned from referral earnings + claimed ROI (approximate)
-            const userDetails = contract.methods.users(userAccount).call().then(user => {
-                document.getElementById('dashTotalDeposit').textContent = formatUSDT(user.totalDeposit) + ' USDT';
-                document.getElementById('invEarned').textContent = formatUSDT(user.referralEarnings) + ' USDT';
-            });
-            
-            document.getElementById('dashPendingROI').textContent = formatUSDT(summary.pendingROI) + ' USDT';
-            document.getElementById('dashPendingRef').textContent = formatUSDT(summary.pendingBonuses) + ' USDT';
+            // Investment card
+            document.getElementById('invActive').textContent = formatUSDT(activeDeposit) + ' USDT';
+            document.getElementById('invEarned').textContent = formatUSDT(userDetails[6]) + ' USDT';
             document.getElementById('invAvailable').textContent = formatUSDT(
-                BigInt(summary.pendingROI) + BigInt(summary.pendingBonuses)
+                (BigInt(pendingROI) + BigInt(pendingBonuses)).toString()
             ) + ' USDT';
             
-            // Boost
+            // Boost calculation
             const boosts = [0, 10, 20, 30, 50, 100];
-            document.getElementById('invBoost').textContent = '+' + boosts[summary.rank] + '%';
+            document.getElementById('invBoost').textContent = '+' + boosts[rank] + '%';
             
             // Lock info
-            const daysLeft = parseInt(timeInfo.daysLeft);
+            const daysLeftNum = parseInt(daysLeft);
             const totalDays = 60;
-            const progress = Math.min(100, ((totalDays - daysLeft) / totalDays) * 100);
+            const progress = Math.min(100, ((totalDays - daysLeftNum) / totalDays) * 100);
             
-            document.getElementById('dashLockInfo').textContent = daysLeft > 0 ? `${daysLeft} days left` : 'Unlocked';
-            document.getElementById('lockProgressText').textContent = Math.round(progress) + '%';
-            document.getElementById('lockProgressBar').style.width = progress + '%';
+            if (parseInt(activeDeposit) > 0) {
+                document.getElementById('dashLockInfo').textContent = daysLeftNum > 0 ? `${daysLeftNum} days remaining` : 'Unlocked (No fee)';
+                document.getElementById('lockProgressText').textContent = Math.round(progress) + '%';
+                document.getElementById('lockProgressBar').style.width = progress + '%';
+                
+                // Dates
+                const depositDate = new Date(parseInt(depositTime) * 1000);
+                const endDate = new Date((parseInt(depositTime) + (60 * 24 * 60 * 60)) * 1000);
+                document.getElementById('lockStartDate').textContent = depositDate.toLocaleDateString();
+                document.getElementById('lockEndDate').textContent = endDate.toLocaleDateString();
+            } else {
+                document.getElementById('dashLockInfo').textContent = 'No active deposit';
+                document.getElementById('lockProgressText').textContent = '0%';
+                document.getElementById('lockProgressBar').style.width = '0%';
+                document.getElementById('lockStartDate').textContent = '-';
+                document.getElementById('lockEndDate').textContent = '-';
+            }
+            
+            // Network stats
+            document.getElementById('dashDirects').textContent = directs;
+            document.getElementById('dashQualified').textContent = qualified;
+            document.getElementById('dashTeamVolume').textContent = formatUSDT(volume) + ' USDT';
+            
+            const lastClaimDate = parseInt(lastClaim) > 0 ? new Date(parseInt(lastClaim) * 1000).toLocaleDateString() : 'Never';
+            document.getElementById('dashLastClaim').textContent = lastClaimDate;
+            
+            // Update button states
+            const hasPending = BigInt(pendingROI) > 0 || BigInt(pendingBonuses) > 0;
+            const hasDeposit = parseInt(activeDeposit) > 0;
+            
+            document.getElementById('btnClaimROI').disabled = BigInt(pendingROI) < BigInt(web3.utils.toWei('1', 'ether'));
+            document.getElementById('btnClaimRef').disabled = BigInt(pendingBonuses) < BigInt(web3.utils.toWei('1', 'ether'));
+            document.getElementById('btnWithdraw').disabled = !hasDeposit;
         }
 
         function updateInvestPage(summary) {
-            // Store rank for calculations
-            window.userRankBoost = [0, 10, 20, 30, 50, 100][summary.rank] || 0;
+            const rank = parseInt(summary[3]);
+            const boosts = [0, 10, 20, 30, 50, 100];
+            window.userRankBoost = boosts[rank] || 0;
+            document.getElementById('calcBoostPercent').textContent = window.userRankBoost;
         }
 
-        function updateReferralPage(network, qualifiedStatus) {
-            document.getElementById('refDirects').textContent = network.directs;
-            document.getElementById('refQualified').textContent = network.qualified;
-            document.getElementById('refVolume').textContent = formatUSDT(network.volume) + ' USDT';
+        function updateReferralPage(network, qualifiedStatus, userDetails) {
+            const [directs, qualified, volume] = network;
+            
+            document.getElementById('refDirects').textContent = directs;
+            document.getElementById('refQualified').textContent = qualified;
+            document.getElementById('refVolume').textContent = formatUSDT(volume) + ' USDT';
+            document.getElementById('refTotalEarned').textContent = formatUSDT(userDetails[6]) + ' USDT';
             
             // Ref link
             const baseUrl = window.location.origin + window.location.pathname;
             document.getElementById('refLink').value = `${baseUrl}?ref=${userAccount}`;
             
-            // Qualified status
+            // Qualification status
             const requirements = [
                 { deposit: 10, directs: 0 },
                 { deposit: 30, directs: 3 },
@@ -2880,20 +3126,24 @@
                 icon.innerHTML = isActive ? '<i class="fas fa-check"></i>' : '<i class="fas fa-lock"></i>';
                 
                 // Calculate progress
-                contract.methods.users(userAccount).call().then(user => {
-                    const deposit = parseFloat(formatUSDT(user.activeDeposit));
-                    const directs = parseInt(network.qualified);
-                    const req = requirements[i];
-                    
-                    const depositProgress = Math.min(100, (deposit / req.deposit) * 50);
-                    const directsProgress = req.directs > 0 ? Math.min(50, (directs / req.directs) * 50) : 50;
-                    
-                    bar.style.width = (depositProgress + directsProgress) + '%';
-                });
+                const deposit = parseFloat(formatUSDT(userDetails[2])); // activeDeposit
+                const directsCount = parseInt(qualified);
+                const req = requirements[i];
+                
+                const depositProgress = Math.min(100, (deposit / req.deposit) * 50);
+                const directsProgress = req.directs > 0 ? Math.min(50, (directsCount / req.directs) * 50) : 50;
+                
+                bar.style.width = (depositProgress + directsProgress) + '%';
             }
         }
 
-        async function updateLeadershipPage(summary, network) {
+        function updateLeadershipPage(summary, network, userDetails) {
+            const rank = parseInt(summary[3]);
+            const [directs, qualified, volume] = network;
+            const personalDeposit = parseFloat(formatUSDT(userDetails[2]));
+            const teamVolume = parseFloat(formatUSDT(volume));
+            const qualifiedDirects = parseInt(qualified);
+            
             const rankRequirements = [
                 { volume: 5000, directs: 50, deposit: 50 },
                 { volume: 15000, directs: 130, deposit: 50 },
@@ -2902,17 +3152,13 @@
                 { volume: 100000, directs: 1000, deposit: 100 }
             ];
             
-            const userDetails = await contract.methods.users(userAccount).call();
-            const teamVolume = parseFloat(formatUSDT(network.volume));
-            const qualifiedDirects = parseInt(network.qualified);
-            const personalDeposit = parseFloat(formatUSDT(userDetails.activeDeposit));
-            
             for (let i = 0; i < 5; i++) {
                 const req = rankRequirements[i];
-                const isCurrentRank = parseInt(summary.rank) === i + 1;
+                const isCurrentRank = rank === i + 1;
+                const isAchieved = rank > i + 1;
                 const card = document.getElementById(`rankCard${i+1}`);
                 
-                // Calculate progress
+                // Calculate progress percentages
                 const volProgress = Math.min(100, (teamVolume / req.volume) * 100);
                 const dirProgress = Math.min(100, (qualifiedDirects / req.directs) * 100);
                 const depProgress = Math.min(100, (personalDeposit / req.deposit) * 100);
@@ -2922,9 +3168,12 @@
                 document.getElementById(`rankProgress${i+1}`).textContent = Math.round(avgProgress) + '%';
                 document.getElementById(`rankBar${i+1}`).style.width = avgProgress + '%';
                 
-                // Highlight current rank
+                // Visual indication
                 if (isCurrentRank) {
                     card.style.boxShadow = '0 0 30px rgba(124, 179, 66, 0.5)';
+                    card.style.borderColor = 'var(--green-accent)';
+                } else if (isAchieved) {
+                    card.style.opacity = '0.8';
                 }
             }
         }
@@ -2937,7 +3186,8 @@
             const fee = amount * 0.10;
             const net = amount - fee;
             const baseDaily = net * 0.003;
-            const boostedDaily = baseDaily * (1 + boost / 100);
+            const boostedRate = 0.003 * (1 + boost / 100);
+            const boostedDaily = net * boostedRate;
             const projection60 = boostedDaily * 60;
             
             document.getElementById('calcFee').textContent = fee.toFixed(2) + ' USDT';
@@ -2950,7 +3200,7 @@
 
         async function submitInvestment() {
             if (!userAccount) {
-                showNotification('Please connect wallet', 'error');
+                showNotification('Please connect wallet first', 'error');
                 return;
             }
             
@@ -2960,28 +3210,49 @@
                 return;
             }
             
-            const referrer = document.getElementById('referrerAddress').value || '0x0000000000000000000000000000000000000000';
+            let referrer = document.getElementById('referrerAddress').value.trim();
+            if (!referrer || referrer === '') {
+                referrer = '0x0000000000000000000000000000000000000000';
+            } else if (!web3.utils.isAddress(referrer)) {
+                showNotification('Invalid referrer address', 'error');
+                return;
+            }
+            
+            const btn = document.getElementById('btnInvest');
+            btn.classList.add('loading');
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
             
             try {
                 const amountWei = web3.utils.toWei(amount, 'ether');
                 
-                // Check allowance
+                // Check USDT balance
+                const balance = await usdtContract.methods.balanceOf(userAccount).call();
+                if (BigInt(balance) < BigInt(amountWei)) {
+                    throw new Error('Insufficient USDT balance');
+                }
+                
+                // Check and approve allowance
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
                 if (BigInt(allowance) < BigInt(amountWei)) {
-                    showNotification('Approving USDT...', 'info');
+                    showNotification('Approving USDT spend...', 'info');
                     await usdtContract.methods.approve(CONTRACT_ADDRESS, amountWei).send({ from: userAccount });
                 }
                 
-                showNotification('Processing investment...', 'info');
+                showNotification('Submitting investment...', 'info');
                 await contract.methods.invest(amountWei, referrer).send({ from: userAccount });
                 
-                showNotification('Investment successful!', 'success');
+                showNotification('Investment successful! Welcome to NanoTrust.', 'success');
                 document.getElementById('investAmount').value = '';
+                calculateInvestment();
                 await loadUserData();
+                showSection('dashboard');
                 
             } catch (error) {
                 console.error('Investment error:', error);
-                showNotification('Investment failed: ' + error.message, 'error');
+                showNotification('Investment failed: ' + (error.message || 'Unknown error'), 'error');
+            } finally {
+                btn.classList.remove('loading');
+                btn.innerHTML = '<i class="fas fa-rocket"></i> Confirm Investment';
             }
         }
 
@@ -2990,11 +3261,13 @@
             if (!userAccount) return;
             
             try {
+                showNotification('Claiming ROI...', 'info');
                 await contract.methods.withdrawROI().send({ from: userAccount });
                 showNotification('ROI claimed successfully!', 'success');
                 await loadUserData();
             } catch (error) {
-                showNotification('Claim failed: ' + error.message, 'error');
+                console.error('Claim error:', error);
+                showNotification('Claim failed: ' + (error.message || 'Minimum withdraw is 1 USDT or no pending ROI'), 'error');
             }
         }
 
@@ -3002,11 +3275,13 @@
             if (!userAccount) return;
             
             try {
+                showNotification('Claiming referral bonuses...', 'info');
                 await contract.methods.withdrawReferralBonuses().send({ from: userAccount });
                 showNotification('Referral bonuses claimed!', 'success');
                 await loadUserData();
             } catch (error) {
-                showNotification('Claim failed: ' + error.message, 'error');
+                console.error('Claim error:', error);
+                showNotification('Claim failed: ' + (error.message || 'Minimum withdraw is 1 USDT or no pending bonuses'), 'error');
             }
         }
 
@@ -3014,14 +3289,29 @@
         function openWithdrawModal() {
             if (!userAccount || !userData) return;
             
-            const activeDeposit = userData.summary.activeDeposit;
-            const feePercent = userData.withdrawFee.percent;
-            const feeAmount = userData.withdrawFee.amount;
-            const receiveAmount = BigInt(activeDeposit) - BigInt(feeAmount);
+            const activeDeposit = userData.summary[0];
+            const [feePercent, feeAmount] = userData.withdrawFee;
+            const receiveAmount = (BigInt(activeDeposit) - BigInt(feeAmount)).toString();
+            
+            if (parseInt(activeDeposit) === 0) {
+                showNotification('No active deposit to withdraw', 'error');
+                return;
+            }
             
             document.getElementById('withdrawAmount').textContent = formatUSDT(activeDeposit) + ' USDT';
             document.getElementById('withdrawFee').textContent = `${formatUSDT(feeAmount)} USDT (${feePercent}%)`;
             document.getElementById('withdrawReceive').textContent = formatUSDT(receiveAmount) + ' USDT';
+            
+            // Update warning text based on fee
+            if (parseInt(feePercent) === 0) {
+                document.getElementById('withdrawWarningText').textContent = 'Lock period complete - No withdrawal fee!';
+                document.getElementById('withdrawWarningText').parentElement.className = 'alert alert--info';
+                document.getElementById('withdrawFeeExplanation').textContent = 'Your 60-day lock period is complete. You can withdraw your full capital without any fees.';
+            } else {
+                document.getElementById('withdrawWarningText').textContent = 'Early withdrawal will incur a 50% fee!';
+                document.getElementById('withdrawWarningText').parentElement.className = 'alert alert--warning';
+                document.getElementById('withdrawFeeExplanation').textContent = 'Since your 60-day lock period is not complete, 50% of your deposit will be deducted as an early withdrawal fee.';
+            }
             
             document.getElementById('withdrawModal').classList.add('active');
         }
@@ -3030,12 +3320,14 @@
             if (!userAccount) return;
             
             try {
+                showNotification('Processing withdrawal...', 'info');
                 await contract.methods.withdrawCapital().send({ from: userAccount });
                 closeModal('withdrawModal');
                 showNotification('Capital withdrawn successfully!', 'success');
                 await loadUserData();
             } catch (error) {
-                showNotification('Withdraw failed: ' + error.message, 'error');
+                console.error('Withdraw error:', error);
+                showNotification('Withdraw failed: ' + (error.message || 'Unknown error'), 'error');
             }
         }
 
@@ -3079,19 +3371,28 @@
         }
 
         function showSection(sectionName) {
+            // Update sections
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById(sectionName).classList.add('active');
+            const targetSection = document.getElementById(sectionName);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
             
-            document.querySelectorAll('.nav__link, .sidebar__link').forEach(link => {
+            // Update navigation
+            document.querySelectorAll('.nav__link, .sidebar__link, .mobile-menu__link').forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('onclick')?.includes(sectionName)) {
+                const onclick = link.getAttribute('onclick');
+                if (onclick && onclick.includes(`'${sectionName}'`)) {
                     link.classList.add('active');
                 }
             });
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            if (userAccount) loadUserData();
+            // Refresh data if connected
+            if (userAccount) {
+                loadUserData();
+            }
         }
 
         function toggleSidebar() {
@@ -3110,12 +3411,20 @@
             const link = document.getElementById('refLink');
             link.select();
             document.execCommand('copy');
-            showNotification('Referral link copied!', 'success');
+            showNotification('Referral link copied to clipboard!', 'success');
         }
 
         function toggleFaq(element) {
             const item = element.parentElement;
-            item.classList.toggle('active');
+            const isActive = item.classList.contains('active');
+            
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(faq => faq.classList.remove('active'));
+            
+            // Open clicked if wasn't active
+            if (!isActive) {
+                item.classList.add('active');
+            }
         }
 
         // Close modals on outside click
@@ -3123,6 +3432,19 @@
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) modal.classList.remove('active');
             });
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('sidebarToggle');
+            
+            if (window.innerWidth < 1280 && 
+                sidebar.classList.contains('active') &&
+                !sidebar.contains(e.target) && 
+                !toggle.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
         });
     </script>
 </body>
