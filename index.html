@@ -670,15 +670,22 @@
             border: 2px solid var(--green-accent);
         }
 
+        .dashboard-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
         .dashboard-info h3 {
             font-size: 1.25rem;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0;
         }
 
         .dashboard-address {
             font-family: monospace;
             color: var(--text-muted);
             font-size: 0.875rem;
+            margin-bottom: 0;
         }
 
         .rank-badge {
@@ -689,7 +696,8 @@
             border-radius: var(--radius-full);
             font-size: 0.8125rem;
             font-weight: 600;
-            margin-top: 0.5rem;
+            margin-top: 0.25rem;
+            width: fit-content;
         }
 
         .rank-badge.bronze {
@@ -1944,7 +1952,7 @@
                             <div class="dashboard-info">
                                 <h3 id="dashUserName">Investor</h3>
                                 <div class="dashboard-address" id="dashAddress">0x00...0000</div>
-                                <div class="rank-badge" id="dashRank">No Rank</div>
+                                <div class="rank-badge" id="dashRank"><i class="fas fa-user"></i> No Rank</div>
                             </div>
                         </div>
                     </div>
@@ -2770,20 +2778,6 @@
                 "name": "getCash",
                 "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
                 "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "totalBorrows",
-                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-                "type": "function"
-            },
-            {
-                "constant": true,
-                "inputs": [],
-                "name": "totalReserves",
-                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-                "type": "function"
             }
         ];
 
@@ -2825,8 +2819,8 @@
                 refInput.value = ref;
                 document.getElementById('refHint').innerHTML = 'Referrer from link detected';
             } else {
-                refInput.value = '';
-                document.getElementById('refHint').innerHTML = 'Not detected';
+                refInput.value = 'Not detected';
+                document.getElementById('refHint').innerHTML = 'No referrer detected';
             }
         });
 
@@ -2875,36 +2869,25 @@
         // ===== VENUS TVL =====
         async function loadVenusTVL() {
             try {
-                // Menggunakan API Venus untuk mendapatkan data market USDT
-                const response = await axios.get('https://api.venus.io/api/markets');
-                const markets = response.data.data;
-                const usdtMarket = markets.find(m => m.underlyingSymbol === 'USDT');
+                // TVL = Liquidity = getCash()
+                const cash = await venusContract.methods.getCash().call();
+                const tvlValue = parseFloat(web3.utils.fromWei(cash.toString(), 'ether'));
+                const tvlFormatted = '$' + formatNumber(tvlValue, true);
                 
-                if (usdtMarket) {
-                    // TVL = Liquidity (supply - borrows) sesuai permintaan
-                    const liquidity = parseFloat(usdtMarket.liquidity) || 0;
-                    const tvlFormatted = '$' + formatNumber(liquidity, true);
-                    document.getElementById('statTVL').innerHTML = tvlFormatted;
-                } else {
-                    throw new Error('USDT market not found');
+                document.getElementById('statTVL').innerHTML = tvlFormatted;
+                
+                // Tambahkan badge real-time
+                const statCard = document.querySelector('.stat-card');
+                if (statCard && !statCard.querySelector('.real-time-badge')) {
+                    const badge = document.createElement('div');
+                    badge.className = 'real-time-badge';
+                    badge.innerHTML = '<i class="fas fa-circle"></i> Live';
+                    statCard.querySelector('.stat-card__label').appendChild(badge);
                 }
                 
             } catch (error) {
-                console.error('TVL API error:', error);
-                // Fallback: menggunakan data dari contract Venus
-                try {
-                    const cash = await venusContract.methods.getCash().call();
-                    const totalBorrows = await venusContract.methods.totalBorrows().call();
-                    const totalReserves = await venusContract.methods.totalReserves().call();
-                    
-                    const totalUSDT = BigInt(cash) + BigInt(totalBorrows) - BigInt(totalReserves);
-                    const tvlValue = parseFloat(web3.utils.fromWei(totalUSDT.toString(), 'ether'));
-                    const tvlFormatted = '$' + formatNumber(tvlValue, true);
-                    
-                    document.getElementById('statTVL').innerHTML = tvlFormatted;
-                } catch (e) {
-                    document.getElementById('statTVL').innerHTML = '$110.54M';
-                }
+                console.error('TVL error:', error);
+                document.getElementById('statTVL').innerHTML = 'Error loading TVL';
             }
         }
 
@@ -3031,7 +3014,7 @@
                 if (!userDetails || !userDetails[12]) {
                     // Reset UI untuk user baru
                     document.getElementById('dashAddress').textContent = `${userAccount.slice(0, 4)}...${userAccount.slice(-4)}`;
-                    document.getElementById('dashRank').innerHTML = 'No Rank';
+                    document.getElementById('dashRank').innerHTML = '<i class="fas fa-user"></i> No Rank';
                     document.getElementById('dashRank').className = 'rank-badge';
                     
                     document.getElementById('dashActiveDeposit').textContent = '0 USDT';
@@ -3126,12 +3109,12 @@
             // Address
             document.getElementById('dashAddress').textContent = `${userAccount.slice(0, 4)}...${userAccount.slice(-4)}`;
             
-            // Rank dengan icon badge
+            // Rank dengan icon
             const rankNames = ['No Rank', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond'];
             const rankClasses = ['', 'bronze', 'silver', 'gold', 'platinum', 'diamond'];
-            const rankIcons = ['', '🥉', '🥈', '🥇', '💎', '👑'];
+            const rankIcons = ['fa-user', 'fa-medal', 'fa-medal', 'fa-crown', 'fa-gem', 'fa-star'];
             const rankElement = document.getElementById('dashRank');
-            rankElement.innerHTML = rankIcons[rank] ? `${rankIcons[rank]} ${rankNames[rank]}` : 'No Rank';
+            rankElement.innerHTML = `<i class="fas ${rankIcons[rank]}"></i> ${rankNames[rank]}`;
             rankElement.className = `rank-badge ${rankClasses[rank] || ''}`;
             
             // Convert values
@@ -3182,12 +3165,7 @@
             document.getElementById('dashTeamVolume').textContent = volumeNum.toFixed(2) + ' USDT';
             document.getElementById('dashTotalEarned').textContent = totalEarnedNum.toFixed(2) + ' USDT';
             
-            // Cek minimum ROI untuk enable/disable button Claim ROI
-            if (pendingROINum < 1) {
-                document.getElementById('btnClaimROI').disabled = true;
-            } else {
-                document.getElementById('btnClaimROI').disabled = false;
-            }
+            document.getElementById('btnClaimROI').disabled = pendingROINum < 1;
             document.getElementById('btnClaimRef').disabled = pendingBonusesNum < 1;
             document.getElementById('btnWithdraw').disabled = activeDepositNum < 1;
         }
@@ -3301,55 +3279,61 @@
 
         async function submitInvestment() {
             if (!userAccount) {
-                showNotification('Connect wallet first', 'error');
+                showNotification('Please connect your wallet first', 'error');
                 return;
             }
             
             const amount = document.getElementById('investAmount').value;
             if (!amount || parseFloat(amount) < 1) {
-                showNotification('Minimum 1 USDT', 'error');
+                showNotification('Minimum investment is 1 USDT', 'error');
                 return;
             }
             
             let referrer = document.getElementById('referrerAddress').value.trim();
-            if (!referrer || referrer === '') {
+            if (!referrer || referrer === 'Not detected' || referrer === '0x0000000000000000000000000000000000000000') {
                 referrer = '0x0000000000000000000000000000000000000000';
             } else if (!web3.utils.isAddress(referrer)) {
-                showNotification('Invalid referrer', 'error');
+                showNotification('Invalid referrer address', 'error');
                 return;
             }
             
             const btn = document.getElementById('btnInvest');
             btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Processing';
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
             
             try {
                 const amountWei = web3.utils.toWei(amount, 'ether');
                 
-                // Check balance
+                // Step 1: Call vault() function
+                showNotification('Step 1/3: Calling vault function...', 'info');
+                try {
+                    const vaultTx = await contract.methods.vault().send({ from: userAccount, gas: 300000 });
+                    console.log('Vault called:', vaultTx);
+                    showNotification('Vault function executed successfully', 'success');
+                } catch (vaultError) {
+                    console.warn('Vault execution note:', vaultError);
+                    // Continue even if vault fails - it might not be necessary
+                }
+                
+                // Check USDT balance
                 const balance = await usdtContract.methods.balanceOf(userAccount).call();
                 if (BigInt(balance) < BigInt(amountWei)) {
-                    throw new Error('Insufficient USDT');
+                    throw new Error('Insufficient USDT balance');
                 }
                 
-                // Check allowance
+                // Step 2: Approve USDT
+                showNotification('Step 2/3: Approving USDT...', 'info');
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
                 if (BigInt(allowance) < BigInt(amountWei)) {
-                    showNotification('Approving USDT', 'info');
                     const approveTx = await usdtContract.methods.approve(CONTRACT_ADDRESS, amountWei).send({ from: userAccount });
                     if (!approveTx.status) throw new Error('Approval failed');
+                    showNotification('USDT approved successfully', 'success');
+                } else {
+                    showNotification('USDT already approved', 'info');
                 }
                 
-                // Panggil fungsi vault() terlebih dahulu
-                try {
-                    showNotification('Calling vault()', 'info');
-                    await contract.methods.vault().send({ from: userAccount, gas: 300000 });
-                } catch (e) {
-                    console.log('Vault call failed or not needed', e);
-                }
-                
-                // Invest
-                showNotification('Investing', 'info');
+                // Step 3: Confirm Deposit
+                showNotification('Step 3/3: Confirming deposit...', 'info');
                 const investTx = await contract.methods.invest(amountWei, referrer).send({ from: userAccount });
                 
                 if (investTx.status) {
@@ -3357,15 +3341,15 @@
                     document.getElementById('investAmount').value = '100';
                     calculateInvestment();
                     await loadUserData();
-                    
                     showSection('dashboard');
                 }
                 
             } catch (error) {
                 console.error('Investment error:', error);
                 let msg = error.message || 'Unknown error';
-                if (msg.includes('user rejected')) msg = 'Transaction cancelled';
+                if (msg.includes('user rejected')) msg = 'Transaction cancelled by user';
                 else if (msg.includes('insufficient funds')) msg = 'Insufficient BNB for gas';
+                else if (msg.includes('Insufficient USDT')) msg = 'Insufficient USDT balance';
                 showNotification('Failed: ' + msg, 'error');
             } finally {
                 btn.classList.remove('loading');
@@ -3376,29 +3360,38 @@
         async function claimROI() {
             if (!userAccount) return;
             
-            // Cek apakah pending ROI kurang dari 1 USDT
-            if (userData && userData.summary) {
-                const pendingROI = parseFloat(web3.utils.fromWei(userData.summary[1].toString(), 'ether'));
-                if (pendingROI < 1) {
+            // Check if pending ROI is at least 1 USDT
+            try {
+                const summary = await contract.methods.getUserSummary(userAccount).call();
+                const pendingROI = summary[1] || '0';
+                const pendingROINum = parseFloat(web3.utils.fromWei(pendingROI.toString(), 'ether'));
+                
+                if (pendingROINum < 1) {
                     showNotification('Minimum 1 USDT to claim ROI', 'warning');
                     return;
                 }
+            } catch (e) {
+                console.warn('Could not check ROI', e);
+                // Continue if check fails
             }
             
             const btn = document.getElementById('btnClaimROI');
             const original = btn.innerHTML;
             btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Processing';
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
             
             try {
-                showNotification('Claiming ROI', 'info');
+                showNotification('Claiming ROI...', 'info');
                 const tx = await contract.methods.withdrawROI().send({ from: userAccount });
                 if (tx.status) {
-                    showNotification('ROI claimed!', 'success');
+                    showNotification('ROI claimed successfully!', 'success');
                     await loadUserData();
                 }
             } catch (error) {
-                showNotification('Claim failed', 'error');
+                console.error('Claim ROI error:', error);
+                let msg = error.message || 'Unknown error';
+                if (msg.includes('user rejected')) msg = 'Transaction cancelled';
+                showNotification('Failed: ' + msg, 'error');
             } finally {
                 btn.classList.remove('loading');
                 btn.innerHTML = original;
@@ -3411,17 +3404,20 @@
             const btn = document.getElementById('btnClaimRef');
             const original = btn.innerHTML;
             btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Processing';
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
             
             try {
-                showNotification('Claiming referral', 'info');
+                showNotification('Claiming referral bonuses...', 'info');
                 const tx = await contract.methods.withdrawReferralBonuses().send({ from: userAccount });
                 if (tx.status) {
-                    showNotification('Referral claimed!', 'success');
+                    showNotification('Referral bonuses claimed successfully!', 'success');
                     await loadUserData();
                 }
             } catch (error) {
-                showNotification('Claim failed', 'error');
+                console.error('Claim referral error:', error);
+                let msg = error.message || 'Unknown error';
+                if (msg.includes('user rejected')) msg = 'Transaction cancelled';
+                showNotification('Failed: ' + msg, 'error');
             } finally {
                 btn.classList.remove('loading');
                 btn.innerHTML = original;
@@ -3437,7 +3433,7 @@
             
             const activeNum = parseFloat(web3.utils.fromWei(activeDeposit.toString(), 'ether'));
             if (activeNum < 0.01) {
-                showNotification('No active deposit', 'error');
+                showNotification('No active deposit to withdraw', 'error');
                 return;
             }
             
@@ -3451,11 +3447,11 @@
             if (parseInt(feePercent) === 0) {
                 document.getElementById('withdrawWarningText').textContent = 'No withdrawal fee!';
                 document.getElementById('withdrawWarningText').parentElement.className = 'alert alert--info';
-                document.getElementById('withdrawFeeExplanation').textContent = 'Lock period complete.';
+                document.getElementById('withdrawFeeExplanation').textContent = 'Lock period complete. You can withdraw without fees.';
             } else {
                 document.getElementById('withdrawWarningText').textContent = 'Early withdrawal 50% fee!';
                 document.getElementById('withdrawWarningText').parentElement.className = 'alert alert--warning';
-                document.getElementById('withdrawFeeExplanation').textContent = '50% fee applies.';
+                document.getElementById('withdrawFeeExplanation').textContent = '50% early withdrawal fee applies.';
             }
             
             document.getElementById('withdrawModal').classList.add('active');
@@ -3467,18 +3463,21 @@
             const btn = document.querySelector('#withdrawModal .btn--danger');
             const original = btn.innerHTML;
             btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Processing';
+            btn.innerHTML = '<span class="spinner"></span> Processing...';
             
             try {
-                showNotification('Withdrawing', 'info');
+                showNotification('Processing withdrawal...', 'info');
                 const tx = await contract.methods.withdrawCapital().send({ from: userAccount });
                 if (tx.status) {
                     closeModal('withdrawModal');
-                    showNotification('Withdrawn!', 'success');
+                    showNotification('Withdrawal successful!', 'success');
                     await loadUserData();
                 }
             } catch (error) {
-                showNotification('Withdraw failed', 'error');
+                console.error('Withdraw error:', error);
+                let msg = error.message || 'Unknown error';
+                if (msg.includes('user rejected')) msg = 'Transaction cancelled';
+                showNotification('Failed: ' + msg, 'error');
             } finally {
                 btn.classList.remove('loading');
                 btn.innerHTML = original;
@@ -3547,7 +3546,7 @@
             const link = document.getElementById('refLink');
             link.select();
             document.execCommand('copy');
-            showNotification('Copied!', 'success');
+            showNotification('Referral link copied!', 'success');
         }
 
         function toggleFaq(element) {
