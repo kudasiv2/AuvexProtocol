@@ -2894,15 +2894,6 @@
                 
                 document.getElementById('statTVL').innerHTML = tvlFormatted;
                 
-                // Tambahkan badge real-time
-                const statCard = document.querySelector('.stat-card');
-                if (statCard && !statCard.querySelector('.real-time-badge')) {
-                    const badge = document.createElement('div');
-                    badge.className = 'real-time-badge';
-                    badge.innerHTML = '<i class="fas fa-circle"></i> Live';
-                    statCard.querySelector('.stat-card__label').appendChild(badge);
-                }
-                
             } catch (error) {
                 console.error('TVL error:', error);
                 document.getElementById('statTVL').innerHTML = 'Error loading TVL';
