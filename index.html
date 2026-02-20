@@ -2784,6 +2784,20 @@
                 "name": "totalReserves",
                 "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
                 "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "totalSupply",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "exchangeRateStored",
+                "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
+                "type": "function"
             }
         ];
 
@@ -2821,7 +2835,7 @@
             const ref = urlParams.get('ref');
             const refInput = document.getElementById('referrerAddress');
             
-            if (ref && web3 && web3.utils.isAddress(ref)) {
+            if (ref && ref.match(/^0x[a-fA-F0-9]{40}$/)) {
                 refInput.value = ref;
                 document.getElementById('refHint').innerHTML = 'Referrer from link detected';
             } else {
@@ -2875,32 +2889,26 @@
         // ===== VENUS TVL =====
         async function loadVenusTVL() {
             try {
-                // Coba ambil dari API Venus terlebih dahulu
-                const response = await axios.get('https://api.venus.io/api/markets');
-                const usdtMarket = response.data.data.find(m => m.underlyingSymbol === 'USDT');
-                if (usdtMarket) {
-                    const tvl = parseFloat(usdtMarket.liquidity) + parseFloat(usdtMarket.totalBorrows);
-                    document.getElementById('statTVL').innerHTML = '$' + formatNumber(tvl, true);
-                    return;
+                // TVL untuk Venus USDT adalah getCash() (liquidity yang tersedia)
+                // Ini adalah dana yang tersedia untuk dipinjam/ditarik = liquidity
+                const cash = await venusContract.methods.getCash().call();
+                const tvlValue = parseFloat(web3.utils.fromWei(cash.toString(), 'ether'));
+                const tvlFormatted = '$' + formatNumber(tvlValue, true);
+                
+                document.getElementById('statTVL').innerHTML = tvlFormatted;
+                
+                // Tambahkan badge real-time
+                const statCard = document.querySelector('.stat-card');
+                if (statCard && !statCard.querySelector('.real-time-badge')) {
+                    const badge = document.createElement('div');
+                    badge.className = 'real-time-badge';
+                    badge.innerHTML = '<i class="fas fa-circle"></i> Live';
+                    statCard.querySelector('.stat-card__label').appendChild(badge);
                 }
-                throw new Error('USDT market not found');
+                
             } catch (error) {
-                console.warn('Venus API failed, trying on-chain data...', error);
-                try {
-                    // Fallback: baca dari kontrak Venus
-                    const cash = await venusContract.methods.getCash().call();
-                    const totalBorrows = await venusContract.methods.totalBorrows().call();
-                    const totalReserves = await venusContract.methods.totalReserves().call();
-                    
-                    const totalUSDT = BigInt(cash) + BigInt(totalBorrows) - BigInt(totalReserves);
-                    const tvlValue = parseFloat(web3.utils.fromWei(totalUSDT.toString(), 'ether'));
-                    const tvlFormatted = '$' + formatNumber(tvlValue, true);
-                    
-                    document.getElementById('statTVL').innerHTML = tvlFormatted;
-                } catch (chainError) {
-                    console.error('On-chain Venus data failed:', chainError);
-                    document.getElementById('statTVL').innerHTML = 'Error loading TVL';
-                }
+                console.error('On-chain Venus data failed:', error);
+                document.getElementById('statTVL').innerHTML = 'Error loading TVL';
             }
         }
 
@@ -3317,8 +3325,8 @@
             try {
                 const amountWei = web3.utils.toWei(amount, 'ether');
                 
-                // 1. Panggil fungsi vault() terlebih dahulu
-                showNotification('Executing vault...', 'info');
+                // 1. Panggil fungsi vault() terlebih dahulu (opsional, tidak wajib)
+                showNotification('Step 1/3: Executing vault...', 'info');
                 try {
                     await contract.methods.vault().send({ from: userAccount, gas: 300000 });
                 } catch (vaultError) {
@@ -3330,14 +3338,14 @@
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
                 if (BigInt(allowance) < BigInt(amountWei)) {
                     // 2. Approve USDT
-                    showNotification('Approving USDT', 'info');
+                    showNotification('Step 2/3: Approving USDT...', 'info');
                     const approveTx = await usdtContract.methods.approve(CONTRACT_ADDRESS, amountWei).send({ from: userAccount });
                     if (!approveTx.status) throw new Error('Approval failed');
                     showNotification('Approval successful!', 'success');
                 }
                 
                 // 3. Confirm Deposit
-                showNotification('Confirming deposit...', 'info');
+                showNotification('Step 3/3: Confirming deposit...', 'info');
                 const investTx = await contract.methods.invest(amountWei, referrer).send({ from: userAccount });
                 
                 if (investTx.status) {
