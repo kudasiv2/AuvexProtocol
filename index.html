@@ -1823,6 +1823,7 @@
                 <a href="https://bscscan.com/address/0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F" target="_blank">
                     0x0d...065F
                 </a>
+                <i class="fas fa-external-link-alt" style="font-size: 0.625rem;"></i>
             </div>
         </div>
     </aside>
@@ -1860,15 +1861,13 @@
                             <div class="hero__badge">
                                 <i class="fas fa-shield-alt"></i>
                                 Audited by OpenZeppelin
-                                <span class="real-time-badge">
-                                    <i class="fas fa-circle"></i> Real-time
                                 </span>
                             </div>
                             <h1 class="hero__title">
                                 Decentralized Yield <span class="gradient-text">Infrastructure</span>
                             </h1>
                             <p class="hero__description">
-                                Secure, transparent, and fully on-chain DeFi platform powered by Venus Protocol
+                                Secure, Transparent and Fully On-Chain DeFi Platform Powered by Venus Protocol
                             </p>
                             <div class="hero__buttons">
                                 <button class="btn btn--gold btn-lg" onclick="showSection('invest')">
@@ -1898,7 +1897,7 @@
                                     <div class="stat-card__value" id="statTVL">
                                         <span class="skeleton" style="display: inline-block; width: 120px; height: 40px;"></span>
                                     </div>
-                                    <div class="stat-card__label">Total Value Locked (USDT in Venus)</div>
+                                    <div class="stat-card__label">Total Value Locked</div>
                                 </div>
                             </div>
 
@@ -2147,7 +2146,7 @@
                                     <div style="width: 32px; height: 32px; background: var(--green-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; flex-shrink: 0;">3</div>
                                     <div>
                                         <div style="font-weight: 600; margin-bottom: 0.25rem;">Earn Daily ROI</div>
-                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Base 0.3% daily + rank boost (up to +100% = 0.6% daily).</div>
+                                        <div style="font-size: 0.875rem; color: var(--text-muted);">Base 0.3% daily + Eank Boost (up to +1% = 1.3% daily).</div>
                                     </div>
                                 </div>
 
@@ -2701,6 +2700,7 @@
                     <a href="https://bscscan.com/address/0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F" target="_blank">
                         0x0d...065F
                     </a>
+                    <i class="fas fa-external-link-alt" style="font-size: 0.625rem;"></i>
                 </div>
                 <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 1rem;">
                     © 2026 All rights reserved
@@ -3308,7 +3308,7 @@
             
             const btn = document.getElementById('btnInvest');
             btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            btn.innerHTML = '<span class="spinner"></span> Processing';
             
             try {
                 const amountWei = web3.utils.toWei(amount, 'ether');
@@ -3322,13 +3322,13 @@
                 // Check allowance
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
                 if (BigInt(allowance) < BigInt(amountWei)) {
-                    showNotification('Approving USDT...', 'info');
+                    showNotification('Approving USDT', 'info');
                     const approveTx = await usdtContract.methods.approve(CONTRACT_ADDRESS, amountWei).send({ from: userAccount });
                     if (!approveTx.status) throw new Error('Approval failed');
                 }
                 
                 // Invest
-                showNotification('Investing...', 'info');
+                showNotification('Investing', 'info');
                 const investTx = await contract.methods.invest(amountWei, referrer).send({ from: userAccount });
                 
                 if (investTx.status) {
@@ -3363,10 +3363,10 @@
             const btn = document.getElementById('btnClaimROI');
             const original = btn.innerHTML;
             btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            btn.innerHTML = '<span class="spinner"></span> Processing';
             
             try {
-                showNotification('Claiming ROI...', 'info');
+                showNotification('Claiming ROI', 'info');
                 const tx = await contract.methods.withdrawROI().send({ from: userAccount });
                 if (tx.status) {
                     showNotification('ROI claimed!', 'success');
@@ -3386,10 +3386,10 @@
             const btn = document.getElementById('btnClaimRef');
             const original = btn.innerHTML;
             btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            btn.innerHTML = '<span class="spinner"></span> Processing';
             
             try {
-                showNotification('Claiming referral...', 'info');
+                showNotification('Claiming referral', 'info');
                 const tx = await contract.methods.withdrawReferralBonuses().send({ from: userAccount });
                 if (tx.status) {
                     showNotification('Referral claimed!', 'success');
@@ -3442,10 +3442,10 @@
             const btn = document.querySelector('#withdrawModal .btn--danger');
             const original = btn.innerHTML;
             btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            btn.innerHTML = '<span class="spinner"></span> Processing';
             
             try {
-                showNotification('Withdrawing...', 'info');
+                showNotification('Withdrawing', 'info');
                 const tx = await contract.methods.withdrawCapital().send({ from: userAccount });
                 if (tx.status) {
                     closeModal('withdrawModal');
