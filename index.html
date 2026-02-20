@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NanoTrust - On-Chain Yield Infrastructure</title>
-    <meta name="description" content="NanoTrust - Powered by Venus Protocol Integration. Secure, Transparent DeFi Infrastructure with up to 1% Daily ROI through Leadership Ranks.">
+    <meta name="description" content="NanoTrust - Powered by Venus Protocol Integration. Secure, Transparent DeFi Infrastructure with up to 1.3% Daily ROI through Leadership Ranks">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,11 +18,9 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
     <!-- Axios for API -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- Moment.js for time handling -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
     <style>
-        /* ===== CSS VARIABLES ===== */
+        /* ===== CSS VARIABLES (SAME AS ORIGINAL) ===== */
         :root {
             --bg-primary: #0a0a0a;
             --bg-secondary: #0f0f0f;
@@ -87,7 +85,7 @@
             --transition-slow: 0.5s ease;
         }
 
-        /* ===== RESET & BASE ===== */
+        /* ===== RESET & BASE (SAME AS ORIGINAL) ===== */
         *, *::before, *::after {
             margin: 0;
             padding: 0;
@@ -2785,14 +2783,14 @@
     </div>
 
     <script>
-        // ===== CONTRACT CONFIGURATION =====
+        // ===== CONTRACT CONFIGURATION (MAINNET BSC) =====
         const CONTRACT_ADDRESS = '0x0d00583f6E99e1370e2DB18a7239C2a18eb7065F';
-        const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955'; // BSC USDT
-        const VENUS_USDT_ADDRESS = '0xfD5840Cd36d94D7229439859C0112a4185BC0255'; // Venus USDT Market
+        const USDT_ADDRESS = '0x55d398326f99059fF775485246999027B3197955'; // BSC USDT (mainnet)
+        const VENUS_USDT_ADDRESS = '0xfD5840Cd36d94D7229439859C0112a4185BC0255'; // Venus USDT Market (mainnet)
         const BSC_RPC = 'https://bsc-dataseed.binance.org/';
-        const BSC_CHAIN_ID = '0x38';
+        const BSC_CHAIN_ID = '0x38'; // 56 in hex
 
-        // Venus vUSDT Contract ABI untuk mendapatkan cash (USDT) yang ada di Venus
+        // Venus vUSDT Contract ABI untuk mendapatkan data real-time
         const VENUS_ABI = [
             {
                 "constant": true,
@@ -2837,8 +2835,8 @@
         const USDT_ABI = [
             {"constant":true,"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"type":"function"},
             {"constant":true,"inputs":[{"internalType":"address","name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"balance","type":"uint256"}],"type":"function"},
-            {"constant":true,"inputs":[{"internalType":"address","name":"_owner","type":"address"},{"internalType":"address","name":"_spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"type":"function"},
-            {"constant":false,"inputs":[{"internalType":"address","name":"_spender","type":"address"},{"internalType":"uint256","name":"_value","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"type":"function"}
+            {"constant":false,"inputs":[{"internalType":"address","name":"_spender","type":"address"},{"internalType":"uint256","name":"_value","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"type":"function"},
+            {"constant":true,"inputs":[{"internalType":"address","name":"_owner","type":"address"},{"internalType":"address","name":"_spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"type":"function"}
         ];
 
         // ===== GLOBAL VARIABLES =====
@@ -2851,7 +2849,7 @@
         let userRank = 0;
         let isInitialized = false;
         let autoRefreshInterval;
-        let venusTVLData = { cash: '0', totalBorrows: '0', totalReserves: '0', totalSupply: '0', exchangeRate: '0' };
+        let venusTVLData = { cash: '0', totalBorrows: '0', totalReserves: '0' };
         let lastTVLUpdate = 0;
 
         // ===== INITIALIZATION =====
@@ -2939,20 +2937,13 @@
                 // Dapatkan total reserves (cadangan)
                 const totalReserves = await venusContract.methods.totalReserves().call();
                 
-                // Dapatkan total supply dan exchange rate untuk metode alternatif
-                const totalSupply = await venusContract.methods.totalSupply().call();
-                const exchangeRate = await venusContract.methods.exchangeRateStored().call();
-                
                 venusTVLData = {
                     cash: cash.toString(),
                     totalBorrows: totalBorrows.toString(),
-                    totalReserves: totalReserves.toString(),
-                    totalSupply: totalSupply.toString(),
-                    exchangeRate: exchangeRate.toString()
+                    totalReserves: totalReserves.toString()
                 };
                 
                 // Total USDT di Venus = cash + totalBorrows - totalReserves
-                // Ini adalah total nilai aset yang dikelola Venus untuk USDT
                 const totalUSDT = BigInt(cash) + BigInt(totalBorrows) - BigInt(totalReserves);
                 
                 const tvlValue = parseFloat(web3.utils.fromWei(totalUSDT.toString(), 'ether'));
