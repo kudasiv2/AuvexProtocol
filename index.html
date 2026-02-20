@@ -2806,7 +2806,6 @@
         let userData = null;
         let userRank = 0;
         let autoRefreshInterval;
-        let venusTVLData = { cash: '0', totalBorrows: '0', totalReserves: '0' };
 
         // ===== INITIALIZATION =====
         document.addEventListener('DOMContentLoaded', function() {
@@ -3012,7 +3011,7 @@
             if (!userAccount || !contract) return;
             
             try {
-                // Get user data from contract
+                // Cek apakah user exists di contract
                 let userDetails;
                 try {
                     userDetails = await contract.methods.users(userAccount).call();
@@ -3021,11 +3020,9 @@
                     userDetails = null;
                 }
                 
-                // If user doesn't exist
+                // Jika user tidak ada
                 if (!userDetails || !userDetails[12]) {
-                    userData = null;
-                    userRank = 0;
-                    
+                    // Reset UI untuk user baru
                     document.getElementById('dashAddress').textContent = `${userAccount.slice(0, 4)}...${userAccount.slice(-4)}`;
                     document.getElementById('dashRank').textContent = 'No Rank';
                     document.getElementById('dashRank').className = 'rank-badge';
@@ -3065,18 +3062,22 @@
                     return;
                 }
                 
-                // Get all data in parallel
-                const [summary, network, timeInfo, qualified, fee] = await Promise.all([
-                    contract.methods.getUserSummary(userAccount).call(),
-                    contract.methods.getUserNetwork(userAccount).call(),
-                    contract.methods.getUserTime(userAccount).call(),
-                    contract.methods.getQualifiedStatus(userAccount).call(),
-                    contract.methods.getWithdrawFee(userAccount).call()
-                ]);
+                // User exists - get data dengan pendekatan safe
+                const summary = await contract.methods.getUserSummary(userAccount).call();
+                const network = await contract.methods.getUserNetwork(userAccount).call();
+                const timeInfo = await contract.methods.getUserTime(userAccount).call();
+                const qualified = await contract.methods.getQualifiedStatus(userAccount).call();
+                const fee = await contract.methods.getWithdrawFee(userAccount).call();
                 
+                // Simpan data
                 userData = { summary, network, timeInfo, qualified, fee, userDetails };
-                userRank = parseInt(summary[3] || 0);
                 
+                // Update rank
+                if (summary && summary[3] !== undefined) {
+                    userRank = parseInt(summary[3]);
+                }
+                
+                // Update UI dengan pengecekan undefined
                 updateDashboard(summary, network, timeInfo, fee, userDetails);
                 updateInvestPage(summary);
                 updateReferralPage(network, qualified, userDetails);
@@ -3095,10 +3096,25 @@
         }
 
         function updateDashboard(summary, network, timeInfo, fee, userDetails) {
-            const [activeDeposit, pendingROI, pendingBonuses, rank] = summary;
-            const [directs, qualified, volume] = network;
-            const [depositTime, lastClaim, daysLeft] = timeInfo;
-            const [feePercent, feeAmount] = fee;
+            // Pastikan data ada
+            if (!summary || !network || !timeInfo || !fee || !userDetails) return;
+            
+            // Ekstrak data dengan aman
+            const activeDeposit = summary[0] || '0';
+            const pendingROI = summary[1] || '0';
+            const pendingBonuses = summary[2] || '0';
+            const rank = summary[3] || 0;
+            
+            const directs = network[0] || 0;
+            const qualified = network[1] || 0;
+            const volume = network[2] || '0';
+            
+            const depositTime = timeInfo[0] || '0';
+            const lastClaim = timeInfo[1] || '0';
+            const daysLeft = timeInfo[2] || 0;
+            
+            const feePercent = fee[0] || 0;
+            const feeAmount = fee[1] || '0';
             
             // Address
             document.getElementById('dashAddress').textContent = `${userAccount.slice(0, 4)}...${userAccount.slice(-4)}`;
@@ -3164,14 +3180,20 @@
         }
 
         function updateInvestPage(summary) {
-            const rank = parseInt(summary[3]);
+            if (!summary) return;
+            const rank = parseInt(summary[3] || 0);
             const boosts = [0, 10, 20, 30, 50, 100];
             window.userRankBoost = boosts[rank] || 0;
             calculateInvestment();
         }
 
         function updateReferralPage(network, qualified, userDetails) {
-            const [directs, qual, volume] = network;
+            if (!network || !qualified || !userDetails) return;
+            
+            const directs = network[0] || 0;
+            const qual = network[1] || 0;
+            const volume = network[2] || '0';
+            
             const volumeNum = parseFloat(web3.utils.fromWei(volume.toString(), 'ether'));
             const totalEarnedNum = parseFloat(web3.utils.fromWei(userDetails[6].toString(), 'ether'));
             
@@ -3194,7 +3216,7 @@
             const activeDepositNum = parseFloat(web3.utils.fromWei(userDetails[2].toString(), 'ether'));
             
             for (let i = 0; i < 5; i++) {
-                const isActive = qualified && qualified[i];
+                const isActive = qualified[i] || false;
                 const icon = document.getElementById(`qualIcon${i+1}`);
                 const bar = document.getElementById(`qualProgress${i+1}`);
                 
@@ -3209,8 +3231,13 @@
         }
 
         function updateLeadershipPage(summary, network, userDetails) {
-            const rank = parseInt(summary[3]);
-            const [directs, qualified, volume] = network;
+            if (!summary || !network || !userDetails) return;
+            
+            const rank = parseInt(summary[3] || 0);
+            const directs = network[0] || 0;
+            const qualified = network[1] || 0;
+            const volume = network[2] || '0';
+            
             const personalDeposit = parseFloat(web3.utils.fromWei(userDetails[2].toString(), 'ether'));
             const teamVolume = parseFloat(web3.utils.fromWei(volume.toString(), 'ether'));
             const qualifiedDirects = parseInt(qualified);
@@ -3380,7 +3407,8 @@
             if (!userAccount || !userData) return;
             
             const activeDeposit = userData.summary[0];
-            const [feePercent, feeAmount] = userData.fee;
+            const feePercent = userData.fee[0] || 0;
+            const feeAmount = userData.fee[1] || '0';
             
             const activeNum = parseFloat(web3.utils.fromWei(activeDeposit.toString(), 'ether'));
             if (activeNum < 0.01) {
