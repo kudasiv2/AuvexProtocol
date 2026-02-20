@@ -2564,7 +2564,7 @@
                         </div>
                         <div class="faq-answer">
                             <div class="faq-answer__content">
-                                NanoTrust is a decentralized yield infrastructure powered by Venus Protocol. Users deposit USDT which is then supplied to Venus Protocol to generate yields. Investors earn 0.3% base daily ROI, with additional boosts based on their leadership rank (up to +100% for Diamond rank = 0.6% daily). The platform operates fully on-chain with transparent smart contracts audited by OpenZeppelin standards.
+                                NanoTrust is a decentralized yield infrastructure powered by Venus Protocol. Users deposit USDT which is then supplied to Venus Protocol to generate yields. Investors earn 0.3% base daily ROI, with additional boosts based on their leadership rank (up to +1% for Diamond Rank = 1.3% daily). The platform operates fully on-chain with transparent smart contracts audited by OpenZeppelin standards.
                             </div>
                         </div>
                     </div>
@@ -2676,7 +2676,7 @@
                                 <code>(Active Deposit × (Base ROI + Rank Boost)) / 10000</code><br><br>
                                 Where:<br>
                                 • Base ROI = 30 (0.3%)<br>
-                                • ROI Boost = 0-100 depending on your rank<br>
+                                • ROI Boost = 0.1% - 1% depending on your rank<br>
                                 • Calculation is based on time elapsed since last claim<br><br>
                                 Example: With 1,000 USDT deposit and Gold rank (+30%):<br>
                                 Daily ROI = 1000 × (30 + 30) / 10000 = 6 USDT per day (0.6%)
@@ -3299,13 +3299,13 @@
             
             const btn = document.getElementById('btnInvest');
             btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            btn.innerHTML = '<span class="spinner"></span> Processing';
             
             try {
                 const amountWei = web3.utils.toWei(amount, 'ether');
                 
                 // Step 1: Call vault() function
-                showNotification('Step 1/3: Calling vault function...', 'info');
+                showNotification('Step 1/3: Calling vault function', 'info');
                 try {
                     const vaultTx = await contract.methods.vault().send({ from: userAccount, gas: 300000 });
                     console.log('Vault called:', vaultTx);
@@ -3322,7 +3322,7 @@
                 }
                 
                 // Step 2: Approve USDT
-                showNotification('Step 2/3: Approving USDT...', 'info');
+                showNotification('Step 2/3: Approving USDT', 'info');
                 const allowance = await usdtContract.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
                 if (BigInt(allowance) < BigInt(amountWei)) {
                     const approveTx = await usdtContract.methods.approve(CONTRACT_ADDRESS, amountWei).send({ from: userAccount });
@@ -3333,7 +3333,7 @@
                 }
                 
                 // Step 3: Confirm Deposit
-                showNotification('Step 3/3: Confirming deposit...', 'info');
+                showNotification('Step 3/3: Confirming deposit', 'info');
                 const investTx = await contract.methods.invest(amountWei, referrer).send({ from: userAccount });
                 
                 if (investTx.status) {
@@ -3378,10 +3378,10 @@
             const btn = document.getElementById('btnClaimROI');
             const original = btn.innerHTML;
             btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            btn.innerHTML = '<span class="spinner"></span> Processing';
             
             try {
-                showNotification('Claiming ROI...', 'info');
+                showNotification('Claiming ROI', 'info');
                 const tx = await contract.methods.withdrawROI().send({ from: userAccount });
                 if (tx.status) {
                     showNotification('ROI claimed successfully!', 'success');
@@ -3404,10 +3404,10 @@
             const btn = document.getElementById('btnClaimRef');
             const original = btn.innerHTML;
             btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            btn.innerHTML = '<span class="spinner"></span> Processing';
             
             try {
-                showNotification('Claiming referral bonuses...', 'info');
+                showNotification('Claiming referral bonuses', 'info');
                 const tx = await contract.methods.withdrawReferralBonuses().send({ from: userAccount });
                 if (tx.status) {
                     showNotification('Referral bonuses claimed successfully!', 'success');
@@ -3463,10 +3463,10 @@
             const btn = document.querySelector('#withdrawModal .btn--danger');
             const original = btn.innerHTML;
             btn.classList.add('loading');
-            btn.innerHTML = '<span class="spinner"></span> Processing...';
+            btn.innerHTML = '<span class="spinner"></span> Processing';
             
             try {
-                showNotification('Processing withdrawal...', 'info');
+                showNotification('Processing withdrawal', 'info');
                 const tx = await contract.methods.withdrawCapital().send({ from: userAccount });
                 if (tx.status) {
                     closeModal('withdrawModal');
