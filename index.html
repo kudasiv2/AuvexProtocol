@@ -3563,6 +3563,82 @@
             document.querySelectorAll('.faq-item').forEach(faq => faq.classList.remove('active'));
             if (!item.classList.contains('active')) item.classList.add('active');
         }
+
+        // ===== MENU HAMBURGER AUTO CLOSE =====
+        // Tutup menu ketika klik di luar sidebar
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+    
+            // Cek apakah sidebar sedang aktif (terbuka)
+            if (sidebar.classList.contains('active')) {
+                // Jika yang diklik bukan sidebar dan bukan tombol toggle
+                if (!sidebar.contains(event.target) && !sidebarToggle.contains(event.target)) {
+                    sidebar.classList.remove('active');
+                }
+             }
+        });
+
+        // Tutup mobile menu ketika klik di luar
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+    
+            // Cek apakah mobile menu sedang aktif (terbuka)
+            if (mobileMenu.classList.contains('active')) {
+                // Jika yang diklik bukan mobile menu dan bukan tombol toggle
+                if (!mobileMenu.contains(event.target) && !sidebarToggle.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+                }
+            } 
+        });
+
+        // Modifikasi fungsi toggleSidebar untuk memudahkan pengecekan
+        function toggleSidebar() {
+          const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('active');
+}
+
+// Modifikasi fungsi toggleMobileMenu
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenu.classList.toggle('active');
+}
+
+// Tutup sidebar ketika memilih menu di sidebar
+document.querySelectorAll('.sidebar__link').forEach(link => {
+    link.addEventListener('click', function() {
+        const sidebar = document.getElementById('sidebar');
+        if (window.innerWidth < 1280) { // Hanya tutup di mobile/tablet
+            sidebar.classList.remove('active');
+        }
+    });
+});
+
+// Tutup mobile menu ketika memilih menu
+document.querySelectorAll('.mobile-menu__link').forEach(link => {
+    link.addEventListener('click', function() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenu.classList.remove('active');
+    });
+});
+
+// Tutup sidebar ketika resize window ke ukuran desktop
+window.addEventListener('resize', function() {
+    const sidebar = document.getElementById('sidebar');
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    if (window.innerWidth >= 1280) {
+        // Di desktop, sidebar selalu visible
+        sidebar.classList.add('active');
+    } else {
+        // Di mobile, sidebar hidden secara default
+        sidebar.classList.remove('active');
+    }
+    
+    // Mobile menu selalu hidden saat resize
+    mobileMenu.classList.remove('active');
+});
     </script>
 </body>
 </html>
