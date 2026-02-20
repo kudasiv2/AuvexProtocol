@@ -1994,7 +1994,7 @@
                             <div class="dashboard-info">
                                 <h3 id="dashUserName">Investor</h3>
                                 <div class="dashboard-address" id="dashAddress">0x00...0000</div>
-                                <div class="rank-badge" id="dashRank"><i class="fas fa-user"></i> No Rank</div>
+                                <div class="rank-badge" id="dashRank"><i class="fas fa-ban"></i> No Rank</div>
                             </div>
                         </div>
                     </div>
@@ -3145,7 +3145,7 @@
             // Rank dengan icon
             const rankNames = ['No Rank', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond'];
             const rankClasses = ['', 'bronze', 'silver', 'gold', 'platinum', 'diamond'];
-            const rankIcons = ['fa-user', 'fa-medal', 'fa-medal', 'fa-crown', 'fa-gem', 'fa-star'];
+            const rankIcons = ['fas fa-ban', 'fa-medal', 'fa-medal', 'fa-crown', 'fa-gem', 'fa-star'];
             const rankElement = document.getElementById('dashRank');
             rankElement.innerHTML = `<i class="fas ${rankIcons[rank]}"></i> ${rankNames[rank]}`;
             rankElement.className = `rank-badge ${rankClasses[rank] || ''}`;
